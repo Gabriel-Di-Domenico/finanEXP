@@ -1,0 +1,12 @@
+mat-nav-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.chevron-button {
+    transition: 300ms ease-in-out;
+    transform: rotate(0deg);
+}
+.chevron-button.rotated{
+    transform: rotate(180deg);
+}

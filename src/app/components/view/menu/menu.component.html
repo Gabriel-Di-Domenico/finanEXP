@@ -1,0 +1,22 @@
+<mat-nav-list>
+    <mat-list-item id="addButton">
+        <a mat-mini-fab color="primary">
+            <mat-icon>add</mat-icon>
+        </a>
+    </mat-list-item>
+    <mat-list-item (click)="isExpanded = !isExpanded">
+        <mat-icon mat-list-icon class="chevron-button" [ngClass]="{ rotated: isExpanded }">chevron_right
+        </mat-icon>
+    </mat-list-item>
+
+    <mat-list-item id="dashboardLink">
+        <mat-icon mat-list-icon>home</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Dashboard</span>
+    </mat-list-item>
+
+    <mat-list-item id="loginLink">
+        <mat-icon mat-list-icon>account_circle</mat-icon>
+        <span *ngIf="isExpanded" class="menu-item">Login</span>
+    </mat-list-item>
+
+</mat-nav-list>
