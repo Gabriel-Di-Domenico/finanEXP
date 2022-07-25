@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,9 +42,9 @@ describe('MenuComponent', () => {
     const walletsButton = compiled.querySelector('#walletsButton')
     expect(walletsButton).toBeTruthy()
   })
-  it('Have a login link', () => {
-    const loginLink = compiled.querySelector('#loginLink')
-    expect(loginLink).toBeTruthy()
+  it('Have a authenticate link', () => {
+    const authenticateLink = compiled.querySelector('#authenticateLink')
+    expect(authenticateLink).toBeTruthy()
 
   })
 

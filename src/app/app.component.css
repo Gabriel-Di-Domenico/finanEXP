@@ -16,3 +16,6 @@ mat-sidenav-container {
 .chevron-button.rotated {
     transform: rotate(180deg);
 }
+mat-sidenav-content{
+    background-color: var(--main-color);
+}

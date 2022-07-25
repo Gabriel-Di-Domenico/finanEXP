@@ -2,7 +2,7 @@
     <mat-sidenav [class.mat-elevation-z3]="isExtended" #sidenav mode="side" opened="{{isExtended}}">
         <app-menu></app-menu>
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content class="mat-sidenav-content">
         <router-outlet></router-outlet>
         <button mat-mini-fab id="chevronButton" (click)="isExtended = !isExtended">
             <mat-icon  class="chevron-button" mat-list-icon [ngClass]="{ rotated: isExtended } ">chevron_right</mat-icon>
