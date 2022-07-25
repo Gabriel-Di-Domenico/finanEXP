@@ -1,22 +1,25 @@
 <mat-nav-list>
-    <mat-list-item id="addButton">
-        <a mat-mini-fab color="primary">
-            <mat-icon>add</mat-icon>
-        </a>
-    </mat-list-item>
-    <mat-list-item (click)="isExpanded = !isExpanded">
-        <mat-icon mat-list-icon class="chevron-button" [ngClass]="{ rotated: isExpanded }">chevron_right
-        </mat-icon>
-    </mat-list-item>
+    <div>
+        <div id="addButton">
+            <a mat-mini-fab color="primary">
+                <mat-icon>add</mat-icon>
+            </a>
+        </div>
 
-    <mat-list-item id="dashboardLink">
-        <mat-icon mat-list-icon>home</mat-icon>
-        <span *ngIf="isExpanded" class="menu-item">Dashboard</span>
-    </mat-list-item>
+        <mat-list-item id="dashboardLink" routerLink="dashboard">
+            <mat-icon mat-list-icon>home</mat-icon>
+            <span class="menu-item">Dashboard</span>
+        </mat-list-item>
+        <mat-list-item id="walletsButton" routerLink="wallets">
+            <mat-icon mat-list-icon>account_balance_wallet</mat-icon>
+            <span class="menu-item">Carteiras</span>
+        </mat-list-item>
+    </div>
 
-    <mat-list-item id="loginLink">
+
+    <mat-list-item id="loginLink" routerLink="login">
         <mat-icon mat-list-icon>account_circle</mat-icon>
-        <span *ngIf="isExpanded" class="menu-item">Login</span>
+        <span class="menu-item">Login</span>
     </mat-list-item>
 
 </mat-nav-list>

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +12,7 @@ describe('MenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MenuComponent,],
-      imports:[
+      imports: [
         MatListModule,
         MatIconModule
       ]
@@ -28,7 +29,7 @@ describe('MenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Have a add button',() => {
+  it('Have a add button', () => {
     const addButton = compiled.querySelector('#addButton')
     expect(addButton).toBeTruthy()
   })
@@ -38,9 +39,14 @@ describe('MenuComponent', () => {
     expect(dashboardLink).toBeTruthy()
   })
 
+  it('Have a wallets button', () => {
+    const walletsButton = compiled.querySelector('#walletsButton')
+    expect(walletsButton).toBeTruthy()
+  })
   it('Have a login link', () => {
-    const loginlink = compiled.querySelector('#loginLink')
-    expect(loginlink).toBeTruthy()
+    const loginLink = compiled.querySelector('#loginLink')
+    expect(loginLink).toBeTruthy()
+
   })
 
 });
