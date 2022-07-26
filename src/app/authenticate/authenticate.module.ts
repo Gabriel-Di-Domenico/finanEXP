@@ -16,11 +16,13 @@ import { AuthenticateFormComponent } from './components/view/authenticate/authen
   ],
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
+    
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
-    MatIconModule,
-    BrowserAnimationsModule
+    MatIconModule
+    
   ]
 })
 export class AuthenticateModule { }
