@@ -15,13 +15,16 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './components/view/menu/menu.component';
 import { DashboardComponent } from './components/view/dashboard/dashboard.component';
 import { WalletsComponent } from './components/view/wallets/wallets.component';
+import { AuthenticateRoutingModule } from './authenticate/authenticate-routing.module';
+import { HomeComponent } from './components/view/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     DashboardComponent,
-    WalletsComponent
+    WalletsComponent,
+    HomeComponent
 
   ],
   imports: [
@@ -38,6 +41,7 @@ import { WalletsComponent } from './components/view/wallets/wallets.component';
     AuthenticateModule,
 
     AppRoutingModule,
+    AuthenticateRoutingModule
 
   ],
   providers: [],

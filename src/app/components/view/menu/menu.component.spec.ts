@@ -8,6 +8,7 @@ describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
   let compiled: HTMLElement
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MenuComponent,],
@@ -22,6 +23,7 @@ describe('MenuComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     compiled = fixture.nativeElement as HTMLElement
+    
   });
 
   it('should create', () => {
@@ -36,6 +38,7 @@ describe('MenuComponent', () => {
   it('Have a dashboard link', () => {
     const dashboardLink = compiled.querySelector('#dashboardLink')
     expect(dashboardLink).toBeTruthy()
+
   })
 
   it('Have a wallets button', () => {

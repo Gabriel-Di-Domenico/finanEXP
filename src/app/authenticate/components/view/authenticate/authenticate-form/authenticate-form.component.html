@@ -1,6 +1,7 @@
 <h2>Sua jornada começa aqui!</h2>
+
 <mat-tab-group dynamicHeight>
-    <mat-tab label="Entrar">
+    <mat-tab label="Entrar" routerLink="login">
         <form id="loginForm">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
@@ -20,7 +21,8 @@
 
         </form>
     </mat-tab>
-    <mat-tab label="Registrar">
+    <mat-tab label="Registrar" routerLink="registrar">
+
         <form action="" id="registerForm">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
@@ -37,5 +39,8 @@
             </mat-form-field>
 
         </form>
+
     </mat-tab>
+
 </mat-tab-group>
+<router-outlet></router-outlet>

@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthenticateFormComponent implements OnInit {
   showPassword: boolean = false
-  constructor() { }
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
   }
+
+
 
 }

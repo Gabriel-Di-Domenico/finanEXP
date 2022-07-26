@@ -6,6 +6,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticateFormComponent } from './authenticate-form.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthenticateFormComponent', () => {
   let component: AuthenticateFormComponent;
@@ -19,7 +20,9 @@ describe('AuthenticateFormComponent', () => {
         MatInputModule,
         MatTabsModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+
+        RouterTestingModule
       ]
     })
       .compileComponents();

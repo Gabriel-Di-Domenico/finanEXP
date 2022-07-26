@@ -1,0 +1,21 @@
+mat-sidenav-container {
+    height: 100%;
+}
+mat-sidenav-content{
+    background-color: var(--main-color);
+}
+
+#chevronButton {
+    position: absolute;
+    left: 1%;
+    bottom: 2%;
+    background-color: gray;
+}
+
+.chevron-button {
+    transform: rotate(0deg);
+}
+
+.chevron-button.rotated {
+    transform: rotate(180deg);
+}
