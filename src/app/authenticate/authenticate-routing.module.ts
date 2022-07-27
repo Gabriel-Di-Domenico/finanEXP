@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthenticateComponent } from './components/view/authenticate/authenticate.component';
 
 const routes: Routes = [{
-    path: 'auth',
+    path: '',
     component: AuthenticateComponent
     
 }];

@@ -9,7 +9,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './components/view/menu/menu.component';
+import { MenuComponent } from './home/components/view/menu/menu.component';
 import { AuthenticateModule } from './authenticate/authenticate.module';
 
 
