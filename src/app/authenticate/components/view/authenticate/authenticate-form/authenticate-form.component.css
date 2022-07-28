@@ -1,11 +1,11 @@
 @font-face {
     font-family: Fredoka-regular;
-    src: url(../../../../../../assets/fonts/FredokaOne-Regular.ttf) format("opentype");
+    src: url(../../../../../../assets/fonts/FredokaOne-Regular.ttf);
 }
 
 h2 {
     font-family: 'Fredoka-regular';
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     color: #557bd6;
     text-align: center;
 }
@@ -17,12 +17,6 @@ form {
 
 mat-form-field.mat-form-field {
     width: 100%;
-    font-size: 1.5rem;
-}
-
-mat-form-field.mat-form-field button {
-    border: none;
-    background-color: var(--main-color);
 }
 
 .passwordButtonIcon {

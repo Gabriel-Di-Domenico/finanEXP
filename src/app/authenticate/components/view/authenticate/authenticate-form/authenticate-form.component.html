@@ -1,6 +1,6 @@
 <h2>Sua jornada começa aqui!</h2>
 
-<mat-tab-group dynamicHeight>
+<mat-tab-group>
     <mat-tab label="Entrar" routerLink="login">
         <form id="loginForm">
             <mat-form-field class='mat-form-field' appearance="standard">
@@ -11,19 +11,24 @@
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword"
-                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
-
-
             </mat-form-field>
+            <button id="submitButton" type="button" mat-raised-button color="primary">
+                Submit
+                <mat-icon>send</mat-icon>
+            </button>
 
         </form>
     </mat-tab>
     <mat-tab label="Registrar" routerLink="registrar">
 
         <form action="" id="registerForm">
+            <mat-form-field class='mat-form-field' appearance="standard">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome">
+            </mat-form-field>
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="exemple@ex.com">
@@ -32,15 +37,16 @@
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'">
-                <button mat-icon-button matSuffix (click)="showPassword= !showPassword"
-                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <button mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
+            <button id="submitButton" type="button" mat-raised-button color="primary">
+                Submit
+                <mat-icon>send</mat-icon>
+            </button>
 
         </form>
-
     </mat-tab>
-
 </mat-tab-group>
 <router-outlet></router-outlet>

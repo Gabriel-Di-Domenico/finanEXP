@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
-import { MatSidenav } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
+
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-home',

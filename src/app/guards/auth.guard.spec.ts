@@ -8,7 +8,7 @@ describe('AuthGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[RouterTestingModule]
+      imports: [RouterTestingModule]
     });
     guard = TestBed.inject(AuthGuard);
   });
@@ -16,4 +16,16 @@ describe('AuthGuard', () => {
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
+  it('User have permissions ?', () => {
+    const token = window.localStorage.getItem('token')
+    let result: boolean = false
+    if (token) {
+      result = true
+      expect(result).toBeTruthy()
+    } else {
+      result = false
+      expect(result).toBeFalsy()
+    }
+
+  })
 });

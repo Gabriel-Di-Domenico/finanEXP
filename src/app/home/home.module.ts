@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { HomeRoutingModule } from './home-routing.module';
+
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+
 import { HomeComponent } from './components/view/home/home.component';
 import { MenuComponent } from './components/view/menu/menu.component';
 import { WalletsComponent } from './components/view/wallets/wallets.component';
 import { DashboardComponent } from './components/view/dashboard/dashboard.component';
-import { HomeRoutingModule } from './home-routing.module';
-import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   imports: [
     CommonModule,
+
     MatSidenavModule,
     MatIconModule,
     MatListModule,
@@ -28,4 +32,4 @@ import { MatButtonModule } from '@angular/material/button';
     HomeRoutingModule
   ]
 })
-export class HomeModule { }
+export class HomeModule {}

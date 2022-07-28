@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticateFormComponent } from './authenticate-form.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthenticateFormComponent', () => {
   let component: AuthenticateFormComponent;
@@ -14,12 +16,15 @@ describe('AuthenticateFormComponent', () => {
   let compiled: HTMLElement
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AuthenticateFormComponent],
+      declarations: [
+        AuthenticateFormComponent
+      ],
       imports: [
+        BrowserAnimationsModule,
+
         MatFormFieldModule,
         MatInputModule,
         MatTabsModule,
-        BrowserAnimationsModule,
         MatIconModule,
 
         RouterTestingModule
@@ -40,5 +45,9 @@ describe('AuthenticateFormComponent', () => {
   it('Have a login/register form', () => {
     const loginRegisterForm = compiled.querySelector('#loginForm') || compiled.querySelector('#registerForm')
     expect(loginRegisterForm).toBeTruthy()
+  })
+  it("Have a submit Button", () => {
+    const submitButton = compiled.querySelector('#submitButton')
+    expect(submitButton).toBeTruthy()
   })
 });

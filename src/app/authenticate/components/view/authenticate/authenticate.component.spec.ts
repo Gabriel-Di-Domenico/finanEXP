@@ -15,12 +15,16 @@ describe('authenticateComponent', () => {
   let compiled: HTMLElement
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AuthenticateComponent,AuthenticateFormComponent],
+      declarations: [
+        AuthenticateComponent,
+        AuthenticateFormComponent
+      ],
       imports: [
+        BrowserAnimationsModule,
+
         MatFormFieldModule,
         MatInputModule,
         MatTabsModule,
-        BrowserAnimationsModule,
         MatIconModule,
         
         RouterTestingModule
@@ -41,8 +45,8 @@ describe('authenticateComponent', () => {
     const authenticateIMG = compiled.querySelector('#authenticateIMG')
     expect(authenticateIMG).toBeTruthy()
   })
-  it('Have a atuhenticateForm', () => {
-    const atuhenticateForm = compiled.querySelector('#authenticateForm')
-    expect(atuhenticateForm).toBeTruthy()
+  it('Have a authenticateForm', () => {
+    const authenticateForm = compiled.querySelector('#authenticateForm')
+    expect(authenticateForm).toBeTruthy()
   })
 });
