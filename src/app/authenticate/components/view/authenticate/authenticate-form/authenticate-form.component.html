@@ -1,21 +1,22 @@
 <h2>Sua jornada começa aqui!</h2>
 
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="changeForm($event)">
     <mat-tab label="Entrar" routerLink="login">
-        <form id="loginForm">
+        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="exemple@ex.com">
+                <input matInput placeholder="exemple@ex.com" formControlName="email">
 
             </mat-form-field>
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
+                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
-            <button id="submitButton" type="button" mat-raised-button color="primary">
+            <button type="submit" id="submitButton" mat-raised-button color="primary">
                 Submit
                 <mat-icon>send</mat-icon>
             </button>
@@ -24,24 +25,25 @@
     </mat-tab>
     <mat-tab label="Registrar" routerLink="registrar">
 
-        <form action="" id="registerForm">
+        <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Nome</mat-label>
-                <input matInput placeholder="Nome">
+                <input matInput placeholder="Nome" formControlName="name">
             </mat-form-field>
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="exemple@ex.com">
+                <input matInput placeholder="exemple@ex.com" formControlName="email">
 
             </mat-form-field>
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'">
-                <button mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="showPassword= !showPassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
-            <button id="submitButton" type="button" mat-raised-button color="primary">
+            <button type="submit" id="submitButton" mat-raised-button color="primary">
                 Submit
                 <mat-icon>send</mat-icon>
             </button>

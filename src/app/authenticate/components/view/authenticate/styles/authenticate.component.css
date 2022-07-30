@@ -1,5 +1,6 @@
 @import url(./extra-small.css);
 @import url(./small.css);
+@import url(./medium.css);
 @import url(./extraLarge.css);
 div.authenticate-component {
     background-color: #dde5ff;

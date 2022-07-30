@@ -9,3 +9,10 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+snack-bar-container.message-successful{
+    background-color: #4CAF50;
+}
+snack-bar-container.message-error{
+    background-color: #f44336;
+    color:white
+}
