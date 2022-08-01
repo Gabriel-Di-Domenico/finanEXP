@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormsModule } from '@angular/forms';
 
 import { AuthenticateRoutingModule } from './authenticate-routing.module';
 
@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule, 
 
     MatFormFieldModule,
     MatInputModule,
@@ -30,9 +31,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     MatSnackBarModule,
     
-
     AuthenticateRoutingModule
 
   ]
+  
 })
 export class AuthenticateModule { }

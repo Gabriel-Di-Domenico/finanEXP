@@ -98,6 +98,100 @@
           }
         }
       }
+    },
+    "finanEXP-database-server": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/finan-exp-database-server",
+      "sourceRoot": "projects/finan-exp-database-server/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/finan-exp-database-server",
+            "index": "projects/finan-exp-database-server/src/index.html",
+            "main": "projects/finan-exp-database-server/src/main.ts",
+            "polyfills": "projects/finan-exp-database-server/src/polyfills.ts",
+            "tsConfig": "projects/finan-exp-database-server/tsconfig.app.json",
+            "assets": [
+              "projects/finan-exp-database-server/src/favicon.ico",
+              "projects/finan-exp-database-server/src/assets"
+            ],
+            "styles": [
+              "projects/finan-exp-database-server/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/finan-exp-database-server/src/environments/environment.ts",
+                  "with": "projects/finan-exp-database-server/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "finanEXP-database-server:build:production"
+            },
+            "development": {
+              "browserTarget": "finanEXP-database-server:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "finanEXP-database-server:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/finan-exp-database-server/src/test.ts",
+            "polyfills": "projects/finan-exp-database-server/src/polyfills.ts",
+            "tsConfig": "projects/finan-exp-database-server/tsconfig.spec.json",
+            "karmaConfig": "projects/finan-exp-database-server/karma.conf.js",
+            "assets": [
+              "projects/finan-exp-database-server/src/favicon.ico",
+              "projects/finan-exp-database-server/src/assets"
+            ],
+            "styles": [
+              "projects/finan-exp-database-server/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
   },
   "cli": {

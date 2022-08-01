@@ -1,3 +1,6 @@
+import { AuthenticateService } from './../../../../services/authenticate-service/authenticate-service.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,6 +17,7 @@ describe('AuthenticateFormComponent', () => {
   let component: AuthenticateFormComponent;
   let fixture: ComponentFixture<AuthenticateFormComponent>;
   let compiled: HTMLElement
+  let service: AuthenticateService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
@@ -21,14 +25,17 @@ describe('AuthenticateFormComponent', () => {
       ],
       imports: [
         BrowserAnimationsModule,
+        ReactiveFormsModule,
+        FormsModule,
 
         MatFormFieldModule,
         MatInputModule,
         MatTabsModule,
         MatIconModule,
+        MatSnackBarModule,
 
         RouterTestingModule
-      ]
+      ],
     })
       .compileComponents();
 
@@ -36,6 +43,7 @@ describe('AuthenticateFormComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     compiled = fixture.nativeElement as HTMLElement
+    service = TestBed.inject(AuthenticateService)
   });
 
   it('should create', () => {
@@ -49,5 +57,90 @@ describe('AuthenticateFormComponent', () => {
   it("Have a submit Button", () => {
     const submitButton = compiled.querySelector('#submitButton')
     expect(submitButton).toBeTruthy()
+  })
+  it('Forms invalid when empty', () => {
+    const loginForm = component.loginForm
+    const registerForm = component.registerForm
+    expect(loginForm.valid).toBeFalsy()
+    expect(registerForm.valid).toBeFalsy()
+  })
+  it('Input email validity', () => {
+    function validateEmail(email: any) {
+
+      expect(email.valid).toBeFalsy()
+
+      let errors: any = {}
+      errors = email.errors || {}
+      expect(errors['required']).toBeTruthy()
+
+      email.setValue("test")
+      errors = email.errors || {}
+      expect(errors['email']).toBeTruthy()
+
+      email.setValue('test@test.com')
+      expect(email.valid).toBeTruthy()
+    }
+    const loginEmail = component.loginForm.controls['email']
+    const registerEmail = component.registerForm.controls['email']
+    validateEmail(loginEmail)
+    validateEmail(registerEmail)
+  })
+  it("Input password validity", () => {
+    function validatePassword(password: any) {
+      expect(password.valid).toBeFalsy()
+
+      let errors: any = {}
+      errors = password.errors || {}
+
+      expect(errors['required']).toBeTruthy()
+      password.setValue('123456')
+      expect(password.valid).toBeTruthy()
+    }
+    const loginPassword = component.loginForm.controls['password']
+    const registerPassword = component.registerForm.controls['password']
+    validatePassword(loginPassword)
+    validatePassword(registerPassword)
+  })
+  it('Name form validity', () => {
+    const name = component.registerForm.controls['name']
+
+    expect(name.valid).toBeFalsy()
+
+    let errors: any = {}
+    errors = name.errors || {}
+    expect(errors['required']).toBeTruthy()
+    name.setValue('Test')
+    expect(name.valid).toBeTruthy()
+  })
+  it('Login Form submit, authorizes the user ', () => {
+    const loginForm = component.loginForm
+    expect(loginForm.valid).toBeFalsy()
+    loginForm.patchValue({
+      email: 'test@test.com',
+      password: '123456'
+    })
+    expect(loginForm.valid).toBeTruthy()
+    const newUser = {
+      name: 'teste',
+      email: loginForm.value['email'],
+      password: loginForm.value['password']
+    }
+    service.registerNewUser(newUser)
+    const users = service.users
+    expect(users[users.length - 1]).toBe(newUser)
+
+
+  })
+  it('Register form submit, register a new user', () => {
+    const registerForm = component.registerForm
+    expect(registerForm.valid).toBeFalsy()
+    registerForm.patchValue({
+      name: 'test',
+      email: 'test@test.com',
+      password: 123456
+    })
+    expect(registerForm.valid).toBeTruthy()
+
+
   })
 });

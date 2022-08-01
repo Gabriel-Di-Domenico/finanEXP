@@ -7,7 +7,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 @Component({
   selector: 'app-authenticate-form',
   templateUrl: './authenticate-form.component.html',
-  styleUrls: ['./authenticate-form.component.css']
+  styleUrls: ['./styles/authenticate-form.component.css']
 })
 export class AuthenticateFormComponent implements OnInit {
   showPassword: boolean = false
@@ -22,7 +22,7 @@ export class AuthenticateFormComponent implements OnInit {
   }
   changeForm(actualMatTab: MatTabChangeEvent) {
     actualMatTab.index === 0 ? this.actualForm = 'loginForm' : this.actualForm = 'registerForm'
-    
+
     if (this.actualForm === 'loginForm') {
       this.loginForm.reset()
 
@@ -56,6 +56,20 @@ export class AuthenticateFormComponent implements OnInit {
       name: [null, Validators.required]
     })
   }
+  onSubmit() {
+    if (this.actualForm === 'loginForm' && this.loginForm.status === 'VALID') {
+      this.showMessage('valid')
+
+    } else if (this.actualForm === 'registerForm' && this.registerForm.status === 'VALID') {
+      this.showMessage('valid')
+    } else if (this.loginForm.controls['email'].status === 'INVALID' || this.registerForm.controls['email'].status === 'INVALID') {
+      this.showMessage('emailError')
+    } else if (this.loginForm.controls['password'].status === 'INVALID' || this.registerForm.controls['password'].status === 'INVALID') {
+      this.showMessage('passwordError')
+    } else if (this.registerForm.controls['name'].status === 'INVALID') {
+      this.showMessage('nameError')
+    }
+  }
 
   showMessage(type: 'valid' | 'emailError' | 'passwordError' | 'nameError') {
     switch (type) {
@@ -73,20 +87,7 @@ export class AuthenticateFormComponent implements OnInit {
       }
     }
   }
-  onSubmit() {
-    if (this.actualForm === 'loginForm' && this.loginForm.status === 'VALID') {
-      this.showMessage('valid')
 
-    } else if (this.actualForm === 'registerForm' && this.registerForm.status === 'VALID') {
-      this.showMessage('valid')
-    } else if (this.loginForm.controls['email'].status === 'INVALID' || this.registerForm.controls['email'].status === 'INVALID') {
-      this.showMessage('emailError')
-    } else if (this.loginForm.controls['password'].status === 'INVALID' || this.registerForm.controls['password'].status === 'INVALID') {
-      this.showMessage('passwordError')
-    } else if (this.registerForm.controls['name'].status === 'INVALID') {
-      this.showMessage('nameError')
-    }
-  }
   openSnackBar(message: string, error: boolean) {
     const horizontalPosition: MatSnackBarHorizontalPosition = 'end';
     const verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -98,7 +99,4 @@ export class AuthenticateFormComponent implements OnInit {
       duration: 2000
     });
   }
-
-
-
 }
