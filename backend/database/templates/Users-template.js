@@ -1,6 +1,6 @@
 function createUsersTable(sequelizeService, DataTypes) {
     const sequelize = sequelizeService.sequelize
-    const openedQuotations = sequelize.define('openedQuotations', {
+    const users = sequelize.define('users', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -22,6 +22,7 @@ function createUsersTable(sequelizeService, DataTypes) {
             allowNull: false
         }
     })
-    return openedQuotations
+    users.sync({ force: false })
+    return users
 }
-export default createUsersTable
+module.exports = createUsersTable

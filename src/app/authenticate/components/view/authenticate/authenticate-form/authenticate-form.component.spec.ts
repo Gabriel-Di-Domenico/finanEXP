@@ -1,4 +1,4 @@
-import { AuthenticateService } from './../../../../services/authenticate-service/authenticate-service.service';
+import { AuthenticateService } from './../../../../services/authenticate-service/authenticate.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticateFormComponent } from './authenticate-form.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AuthenticateFormComponent', () => {
   let component: AuthenticateFormComponent;
@@ -27,6 +28,7 @@ describe('AuthenticateFormComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         FormsModule,
+        HttpClientTestingModule,
 
         MatFormFieldModule,
         MatInputModule,

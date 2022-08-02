@@ -1,7 +1,8 @@
-import Sequelize, { DataTypes } from "sequelize";
-import createUsersTable from "./templates/Users-template.js";
+const { DataTypes } = require("sequelize");
+const Sequelize = require('sequelize')
+const createUsersTable = require("./templates/Users-template.js");
 
-export default class SequelizeService {
+module.exports = class SequelizeService {
     constructor() {
         this.sequelize = new Sequelize('finanEXP-Development', 'root', process.env.DATABASE_PASSWORD, {
             host: 'localhost',
@@ -9,6 +10,10 @@ export default class SequelizeService {
         })
     }
     createTables() {
-        createUsersTable(this, DataTypes)
+        this.usersTable = createUsersTable(this, DataTypes)
+    }
+    async getUsers() {
+        const users = await this.usersTable.findAll()
+        console.log(users)
     }
 }
