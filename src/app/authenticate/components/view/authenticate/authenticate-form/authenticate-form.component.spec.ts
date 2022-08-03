@@ -122,14 +122,6 @@ describe('AuthenticateFormComponent', () => {
       password: '123456'
     })
     expect(loginForm.valid).toBeTruthy()
-    const newUser = {
-      name: 'teste',
-      email: loginForm.value['email'],
-      password: loginForm.value['password']
-    }
-    service.registerNewUser(newUser)
-    const users = service.users
-    expect(users[users.length - 1]).toBe(newUser)
 
 
   })
@@ -142,6 +134,18 @@ describe('AuthenticateFormComponent', () => {
       password: 123456
     })
     expect(registerForm.valid).toBeTruthy()
+
+    /* const users = service.getUsers()
+
+    const testUser = {
+      createdAt: '2022-08-03 02:34:29',
+      id: 1,
+      name: 'Test User',
+      email: 'IamATestUser@Test.com',
+      password: 123456,
+      updatedAt: '2022-08-03 02:34:29'
+    }
+    expect(users).toBe(testUser) */
 
 
   })

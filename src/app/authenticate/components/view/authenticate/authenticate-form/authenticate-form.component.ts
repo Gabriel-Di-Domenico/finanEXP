@@ -1,3 +1,5 @@
+import { User } from './../../../../services/authenticate-service/user.interface';
+import { AuthenticateService } from './../../../../services/authenticate-service/authenticate.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,7 +18,8 @@ export class AuthenticateFormComponent implements OnInit {
   actualForm: String = 'loginForm'
   constructor(
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authenticateService: AuthenticateService
   ) {
 
   }
@@ -45,6 +48,7 @@ export class AuthenticateFormComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, Validators.required]
@@ -77,6 +81,13 @@ export class AuthenticateFormComponent implements OnInit {
       this.switchForm('valid')
 
     } else if (this.actualForm === 'registerForm' && this.registerForm.status === 'VALID') {
+      const registerFormValues = this.registerForm.value
+      const newUser: User = {
+        name: registerFormValues.name,
+        email: registerFormValues.email,
+        password: registerFormValues.password
+      }
+      this.authenticateService.registerNewUser(newUser)
       this.switchForm('valid')
     } else if (this.loginForm.controls['email'].status === 'INVALID' || this.registerForm.controls['email'].status === 'INVALID') {
       this.switchForm('emailError')

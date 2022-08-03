@@ -14,6 +14,17 @@ module.exports = class SequelizeService {
     }
     async getUsers() {
         const users = await this.usersTable.findAll()
-        console.log(users)
+        return users
+    }
+    async addNewUser(options) {
+        let result
+        await this.usersTable.create(options).then(() => {
+            result = true
+        }).catch(err => {
+            console.log('save item error ' + err)
+            result = false
+        })
+        return result
+
     }
 }

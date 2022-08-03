@@ -1,5 +1,8 @@
 export interface User {
+    createdAt?: String,
+    id?: number,
     name: String,
     email: String,
-    password: Number
+    password: Number,
+    updatedAt?: String
 }

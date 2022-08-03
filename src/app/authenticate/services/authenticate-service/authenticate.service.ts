@@ -6,17 +6,17 @@ import { User } from './user.interface';
   providedIn: 'root'
 })
 export class AuthenticateService {
-  users: User[] = [
-
-  ]
+  users: any = []
   constructor(private httpClient: HttpClient) { }
-  getUsers() {
-    this.httpClient.get('http://localhost:51235/users').subscribe(res => {
-      console.log(res)
+  async getUsers() {
+    await this.httpClient.get('http://localhost:51235/users').subscribe(response => {
+      this.users = response
     })
     return this.users
   }
-  registerNewUser(User: User) {
-    this.users.push(User)
+  async registerNewUser(user: User) {
+    await this.httpClient.post('http://localhost:51235/users/add', user).subscribe(response => {
+
+    })
   }
 }

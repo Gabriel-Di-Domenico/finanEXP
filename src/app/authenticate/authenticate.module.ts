@@ -1,3 +1,4 @@
+import { AuthenticateService } from './services/authenticate-service/authenticate.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormsModule } from '@angular/forms';
@@ -37,7 +38,7 @@ import { MatButtonModule } from '@angular/material/button';
     AuthenticateRoutingModule
 
   ],
-  providers:[HttpClient]
+  providers:[HttpClient,AuthenticateService]
 
 
 })
