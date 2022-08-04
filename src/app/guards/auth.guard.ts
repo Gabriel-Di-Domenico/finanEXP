@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 function verifyToken() {
 
@@ -9,26 +10,27 @@ function verifyToken() {
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private http: HttpClient) {
 
   }
-  verifyToken(): boolean {
-    const token = window.localStorage.getItem('token')
-    if (token) {
-      return true
-    } else {
-      this.router.navigate(['auth'])
-      return false
-    }
+  verifyToken(): Observable<any> {
+    const token = window.localStorage.getItem('fSSIdtkn')
+    return this.http.post('http://localhost:51235/verifyToken', { token }).pipe(
+      tap((resposta) => {
+        
+      }, (err) => {
+        this.router.navigate(['auth'])
+      }));
+
   }
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
-
+    state: RouterStateSnapshot): Observable<any> | boolean {
     return this.verifyToken()
   }
-  canLoad(route: Route, segments: UrlSegment[]): boolean {
-    
+  canLoad(route: Route, segments: UrlSegment[]): Observable<any> {
     return this.verifyToken()
   }
 

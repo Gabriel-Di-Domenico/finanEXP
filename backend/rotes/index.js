@@ -1,3 +1,5 @@
+const express = require('express')
+const startUsersRotes = require('./usersRotes')
 function startRotes(app, sequelizeService) {
     function cors() {
         const cors = require("cors");
@@ -10,15 +12,17 @@ function startRotes(app, sequelizeService) {
     }
     cors()
 
-    app.get(`/users`, async(req, res) => {
-        const users = await sequelizeService.getUsers()
-        console.log(users)
-        res.json(users)
+    app.use(express.json())
 
-    })
-    app.post(`/users/add`, (req, res) => {
-        console.log(req)
-        sequelizeService.addNewUser(req.body)
+    startUsersRotes(app, sequelizeService)
+
+    app.post('/verifyToken', (req, res) => {
+        const decode = sequelizeService.verifyToken(req.body.token)
+        if (decode) {
+            res.status(200).json({ mensage: 'Usuário autorizado !', user: decode })
+        }else{
+            res.status(401).json({message:'Usuário não autorizado'})
+        }
     })
 
 }

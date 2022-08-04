@@ -1,4 +1,3 @@
-import { User } from './../../../../services/authenticate-service/user.interface';
 import { AuthenticateService } from './../../../../services/authenticate-service/authenticate.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +14,8 @@ export class AuthenticateFormComponent implements OnInit {
   showPassword: boolean = false
   loginForm!: FormGroup
   registerForm!: FormGroup
-  actualForm: String = 'loginForm'
+  actualForm!: FormGroup
+  notActualForm!: FormGroup
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -24,80 +24,81 @@ export class AuthenticateFormComponent implements OnInit {
 
   }
   changeForm(actualMatTab: MatTabChangeEvent) {
-    actualMatTab.index === 0 ? this.actualForm = 'loginForm' : this.actualForm = 'registerForm'
-    if (this.actualForm === 'loginForm') {
-      this.loginForm.reset()
-
-      this.loginForm.patchValue({
-        email: this.registerForm.value.email,
-        password: this.registerForm.value.password
-      })
-
-      this.loginForm.enable()
-      this.registerForm.disable()
+    if (actualMatTab.index === 0) {
+      this.actualForm = this.loginForm
+      this.notActualForm = this.registerForm
     } else {
-      this.registerForm.reset()
-
-      this.registerForm.patchValue({
-        email: this.loginForm.value.email,
-        password: this.loginForm.value.password
-      })
-
-      this.loginForm.disable()
-      this.registerForm.enable()
+      this.actualForm = this.registerForm
+      this.notActualForm = this.loginForm
     }
+
+    const name = this.notActualForm.value.name
+    const email = this.notActualForm.value.email
+    const password = this.notActualForm.value.password
+
+    this.actualForm.patchValue({
+      name,
+      email,
+      password
+    })
+    this.actualForm.enable()
+    this.notActualForm.disable()
   }
   ngOnInit(): void {
-
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, Validators.required]
     })
     this.registerForm = this.formBuilder.group({
+      name: [null, Validators.required],
       email: [null, [Validators.email, Validators.required]],
-      password: [null, Validators.required],
-      name: [null, Validators.required]
+      password: [null, Validators.required]
+    })
+    this.actualForm = this.loginForm
+    this.notActualForm = this.registerForm
+  }
+
+  showMessage(message: string, error: boolean) {
+    this.openSnackBar(message, error)
+  }
+  showError() {
+    Object.keys(this.actualForm.controls).forEach((control) => {
+      const formControl = this.actualForm.controls[control]
+      if (formControl.status === 'INVALID') {
+        switch (control) {
+          case 'name': {
+            this.showMessage('Nome inválido !', true)
+          } break
+          case 'email': {
+            this.showMessage('Email inválido !', true)
+          } break
+          case 'password': {
+            this.showMessage('Senha inválida !', true)
+          }
+        }
+      }
     })
   }
-
-  switchForm(type: 'valid' | 'emailError' | 'passwordError' | 'nameError') {
-    switch (type) {
-      case 'valid': {
-        this.openSnackBar('Deu certo', false)
-      } break
-      case 'emailError': {
-        this.openSnackBar('Email inválido', true)
-      } break
-      case 'passwordError': {
-        this.openSnackBar('Senha inválida', true)
-      } break
-      case 'nameError': {
-        this.openSnackBar('Nome inválido', true)
-      }
+  submitRegisterForm() {
+    if (this.actualForm.status === 'VALID') {
+      this.authenticateService.registerNewUser(this.registerForm.value).subscribe(data => {
+        this.showMessage(data.message, false)
+      }, err => {
+        this.showMessage(err.error.message, true)
+      })
+    } else {
+      this.showError()
     }
   }
-  onSubmit() {
-    if (this.actualForm === 'loginForm' && this.loginForm.status === 'VALID') {
-      this.switchForm('valid')
-
-    } else if (this.actualForm === 'registerForm' && this.registerForm.status === 'VALID') {
-      const registerFormValues = this.registerForm.value
-      const newUser: User = {
-        name: registerFormValues.name,
-        email: registerFormValues.email,
-        password: registerFormValues.password
-      }
-      this.authenticateService.registerNewUser(newUser)
-      this.switchForm('valid')
-    } else if (this.loginForm.controls['email'].status === 'INVALID' || this.registerForm.controls['email'].status === 'INVALID') {
-      this.switchForm('emailError')
-    } else if (this.loginForm.controls['password'].status === 'INVALID' || this.registerForm.controls['password'].status === 'INVALID') {
-      this.switchForm('passwordError')
-    } else if (this.registerForm.controls['name'].status === 'INVALID') {
-      this.switchForm('nameError')
+  submitLoginForm() {
+    if (this.actualForm.status === 'VALID') {
+      this.authenticateService.authUser(this.loginForm.value, 
+        (obj: { message: string, error: boolean }) => {
+        this.showMessage(obj.message, obj.error)
+      })
+    } else {
+      this.showError()
     }
-
-
   }
   openSnackBar(message: string, error: boolean) {
     const horizontalPosition: MatSnackBarHorizontalPosition = 'end';

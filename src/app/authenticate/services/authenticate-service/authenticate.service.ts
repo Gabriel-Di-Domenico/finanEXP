@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { User } from './user.interface';
 
 @Injectable({
@@ -14,9 +15,17 @@ export class AuthenticateService {
     })
     return this.users
   }
-  async registerNewUser(user: User) {
-    await this.httpClient.post('http://localhost:51235/users/add', user).subscribe(response => {
-
+  registerNewUser(user: User): Observable<any> {
+    return this.httpClient.post('http://localhost:51235/users/add', user)
+  }
+  authUser(user: User, callback: Function): void {
+    this.httpClient.post('http://localhost:51235/users/auth', user).subscribe((data) => {
+      const response: any = { ...data }
+      callback({ message: response.message, error: false })
+      window.localStorage.removeItem('fSSIdtkn')
+      window.localStorage.setItem('fSSIdtkn', response.token)
+    }, (err) => {
+      callback({ message: err.error.message, error: true })
     })
   }
 }

@@ -14,5 +14,6 @@ snack-bar-container.message-successful{
 }
 snack-bar-container.message-error{
     background-color: #f44336;
-    color:white
+    color:white;
+    font-weight: 500;
 }

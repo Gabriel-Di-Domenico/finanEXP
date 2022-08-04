@@ -2,7 +2,7 @@
 
 <mat-tab-group (selectedTabChange)="changeForm($event)">
     <mat-tab label="Entrar" routerLink="login">
-        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="exemple@ex.com" formControlName="email">
@@ -11,7 +11,8 @@
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
@@ -24,7 +25,7 @@
     </mat-tab>
     <mat-tab label="Registrar" routerLink="registrar">
 
-        <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Nome</mat-label>
                 <input matInput placeholder="Nome" formControlName="name">
@@ -37,7 +38,8 @@
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-                <button mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <button mat-icon-button matSuffix (click)="showPassword= !showPassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
