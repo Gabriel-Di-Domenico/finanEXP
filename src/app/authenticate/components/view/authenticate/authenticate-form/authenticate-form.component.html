@@ -36,9 +36,11 @@
 
             </mat-form-field>
             <mat-form-field class='mat-form-field' appearance="standard">
+
                 <mat-label>Senha</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-                <button mat-icon-button matSuffix (click)="showPassword= !showPassword"
+                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                    placeholder="Ex:aB@%3nbx">
+                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword"
                     [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>

@@ -13,7 +13,7 @@ function startUsersRotes(app, sequelizeService) {
                     const userError = await sequelizeService.addNewUser(newUser)
 
                     if (!userError.status) {
-                        res.status(201).json({ message: 'Usuário adicionado com sucesso !' })
+                        res.status(201).json({ message: 'Usuário registrado com sucesso !' })
                     } else {
                         switch (userError.type) {
                             case 'nameError': {

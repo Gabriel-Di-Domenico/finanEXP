@@ -54,11 +54,12 @@ export class AuthenticateFormComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: [null, Validators.required],
       email: [null, [Validators.email, Validators.required]],
-      password: [null, Validators.required]
+      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%])[0-9a-zA-Z$*&@#%]{8,}$/)]]
     })
     this.actualForm = this.loginForm
     this.notActualForm = this.registerForm
   }
+
 
   showMessage(message: string, error: boolean) {
     this.openSnackBar(message, error)
@@ -75,7 +76,12 @@ export class AuthenticateFormComponent implements OnInit {
             this.showMessage('Email inválido !', true)
           } break
           case 'password': {
-            this.showMessage('Senha inválida !', true)
+
+            if (this.actualForm === this.loginForm) {
+              this.showMessage('Senha inválida !', true)
+            } else {
+              this.showMessage('A senha deve possuir: mínimo de 8 caracteres, um caractere especial,um número, uma letra maiúscula e uma letra minúscula !', true)
+            }
           }
         }
       }
@@ -116,7 +122,7 @@ export class AuthenticateFormComponent implements OnInit {
       panelClass: [error ? 'message-error' : 'message-successful'],
       horizontalPosition: horizontalPosition,
       verticalPosition: verticalPosition,
-      duration: 2000
+      duration: 5000
     });
   }
 }
