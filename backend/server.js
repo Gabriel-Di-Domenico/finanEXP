@@ -1,5 +1,6 @@
 const dotenv = require('dotenv')
 dotenv.config()
+
 const express = require('express')
 
 const startRotes = require('./rotes/index.js')
@@ -17,5 +18,5 @@ let server = app.listen(port, () => {
     }).catch((err) => {
         console.log(`Error in authenticate database. ERROR : ${err}`)
     })
-    console.log('Server online, port: ' + port)
+    console.log(`Server online, at address: "http://localhost:${port}`)
 })

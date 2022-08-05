@@ -1,6 +1,7 @@
 import { AuthenticateService } from './../../../../services/authenticate-service/authenticate.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -19,7 +20,8 @@ export class AuthenticateFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private authenticateService: AuthenticateService
+    private authenticateService: AuthenticateService,
+    private router: Router
   ) {
 
   }
@@ -81,10 +83,9 @@ export class AuthenticateFormComponent implements OnInit {
   }
   submitRegisterForm() {
     if (this.actualForm.status === 'VALID') {
-      this.authenticateService.registerNewUser(this.registerForm.value).subscribe(data => {
-        this.showMessage(data.message, false)
-      }, err => {
-        this.showMessage(err.error.message, true)
+      this.authenticateService.registerNewUser(this.registerForm.value).subscribe({
+        next: data => this.showMessage(data.message, false),
+        error: err => this.showMessage(err.error.message, true)
       })
     } else {
       this.showError()
@@ -92,9 +93,16 @@ export class AuthenticateFormComponent implements OnInit {
   }
   submitLoginForm() {
     if (this.actualForm.status === 'VALID') {
-      this.authenticateService.authUser(this.loginForm.value, 
-        (obj: { message: string, error: boolean }) => {
-        this.showMessage(obj.message, obj.error)
+      this.authenticateService.authUser(this.loginForm.value).subscribe({
+        next: data => {
+          const response: any = { ...data }
+          this.showMessage(response.message, false)
+
+          window.localStorage.setItem('fSSIdtkn', response.token)
+
+          this.router.navigate(['home'])
+        },
+        error: err => this.showMessage(err.error.message, true)
       })
     } else {
       this.showError()

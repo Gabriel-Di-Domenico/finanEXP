@@ -17,13 +17,15 @@ function startRotes(app, sequelizeService) {
     startUsersRotes(app, sequelizeService)
 
     app.post('/verifyToken', (req, res) => {
-        const decode = sequelizeService.verifyToken(req.body.token)
-        if (decode) {
-            res.status(200).json({ mensage: 'Usuário autorizado !', user: decode })
-        }else{
-            res.status(401).json({message:'Usuário não autorizado'})
-        }
+        sequelizeService.verifyToken(req.body.token, (err, decode) => {
+            if (err) {
+                res.status(401).json({ message: 'Usuário não autorizado !' })
+            } else if (decode) {
+                res.status(200).json({ mensage: 'Usuário logado com sucesso !', user: decode })
+            }else{
+                res.status(401).json({ message: 'Usuário não autorizado !' })
+            }
+        })
     })
-
 }
 module.exports = startRotes
