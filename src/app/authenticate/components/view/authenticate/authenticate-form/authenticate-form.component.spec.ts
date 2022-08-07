@@ -95,7 +95,7 @@ describe('AuthenticateFormComponent', () => {
       errors = password.errors || {}
 
       expect(errors['required']).toBeTruthy()
-      password.setValue('123456')
+      password.setValue('aB@%3nbx')
       expect(password.valid).toBeTruthy()
     }
     const loginPassword = component.loginForm.controls['password']
@@ -119,7 +119,7 @@ describe('AuthenticateFormComponent', () => {
     expect(loginForm.valid).toBeFalsy()
     loginForm.patchValue({
       email: 'test@test.com',
-      password: '123456'
+      password: 'aB@%3nbx'
     })
     expect(loginForm.valid).toBeTruthy()
 
@@ -131,22 +131,9 @@ describe('AuthenticateFormComponent', () => {
     registerForm.patchValue({
       name: 'test',
       email: 'test@test.com',
-      password: 123456
+      password: 'aB@%3nbx'
     })
     expect(registerForm.valid).toBeTruthy()
-
-    /* const users = service.getUsers()
-
-    const testUser = {
-      createdAt: '2022-08-03 02:34:29',
-      id: 1,
-      name: 'Test User',
-      email: 'IamATestUser@Test.com',
-      password: 123456,
-      updatedAt: '2022-08-03 02:34:29'
-    }
-    expect(users).toBe(testUser) */
-
 
   })
 });

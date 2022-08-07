@@ -54,7 +54,7 @@ export class AuthenticateFormComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: [null, Validators.required],
       email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%])[0-9a-zA-Z$*&@#%]{8,}$/)]]
+      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%[]]])[0-9a-zA-Z$*&@#%]{8,}$/)]]
     })
     this.actualForm = this.loginForm
     this.notActualForm = this.registerForm
@@ -90,7 +90,20 @@ export class AuthenticateFormComponent implements OnInit {
   submitRegisterForm() {
     if (this.actualForm.status === 'VALID') {
       this.authenticateService.registerNewUser(this.registerForm.value).subscribe({
-        next: data => this.showMessage(data.message, false),
+        next: data => {
+          this.showMessage(data.message, false)
+          this.authenticateService.authUser(this.registerForm.value).subscribe({
+            next: data => {
+
+              this.showMessage(data.message, false)
+
+              window.localStorage.setItem('fSSIdtkn', data.token)
+
+              this.router.navigate(['home'])
+            },
+            error: err => this.showMessage(err.error.message, true)
+          })
+        },
         error: err => this.showMessage(err.error.message, true)
       })
     } else {
@@ -101,10 +114,9 @@ export class AuthenticateFormComponent implements OnInit {
     if (this.actualForm.status === 'VALID') {
       this.authenticateService.authUser(this.loginForm.value).subscribe({
         next: data => {
-          const response: any = { ...data }
-          this.showMessage(response.message, false)
+          this.showMessage(data.message, false)
 
-          window.localStorage.setItem('fSSIdtkn', response.token)
+          window.localStorage.setItem('fSSIdtkn', data.token)
 
           this.router.navigate(['home'])
         },
