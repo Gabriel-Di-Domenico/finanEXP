@@ -4,10 +4,12 @@ mat-nav-list {
     align-items: center;
     justify-content: space-between;
     height: 97%;
+    width: 100%;
 }
 
 mat-nav-list>div {
     margin-top: 5px;
+    width: 100%;
 }
 
 #addButton {
@@ -23,4 +25,8 @@ mat-nav-list>div {
 
 #loginLink>mat-icon {
     background-color: red;
+}
+
+#userConfig {
+    font-weight: 600;
 }

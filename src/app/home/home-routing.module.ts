@@ -1,3 +1,4 @@
+import { UserConfigComponent } from './components/view/user-config/user-config.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -11,7 +12,8 @@ const routes: Routes = [
         component: HomeComponent,
         children: [
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'wallets', component: WalletsComponent }
+            { path: 'wallets', component: WalletsComponent },
+            { path: 'user/config', component: UserConfigComponent }
         ]
     }
 

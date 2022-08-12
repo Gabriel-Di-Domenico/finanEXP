@@ -54,13 +54,11 @@ export class AuthenticateFormComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: [null, Validators.required],
       email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%[]]])[0-9a-zA-Z$*&@#%]{8,}$/)]]
+      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
     })
     this.actualForm = this.loginForm
     this.notActualForm = this.registerForm
   }
-
-
   showMessage(message: string, error: boolean) {
     this.openSnackBar(message, error)
   }

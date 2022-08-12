@@ -37,22 +37,21 @@ module.exports = class SequelizeService {
     async addNewUser(options) {
         const error = { status: false }
 
-        await this.usersTable.create(options).then(() => { }).catch(err => {
+        await this.usersTable.create(options).then(() => {}).catch(err => {
             error.status = true
-            err.errors[0].message === 'name must be unique'
-                ? error.type = 'nameError'
-                : error.type = 'emailError'
+            err.errors[0].message === 'name must be unique' ?
+                error.type = 'nameError' :
+                error.type = 'emailError'
         })
         return error
     }
     authUser(userByDataBase) {
         const token = jwt.sign({
-            name: userByDataBase.name,
-            email: userByDataBase.email
-        },
-            process.env.TOKEN_SECRET,
-            {
-                expiresIn: 60
+                name: userByDataBase.name,
+                email: userByDataBase.email
+            },
+            process.env.TOKEN_SECRET, {
+                expiresIn: '7d'
             },
         )
         return token

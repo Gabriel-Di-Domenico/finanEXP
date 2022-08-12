@@ -1,7 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -22,14 +22,14 @@ describe('HomeComponent', () => {
       ],
       imports: [
         BrowserAnimationsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
 
         MatSidenavModule,
-        RouterTestingModule,
         MatIconModule,
         MatListModule
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
@@ -39,4 +39,5 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

@@ -12,6 +12,8 @@ import { HomeComponent } from './components/view/home/home.component';
 import { MenuComponent } from './components/view/menu/menu.component';
 import { WalletsComponent } from './components/view/wallets/wallets.component';
 import { DashboardComponent } from './components/view/dashboard/dashboard.component';
+import { FormsModule } from '@angular/forms';
+import { UserConfigComponent } from './components/view/user-config/user-config.component';
 
 
 @NgModule({
@@ -19,11 +21,12 @@ import { DashboardComponent } from './components/view/dashboard/dashboard.compon
     HomeComponent,
     MenuComponent,
     WalletsComponent,
-    DashboardComponent
+    DashboardComponent,
+    UserConfigComponent
   ],
   imports: [
     CommonModule,
-
+    FormsModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,
@@ -32,4 +35,4 @@ import { DashboardComponent } from './components/view/dashboard/dashboard.compon
     HomeRoutingModule
   ]
 })
-export class HomeModule {}
+export class HomeModule { }

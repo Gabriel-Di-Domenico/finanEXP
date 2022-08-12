@@ -46,8 +46,8 @@ describe('MenuComponent', () => {
     expect(walletsButton).toBeTruthy()
   })
   it('Have a authenticate link', () => {
-    const authenticateLink = compiled.querySelector('#authenticateLink')
-    expect(authenticateLink).toBeTruthy()
+    const userConfig = compiled.querySelector('#userConfig')
+    expect(userConfig).toBeTruthy()
 
   })
 
