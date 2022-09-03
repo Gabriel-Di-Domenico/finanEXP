@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import Errors from 'src/support/enums/Errors';
 
 @Component({
   selector: 'app-authenticate-form',
@@ -49,7 +50,7 @@ export class AuthenticateFormComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
-      password: [null, Validators.required]
+      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
     })
     this.registerForm = this.formBuilder.group({
       name: [null, Validators.required],
@@ -60,7 +61,7 @@ export class AuthenticateFormComponent implements OnInit {
     this.notActualForm = this.registerForm
   }
   showMessage(message: string, error: boolean) {
-    this.openSnackBar(message, error)
+    this.openSnackBar(`${message} !`, error)
   }
   showError() {
     Object.keys(this.actualForm.controls).forEach((control) => {
@@ -68,17 +69,17 @@ export class AuthenticateFormComponent implements OnInit {
       if (formControl.status === 'INVALID') {
         switch (control) {
           case 'name': {
-            this.showMessage('Nome inválido !', true)
+            this.showMessage('Nome inválido', true)
           } break
           case 'email': {
-            this.showMessage('Email inválido !', true)
+            this.showMessage('Email inválido', true)
           } break
           case 'password': {
 
             if (this.actualForm === this.loginForm) {
-              this.showMessage('Senha inválida !', true)
+              this.showMessage('Senha inválida', true)
             } else {
-              this.showMessage('A senha deve possuir: mínimo de 8 caracteres, um caractere especial,um número, uma letra maiúscula e uma letra minúscula !', true)
+              this.showMessage('A senha deve possuir: mínimo de 8 caracteres, um caractere especial,um número, uma letra maiúscula e uma letra minúscula', true)
             }
           }
         }
@@ -89,20 +90,23 @@ export class AuthenticateFormComponent implements OnInit {
     if (this.actualForm.status === 'VALID') {
       this.authenticateService.registerNewUser(this.registerForm.value).subscribe({
         next: data => {
-          this.showMessage(data.message, false)
+          this.showMessage("Usuário criado com sucesso", false)
           this.authenticateService.authUser(this.registerForm.value).subscribe({
             next: data => {
-
-              this.showMessage(data.message, false)
-
-              window.localStorage.setItem('fSSIdtkn', data.token)
+              window.localStorage.setItem('fSSIdtkn', data.value)
 
               this.router.navigate(['home'])
             },
-            error: err => this.showMessage(err.error.message, true)
+            error: err => this.showMessage("Usuário não autenticado", true)
           })
         },
-        error: err => this.showMessage(err.error.message, true)
+        error: err => {
+          if (err.error == Errors[0].toString()) {
+            this.showMessage("Usuário já registrado", true)
+          } else {
+            this.showMessage("Erro ao registrar usuário", true)
+          }
+        }
       })
     } else {
       this.showError()
@@ -112,13 +116,13 @@ export class AuthenticateFormComponent implements OnInit {
     if (this.actualForm.status === 'VALID') {
       this.authenticateService.authUser(this.loginForm.value).subscribe({
         next: data => {
-          this.showMessage(data.message, false)
+          this.showMessage("Usuário logado com sucesso", false)
 
-          window.localStorage.setItem('fSSIdtkn', data.token)
+          window.localStorage.setItem('fSSIdtkn', data.value)
 
           this.router.navigate(['home'])
         },
-        error: err => this.showMessage(err.error.message, true)
+        error: err => this.showMessage("Usuário não autenticado, verifique os dados", true)
       })
     } else {
       this.showError()

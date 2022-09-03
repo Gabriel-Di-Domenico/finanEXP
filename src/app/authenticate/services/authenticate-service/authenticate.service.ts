@@ -10,9 +10,9 @@ export class AuthenticateService {
   constructor(private httpClient: HttpClient) { }
 
   registerNewUser(user: User): Observable<any> {
-    return this.httpClient.post('http://localhost:51235/users/add', user)
+    return this.httpClient.post('http://localhost:51235/users/add/', user)
   }
   authUser(user: User): Observable<any> {
-    return this.httpClient.post('http://localhost:51235/users/auth', user)
+    return this.httpClient.post('http://localhost:51235/auth/user', user)
   }
 }
