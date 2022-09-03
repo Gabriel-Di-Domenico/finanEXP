@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../../../../support/interfaces/user.interface';
 import { ConfigUserService } from './../../../services/config-user.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
@@ -36,10 +37,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     })
     this.configUserService.getCurrentUser().subscribe({
-      next: data => {
-        this.currentUser = data.user
+      next: (data : User) => {
+        this.currentUser = data
       },
-      error: err => {
+      error: (err : HttpErrorResponse) => {
         console.log(err)
       }
     })

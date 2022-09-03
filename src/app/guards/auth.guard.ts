@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     const httpHeaders: HttpHeaders = new HttpHeaders({Authorization:`Bearer ${token}`})
     return this.http.get('http://localhost:51235/auth/verifyToken', { headers: httpHeaders }).pipe(
       tap({
-        error: (e) => {
+        error: (e : HttpErrorResponse) => {
           this.router.navigate(['auth'])
         }
       }

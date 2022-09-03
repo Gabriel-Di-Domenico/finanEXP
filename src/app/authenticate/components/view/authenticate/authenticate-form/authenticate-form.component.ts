@@ -7,6 +7,8 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import Errors from 'src/support/enums/Errors';
 import { User } from 'src/support/interfaces/user.interface';
+import JsonResult from 'src/support/interfaces/JsonResult.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-authenticate-form',
@@ -68,8 +70,8 @@ export class AuthenticateFormComponent implements OnInit {
   }
 
   showError() {
-    Object.keys(this.actualForm.controls).forEach((control : string) => {
-      const formControl : AbstractControl<any> = this.actualForm.controls[control]
+    Object.keys(this.actualForm.controls).forEach((control: string) => {
+      const formControl: AbstractControl<any> = this.actualForm.controls[control]
 
       if (formControl.status === 'INVALID') {
         switch (control) {
@@ -93,20 +95,11 @@ export class AuthenticateFormComponent implements OnInit {
   }
   submitRegisterForm() {
     if (this.actualForm.status === 'VALID') {
-      this.authenticateService.registerNewUser(this.registerForm.value).subscribe({
-        next: (data) => {
+      this.authenticateService.registerNewUser(this.registerForm.value, (error?: HttpErrorResponse) => {
+        if (!error) {
           this.showMessage("Usuário criado com sucesso", false)
-          this.authenticateService.authUser(this.registerForm.value).subscribe({
-            next: data => {
-              window.localStorage.setItem('fSSIdtkn', data.value)
-
-              this.router.navigate(['home'])
-            },
-            error: err => this.showMessage("Usuário não autenticado", true)
-          })
-        },
-        error: err => {
-          if (err.error == Errors[0].toString()) {
+        } else {
+          if (error.error === Errors[0]) {
             this.showMessage("Usuário já registrado", true)
           } else {
             this.showMessage("Erro ao registrar usuário", true)
@@ -119,18 +112,14 @@ export class AuthenticateFormComponent implements OnInit {
   }
   submitLoginForm() {
     if (this.actualForm.status === 'VALID') {
-      this.authenticateService.authUser(this.loginForm.value).subscribe({
-        next: data => {
-          this.showMessage("Usuário logado com sucesso", false)
-
-          window.localStorage.setItem('fSSIdtkn', data.value)
-
-          this.router.navigate(['home'])
-        },
-        error: err => this.showMessage("Usuário não autenticado, verifique os dados", true)
+      this.authenticateService.authUser(this.loginForm.value, (error?: boolean) => {
+        if (!error) {
+          this.showMessage("Usuário autenticado", false)
+        } else {
+          this.showMessage("Usuário não autenticado, verifique os dados", true)
+        }
       })
-    } else {
-      this.showError()
+
     }
   }
   openSnackBar(message: string, error: boolean) {
