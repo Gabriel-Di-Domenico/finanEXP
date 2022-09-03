@@ -1,11 +1,12 @@
 import { AuthenticateService } from './../../../../services/authenticate-service/authenticate.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import Errors from 'src/support/enums/Errors';
+import { User } from 'src/support/interfaces/user.interface';
 
 @Component({
   selector: 'app-authenticate-form',
@@ -18,6 +19,7 @@ export class AuthenticateFormComponent implements OnInit {
   registerForm!: FormGroup
   actualForm!: FormGroup
   notActualForm!: FormGroup
+
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -26,6 +28,7 @@ export class AuthenticateFormComponent implements OnInit {
   ) {
 
   }
+
   changeForm(actualMatTab: MatTabChangeEvent) {
     if (actualMatTab.index === 0) {
       this.actualForm = this.loginForm
@@ -63,9 +66,11 @@ export class AuthenticateFormComponent implements OnInit {
   showMessage(message: string, error: boolean) {
     this.openSnackBar(`${message} !`, error)
   }
+
   showError() {
-    Object.keys(this.actualForm.controls).forEach((control) => {
-      const formControl = this.actualForm.controls[control]
+    Object.keys(this.actualForm.controls).forEach((control : string) => {
+      const formControl : AbstractControl<any> = this.actualForm.controls[control]
+
       if (formControl.status === 'INVALID') {
         switch (control) {
           case 'name': {
@@ -89,7 +94,7 @@ export class AuthenticateFormComponent implements OnInit {
   submitRegisterForm() {
     if (this.actualForm.status === 'VALID') {
       this.authenticateService.registerNewUser(this.registerForm.value).subscribe({
-        next: data => {
+        next: (data) => {
           this.showMessage("Usuário criado com sucesso", false)
           this.authenticateService.authUser(this.registerForm.value).subscribe({
             next: data => {

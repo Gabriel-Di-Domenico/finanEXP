@@ -1,4 +1,4 @@
-import { User } from '../../../../interfaces/user.interface';
+import { User } from '../../../../../support/interfaces/user.interface';
 import { ConfigUserService } from './../../../services/config-user.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
