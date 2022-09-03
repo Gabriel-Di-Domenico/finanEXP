@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 
@@ -14,7 +14,9 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
   verifyToken(): Observable<any> {
     const token = window.localStorage.getItem('fSSIdtkn')
-    return this.http.post('http://localhost:51235/verifyToken', { token }).pipe(
+    
+    const httpHeaders: HttpHeaders = new HttpHeaders({Authorization:`Bearer ${token}`})
+    return this.http.get('http://localhost:51235/auth/verifyToken', { headers: httpHeaders }).pipe(
       tap({
         error: (e) => {
           this.router.navigate(['auth'])
