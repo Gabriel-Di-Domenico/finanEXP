@@ -12,12 +12,10 @@ namespace backend.Controllers
   [ApiController]
   public class AuthController : ControllerBase
   {
-    private readonly AuthUserService _AuthUserService;
     private readonly IDataUser _UserDatabase;
-    private readonly IMapper _Mapper; 
+    private readonly IMapper _Mapper;
     public AuthController(IDataUser userDatabase, IMapper mapper)
     {
-      _AuthUserService = new AuthUserService();
       _UserDatabase = userDatabase;
       _Mapper = mapper;
     }
@@ -29,8 +27,8 @@ namespace backend.Controllers
 
       if (userFromDatabase != null)
       {
-        string JWT = _AuthUserService.AuthUser(user,userFromDatabase);
-        if(JWT != null)
+        string JWT = AuthUserService.AuthUser(user, userFromDatabase);
+        if (JWT != null)
         {
           var jsonWithJWT = new JsonResult(JWT);
           return Ok(jsonWithJWT);
@@ -50,7 +48,19 @@ namespace backend.Controllers
     [Authorize]
     public ActionResult<bool> VerifyToken()
     {
-      return Ok(true);
+      var Bearertoken = Request.Headers["Authorization"];
+      
+      UserOutput user = TokenService.DeserializeToken(Bearertoken);
+
+      if(user != null)
+      {
+        return Ok(user);
+      }
+      else
+      {
+        return Ok(false);
+      }
+      
     }
   }
 }

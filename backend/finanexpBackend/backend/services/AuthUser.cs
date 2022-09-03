@@ -1,12 +1,11 @@
 using backend.models;
-using backend.DataBase;
 using backend.dtos;
 
 namespace backend.services
 {
-  public class AuthUserService
+  public static class AuthUserService
   {
-    public string AuthUser(UserAuthDto user, UserModel userFromDataBase)
+    public static string AuthUser(UserAuthDto user, UserModel userFromDataBase)
     {
 
       bool matchPassword = Bcrypt.Decrypt(user.password, userFromDataBase.password);

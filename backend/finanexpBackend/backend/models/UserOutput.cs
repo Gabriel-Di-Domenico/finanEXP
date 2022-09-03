@@ -1,15 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.dtos
+namespace backend.models
 {
-  public class UserAuthDto
+  public class UserOutput
   {
     public string name { get; set; } = "";
 
     [Required]
     public string email { get; set; } = "";
-
-    [Required]
-    public string password { get; set; } = "";
+    
   }
 }

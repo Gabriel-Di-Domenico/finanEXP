@@ -1,11 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { User } from '../../../../../support/interfaces/user.interface';
+import { UserOutput } from './../../../../../support/interfaces/userOutput.interface';
+import { UserInput } from '../../../../../support/interfaces/userInput.interface';
 import { ConfigUserService } from './../../../services/config-user.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
 import { Subscription } from 'rxjs';
 
 import { MatSidenav } from '@angular/material/sidenav';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,17 +15,19 @@ import { MatSidenav } from '@angular/material/sidenav';
 export class HomeComponent implements OnInit, OnDestroy {
   isExtended: boolean = false
   viewPortSizeObserver!: Subscription
-  
-  currentUser: User = {
+
+  currentUser: UserOutput = {
     name: '',
-    email: ''
+    email: '',
   }
 
   @ViewChild(MatSidenav) sideNave!: MatSidenav
 
   constructor(
     private observer: BreakpointObserver,
-    private configUserService: ConfigUserService) { }
+    private configUserService: ConfigUserService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.viewPortSizeObserver = this.observer.observe(['(max-width:800px)']).subscribe((res: BreakpointState) => {
@@ -36,14 +39,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.sideNave?.open()
       }
     })
-    this.configUserService.getCurrentUser().subscribe({
-      next: (data : User) => {
-        this.currentUser = data
-      },
-      error: (err : HttpErrorResponse) => {
-        console.log(err)
+    this.route.data.subscribe({
+      next:(data) => {
+        this.currentUser = data['currentUser']
       }
     })
+
   }
   ngOnDestroy(): void {
     this.viewPortSizeObserver.unsubscribe()

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from 'src/support/interfaces/user.interface';
+import { UserInput } from 'src/support/interfaces/userInput.interface';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,10 +9,10 @@ import { Injectable } from '@angular/core';
 export class AuthenticateProxyService {
   constructor(private httpClient: HttpClient) { }
 
-  registerNewUserRequest(user: User): Observable<any> {
+  registerNewUserRequest(user: UserInput): Observable<any> {
     return this.httpClient.post('http://localhost:51235/users/add/', user)
   }
-  authUserRequest(user: User): Observable<any> {
+  authUserRequest(user: UserInput): Observable<any> {
     return this.httpClient.post('http://localhost:51235/auth/user', user)
   }
 }

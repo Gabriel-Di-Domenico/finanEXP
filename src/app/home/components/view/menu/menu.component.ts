@@ -1,4 +1,4 @@
-import { User } from '../../../../../support/interfaces/user.interface';
+import { UserOutput } from './../../../../../support/interfaces/userOutput.interface';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -8,18 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  @Input() currentUser: User = {
+  @Input() currentUser: UserOutput = {
     name: '',
     email: ''
   }
   constructor() { }
 
-
-
   ngOnInit(): void {
     
   }
-  
+
 
 
 }

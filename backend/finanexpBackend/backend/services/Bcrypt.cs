@@ -3,7 +3,7 @@ using System.Text;
 
 namespace backend.services
 {
-  public class Bcrypt
+  public static class Bcrypt
   {
     public static string Encrypt(string password)
     {

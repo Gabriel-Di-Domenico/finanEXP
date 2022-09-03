@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import Errors from 'src/support/enums/Errors';
-import { User } from 'src/support/interfaces/user.interface';
+import { UserInput } from 'src/support/interfaces/userInput.interface';
 import JsonResult from 'src/support/interfaces/JsonResult.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -95,7 +95,9 @@ export class AuthenticateFormComponent implements OnInit {
   }
   submitRegisterForm() {
     if (this.actualForm.status === 'VALID') {
-      this.authenticateService.registerNewUser(this.registerForm.value, (error?: HttpErrorResponse) => {
+      const userValues: UserInput = this.registerForm.value
+      console.log(userValues)
+      this.authenticateService.registerNewUser(userValues, (error?: HttpErrorResponse) => {
         if (!error) {
           this.showMessage("Usuário criado com sucesso", false)
         } else {
@@ -112,7 +114,9 @@ export class AuthenticateFormComponent implements OnInit {
   }
   submitLoginForm() {
     if (this.actualForm.status === 'VALID') {
-      this.authenticateService.authUser(this.loginForm.value, (error?: boolean) => {
+      const userValues: UserInput = this.loginForm.value
+
+      this.authenticateService.authUser(userValues, (error?: boolean) => {
         if (!error) {
           this.showMessage("Usuário autenticado", false)
         } else {

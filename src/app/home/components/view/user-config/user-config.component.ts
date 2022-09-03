@@ -1,4 +1,4 @@
-import { User } from '../../../../../support/interfaces/user.interface';
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-config.component.css']
 })
 export class UserConfigComponent implements OnInit {
-  currentUser: User = {
-    name: '',
-    email: ''
-  }
+  
   constructor() { }
 
   ngOnInit(): void {

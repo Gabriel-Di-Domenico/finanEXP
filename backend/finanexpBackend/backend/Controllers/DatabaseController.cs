@@ -1,9 +1,7 @@
 using AutoMapper;
 using backend.DataBase;
-using backend.Messages;
 using backend.models;
 using backend.support.enums;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
