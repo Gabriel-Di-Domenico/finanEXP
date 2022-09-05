@@ -1,6 +1,4 @@
-import { UserOutput } from './../../../../../support/interfaces/userOutput.interface';
-import { UserInput } from '../../../../../support/interfaces/userInput.interface';
-import { ConfigUserService } from './../../../services/config-user.service';
+import { UserOutput } from './../../../../support/interfaces/userOutput.interface';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
 import { Subscription } from 'rxjs';
@@ -10,7 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isExtended: boolean = false
@@ -25,7 +24,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private observer: BreakpointObserver,
-    private configUserService: ConfigUserService,
     private route: ActivatedRoute
   ) { }
 

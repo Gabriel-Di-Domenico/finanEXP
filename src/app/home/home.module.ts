@@ -13,16 +13,13 @@ import { MenuComponent } from './components/view/menu/menu.component';
 import { WalletsComponent } from './components/view/wallets/wallets.component';
 import { DashboardComponent } from './components/view/dashboard/dashboard.component';
 import { FormsModule } from '@angular/forms';
-import { UserConfigComponent } from './components/view/user-config/user-config.component';
-
 
 @NgModule({
   declarations: [
     HomeComponent,
     MenuComponent,
     WalletsComponent,
-    DashboardComponent,
-    UserConfigComponent
+    DashboardComponent
   ],
   imports: [
     CommonModule,

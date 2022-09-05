@@ -11,8 +11,7 @@
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Senha</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword"
-                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
@@ -23,7 +22,7 @@
 
         </form>
     </mat-tab>
-    <mat-tab label="Registrar" routerLink="registrar">
+    <mat-tab label="Registrar">
 
         <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
             <mat-form-field class='mat-form-field' appearance="standard">
@@ -38,10 +37,8 @@
             <mat-form-field class='mat-form-field' appearance="standard">
 
                 <mat-label>Senha</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                    placeholder="Ex:aB@%3nbx">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword"
-                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
+                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Ex:aB@%3nbx">
+                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>

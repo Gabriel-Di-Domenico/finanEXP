@@ -1,4 +1,4 @@
-import { UserOutput } from './../../../../../support/interfaces/userOutput.interface';
+import { UserOutput } from '../../../../support/interfaces/userOutput.interface';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

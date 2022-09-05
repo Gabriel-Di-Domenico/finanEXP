@@ -1,9 +1,9 @@
 import { Router } from '@angular/router';
-import JsonResult from '../../../../support/interfaces/JsonResult.interface';
+import JsonResult from '../../../support/interfaces/JsonResult.interface';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take, Subscription } from 'rxjs';
-import { UserInput } from '../../../../support/interfaces/userInput.interface';
+import { UserInput } from '../../../support/interfaces/userInput.interface';
 import { AuthenticateProxyService } from './../../../proxys/authenticateProxys/authenticate.proxy.service';
 
 

@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import Errors from 'src/support/enums/Errors';
-import { UserInput } from 'src/support/interfaces/userInput.interface';
-import JsonResult from 'src/support/interfaces/JsonResult.interface';
+import Errors from '../../../../../support/enums/Errors';
+import { UserInput } from '../../../../../support/interfaces/userInput.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -26,7 +25,6 @@ export class AuthenticateFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private authenticateService: AuthenticateService,
-    private router: Router
   ) {
 
   }
@@ -58,7 +56,7 @@ export class AuthenticateFormComponent implements OnInit {
       password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
     })
     this.registerForm = this.formBuilder.group({
-      name: [null, Validators.required],
+      name: [null, [Validators.required,Validators.maxLength(25)]],
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
     })

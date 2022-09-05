@@ -1,4 +1,5 @@
-import { UserConfigComponent } from './components/view/user-config/user-config.component';
+import { UserResolverGuard } from './../guards/user-resolver.guard';
+import { UserConfigComponent } from './user-config/components/view/user-config/user-config.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -13,7 +14,12 @@ const routes: Routes = [
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'wallets', component: WalletsComponent },
-            { path: 'user/config', component: UserConfigComponent }
+            {
+                path: 'user/config',
+                loadChildren: () => import("./user-config/user-config.module").then(m => m.UserConfigModule),
+                resolve: {currentUser : UserResolverGuard}
+            },
+
         ]
     }
 

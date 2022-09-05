@@ -1,0 +1,21 @@
+<main>
+    <div>
+        <header>
+            <div id="user">
+                <div id="userImage">
+                    <mat-icon>account_circle</mat-icon>
+                </div>
+                <h1>{{currentUser.name}}</h1>
+            </div>
+
+
+        </header>
+        <nav mat-tab-nav-bar class="mat-elevation-z5">
+            <a mat-tab-link routerLink="perfil" routerLinkActive="active">Perfil</a>
+            <a mat-tab-link routerLink="financeiro" routerLinkActive="active">financeiro</a>
+
+        </nav>
+        <router-outlet></router-outlet>
+    </div>
+
+</main>

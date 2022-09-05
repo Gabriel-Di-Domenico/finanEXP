@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserInput } from 'src/support/interfaces/userInput.interface';
+import { UserInput } from '../../support/interfaces/userInput.interface';
 import { Injectable } from '@angular/core';
 
 @Injectable({
