@@ -1,8 +1,9 @@
-import { VerifyTokenService } from '../support/services/verify-token.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, RouterStateSnapshot, UrlSegment } from '@angular/router';
 
 import { Observable } from 'rxjs';
+
+import { VerifyTokenService } from '../shared/support/services/verifyToken/verify-token.service';
 
 @Injectable({
   providedIn: 'root'

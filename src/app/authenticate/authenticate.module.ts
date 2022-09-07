@@ -1,7 +1,8 @@
+import { SharedModule } from './../shared/shared.module';
 import { AuthenticateService } from './services/authenticate-service/authenticate.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AuthenticateRoutingModule } from './authenticate-routing.module';
@@ -10,10 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { AuthenticateComponent } from './components/view/authenticate/authenticate.component';
-import { AuthenticateFormComponent } from './components/view/authenticate/authenticate-form/authenticate-form.component';
+import { AuthenticateComponent } from './pages/authenticate/authenticate.component';
+import { AuthenticateFormComponent } from './pages/authenticate/authenticate-form/authenticate-form.component';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
@@ -26,14 +26,13 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    SharedModule,
     
-
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
     MatIconModule,
     MatButtonModule,
-    MatSnackBarModule,
 
     AuthenticateRoutingModule
 

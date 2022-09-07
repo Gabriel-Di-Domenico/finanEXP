@@ -1,7 +1,9 @@
 using AutoMapper;
 using backend.DataBase;
+using backend.dtos;
 using backend.models;
 using backend.support.enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
@@ -20,6 +22,7 @@ public class DatabaseController : ControllerBase
   }
 
   [HttpGet]
+  [Authorize]
   public ActionResult<IEnumerable<UserReadDto>> GetAllUsers()
   {
     var usersList = _UserDatabase.GetAllUsers();
@@ -27,6 +30,7 @@ public class DatabaseController : ControllerBase
   }
 
   [HttpGet("{id}", Name = "GetUserByID")]
+  [Authorize]
   public ActionResult<UserReadDto> GetUserByID(int id)
   {
     var userItem = _UserDatabase.GetUserByID(id);
@@ -36,6 +40,7 @@ public class DatabaseController : ControllerBase
     }
     return NotFound();
   }
+
 
   [HttpPost("add")]
 
@@ -60,5 +65,18 @@ public class DatabaseController : ControllerBase
     }
 
   }
-
+  [HttpPut("{id}")]
+  [Authorize]
+  public ActionResult<UserReadDto> UpdateUser(int id, UserUpdateDto user)
+  {
+    var newUser = _UserDatabase.UpdateUser(id, user);
+    if (newUser != null)
+    {
+      return Ok(_Mapper.Map<UserReadDto>(newUser));
+    }
+    else
+    {
+      return NotFound();
+    }
+  }
 }

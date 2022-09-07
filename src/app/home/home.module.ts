@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -8,10 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 
-import { HomeComponent } from './components/view/home/home.component';
-import { MenuComponent } from './components/view/menu/menu.component';
-import { WalletsComponent } from './components/view/wallets/wallets.component';
-import { DashboardComponent } from './components/view/dashboard/dashboard.component';
+import { HomeComponent } from './pages/home/home.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { WalletsComponent } from './pages/wallets/wallets.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatListModule,
     MatButtonModule,
+    SharedModule,
 
     HomeRoutingModule
   ]

@@ -2,7 +2,7 @@ namespace backend.models
 {
   public class UserReadDto
   {
-    public int ID { get; set; }
+    public int ID { get; set; } = 0;
     
     public string name { get; set; } = "";
 

@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.models
+namespace backend.dtos
 {
-  public class UserOutput
+  public class UserUpdateDto
   {
-    public string ID { get; set; } = "";
+    [Required]
     public string name { get; set; } = "";
 
     [Required]
     public string email { get; set; } = "";
 
+    public string? password { get; set; } = "";
   }
 }

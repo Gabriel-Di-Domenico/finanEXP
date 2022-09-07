@@ -1,24 +1,26 @@
-import { Router } from '@angular/router';
-import JsonResult from '../../../support/interfaces/JsonResult.interface';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take, Subscription } from 'rxjs';
-import { UserInput } from '../../../support/interfaces/userInput.interface';
-import { AuthenticateProxyService } from './../../../proxys/authenticateProxys/authenticate.proxy.service';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
+import { take, Subscription } from 'rxjs';
+
+import { UserCrudProxysService } from './../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
+import JsonResult from '../../../shared/support/interfaces/JsonResult.interface';
+import UserInput from '../../../shared/support/interfaces/userInput.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticateService {
   constructor(
-    private httpClient: HttpClient,
-    private authenticateProxyService: AuthenticateProxyService,
-    private router: Router
+    private userCrudProxysService: UserCrudProxysService,
+    private router: Router,
+    private authenticateProxyService: AuthenticateProxyService
   ) { }
 
   registerNewUser(user: UserInput, callback?: Function): Subscription {
-    return this.authenticateProxyService.registerNewUserRequest(user)
+    return this.userCrudProxysService.createNewUserRequest(user)
       .pipe(
         take(1)
       )
