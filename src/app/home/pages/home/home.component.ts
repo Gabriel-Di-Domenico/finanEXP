@@ -8,7 +8,8 @@ import { UserHandlerService } from './../../../shared/handlers/user-handler.serv
 
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserCrudProxysService } from './../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
-import UserOutput  from './../../../shared/support/interfaces/userOutput.interface';
+import UserOutput from './../../../shared/support/interfaces/userOutput.interface';
+import { UserHandler } from 'src/app/shared/support/classes/user-handler';
 
 @Component({
   selector: 'app-home',
@@ -16,12 +17,11 @@ import UserOutput  from './../../../shared/support/interfaces/userOutput.interfa
   styleUrls: ['./home.component.css'],
 
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
   isExtended: boolean = false
   viewPortSizeObserver!: Subscription
-  currentUserId: string = ''
 
-  currentUser: UserOutput = {
+  override currentUser: UserOutput = {
     id: '',
     name: '',
     email: '',
@@ -33,10 +33,42 @@ export class HomeComponent implements OnInit, OnDestroy {
     private observer: BreakpointObserver,
     private route: ActivatedRoute,
     private userCrudProxysService: UserCrudProxysService,
-    private userHandlerService: UserHandlerService
-  ) { }
+    userHandlerService: UserHandlerService
+  ) {
+    super(userHandlerService)
+  }
+  override ngOnInitFunction(): void {
+    this.startViewPortSizeObserver()
 
-  ngOnInit(): void {
+    this.getCurrentUser()
+  }
+  override ngOnDestroyFunction(): void {
+    this.viewPortSizeObserver.unsubscribe()
+  }
+
+  private getCurrentUser() {
+    let currentUserId: string = ''
+
+    this.route.data
+      .pipe(
+        take(1)
+      )
+      .subscribe({
+        next: (data: any) => {
+          currentUserId = data['currentUserId']
+        }
+      })
+
+    this.userCrudProxysService.getUserByIdRequest(currentUserId)
+      .pipe(
+        take(1)
+      ).subscribe({
+        next: (data: UserOutput) => {
+          this.currentUser = data
+        }
+      })
+  }
+  private startViewPortSizeObserver() {
     this.viewPortSizeObserver = this.observer.observe(['(max-width:800px)']).subscribe((res: BreakpointState) => {
       if (res.matches) {
         this.isExtended = false
@@ -46,27 +78,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.sideNave?.open()
       }
     })
-    this.route.data.subscribe({
-      next: (data) => {
-        this.currentUserId = data['currentUserId']
-      }
-    })
-    this.userCrudProxysService.getUserByIdRequest(this.currentUserId)
-      .pipe(
-        take(1)
-      ).subscribe({
-        next: (data: UserOutput) => {
-          this.currentUser = data
-        }
-      })
-    this.userHandlerService.registerGetUser().subscribe({
-      next: (user: UserOutput) => {
-        this.currentUser = user
-      }
-    })
-  }
-  ngOnDestroy(): void {
-    this.viewPortSizeObserver.unsubscribe()
   }
 
 }

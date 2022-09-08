@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { take } from 'rxjs';
+import { take, Subscription } from 'rxjs';
 
 import { UserHandlerService } from '../../../../shared/handlers/user-handler.service';
 import User from '../../../../shared/support/interfaces/user.interface';
 import { UserCrudProxysService } from '../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import IProfileService from './IProfile.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileService {
+export class ProfileService implements IProfileService {
 
   constructor(
     private userCrudProxysService: UserCrudProxysService,
     private userHandlerService: UserHandlerService
-  ) { }
-  updateProfilePreferences(userId: string, user: User, callback?: Function) {
+  ) {}
+  updateProfilePreferences(userId: string, user: User, callback?: (err?: HttpErrorResponse) => void): void {
     this.userCrudProxysService.updateUserRequest(userId, user)
       .pipe(
         take(1)

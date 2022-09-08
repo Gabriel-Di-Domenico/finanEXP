@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { take } from 'rxjs';
 
 import { UserHandlerService } from '../../../../../shared/handlers/user-handler.service';
-import  UserOutput  from './../../../../../shared/support/interfaces/userOutput.interface';
+import UserOutput from './../../../../../shared/support/interfaces/userOutput.interface';
 import { UserCrudProxysService } from './../../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { UserHandler } from 'src/app/shared/support/classes/user-handler';
 
 @Component({
   selector: 'app-user-config',
   templateUrl: './user-config.component.html',
   styleUrls: ['./user-config.component.css']
 })
-export class UserConfigComponent implements OnInit {
+export class UserConfigComponent extends UserHandler implements OnInit, OnDestroy {
 
   currentUserId: string = ''
-  currentUser: UserOutput = {
+  override currentUser: UserOutput = {
     id: '',
     name: '',
     email: ''
@@ -24,10 +25,12 @@ export class UserConfigComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userCrudProxysService: UserCrudProxysService,
-    private userHandlerService: UserHandlerService
-  ) { }
+    userHandlerService: UserHandlerService
+  ) {
+    super(userHandlerService)
+  }
 
-  ngOnInit(): void {
+  override ngOnInitFunction(): void {
     this.route.data.subscribe({
       next: (data) => {
         this.currentUserId = data['currentUserId']
@@ -42,11 +45,6 @@ export class UserConfigComponent implements OnInit {
           this.currentUser = user
         }
       })
-    this.userHandlerService.registerGetUser().subscribe({
-      next: (user: UserOutput) => {
-        this.currentUser = user
-      }
-    })
   }
 
 }

@@ -25,11 +25,13 @@ export class AuthenticateFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticateService: AuthenticateService,
     private snackBarControlService: SnackBarControlService
-  ) {
+  ) { }
 
+  ngOnInit(): void {
+    this.createForms()
   }
 
-  changeForm(actualMatTab: MatTabChangeEvent) {
+  public changeForm(actualMatTab: MatTabChangeEvent) {
     if (actualMatTab.index === 0) {
       this.actualForm = this.loginForm
       this.notActualForm = this.registerForm
@@ -50,7 +52,45 @@ export class AuthenticateFormComponent implements OnInit {
     this.actualForm.enable()
     this.notActualForm.disable()
   }
-  ngOnInit(): void {
+
+  public submitRegisterForm() {
+    if (this.actualForm.status === 'VALID') {
+      
+      const userValues: UserInput = this.registerForm.value
+
+      this.authenticateService.createNewUser(userValues, (error?: HttpErrorResponse) => {
+        if (!error) {
+          this.snackBarControlService.showMessage("Usuário criado com sucesso", false)
+        } else {
+          if (error.error === Errors[0]) {
+            this.snackBarControlService.showMessage("Usuário já registrado", true)
+          } else {
+            this.snackBarControlService.showMessage("Erro ao registrar usuário", true)
+          }
+        }
+      })
+    } else {
+      this.showError()
+    }
+  }
+
+  public submitLoginForm() {
+    if (this.actualForm.status === 'VALID') {
+
+      const userValues: UserInput = this.loginForm.value
+
+      this.authenticateService.authUser(userValues, (error?: HttpErrorResponse) => {
+        if (!error) {
+          this.snackBarControlService.showMessage("Usuário autenticado", false)
+        } else {
+          this.snackBarControlService.showMessage("Usuário não autenticado, verifique os dados", true)
+        }
+      })
+
+    }
+  }
+
+  private createForms() {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
@@ -64,7 +104,7 @@ export class AuthenticateFormComponent implements OnInit {
     this.notActualForm = this.registerForm
   }
 
-  showError() {
+  private showError() {
     Object.keys(this.actualForm.controls).forEach((control: string) => {
       const formControl: AbstractControl<any> = this.actualForm.controls[control]
 
@@ -88,36 +128,5 @@ export class AuthenticateFormComponent implements OnInit {
       }
     })
   }
-  submitRegisterForm() {
-    if (this.actualForm.status === 'VALID') {
-      const userValues: UserInput = this.registerForm.value
-      this.authenticateService.registerNewUser(userValues, (error?: HttpErrorResponse) => {
-        if (!error) {
-          this.snackBarControlService.showMessage("Usuário criado com sucesso", false)
-        } else {
-          if (error.error === Errors[0]) {
-            this.snackBarControlService.showMessage("Usuário já registrado", true)
-          } else {
-            this.snackBarControlService.showMessage("Erro ao registrar usuário", true)
-          }
-        }
-      })
-    } else {
-      this.showError()
-    }
-  }
-  submitLoginForm() {
-    if (this.actualForm.status === 'VALID') {
-      const userValues: UserInput = this.loginForm.value
 
-      this.authenticateService.authUser(userValues, (error?: boolean) => {
-        if (!error) {
-          this.snackBarControlService.showMessage("Usuário autenticado", false)
-        } else {
-          this.snackBarControlService.showMessage("Usuário não autenticado, verifique os dados", true)
-        }
-      })
-
-    }
-  }
 }
