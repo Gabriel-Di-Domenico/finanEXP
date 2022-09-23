@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -8,13 +9,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 
-import { HomeComponent } from './components/view/home/home.component';
-import { MenuComponent } from './components/view/menu/menu.component';
-import { WalletsComponent } from './components/view/wallets/wallets.component';
-import { DashboardComponent } from './components/view/dashboard/dashboard.component';
-import { FormsModule } from '@angular/forms';
-import { UserConfigComponent } from './components/view/user-config/user-config.component';
-
+import { HomeComponent } from './home.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { WalletsComponent } from './pages/wallets/wallets.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { FormsModule} from '@angular/forms';
+import { UserPhotoEditorComponent } from './components/profile/userPhotoEditor/user-photo-editor/user-photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { UserConfigComponent } from './components/view/user-config/user-config.c
     MenuComponent,
     WalletsComponent,
     DashboardComponent,
-    UserConfigComponent
+    UserPhotoEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +31,7 @@ import { UserConfigComponent } from './components/view/user-config/user-config.c
     MatIconModule,
     MatListModule,
     MatButtonModule,
+    SharedModule,
 
     HomeRoutingModule
   ]

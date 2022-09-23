@@ -1,0 +1,19 @@
+<main>
+    <header>
+        <h1>Editar foto de perfil</h1>
+        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="closeUserPhotoEditor()"><mat-icon>clear</mat-icon></button>
+    </header>
+    <div id="photoOptions">
+
+        <app-perfil-photo [perfilPhoto]="perfilPhoto"></app-perfil-photo>
+
+        <div id="divButtons">
+            <button type="button" mat-raised-button (click)="fileInput.click()" color="primary">Fazer upload da imagem</button>
+            <button type="button" mat-raised-button (click)="removeImage()" color="primary" [disabled]="canRemove()">Remover imagem</button>
+            <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
+        </div>
+    </div>
+
+
+
+</main>

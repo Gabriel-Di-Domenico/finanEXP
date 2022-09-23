@@ -1,5 +1,7 @@
+using backend.dtos;
 using backend.models;
 using backend.services;
+using System.Text;
 
 namespace backend.DataBase
 {
@@ -52,6 +54,34 @@ namespace backend.DataBase
       if (users != null)
       {
         return users;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    public UserModel UpdateUser(int id, UserUpdateDto newUser)
+    {
+      var user = GetUserByID(id);
+
+      if (user != null)
+      {
+        if (newUser.perfilPhoto != null)
+        {
+          byte[] bytes = Encoding.UTF8.GetBytes(newUser.perfilPhoto);
+          user.perfilPhoto = bytes;
+        }
+
+        if (user.email != newUser.email || user.name != newUser.name)
+        {
+          user.email = newUser.email;
+          user.name = newUser.name;
+        }
+        
+        _Context.Update(user);
+        SaveChanges();
+        return user;
       }
       else
       {

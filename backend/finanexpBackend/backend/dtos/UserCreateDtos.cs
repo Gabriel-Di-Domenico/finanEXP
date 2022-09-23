@@ -6,7 +6,7 @@ namespace backend.models
   {
 
     [Required]
-    [MaxLength(256)]
+    [MaxLength(30)]
     public string name { get; set; } = "";
 
     

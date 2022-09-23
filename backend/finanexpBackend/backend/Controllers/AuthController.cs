@@ -46,15 +46,15 @@ namespace backend.Controllers
     }
     [HttpGet("verifyToken")]
     [Authorize]
-    public ActionResult<bool> VerifyToken()
+    public ActionResult<string> VerifyToken()
     {
       var Bearertoken = Request.Headers["Authorization"];
       
-      UserOutput user = TokenService.DeserializeToken(Bearertoken);
+      string userID = TokenService.DeserializeToken(Bearertoken);
 
-      if(user != null)
+      if(userID != null)
       {
-        return Ok(user);
+        return Ok(userID);
       }
       else
       {

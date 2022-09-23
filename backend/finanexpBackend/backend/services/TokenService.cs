@@ -17,10 +17,10 @@ namespace backend.services
       {
         Subject = new ClaimsIdentity(new Claim[]
         {
-          new Claim(ClaimTypes.Name,user.name.ToString()),
-          new Claim(ClaimTypes.Email,user.email.ToString()),
+          new Claim(ClaimTypes.NameIdentifier,user.ID.ToString()),
+
         }),
-        Expires = DateTime.UtcNow.AddMinutes(10),
+        Expires = DateTime.UtcNow.AddDays(7),
         SigningCredentials = new SigningCredentials(
           new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
       };
@@ -29,7 +29,7 @@ namespace backend.services
 
       return tokenHandler.WriteToken(token);
     }
-    public static UserOutput DeserializeToken(string token)
+    public static string DeserializeToken(string token)
     {
       if (token != null)
       {
@@ -40,21 +40,18 @@ namespace backend.services
         JwtSecurityToken decodedToken = handler.ReadJwtToken(token);
 
         var claims = decodedToken.Claims;
-
-        UserOutput user = new UserOutput();
+        ;
+        string userID = "";
 
         foreach (var claim in claims)
         {
-          if (claim.Type == "email")
+
+          if (claim.Type == "nameid")
           {
-            user.email = claim.Value;
-          }
-          else if (claim.Type == "unique_name")
-          {
-            user.name = claim.Value;
+            userID = claim.Value;
           }
         }
-        return user;
+        return userID;
       }
       else
       {

@@ -1,3 +1,4 @@
+import { UserResolverGuard } from './shared/guards/user-resolver.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -11,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard],
     canLoad: [AuthGuard],
-    resolve: { currentUser: AuthGuard }
+    resolve: { currentUserId: UserResolverGuard }
   },
 ];
 

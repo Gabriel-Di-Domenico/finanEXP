@@ -1,0 +1,60 @@
+main {
+    background-color: #dde5ff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main>div {
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+header {
+    display: flex;
+    height: 15%;
+}
+
+header>#user {
+    width: 50%;
+    height: 100%;
+    display: flex;
+}
+
+app-perfil-photo {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+
+header>#user>h1 {
+    margin: 0;
+    margin-left: 5%;
+    font-size: 2.3rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.div-nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+nav {
+    background-color: white;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    align-self: flex-end;
+}
