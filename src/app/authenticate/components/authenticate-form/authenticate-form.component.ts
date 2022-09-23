@@ -1,13 +1,13 @@
-import { SnackBarControlService } from '../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
-import { AuthenticateService } from './../../../services/authenticate-service/authenticate.service';
-import Errors from '../../../../shared/support/enums/Errors';
-import UserInput from '../../../../shared/support/interfaces/userInput.interface';
+import { AuthenticateService } from './../../services/authenticate-service/authenticate.service';
+import Errors from '../../../shared/support/enums/Errors';
+import UserInput from '../../../shared/support/interfaces/userInput.interface';
+import { SnackBarControlService } from '../../../shared/support/services/snackBarControl/snack-bar-control.service';
 
 @Component({
   selector: 'app-authenticate-form',

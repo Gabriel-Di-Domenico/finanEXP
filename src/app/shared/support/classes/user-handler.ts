@@ -1,14 +1,11 @@
 import { Subscription } from 'rxjs';
 import { UserHandlerService } from './../../handlers/user-handler.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnInit, OnDestroy,Inject} from '@angular/core';
 import UserOutput from '../interfaces/userOutput.interface';
-@Component({
-    selector: '',
-    template: ''
+@Injectable({
+    providedIn: 'root'
 })
 export class UserHandler implements OnInit, OnDestroy {
-
-    userHandlerService: UserHandlerService;
 
     handlerSubscription!: Subscription;
 
@@ -18,30 +15,31 @@ export class UserHandler implements OnInit, OnDestroy {
         email: '',
     }
     constructor(
-        userHandlerService: UserHandlerService,
+        private userHandlerService: UserHandlerService,
     ) {
-        this.userHandlerService = userHandlerService
+        
     }
     protected ngOnInitFunction(): void { }
     protected ngOnDestroyFunction(): void { }
-
+    protected afterListening():void {}
     ngOnInit(): void {
         this.ngOnInitFunction()
         this.listenHandler()
     }
     ngOnDestroy(): void {
         this.ngOnDestroyFunction()
-        this.destroyHandler
+        this.destroyHandler()
     }
     private listenHandler(): void {
         this.handlerSubscription = this.userHandlerService.registerGetUser().subscribe({
             next: (user: UserOutput) => {
                 this.currentUser = user
+                this.afterListening()
             }
         })
     };
     private destroyHandler(): void {
-        this.handlerSubscription.unsubscribe();
+        this.handlerSubscription.unsubscribe()
     }
 }
 

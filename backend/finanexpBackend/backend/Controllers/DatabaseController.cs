@@ -5,6 +5,7 @@ using backend.models;
 using backend.support.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace backend.Controllers;
 
@@ -69,14 +70,23 @@ public class DatabaseController : ControllerBase
   [Authorize]
   public ActionResult<UserReadDto> UpdateUser(int id, UserUpdateDto user)
   {
-    var newUser = _UserDatabase.UpdateUser(id, user);
-    if (newUser != null)
+    var userFromEmail = _UserDatabase.GetUserByEmail(user.email);
+
+    if (userFromEmail == null || userFromEmail.ID == id)
     {
-      return Ok(_Mapper.Map<UserReadDto>(newUser));
+      var newUser = _UserDatabase.UpdateUser(id, user);
+      if (newUser != null)
+      {
+        return Ok(_Mapper.Map<UserReadDto>(newUser));
+      }
+      else
+      {
+        return NotFound();
+      }
     }
     else
     {
-      return NotFound();
+      return BadRequest();
     }
   }
 }

@@ -21,7 +21,7 @@ import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProx
 })
 export class ProfileComponent implements OnInit {
 
-  profilePreferences!: FormGroup
+  form!: FormGroup
   currentUserId: string = ''
   currentUser: UserOutput = {
     id: '',
@@ -53,7 +53,7 @@ export class ProfileComponent implements OnInit {
       ).subscribe({
         next: (user: UserOutput) => {
           this.currentUser = user
-          this.profilePreferences.setValue(
+          this.form.setValue(
             {
               email: user.email,
               name: user.name
@@ -61,17 +61,24 @@ export class ProfileComponent implements OnInit {
           )
         }
       })
-    this.profilePreferences = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.maxLength(25)]],
-      email: [null, [Validators.email, Validators.required]]
+      email: [null, [Validators.email, Validators.required]],
     })
   }
+  canSave(){
+    return this.form.valid
+  }
   saveChanges() {
-    this.profileService.updateProfilePreferences(this.currentUser.id, this.profilePreferences.value, (err?: HttpErrorResponse) => {
+    this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (err?: HttpErrorResponse) => {
       if (!err) {
-        this.snackBarControlService.showMessage(`Sucesso`, false)
+        this.snackBarControlService.showMessage(`Preferências salvas com sucesso`, false)
       } else {
-        this.snackBarControlService.showMessage(`Erro`, true)
+        if(err.status === 401){
+          this.snackBarControlService.showMessage("Sessão expirada", true)
+        }else{
+          this.snackBarControlService.showMessage(`Erro ao modificar preferências`, true)
+        }
       }
     })
   }

@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace backend.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class AddMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +18,8 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    password = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false)
+                    password = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    perfilPhoto = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -20,7 +20,7 @@ namespace backend.services
           new Claim(ClaimTypes.NameIdentifier,user.ID.ToString()),
 
         }),
-        Expires = DateTime.UtcNow.AddMinutes(30),
+        Expires = DateTime.UtcNow.AddDays(7),
         SigningCredentials = new SigningCredentials(
           new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
       };

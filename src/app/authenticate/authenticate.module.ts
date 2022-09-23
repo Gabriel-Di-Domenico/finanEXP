@@ -12,8 +12,8 @@ import { MatInputModule } from '@angular/material/input'
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AuthenticateComponent } from './pages/authenticate/authenticate.component';
-import { AuthenticateFormComponent } from './pages/authenticate/authenticate-form/authenticate-form.component';
+import { AuthenticateComponent } from './authenticate.component';
+import { AuthenticateFormComponent } from './components/authenticate-form/authenticate-form.component';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({

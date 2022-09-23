@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Text;
+
 namespace backend.models
 {
   public class UserReadDto
@@ -8,5 +11,14 @@ namespace backend.models
 
     public string email { get; set; } = "";
 
+    public string? perfilPhoto { get; set; }
+
+    public UserReadDto(int iD, string name, string email, Byte[]? perfilPhoto)
+    {
+      this.ID = iD;
+      this.name = name;
+      this.email = email;
+      this.perfilPhoto = Encoding.UTF8.GetString(perfilPhoto);
+    }
   }
 }

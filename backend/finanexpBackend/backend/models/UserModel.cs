@@ -22,5 +22,7 @@ namespace backend.models
     [MaxLength(250)]
     public string password { get; set; } = "";
 
+    public Byte[]? perfilPhoto { get; set; }
+
   }
 }

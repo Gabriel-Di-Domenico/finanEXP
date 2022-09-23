@@ -2,16 +2,14 @@
     <div>
         <header>
             <div id="user">
-                <div id="userImage">
-                    <mat-icon>account_circle</mat-icon>
-                </div>
+                <app-perfil-photo (click)="openPerfilPhotoEditor()" [perfilPhoto]="perfilPhoto"></app-perfil-photo>
                 <h1>{{currentUser.name}}</h1>
             </div>
         </header>
         <div class="div-nav">
-            <nav mat-tab-nav-bar class="mat-elevation-z5">
+            <nav mat-tab-nav-bar class="mat-elevation-z5" color="primary">
                 <a mat-tab-link routerLink="profile" routerLinkActive="active">Perfil</a>
-                <a mat-tab-link routerLink="financeiro" routerLinkActive="active">Financeiro</a>
+                <a mat-tab-link routerLink="security" routerLinkActive="active">Segurança</a>
             </nav>
         </div>
         <router-outlet></router-outlet>

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { HomeComponent } from './pages/home/home.component';
+import { HomeComponent } from './home.component';
 import { WalletsComponent } from './pages/wallets/wallets.component';
 
 const routes: Routes = [

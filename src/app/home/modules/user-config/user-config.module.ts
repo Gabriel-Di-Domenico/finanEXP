@@ -11,7 +11,7 @@ import { UserRoutingModule } from './user-config.routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
 
-import { UserConfigComponent } from './pages/user-config/user-config.component';
+import { UserConfigComponent } from './user-config.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({

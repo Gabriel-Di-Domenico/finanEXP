@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -15,7 +16,8 @@ export class ProfileService implements IProfileService {
 
   constructor(
     private userCrudProxysService: UserCrudProxysService,
-    private userHandlerService: UserHandlerService
+    private userHandlerService: UserHandlerService,
+    private router:Router
   ) {}
   updateProfilePreferences(userId: string, user: User, callback?: (err?: HttpErrorResponse) => void): void {
     this.userCrudProxysService.updateUserRequest(userId, user)
@@ -30,6 +32,9 @@ export class ProfileService implements IProfileService {
           }
         },
         error: (err: HttpErrorResponse) => {
+          if(err.status === 401){
+            this.router.navigate(['auth'])
+          }
           if (callback) {
             callback(err)
           }

@@ -1,6 +1,7 @@
+import { SecurityComponent } from './pages/security/security.component';
 import { UserResolverGuard } from '../../../shared/guards/user-resolver.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { UserConfigComponent } from './pages/user-config/user-config.component'
+import { UserConfigComponent } from './user-config.component'
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -14,10 +15,9 @@ const routes: Routes = [
                 component: ProfileComponent,
                 resolve: { currentUserId: UserResolverGuard }
             },
-            { path: 'financeiro', component: ProfileComponent }
+            { path: 'security', component: SecurityComponent }
         ]
     }
-
 ];
 
 @NgModule({

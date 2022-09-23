@@ -11,5 +11,7 @@ namespace backend.dtos
     public string email { get; set; } = "";
 
     public string? password { get; set; } = "";
+
+    public string? perfilPhoto { get; set; }
   }
 }

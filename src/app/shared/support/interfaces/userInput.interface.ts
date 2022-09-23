@@ -1,5 +1,5 @@
-export default interface UserInput {
-    name?: String,
+export default interface UserInput{
+    name: String,
     email: String,
     password: String
 }

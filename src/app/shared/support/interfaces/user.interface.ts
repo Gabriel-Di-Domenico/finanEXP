@@ -1,6 +1,7 @@
 export default interface User {
-    id:number,
+    id: string,
     name: String,
     email: String,
-    password?: String
+    password?: String,
+    perfilPhoto?: string
 }

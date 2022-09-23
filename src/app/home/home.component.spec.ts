@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { MenuComponent } from '../menu/menu.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {

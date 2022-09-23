@@ -17,7 +17,6 @@ export class UserCrudProxysService implements IUserCrudProxysService {
   getUserByIdRequest(id: string): Observable<any> {
     const token = window.localStorage.getItem('fSSIdtkn')
     const httpHeaders: HttpHeaders = new HttpHeaders({ Authorization: `Bearer ${token}` })
-
     return this.httpClient.get(`http://localhost:51235/users/${id}`, { headers: httpHeaders })
   }
   updateUserRequest(userId: String, user: User): Observable<any> {
