@@ -1,0 +1,22 @@
+main {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main>header {
+    width: 90%;
+    height: 10%;
+    padding: 25px;
+    margin: 0;
+}
+
+main>header>h2 {
+    margin: 0;
+    font-size: 2rem;
+}

@@ -2,8 +2,7 @@ namespace backend.Messages
 {
   public class Message
   {
-    public bool succefull = false;
-    public string message = "";
-    
+    public bool error { get; set; } = false;
+    public string message { get; set; } = "";
   }
 }

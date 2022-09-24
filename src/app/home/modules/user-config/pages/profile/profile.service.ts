@@ -4,9 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { take, Subscription } from 'rxjs';
 
-import { UserHandlerService } from '../../../../shared/handlers/user-handler.service';
-import User from '../../../../shared/support/interfaces/user.interface';
-import { UserCrudProxysService } from '../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { UserHandlerService } from '../../../../../shared/handlers/user-handler.service';
+import User from '../../../../../shared/support/interfaces/user.interface';
+import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
 import IProfileService from './IProfile.service.interface';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class ProfileService implements IProfileService {
     private userHandlerService: UserHandlerService,
     private router:Router
   ) {}
-  updateProfilePreferences(userId: string, user: User, callback?: (err?: HttpErrorResponse) => void): void {
+  updateProfilePreferences(userId: string, user: User, callback?: Function): void {
     this.userCrudProxysService.updateUserRequest(userId, user)
       .pipe(
         take(1)

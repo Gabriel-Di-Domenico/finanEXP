@@ -1,1 +1,35 @@
-<p>security works!</p>
+<app-config-view title="Segurança">
+    <form [formGroup]="form" (ngSubmit)="saveChanges()">
+        <div class="first-div">
+            <mat-form-field class='mat-form-field' appearance="standard">
+                <mat-label>Senha atual</mat-label>
+                <input matInput [type]="showActualPassword ? 'text' : 'password'" formControlName="actualPassword">
+                <button type="button" mat-icon-button matSuffix (click)="showActualPassword= !showActualPassword" [attr.aria-label]="'Esconder senha'" [attr.aria-pressed]="showActualPassword">
+                    <mat-icon>{{showNewPassword? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field class='mat-form-field' appearance="standard">
+                <mat-label>Nova senha</mat-label>
+                <input matInput [type]="showNewPassword ? 'text' : 'password'" formControlName="newPassword" placeholder="Ex:aB@%3nbx">
+                <button type="button" mat-icon-button matSuffix (click)="showNewPassword= !showNewPassword" [attr.aria-label]="'Esconder senha'" [attr.aria-pressed]="showNewPassword">
+                    <mat-icon>{{showActualPassword? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field class='mat-form-field' appearance="standard">
+                <mat-label>Confirmar senha</mat-label>
+                <input matInput [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Ex:aB@%3nbx">
+                <button type="button" mat-icon-button matSuffix (click)="showConfirmPassword= !showConfirmPassword" [attr.aria-label]="'Esconder senha'" [attr.aria-pressed]="showConfirmPassword">
+                    <mat-icon>{{showConfirmPassword? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="second-div">
+            <button type="submit" id="submitButton" mat-raised-button color="primary" [disabled]="!canSave()">
+                Salvar alterações
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+    </form>
+</app-config-view>

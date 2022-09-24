@@ -18,17 +18,5 @@ namespace backend.services
       }
       return stringBuilder.ToString();
     }
-    public static bool Decrypt(string password, string dataBasePassword)
-    {
-      string encryptedPassword = Encrypt(password);
-      if (encryptedPassword == dataBasePassword)
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
-    }
   }
 }

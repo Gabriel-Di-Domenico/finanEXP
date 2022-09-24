@@ -8,9 +8,9 @@ namespace backend.services
     public static string AuthUser(UserAuthDto user, UserModel userFromDataBase)
     {
 
-      bool matchPassword = Bcrypt.Decrypt(user.password, userFromDataBase.password);
+      bool authenticatePassword = AuthenticatePasswords(user.password, userFromDataBase.password);
 
-      if (matchPassword)
+      if (authenticatePassword)
       {
         var token = TokenService.GenerateToken(userFromDataBase);
         return token;
@@ -18,6 +18,19 @@ namespace backend.services
       else
       {
         return null;
+      }
+    }
+    public static bool AuthenticatePasswords(string password, string passwordFromDataBase)
+    {
+      var encryptedPassword = Bcrypt.Encrypt(password);
+
+      if (encryptedPassword == passwordFromDataBase)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
       }
     }
   }
