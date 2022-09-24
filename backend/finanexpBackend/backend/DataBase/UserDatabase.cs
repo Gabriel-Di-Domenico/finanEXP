@@ -78,10 +78,31 @@ namespace backend.DataBase
           user.email = newUser.email;
           user.name = newUser.name;
         }
-        
+
         _Context.Update(user);
         SaveChanges();
         return user;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    public UserModel UpdateUserPassword(int id, UpdatePasswordDto passwordConfigs)
+    {
+      var userFromDatabase = GetUserByID(id);
+      var authenticatedPassword = AuthUserService.AuthenticatePasswords(passwordConfigs.ActualPassword, userFromDatabase.password);
+
+      if (authenticatedPassword)
+      {
+        var newUser = userFromDatabase;
+        var newPassword = Bcrypt.Encrypt(passwordConfigs.NewPassword);
+        newUser.password =  newPassword;
+
+        _Context.Update(newUser);
+        SaveChanges();
+        return newUser;
       }
       else
       {

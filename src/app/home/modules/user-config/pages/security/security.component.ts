@@ -1,10 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SecurityService } from './security.service';
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import UserPasswordDto  from 'src/app/shared/support/interfaces/userPasswordDto.interface';
+import UserPasswordDto from 'src/app/shared/support/interfaces/userPasswordDto.interface';
+import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Component({
   selector: 'app-security',
@@ -23,8 +25,8 @@ export class SecurityComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private snackBarControlService:SnackBarControlService,
-    private securityService:SecurityService
+    private snackBarControlService: SnackBarControlService,
+    private securityService: SecurityService
   ) { }
 
   ngOnInit(): void {
@@ -42,28 +44,34 @@ export class SecurityComponent implements OnInit {
   public canSave(): boolean {
     return this.form.valid
   }
-  public saveChanges() : void {
+
+  public saveChanges(): void {
     const actualPassword = this.form.get('actualPassword')?.value
     const newPassword = this.form.get('newPassword')?.value
     const confirmPassword = this.form.get('confirmPassword')?.value
-    if(this.verifyPasswords(newPassword,confirmPassword)){
-      const passwordConfigs:UserPasswordDto = {
+    
+    if (this.verifyPasswords(newPassword, confirmPassword)) {
+      const passwordConfigs: UserPasswordDto = {
         actualPassword,
         newPassword
       }
-      this.securityService.updateUserPassword(this.currentUserId, passwordConfigs)
-    }else{
+      this.securityService.updateUserPassword(this.currentUserId, passwordConfigs, (message: Message) => {
+        this.snackBarControlService.showMessage(message.message, message.error)
+      })
+    } else {
       this.snackBarControlService.showMessage('As senhas não correspondem', true)
     }
   }
-  private verifyPasswords(newPassword: string, confirmPassword:string):boolean {
+
+  private verifyPasswords(newPassword: string, confirmPassword: string): boolean {
     return newPassword === confirmPassword
   }
+
   private initForm(): void {
     this.form = this.formBuilder.group({
       actualPassword: [null, Validators.required],
-      newPassword: [null, [Validators.required,Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]],
-      confirmPassword: [null, [Validators.required,Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
+      newPassword: [null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]],
+      confirmPassword: [null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
     })
   }
 

@@ -1,6 +1,7 @@
 using AutoMapper;
 using backend.DataBase;
 using backend.dtos;
+using backend.Messages;
 using backend.models;
 using backend.support.enums;
 using Microsoft.AspNetCore.Authorization;
@@ -93,8 +94,27 @@ public class DatabaseController : ControllerBase
   [Authorize]
   public ActionResult UpdateUserPassword(int id, UpdatePasswordDto passwordConfigs)
   {
-    var user = _UserDatabase.GetUserByID(id);
-    Console.Write('a');
-    return Ok();
+    var newUser = _UserDatabase.UpdateUserPassword(id, passwordConfigs);
+    if(newUser != null)
+    {
+      var message = new Message
+      {
+        error = false,
+        message = "Senha alterada com sucesso"
+      };
+
+      return Ok(message);
+    }
+    else
+    {
+      var message = new Message
+      {
+        error = true,
+        message = "A senha atual está incorreta"
+      };
+
+      return BadRequest(message);
+    }
+   
   }
 }

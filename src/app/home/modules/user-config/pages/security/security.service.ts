@@ -3,9 +3,8 @@ import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProx
 import { Injectable } from '@angular/core';
 import ISecurityService from './ISecurity.service.interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import  UserPasswordDto  from 'src/app/shared/support/interfaces/userPasswordDto.interface';
-import User from 'src/app/shared/support/interfaces/user.interface';
-
+import UserPasswordDto from 'src/app/shared/support/interfaces/userPasswordDto.interface';
+import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +12,26 @@ import User from 'src/app/shared/support/interfaces/user.interface';
 export class SecurityService implements ISecurityService {
 
   constructor(
-    private userCrudProxysService:UserCrudProxysService
+    private userCrudProxysService: UserCrudProxysService
   ) { }
-  public updateUserPassword(userId: string, passwordConfigs: UserPasswordDto, callback?: Function){
-    this.userCrudProxysService.updateUserPasswordRequest(userId, passwordConfigs).pipe(take(1)).subscribe(
-      {
-        next:(data: User) => {
-          if(callback){
-            callback()
-          }
-        },
-        error:(err: HttpErrorResponse) => {
-          if(callback){
-            callback(err)
+  public updateUserPassword(userId: string, passwordConfigs: UserPasswordDto, callback?: Function) {
+    this.userCrudProxysService.updateUserPasswordRequest(userId, passwordConfigs)
+      .pipe(
+        take(1)
+      )
+      .subscribe(
+        {
+          next: (message: Message) => {
+            if (callback) {
+              callback(message)
+            }
+          },
+          error: (err: HttpErrorResponse) => {
+            if (callback) {
+              callback(err.error)
+            }
           }
         }
-      }
-    )
+      )
   };
 }
