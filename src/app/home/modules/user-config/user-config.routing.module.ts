@@ -15,7 +15,10 @@ const routes: Routes = [
                 component: ProfileComponent,
                 resolve: { currentUserId: UserResolverGuard }
             },
-            { path: 'security', component: SecurityComponent }
+            { 
+                path: 'security', 
+                component: SecurityComponent,
+                resolve: { currentUserId: UserResolverGuard } }
         ]
     }
 ];

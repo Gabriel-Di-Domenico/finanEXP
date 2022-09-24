@@ -1,14 +1,14 @@
-<main class="mat-elevation-z3">
+<app-config-view title="Perfil">
     <form [formGroup]="form" (ngSubmit)="saveChanges()">
         <div class="first-div">
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Nome de usuário</mat-label>
-                <input type='text' matInput formControlName="name">
+                <input matInput type='text' matInput formControlName="name">
 
             </mat-form-field>
             <mat-form-field class='mat-form-field' appearance="standard">
                 <mat-label>Email</mat-label>
-                <input type="text" matInput formControlName="email">
+                <input matInput type="text" matInput formControlName="email">
             </mat-form-field>
         </div>
         <div class="second-div">
@@ -18,4 +18,4 @@
             </button>
         </div>
     </form>
-</main>
+</app-config-view>

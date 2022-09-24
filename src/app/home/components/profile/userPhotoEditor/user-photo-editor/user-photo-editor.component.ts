@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { UserHandler } from './../../../../../shared/support/classes/user-handler';
-import { ProfileService } from './../../../../modules/user-config/services/profile.service';
+import { ProfileService } from '../../../../modules/user-config/pages/profile/profile.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service';

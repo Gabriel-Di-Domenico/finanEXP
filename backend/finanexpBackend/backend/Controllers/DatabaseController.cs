@@ -89,4 +89,12 @@ public class DatabaseController : ControllerBase
       return BadRequest();
     }
   }
+  [HttpPut("update-user/{id}")]
+  [Authorize]
+  public ActionResult UpdateUserPassword(int id, UpdatePasswordDto passwordConfigs)
+  {
+    var user = _UserDatabase.GetUserByID(id);
+    Console.Write('a');
+    return Ok();
+  }
 }

@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace backend.models
 {
   public class UserInput

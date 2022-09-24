@@ -7,7 +7,7 @@ import { take } from 'rxjs';
 
 import  UserOutput  from '../../../../../shared/support/interfaces/userOutput.interface';
 
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
 

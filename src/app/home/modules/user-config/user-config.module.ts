@@ -1,3 +1,5 @@
+import { SecurityComponent } from './pages/security/security.component';
+import { ConfigViewComponent } from './components/config-view/config-view.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +19,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [
     UserConfigComponent,
-    ProfileComponent
+    ProfileComponent,
+    SecurityComponent,
+    ConfigViewComponent
   ],
   imports: [
     CommonModule,
