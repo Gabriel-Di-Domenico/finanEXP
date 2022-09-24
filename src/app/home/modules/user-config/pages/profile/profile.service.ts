@@ -8,6 +8,7 @@ import { UserHandlerService } from '../../../../../shared/handlers/user-handler.
 import User from '../../../../../shared/support/interfaces/user.interface';
 import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
 import IProfileService from './IProfile.service.interface';
+import ResponseDto from 'src/app/shared/support/classes/responseDto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,10 @@ export class ProfileService implements IProfileService {
         take(1)
       )
       .subscribe({
-        next: (data: User) => {
+        next: (data: ResponseDto) => {
           this.userHandlerService.emit(userId)
           if (callback) {
-            callback()
+            callback(data.message)
           }
         },
         error: (err: HttpErrorResponse) => {
@@ -36,7 +37,7 @@ export class ProfileService implements IProfileService {
             this.router.navigate(['auth'])
           }
           if (callback) {
-            callback(err)
+            callback(err.error.message)
           }
         }
       })

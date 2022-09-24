@@ -45,7 +45,7 @@ builder.Services.AddCors(options =>
       
 });
 
-builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql("Host=localhost;Port=5432;Pooling=true;Database=finanEXP-development;User Id=postgres;Password=Nhonhoc3;"));
+builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database=finanEXP-development;User Id=postgres;Password={Settings.DatabasePassword};"));
 
 var app = builder.Build();
 

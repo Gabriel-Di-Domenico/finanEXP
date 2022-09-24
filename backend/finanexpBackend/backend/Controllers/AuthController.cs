@@ -1,7 +1,7 @@
 using AutoMapper;
 using backend.DataBase;
 using backend.dtos;
-using backend.models;
+using backend.Messages;
 using backend.services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,25 +22,49 @@ namespace backend.Controllers
     [HttpPost("user")]
     public ActionResult<dynamic> AuthenticateAsync([FromBody] UserAuthDto user)
     {
-      var UserModel = _Mapper.Map<UserModel>(user);
-      var userFromDatabase = _UserDatabase.GetUserByEmail(UserModel.email);
+      var userFromDatabase = _UserDatabase.GetUserByEmail(user.email);
+
+      var result = new AuthUserReturnDto();
 
       if (userFromDatabase != null)
       {
         string JWT = AuthUserService.AuthUser(user, userFromDatabase);
+
         if (JWT != null)
         {
-          var jsonWithJWT = new JsonResult(JWT);
-          return Ok(jsonWithJWT);
+
+          result.Message = new Message
+          {
+            error = false,
+            message = "Usuário autenticado"
+          };
+          result.JWT = JWT;
+
+          return Ok(result);
         }
         else
         {
-          return Unauthorized();
+          result.Message = new Message
+          {
+            error = true,
+            message = "Usuário não autorizado"
+          };
+          result.JWT = null;
+
+          return Unauthorized(result);
         }
       }
       else
       {
-        return Unauthorized();
+
+        result.Message = new Message
+        {
+          error = true,
+          message = "Usuário não autorizado"
+        };
+        result.JWT = null;
+
+        return Unauthorized(result);
       }
 
     }
@@ -49,18 +73,36 @@ namespace backend.Controllers
     public ActionResult<string> VerifyToken()
     {
       var Bearertoken = Request.Headers["Authorization"];
-      
+
+      var result = new VerifyTokenReturnDto();
+
       string userID = TokenService.DeserializeToken(Bearertoken);
 
-      if(userID != null)
+      if (userID != null)
       {
-        return Ok(userID);
+
+        result.Message = new Message
+        {
+          error = false,
+          message = "Token válido"
+        };
+        result.Token = userID;
+
+        return Ok(result);
       }
       else
       {
-        return Ok(false);
+
+        result.Message = new Message
+        {
+          error = true,
+          message = "Token inválido"
+        };
+        result.Token = null;
+
+        return Ok(result);
       }
-      
+
     }
   }
 }

@@ -1,4 +1,4 @@
-import { UserPhotoEditorComponent } from '../../components/profile/userPhotoEditor/user-photo-editor/user-photo-editor.component';
+import { UserPhotoEditorComponent } from '../../components/profile/userPhotoEditor/user-photo-editor.component';
 import { DialogControlService } from '../../../shared/support/services/dialogControl/dialog-control.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { UserHandlerService } from '../../../shared/handlers/user-handler.servic
 import UserOutput from '../../../shared/support/interfaces/userOutput.interface';
 import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
 import { UserHandler } from 'src/app/shared/support/classes/user-handler';
+import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
 
 @Component({
   selector: 'app-user-config',
@@ -32,7 +33,7 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
   override ngOnInitFunction(): void {
     this.route.data.subscribe({
       next: (data) => {
-        this.currentUserId = data['currentUserId']
+        this.currentUserId = data['currentUserId'].token
       }
     })
     this.userCrudProxysService.getUserByIdRequest(this.currentUserId)
@@ -40,8 +41,8 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
         take(1)
       )
       .subscribe({
-        next: (user: UserOutput) => {
-          this.currentUser = user
+        next: (data: ResponseGetUserByIdDto) => {
+          this.currentUser = data.user
           this.getPerfilPhoto()
         }
       })

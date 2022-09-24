@@ -3,10 +3,8 @@ using backend.DataBase;
 using backend.dtos;
 using backend.Messages;
 using backend.models;
-using backend.support.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace backend.Controllers;
 
@@ -23,33 +21,40 @@ public class DatabaseController : ControllerBase
     _Mapper = mapper;
   }
 
-  [HttpGet]
-  [Authorize]
-  public ActionResult<IEnumerable<UserReadDto>> GetAllUsers()
-  {
-    var usersList = _UserDatabase.GetAllUsers();
-    return Ok(_Mapper.Map<IEnumerable<UserReadDto>>(usersList));
-  }
-
   [HttpGet("{id}", Name = "GetUserByID")]
   [Authorize]
-  public ActionResult<UserReadDto> GetUserByID(int id)
+  public ActionResult<UserReadDto> GetUserByID([FromRoute] int id)
   {
     var userItem = _UserDatabase.GetUserByID(id);
+    var result = new GetUserByIdReturnDto();
     if (userItem != null)
     {
-      return Ok(_Mapper.Map<UserReadDto>(userItem));
+      result.Message = new Message
+      {
+        error = false,
+        message = "Sucesso"
+      };
+      result.User = _Mapper.Map<UserReadDto>(userItem);
+
+      return Ok(result);
     }
-    return NotFound();
+    result.Message = new Message
+    {
+      error = true,
+      message = "Falha"
+    };
+    return NotFound(result);
   }
 
 
   [HttpPost("add")]
 
-  public ActionResult<UserReadDto> CreateUser(UserCreateDto user)
+  public ActionResult<UserReadDto> CreateUser([FromBody] UserCreateDto user)
   {
     var UserModel = _Mapper.Map<UserModel>(user);
     var verifyUserModel = _UserDatabase.GetUserByEmail(UserModel.email);
+
+    var result = new ReturnDto();
 
     if (verifyUserModel == null)
     {
@@ -58,63 +63,93 @@ public class DatabaseController : ControllerBase
 
       var userReadDto = _Mapper.Map<UserReadDto>(UserModel);
 
-      return CreatedAtRoute(nameof(GetUserByID), new { Id = userReadDto.ID }, userReadDto); ;
+      result.Message = new Message
+      {
+        error = false,
+        message = "Usuário criado com sucesso"
+      };
+      
+      return Created("", result);
     }
     else
     {
-      var error = EnumerableErrors.userRegistred.ToString();
-      return BadRequest(error);
+        result.Message = new Message
+        {
+          error = true,
+          message = "Usuário já registrado"
+        };
+      return BadRequest(result);
     }
 
   }
   [HttpPut("{id}")]
   [Authorize]
-  public ActionResult<UserReadDto> UpdateUser(int id, UserUpdateDto user)
+  public ActionResult<UserReadDto> UpdateUser([FromRoute] int id, [FromBody] UserUpdateDto user)
   {
     var userFromEmail = _UserDatabase.GetUserByEmail(user.email);
+
+    var result = new ReturnDto();
 
     if (userFromEmail == null || userFromEmail.ID == id)
     {
       var newUser = _UserDatabase.UpdateUser(id, user);
       if (newUser != null)
       {
-        return Ok(_Mapper.Map<UserReadDto>(newUser));
+        result.Message = new Message
+        {
+          error = false,
+          message = "Preferências salvas com sucesso"
+        };
+        return Ok(result);
       }
       else
       {
-        return NotFound();
+        result.Message = new Message
+        {
+          error = true,
+          message = "Erro ao modificar preferências"
+        };
+        return NotFound(result);
       }
     }
     else
     {
-      return BadRequest();
+      result.Message = new Message
+      {
+        error = true,
+        message = "Email já em uso"
+      };
+      return BadRequest(result);
     }
   }
   [HttpPut("update-user/{id}")]
   [Authorize]
-  public ActionResult UpdateUserPassword(int id, UpdatePasswordDto passwordConfigs)
+  public ActionResult UpdateUserPassword([FromRoute] int id, [FromBody] UpdatePasswordDto passwordConfigs)
   {
     var newUser = _UserDatabase.UpdateUserPassword(id, passwordConfigs);
-    if(newUser != null)
+
+    var result = new ReturnDto();
+
+    if (newUser != null)
     {
-      var message = new Message
+      result.Message = new Message
       {
         error = false,
         message = "Senha alterada com sucesso"
       };
 
-      return Ok(message);
+      return Ok(result);
     }
     else
     {
-      var message = new Message
+      result.Message = new Message
       {
         error = true,
         message = "A senha atual está incorreta"
       };
 
-      return BadRequest(message);
+      return BadRequest(result);
     }
-   
+
   }
 }

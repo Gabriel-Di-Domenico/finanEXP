@@ -1,7 +1,8 @@
+import  ResponseGetUserByIdDto  from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import  Message  from 'src/app/shared/support/interfaces/message.interface';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
 
 import { take } from 'rxjs';
 
@@ -44,19 +45,19 @@ export class ProfileComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          this.currentUserId = data['currentUserId']
+          this.currentUserId = data['currentUserId'].token
         }
       })
     this.userCrudProxysService.getUserByIdRequest(this.currentUserId)
       .pipe(
         take(1)
       ).subscribe({
-        next: (user: UserOutput) => {
-          this.currentUser = user
+        next: (data: ResponseGetUserByIdDto) => {
+          this.currentUser = data.user
           this.form.setValue(
             {
-              email: user.email,
-              name: user.name
+              email: data.user.email,
+              name: data.user.name
             }
           )
         }
@@ -70,16 +71,8 @@ export class ProfileComponent implements OnInit {
     return this.form.valid
   }
   saveChanges() {
-    this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (err?: HttpErrorResponse) => {
-      if (!err) {
-        this.snackBarControlService.showMessage(`Preferências salvas com sucesso`, false)
-      } else {
-        if(err.status === 401){
-          this.snackBarControlService.showMessage("Sessão expirada", true)
-        }else{
-          this.snackBarControlService.showMessage(`Erro ao modificar preferências`, true)
-        }
-      }
+    this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (message: Message) => {
+      this.snackBarControlService.showMessage(message.message, message.error)
     })
   }
 

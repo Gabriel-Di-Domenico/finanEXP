@@ -8,6 +8,7 @@ import { AuthenticateService } from './../../services/authenticate-service/authe
 import Errors from '../../../shared/support/enums/Errors';
 import UserInput from '../../../shared/support/interfaces/userInput.interface';
 import { SnackBarControlService } from '../../../shared/support/services/snackBarControl/snack-bar-control.service';
+import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Component({
   selector: 'app-authenticate-form',
@@ -52,41 +53,26 @@ export class AuthenticateFormComponent implements OnInit {
     this.actualForm.enable()
     this.notActualForm.disable()
   }
-
+  public canSave():boolean{
+    return this.actualForm.valid
+  }
   public submitRegisterForm() {
-    if (this.actualForm.status === 'VALID') {
-      
-      const userValues: UserInput = this.registerForm.value
+   if(this.canSave()){
+    const userValues: UserInput = this.registerForm.value
 
-      this.authenticateService.createNewUser(userValues, (error?: HttpErrorResponse) => {
-        if (!error) {
-          this.snackBarControlService.showMessage("Usuário criado com sucesso", false)
-        } else {
-          if (error.error === Errors[0]) {
-            this.snackBarControlService.showMessage("Usuário já registrado", true)
-          } else {
-            this.snackBarControlService.showMessage("Erro ao registrar usuário", true)
-          }
-        }
-      })
-    } else {
-      this.showError()
-    }
+    this.authenticateService.createNewUser(userValues, (message: Message) => {
+      this.snackBarControlService.showMessage(message.message,message.error)
+    })
+   } 
   }
 
   public submitLoginForm() {
-    if (this.actualForm.status === 'VALID') {
-
+    if (this.canSave()) {
       const userValues: UserInput = this.loginForm.value
 
-      this.authenticateService.authUser(userValues, (error?: HttpErrorResponse) => {
-        if (!error) {
-          this.snackBarControlService.showMessage("Usuário autenticado", false)
-        } else {
-          this.snackBarControlService.showMessage("Usuário não autenticado, verifique os dados", true)
-        }
+      this.authenticateService.authUser(userValues, (message: Message) => {
+        this.snackBarControlService.showMessage(message.message,message.error)
       })
-
     }
   }
 
@@ -102,31 +88,6 @@ export class AuthenticateFormComponent implements OnInit {
     })
     this.actualForm = this.loginForm
     this.notActualForm = this.registerForm
-  }
-
-  private showError() {
-    Object.keys(this.actualForm.controls).forEach((control: string) => {
-      const formControl: AbstractControl<any> = this.actualForm.controls[control]
-
-      if (formControl.status === 'INVALID') {
-        switch (control) {
-          case 'name': {
-            this.snackBarControlService.showMessage('Nome inválido', true)
-          } break
-          case 'email': {
-            this.snackBarControlService.showMessage('Email inválido', true)
-          } break
-          case 'password': {
-
-            if (this.actualForm === this.loginForm) {
-              this.snackBarControlService.showMessage('Senha inválida', true)
-            } else {
-              this.snackBarControlService.showMessage('A senha deve possuir: mínimo de 8 caracteres, um caractere especial,um número, uma letra maiúscula e uma letra minúscula', true)
-            }
-          }
-        }
-      }
-    })
   }
 
 }
