@@ -45,6 +45,7 @@ header>#user>h1 {
     font-weight: 500;
     display: flex;
     align-items: center;
+    white-space: nowrap;
 }
 
 .div-nav {

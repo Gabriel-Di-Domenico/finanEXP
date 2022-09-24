@@ -6,6 +6,10 @@ mat-sidenav-content {
     background-color: var(--main-color);
 }
 
+mat-sidenav.mat-sidenav {
+    width: 13%;
+}
+
 #chevronButton {
     position: absolute;
     left: 1%;
