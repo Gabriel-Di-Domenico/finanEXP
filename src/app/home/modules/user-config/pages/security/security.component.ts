@@ -36,7 +36,7 @@ export class SecurityComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          this.currentUserId = data['currentUserId']
+          this.currentUserId = data['currentUserId'].token
         }
       })
     this.initForm()

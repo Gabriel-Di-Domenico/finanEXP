@@ -1,5 +1,6 @@
+import { AuthenticateProxyService } from './../../../proxys/authenticateProxys/authenticate.proxy.service';
 import { Observable, tap } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import IVerifyTokenService from './IVerify-token.service.interface';
@@ -10,14 +11,10 @@ import IVerifyTokenService from './IVerify-token.service.interface';
 export class VerifyTokenService implements IVerifyTokenService {
   constructor(
     private router: Router,
-    private http: HttpClient
+    private authenticateProxyService:AuthenticateProxyService
   ) { }
   verifyToken(): Observable<any> {
-    const token = window.localStorage.getItem('fSSIdtkn')
-
-    const httpHeaders: HttpHeaders = new HttpHeaders({ Authorization: `Bearer ${token}` })
-
-    return this.http.get('http://localhost:51235/auth/verifyToken', { headers: httpHeaders })
+    return this.authenticateProxyService.verifyTokenRequest()
       .pipe(
         tap({
           error: (e: HttpErrorResponse) => {

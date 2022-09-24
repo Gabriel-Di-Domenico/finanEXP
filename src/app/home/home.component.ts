@@ -10,6 +10,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { UserCrudProxysService } from '../shared/proxys/userCrudProxys/user-crud-proxys.service';
 import UserOutput from '../shared/support/interfaces/userOutput.interface';
 import { UserHandler } from 'src/app/shared/support/classes/user-handler';
+import ResponseVerifyTokenDto from '../shared/support/classes/responseVerifyTokenDto';
+import ResponseGetUserByIdDto from '../shared/support/classes/responseGetUserByIdDto';
 
 @Component({
   selector: 'app-home',
@@ -55,7 +57,7 @@ export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (data: any) => {
-          currentUserId = data['currentUserId']
+          currentUserId = data['currentUserId'].token
         }
       })
 
@@ -63,8 +65,8 @@ export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
       .pipe(
         take(1)
       ).subscribe({
-        next: (data: UserOutput) => {
-          this.currentUser = data
+        next: (data: ResponseGetUserByIdDto) => {
+          this.currentUser = data.user
         }
       })
   }

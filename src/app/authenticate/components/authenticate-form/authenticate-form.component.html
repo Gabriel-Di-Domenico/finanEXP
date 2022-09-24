@@ -14,7 +14,7 @@
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
-            <button type="submit" id="submitButton" mat-raised-button color="primary">
+            <button type="submit" id="submitButton" mat-raised-button color="primary" [disabled]="!canSave()">
                 Logar
                 <mat-icon>send</mat-icon>
             </button>
@@ -41,7 +41,7 @@
                     <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
-            <button type="submit" id="submitButton" mat-raised-button color="primary">
+            <button type="submit" id="submitButton" mat-raised-button color="primary" [disabled]="!canSave()">
                 Registrar
                 <mat-icon>send</mat-icon>
             </button>

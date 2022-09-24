@@ -1,12 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import { UserHandler } from './../../../../../shared/support/classes/user-handler';
-import { ProfileService } from '../../../../modules/user-config/pages/profile/profile.service';
+import { SnackBarControlService } from '../../../../shared/support/services/snackBarControl/snack-bar-control.service';
+import { UserHandler } from '../../../../shared/support/classes/user-handler';
+import { ProfileService } from '../../../modules/user-config/pages/profile/profile.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service';
 import UserOutput from 'src/app/shared/support/interfaces/userOutput.interface';
 import User from 'src/app/shared/support/interfaces/user.interface';
+import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Component({
   selector: 'app-user-photo-editor',
@@ -46,22 +47,13 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-
-
         if (archiveType === "image/jpeg" || archiveType === "image/png") {
           const arr = new Uint8Array(e.target?.result);
           const currentUser = <User>this.currentUser
 
           currentUser.perfilPhoto = arr.toString()
 
-          this.profileService.updateProfilePreferences(`${this.currentUser.id}`, currentUser, (err?: HttpErrorResponse) => {
-            if (!err) {
-              this.snackBarControlService.showMessage("Imagem salva com sucesso", false,)
-            } else if (err.status === 401) {
-              this.snackBarControlService.showMessage("Sessão expirada", true)
-              this.closeUserPhotoEditor()
-            }
-          })
+          this.saveChanges()
         } else {
           this.snackBarControlService.showMessage("Apenas arquivos jpeg e png são suportados", true)
         }
@@ -84,11 +76,13 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
     const currentUser = <User>this.currentUser
     currentUser.perfilPhoto = ''
 
-    this.profileService.updateProfilePreferences(`${this.currentUser.id}`, <User>this.currentUser, (err?: HttpErrorResponse) => {
-      if (!err) {
-        this.snackBarControlService.showMessage("Imagem removida com sucesso", false)
-      } else if (err.status === 401) {
-        this.snackBarControlService.showMessage("Sessão expirada", true)
+    this.saveChanges()
+    
+  }
+  private saveChanges(){
+    this.profileService.updateProfilePreferences(`${this.currentUser.id}`, <User>this.currentUser, (message: Message) => {
+      this.snackBarControlService.showMessage(message.message, message.error)
+      if(message.error){
         this.closeUserPhotoEditor()
       }
     })
