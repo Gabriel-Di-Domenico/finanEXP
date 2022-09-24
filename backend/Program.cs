@@ -38,11 +38,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy("corsPolicy",build =>
+  options.AddPolicy("corsPolicy", build =>
   {
     build.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
   });
-      
+
 });
 
 builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database=finanEXP-development;User Id=postgres;Password={Settings.DatabasePassword};"));
