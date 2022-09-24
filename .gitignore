@@ -176,4 +176,4 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
-backend/finanexpBackend/backend/Settings.cs
+backend/finanexpBackend/backend/.Settings.cs
