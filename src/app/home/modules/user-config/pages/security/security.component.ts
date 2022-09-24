@@ -58,6 +58,7 @@ export class SecurityComponent implements OnInit {
       this.securityService.updateUserPassword(this.currentUserId, passwordConfigs, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error)
       })
+      this.form.reset()
     } else {
       this.snackBarControlService.showMessage('As senhas não correspondem', true)
     }
