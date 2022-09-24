@@ -30,3 +30,9 @@ mat-nav-list>div {
 #userConfig {
     font-weight: 600;
 }
+
+.menu-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
