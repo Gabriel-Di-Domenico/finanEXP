@@ -4,7 +4,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, take } from 'rxjs';
 
 import { UserCrudProxysService } from '../proxys/userCrudProxys/user-crud-proxys.service';
-import UserOutput from '../support/interfaces/userOutput.interface';
 import IUserHandlerService from './IUser-handler.service.interface';
 
 @Injectable({

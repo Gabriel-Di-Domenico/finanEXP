@@ -24,6 +24,12 @@ header>#user {
     width: 50%;
     height: 100%;
     display: flex;
+    align-items: center;
+}
+
+header>div#user>button#logoutButton {
+    margin-left: 10px;
+    margin-top: 5px;
 }
 
 app-perfil-photo {
