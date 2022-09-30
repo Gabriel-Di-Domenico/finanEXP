@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 
 import { UserHandlerService } from '../../../shared/handlers/user-handler.service';
-import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud.proxys.service';
 import { UserHandler } from 'src/app/shared/support/classes/user-handler';
 import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
 

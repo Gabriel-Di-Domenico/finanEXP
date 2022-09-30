@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { take } from 'rxjs';
 
-import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud.proxys.service';
 import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
 import JsonResult from '../../../shared/support/interfaces/JsonResult.interface';
 import UserInput from '../../../shared/support/interfaces/userInput.interface';
