@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using backend.DataBase;
+using backend.Contexts;
 
 #nullable disable
 
 namespace backend.Migrations
 {
-    [DbContext(typeof(UserContext))]
+  [DbContext(typeof(UserContext))]
     [Migration("20220923001703_AddMigrations")]
     partial class AddMigrations
     {

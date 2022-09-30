@@ -1,6 +1,7 @@
+import { UserConfigProxyService } from './../../../../../shared/proxys/user-config-proxys/user-config.proxy.service';
 import  ResponseDto  from 'src/app/shared/support/classes/responseDto';
 import { take } from 'rxjs';
-import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+
 import { Injectable } from '@angular/core';
 import ISecurityService from './ISecurity.service.interface';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,10 +13,10 @@ import UserPasswordDto from 'src/app/shared/support/interfaces/userPasswordDto.i
 export class SecurityService implements ISecurityService {
 
   constructor(
-    private userCrudProxysService: UserCrudProxysService
+    private userConfigProxyService:UserConfigProxyService
   ) { }
   public updateUserPassword(userId: string, passwordConfigs: UserPasswordDto, callback?: Function) {
-    this.userCrudProxysService.updateUserPasswordRequest(userId, passwordConfigs)
+    this.userConfigProxyService.updateUserPasswordRequest(userId, passwordConfigs)
       .pipe(
         take(1)
       )

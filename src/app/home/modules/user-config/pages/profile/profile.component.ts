@@ -10,7 +10,7 @@ import  UserOutput  from '../../../../../shared/support/interfaces/userOutput.in
 
 import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud.proxys.service';
 
 @Component({
   selector: 'app-profile',

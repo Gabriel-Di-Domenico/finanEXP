@@ -7,10 +7,9 @@ import { Subscription, take } from 'rxjs';
 import { UserHandlerService } from '../shared/handlers/user-handler.service';
 
 import { MatSidenav } from '@angular/material/sidenav';
-import { UserCrudProxysService } from '../shared/proxys/userCrudProxys/user-crud-proxys.service';
+import { UserCrudProxysService } from '../shared/proxys/userCrudProxys/user-crud.proxys.service';
 import UserOutput from '../shared/support/interfaces/userOutput.interface';
 import { UserHandler } from 'src/app/shared/support/classes/user-handler';
-import ResponseVerifyTokenDto from '../shared/support/classes/responseVerifyTokenDto';
 import ResponseGetUserByIdDto from '../shared/support/classes/responseGetUserByIdDto';
 
 @Component({

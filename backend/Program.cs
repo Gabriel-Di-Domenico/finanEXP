@@ -1,5 +1,7 @@
 using backend;
-using backend.DataBase;
+using backend.Contexts;
+using backend.Shared.Users.Services;
+using backend.UserSettings.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -33,7 +35,8 @@ builder.Services.AddAuthentication(x =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddScoped<IDataUser, UserDatabase>();
+builder.Services.AddScoped<IUserDatabaseService, UserDatabaseService>();
+builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -45,7 +48,7 @@ builder.Services.AddCors(options =>
 
 });
 
-builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database=finanEXP-development;User Id=postgres;Password={Settings.DatabasePassword};"));
+builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database={Settings.DataBaseName};User Id=postgres;Password={Settings.DatabasePassword};"));
 
 var app = builder.Build();
 
