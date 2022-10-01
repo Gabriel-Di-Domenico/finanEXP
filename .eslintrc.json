@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "quotes": ["error", "single"],
+    "indent": ["error", 2],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "no-debugger": "error",
+    "no-console": "error",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "no-irregular-whitespace": "error",
+    "no-self-assign": "error",
+    "no-self-compare": "error",
+    "no-this-before-super": "error",
+    "no-unreachable": "warn",
+    "no-empty": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "arrow-spacing": "warn",
+    "default-case": "error",
+    "eqeqeq": ["error", "always"],
+    "max-classes-per-file": ["error", 1],
+    "max-params": ["error", 4],
+    "no-alert": "error",
+    "no-extra-semi": "error",
+    "no-invalid-this": "error",
+    "no-undef-init": "error",
+    "no-var": "error",
+    "prefer-template":"error",
+    "require-await":"error",
+    "spaced-comment":"warn",
+    "yoda":"warn",
+    "array-bracket-newline":"warn",
+    "no-multi-spaces":"warn",
+    "no-trailing-spaces":"error",
+    "no-multiple-empty-lines":["warn",{"max":1}],
+    "object-curly-spacing":["warn", "always"],
+    "semi":["warn","always"],
+    "max-len":["warn",{"code": 125}]
+  }
+}

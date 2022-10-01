@@ -15,12 +15,13 @@ import Message from 'src/app/shared/support/interfaces/message.interface';
   templateUrl: './authenticate-form.component.html',
   styleUrls: ['./styles/authenticate-form.component.css']
 })
+
 export class AuthenticateFormComponent implements OnInit {
-  showPassword: boolean = false
-  loginForm!: FormGroup
-  registerForm!: FormGroup
-  actualForm!: FormGroup
-  notActualForm!: FormGroup
+  showPassword = false;
+  loginForm!: FormGroup;
+  registerForm!: FormGroup;
+  actualForm!: FormGroup;
+  notActualForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,50 +30,50 @@ export class AuthenticateFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.createForms()
+    this.createForms();
   }
 
   public changeForm(actualMatTab: MatTabChangeEvent) {
     if (actualMatTab.index === 0) {
-      this.actualForm = this.loginForm
-      this.notActualForm = this.registerForm
+      this.actualForm = this.loginForm;
+      this.notActualForm = this.registerForm;
     } else {
-      this.actualForm = this.registerForm
-      this.notActualForm = this.loginForm
+      this.actualForm = this.registerForm;
+      this.notActualForm = this.loginForm;
     }
 
-    const name = this.notActualForm.value.name
-    const email = this.notActualForm.value.email
-    const password = this.notActualForm.value.password
+    const name = this.notActualForm.value.name;
+    const email = this.notActualForm.value.email;
+    const password = this.notActualForm.value.password;
 
     this.actualForm.patchValue({
       name,
       email,
       password
-    })
-    this.actualForm.enable()
-    this.notActualForm.disable()
+    });
+    this.actualForm.enable();
+    this.notActualForm.disable();
   }
   public canSave():boolean{
-    return this.actualForm.valid
+    return this.actualForm.valid;
   }
   public submitRegisterForm() {
-   if(this.canSave()){
-    const userValues: UserInput = this.registerForm.value
+    if(this.canSave()){
+      const userValues: UserInput = this.registerForm.value;
 
-    this.authenticateService.createNewUser(userValues, (message: Message) => {
-      this.snackBarControlService.showMessage(message.message,message.error)
-    })
-   } 
+      this.authenticateService.createNewUser(userValues, (message: Message) => {
+        this.snackBarControlService.showMessage(message.message, message.error);
+      });
+    }
   }
 
   public submitLoginForm() {
     if (this.canSave()) {
-      const userValues: UserInput = this.loginForm.value
+      const userValues: UserInput = this.loginForm.value;
 
       this.authenticateService.authUser(userValues, (message: Message) => {
-        this.snackBarControlService.showMessage(message.message,message.error)
-      })
+        this.snackBarControlService.showMessage(message.message, message.error);
+      });
     }
   }
 
@@ -80,14 +81,14 @@ export class AuthenticateFormComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
-    })
+    });
     this.registerForm = this.formBuilder.group({
       name: [null, [Validators.required, Validators.maxLength(25)]],
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
-    })
-    this.actualForm = this.loginForm
-    this.notActualForm = this.registerForm
+    });
+    this.actualForm = this.loginForm;
+    this.notActualForm = this.registerForm;
   }
 
 }
