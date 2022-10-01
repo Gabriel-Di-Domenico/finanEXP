@@ -46,6 +46,7 @@
     "no-trailing-spaces":"error",
     "no-multiple-empty-lines":["warn",{"max":1}],
     "object-curly-spacing":["warn", "always"],
-    "semi":["warn","always"]
+    "semi":["warn","always"],
+    "max-len":["warn",{"code": 125}]
   }
 }
