@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { securitySettingsFormConstrols } from './securitySettingsFormConstrols';
 import { take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SecurityService } from './security.service';
@@ -13,8 +13,8 @@ import Message from 'src/app/shared/support/interfaces/message.interface';
   templateUrl: './security.component.html',
   styleUrls: ['./security.component.css'],
   host: {
-    class: 'h-100 w-100'
-  }
+    class: 'h-100 w-100',
+  },
 })
 export class SecurityComponent implements OnInit {
   private currentUserId = '';
@@ -22,23 +22,21 @@ export class SecurityComponent implements OnInit {
   public showNewPassword = false;
   public showActualPassword = false;
   public showConfirmPassword = false;
+  public securitySettingsFormConstrols = securitySettingsFormConstrols;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private snackBarControlService: SnackBarControlService,
     private securityService: SecurityService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.data
-      .pipe(
-        take(1)
-      )
-      .subscribe({
-        next: (data) => {
-          this.currentUserId = data['currentUserId'].token;
-        }
-      });
+    this.route.data.pipe(take(1)).subscribe({
+      next: data => {
+        this.currentUserId = data['currentUserId'].token;
+      },
+    });
     this.initForm();
   }
   public canSave(): boolean {
@@ -53,7 +51,7 @@ export class SecurityComponent implements OnInit {
     if (this.verifyPasswords(newPassword, confirmPassword)) {
       const passwordConfigs: UserPasswordDto = {
         actualPassword,
-        newPassword
+        newPassword,
       };
       this.securityService.updateUserPassword(this.currentUserId, passwordConfigs, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
@@ -70,10 +68,21 @@ export class SecurityComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      actualPassword: [null, Validators.required],
-      newPassword: [null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]],
-      confirmPassword: [null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
+      [this.securitySettingsFormConstrols.actualPassword]: [null, Validators.required],
+      [this.securitySettingsFormConstrols.newPassword]: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
+        ],
+      ],
+      [this.securitySettingsFormConstrols.confirmPassword]: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
+        ],
+      ],
     });
   }
-
 }

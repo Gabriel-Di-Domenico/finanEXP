@@ -4,21 +4,21 @@
       <app-fin-input
         label="Senha atual"
         type="password"
-        formControlName="actualPassword"
+        [formControlName]="securitySettingsFormConstrols.actualPassword"
         class="api-fin-input"
         required="true"></app-fin-input>
       <app-fin-input
         label="Nova senha"
         placeholder="Ex:aB@%3nbx"
         type="password"
-        formControlName="newPassword"
+        [formControlName]="securitySettingsFormConstrols.newPassword"
         class="api-fin-input"
         required="true"
         hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número."></app-fin-input>
       <app-fin-input
         label="Senha atual"
         type="password"
-        formControlName="confirmPassword"
+        [formControlName]="securitySettingsFormConstrols.confirmPassword"
         class="api-fin-input"
         required="true"></app-fin-input>
     </div>
