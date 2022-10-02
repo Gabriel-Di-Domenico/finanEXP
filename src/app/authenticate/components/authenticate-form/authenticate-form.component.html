@@ -1,52 +1,41 @@
 <h2>Sua jornada começa aqui!</h2>
 
 <mat-tab-group (selectedTabChange)="changeForm($event)">
-    <mat-tab label="Entrar" routerLink="login">
-        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
-            <mat-form-field class='mat-form-field' appearance="standard">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="exemple@ex.com" formControlName="email">
-            </mat-form-field>
-            <mat-form-field class='mat-form-field' appearance="standard">
-                <mat-label>Senha</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
-                    <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-            </mat-form-field>
-            <button type="submit" id="submitButton" mat-raised-button color="primary" [disabled]="!canSave()">
-                Logar
-                <mat-icon>send</mat-icon>
-            </button>
+  <mat-tab label="Entrar" routerLink="login">
+    <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
+      <app-fin-input
+        label="Email"
+        type="text"
+        placeholder="exemple@ex.com"
+        formControlName="email"
+        required="true"></app-fin-input>
 
-        </form>
-    </mat-tab>
-    <mat-tab label="Registrar">
+      <app-fin-input label="Senha" type="password" formControlName="password" required="true"></app-fin-input>
 
-        <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
-            <mat-form-field class='mat-form-field' appearance="standard">
-                <mat-label>Nome</mat-label>
-                <input matInput placeholder="Nome" formControlName="name">
-            </mat-form-field>
-            <mat-form-field class='mat-form-field' appearance="standard">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="exemple@ex.com" formControlName="email">
+      <app-fin-submit-button type="submit" label="Logar" [disabled]="!canSave()" id="submitButton"></app-fin-submit-button>
+    </form>
+  </mat-tab>
+  <mat-tab label="Registrar">
+    <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
+      <app-fin-input label="Nome" type="text" placeholder="Nome" formControlName="name" required="true"></app-fin-input>
 
-            </mat-form-field>
-            <mat-form-field class='mat-form-field' appearance="standard">
+      <app-fin-input
+        label="Email"
+        type="text"
+        placeholder="exemple@ex.com"
+        formControlName="email"
+        required="true"></app-fin-input>
 
-                <mat-label>Senha</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Ex:aB@%3nbx">
-                <button type="button" mat-icon-button matSuffix (click)="showPassword= !showPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="showPassword">
-                    <mat-icon>{{showPassword? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-            </mat-form-field>
-            <button type="submit" id="submitButton" mat-raised-button color="primary" [disabled]="!canSave()">
-                Registrar
-                <mat-icon>send</mat-icon>
-            </button>
-
-        </form>
-    </mat-tab>
+      <app-fin-input
+        label="Senha"
+        type="password"
+        placeholder="Ex:aB@%3nbx"
+        formControlName="password"
+        required="true"
+        hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número.">
+      </app-fin-input>
+      <app-fin-submit-button type="submit" label="Registrar" [disabled]="!canSave()" id="submitButton"></app-fin-submit-button>
+    </form>
+  </mat-tab>
 </mat-tab-group>
 <router-outlet></router-outlet>

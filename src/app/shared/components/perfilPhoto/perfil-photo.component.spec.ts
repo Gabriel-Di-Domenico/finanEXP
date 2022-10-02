@@ -10,7 +10,7 @@ describe('PerfilPhotoComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ PerfilPhotoComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PerfilPhotoComponent);
     component = fixture.componentInstance;

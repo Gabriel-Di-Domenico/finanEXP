@@ -31,7 +31,6 @@
     "default-case": "error",
     "eqeqeq": ["error", "always"],
     "max-classes-per-file": ["error", 1],
-    "max-params": ["error", 4],
     "no-alert": "error",
     "no-extra-semi": "error",
     "no-invalid-this": "error",

@@ -7,14 +7,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AuthenticateRoutingModule } from './authenticate-routing.module';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input'
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticateComponent } from './authenticate.component';
 import { AuthenticateFormComponent } from './components/authenticate-form/authenticate-form.component';
-import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -27,18 +23,11 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     HttpClientModule,
     SharedModule,
-    
-    MatFormFieldModule,
-    MatInputModule,
     MatTabsModule,
-    MatIconModule,
-    MatButtonModule,
-
     AuthenticateRoutingModule
 
   ],
-  providers:[HttpClient,AuthenticateService]
-
+  providers:[HttpClient, AuthenticateService]
 
 })
 export class AuthenticateModule { }
