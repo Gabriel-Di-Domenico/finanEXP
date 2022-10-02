@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { take, } from 'rxjs';
+import { take } from 'rxjs';
 
 import { UserHandlerService } from '../../../../../shared/handlers/user-handler.service';
 import User from '../../../../../shared/support/interfaces/user.interface';
@@ -13,20 +13,18 @@ import ResponseDto from 'src/app/shared/support/classes/responseDto';
 import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService implements IProfileService {
-
   constructor(
     private userConfigProxyService: UserConfigProxyService,
     private userHandlerService: UserHandlerService,
-    private router:Router
+    private router: Router
   ) {}
   updateProfilePreferences(userId: string, user: User, callback?: (message: Message) => void): void {
-    this.userConfigProxyService.updateUserRequest(userId, user)
-      .pipe(
-        take(1)
-      )
+    this.userConfigProxyService
+      .updateUserRequest(userId, user)
+      .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto) => {
           this.userHandlerService.emit(userId);
@@ -35,13 +33,13 @@ export class ProfileService implements IProfileService {
           }
         },
         error: (err: HttpErrorResponse) => {
-          if(err.status === 401){
+          if (err.status === 401) {
             this.router.navigate(['auth']);
           }
           if (callback) {
             callback(err.error.message);
           }
-        }
+        },
       });
   }
 }
