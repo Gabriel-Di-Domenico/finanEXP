@@ -1,3 +1,4 @@
+import { UserService } from './../../../../services/user.service';
 import { profileSettingFormControls } from './profileSettingsFormControls';
 import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import Message from 'src/app/shared/support/interfaces/message.interface';
@@ -11,7 +12,6 @@ import UserOutput from '../../../../../shared/support/interfaces/userOutput.inte
 
 import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProxys/user-crud.proxys.service';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private snackBarControlService: SnackBarControlService,
-    private userCrudProxysService: UserCrudProxysService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -45,29 +45,34 @@ export class ProfileComponent implements OnInit {
         this.currentUserId = data['currentUserId'].token;
       },
     });
-    this.userCrudProxysService
-      .getUserByIdRequest(this.currentUserId)
-      .pipe(take(1))
-      .subscribe({
-        next: (data: ResponseGetUserByIdDto) => {
-          this.currentUser = data.user;
-          this.form.setValue({
-            email: data.user.email,
-            name: data.user.name,
-          });
-        },
-      });
+
+    this.populateForm();
+
+    this.createForm();
+  }
+  public canSave() {
+    return this.form.valid;
+  }
+  public saveChanges() {
+    this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (message: Message) => {
+      this.snackBarControlService.showMessage(message.message, message.error);
+    });
+  }
+
+  private createForm() {
     this.form = this.formBuilder.group({
       [this.profileSettingFormControls.nameFormControl]: [null, [Validators.required, Validators.maxLength(25)]],
       [this.profileSettingFormControls.email]: [null, [Validators.email, Validators.required]],
     });
   }
-  canSave() {
-    return this.form.valid;
-  }
-  saveChanges() {
-    this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (message: Message) => {
-      this.snackBarControlService.showMessage(message.message, message.error);
+
+  private populateForm() {
+    this.userService.getUserById(this.currentUserId, (data: ResponseGetUserByIdDto) => {
+      this.currentUser = data.user;
+      this.form.setValue({
+        email: data.user.email,
+        name: data.user.name,
+      });
     });
   }
 }
