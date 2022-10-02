@@ -7,34 +7,38 @@
         label="Email"
         type="text"
         placeholder="exemple@ex.com"
-        formControlName="email"
+        [formControlName]="loginFormControls.email"
         required="true"></app-fin-input>
 
-      <app-fin-input label="Senha" type="password" formControlName="password" required="true"></app-fin-input>
+      <app-fin-input label="Senha" type="password" [formControlName]="loginFormControls.password" required="true"></app-fin-input>
 
       <app-fin-submit-button type="submit" label="Logar" [disabled]="!canSave()" id="submitButton"></app-fin-submit-button>
     </form>
   </mat-tab>
   <mat-tab label="Registrar">
     <form id="registerForm" *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
-      <app-fin-input label="Nome" type="text" placeholder="Nome" formControlName="name" required="true"></app-fin-input>
+      <app-fin-input label="Nome" type="text" placeholder="Nome" [formControlName]="registerFormControls.nameFormControl" required="true"></app-fin-input>
 
       <app-fin-input
         label="Email"
         type="text"
         placeholder="exemple@ex.com"
-        formControlName="email"
+        [formControlName]="registerFormControls.email"
         required="true"></app-fin-input>
 
       <app-fin-input
         label="Senha"
         type="password"
         placeholder="Ex:aB@%3nbx"
-        formControlName="password"
+        [formControlName]="registerFormControls.password"
         required="true"
         hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número.">
       </app-fin-input>
-      <app-fin-submit-button type="submit" label="Registrar" [disabled]="!canSave()" id="submitButton"></app-fin-submit-button>
+      <app-fin-submit-button
+        type="submit"
+        label="Registrar"
+        [disabled]="!canSave()"
+        id="submitButton"></app-fin-submit-button>
     </form>
   </mat-tab>
 </mat-tab-group>

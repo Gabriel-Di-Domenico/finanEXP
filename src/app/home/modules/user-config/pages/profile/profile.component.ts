@@ -1,3 +1,4 @@
+import { profileSettingFormControls } from './profileSettingsFormControls';
 import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import Message from 'src/app/shared/support/interfaces/message.interface';
 import { Component, OnInit } from '@angular/core';
@@ -21,9 +22,10 @@ import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProx
   },
 })
 export class ProfileComponent implements OnInit {
-  form!: FormGroup;
-  currentUserId = '';
-  currentUser: UserOutput = {
+  public form!: FormGroup;
+  public profileSettingFormControls = profileSettingFormControls;
+  private currentUserId = '';
+  private currentUser: UserOutput = {
     id: '',
     name: '',
     email: '',
@@ -56,8 +58,8 @@ export class ProfileComponent implements OnInit {
         },
       });
     this.form = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.maxLength(25)]],
-      email: [null, [Validators.email, Validators.required]],
+      [this.profileSettingFormControls.nameFormControl]: [null, [Validators.required, Validators.maxLength(25)]],
+      [this.profileSettingFormControls.email]: [null, [Validators.email, Validators.required]],
     });
   }
   canSave() {

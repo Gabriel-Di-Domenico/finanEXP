@@ -1,3 +1,5 @@
+import { loginFormControls } from './loginFormControls';
+import { registerFormControls } from './registerFormControls';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -14,11 +16,13 @@ import Message from 'src/app/shared/support/interfaces/message.interface';
   styleUrls: ['./styles/authenticate-form.component.css'],
 })
 export class AuthenticateFormComponent implements OnInit {
-  showPassword = false;
-  loginForm!: FormGroup;
-  registerForm!: FormGroup;
-  actualForm!: FormGroup;
-  notActualForm!: FormGroup;
+  public showPassword = false;
+  public loginForm!: FormGroup;
+  public registerForm!: FormGroup;
+  public registerFormControls = registerFormControls;
+  public loginFormControls = loginFormControls;
+  private actualForm!: FormGroup;
+  private notActualForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -76,23 +80,18 @@ export class AuthenticateFormComponent implements OnInit {
 
   private createForms() {
     this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [
-        null,
-        [Validators.required],
-      ],
+      [this.loginFormControls.email]: [null, [Validators.email, Validators.required]],
+      [this.loginFormControls.password]: [null, [Validators.required]],
     });
     this.registerForm = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.maxLength(25)]],
-      email: [null, [Validators.email, Validators.required]],
-      password: [
+      [this.registerFormControls.nameFormControl]: [null, [Validators.required, Validators.maxLength(25)]],
+      [this.registerFormControls.email]: [null, [Validators.email, Validators.required]],
+      [this.registerFormControls.password]: [
         null,
         [
           Validators.required,
           Validators.max(30),
-          Validators.pattern(
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/
-          ),
+          Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
         ],
       ],
     });
