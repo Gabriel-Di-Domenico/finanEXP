@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinButtonComponent } from './fin-button.component';
+import { FinButtonComponent } from './fin-submit-button.component';
 
 describe('FinButtonComponent', () => {
   let component: FinButtonComponent;
@@ -10,7 +10,7 @@ describe('FinButtonComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ FinButtonComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(FinButtonComponent);
     component = fixture.componentInstance;

@@ -1,12 +1,12 @@
+import { FinSubmitButtonComponent } from './fin-submit-button/fin-submit-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FinButtonComponent } from './fin-button/fin-button.component';
 
 @NgModule({
-  declarations: [FinButtonComponent],
+  declarations: [FinSubmitButtonComponent],
   imports: [CommonModule, MatButtonModule, MatIconModule],
-  exports: [FinButtonComponent],
+  exports: [FinSubmitButtonComponent],
 })
 export class ButtonsModule {}

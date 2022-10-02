@@ -1,21 +1,17 @@
 <app-config-view title="Perfil">
-    <form [formGroup]="form" (ngSubmit)="saveChanges()">
-        <div class="first-div">
-            <mat-form-field class='mat-form-field' appearance="standard">
-                <mat-label>Nome de usuário</mat-label>
-                <input matInput type='text' matInput formControlName="name">
+  <form [formGroup]="form" (ngSubmit)="saveChanges()">
+    <div class="first-div">
+      <app-fin-input
+        class="app-fin-input"
+        label="Nome de usuário"
+        type="text"
+        formControlName="name"
+        required="true"></app-fin-input>
 
-            </mat-form-field>
-            <mat-form-field class='mat-form-field' appearance="standard">
-                <mat-label>Email</mat-label>
-                <input matInput type="text" matInput formControlName="email">
-            </mat-form-field>
-        </div>
-        <div class="second-div">
-            <button type="submit" id="submitButton" mat-raised-button color="primary" [disabled]="!canSave()">
-                Salvar alterações
-                <mat-icon>send</mat-icon>
-            </button>
-        </div>
-    </form>
+      <app-fin-input class="app-fin-input" label="Email" type="text" formControlName="email" required="true"></app-fin-input>
+    </div>
+    <div class="second-div">
+      <app-fin-submit-button label="Salvar alterações" [disabled]="!canSave()"></app-fin-submit-button>
+    </div>
+  </form>
 </app-config-view>

@@ -13,15 +13,15 @@ import Message from 'src/app/shared/support/interfaces/message.interface';
   templateUrl: './security.component.html',
   styleUrls: ['./security.component.css'],
   host: {
-    class: "h-100 w-100"
+    class: 'h-100 w-100'
   }
 })
 export class SecurityComponent implements OnInit {
-  private currentUserId: string = ''
-  public form!: FormGroup
-  public showNewPassword: boolean = false
-  public showActualPassword: boolean = false
-  public showConfirmPassword: boolean = false
+  private currentUserId = '';
+  public form!: FormGroup;
+  public showNewPassword = false;
+  public showActualPassword = false;
+  public showConfirmPassword = false;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -36,36 +36,36 @@ export class SecurityComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          this.currentUserId = data['currentUserId'].token
+          this.currentUserId = data['currentUserId'].token;
         }
-      })
-    this.initForm()
+      });
+    this.initForm();
   }
   public canSave(): boolean {
-    return this.form.valid
+    return this.form.valid;
   }
 
   public saveChanges(): void {
-    const actualPassword = this.form.get('actualPassword')?.value
-    const newPassword = this.form.get('newPassword')?.value
-    const confirmPassword = this.form.get('confirmPassword')?.value
-    
+    const actualPassword = this.form.get('actualPassword')?.value;
+    const newPassword = this.form.get('newPassword')?.value;
+    const confirmPassword = this.form.get('confirmPassword')?.value;
+
     if (this.verifyPasswords(newPassword, confirmPassword)) {
       const passwordConfigs: UserPasswordDto = {
         actualPassword,
         newPassword
-      }
+      };
       this.securityService.updateUserPassword(this.currentUserId, passwordConfigs, (message: Message) => {
-        this.snackBarControlService.showMessage(message.message, message.error)
-      })
-      this.form.reset()
+        this.snackBarControlService.showMessage(message.message, message.error);
+      });
+      this.form.reset();
     } else {
-      this.snackBarControlService.showMessage('As senhas não correspondem', true)
+      this.snackBarControlService.showMessage('As senhas não correspondem', true);
     }
   }
 
   private verifyPasswords(newPassword: string, confirmPassword: string): boolean {
-    return newPassword === confirmPassword
+    return newPassword === confirmPassword;
   }
 
   private initForm(): void {
@@ -73,7 +73,7 @@ export class SecurityComponent implements OnInit {
       actualPassword: [null, Validators.required],
       newPassword: [null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]],
       confirmPassword: [null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
-    })
+    });
   }
 
 }

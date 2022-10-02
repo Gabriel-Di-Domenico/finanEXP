@@ -35,9 +35,9 @@ export class FinInputComponent implements ControlValueAccessor, Validator {
   public showPassword = false;
   public disabled = false;
 
-  public inputChanges(event:any): void {
+  public inputChanges(): void {
     this.markAsTouched();
-    this.onChange(event.target.value);
+    this.onChange(this.value);
   }
 
   public writeValue(value: string): void {
