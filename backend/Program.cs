@@ -38,7 +38,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserDatabaseService, UserDatabaseService>();
 builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(options =>
 {
   options.AddPolicy("corsPolicy", build =>
@@ -53,11 +53,6 @@ builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql($"Host=l
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-  app.UseSwagger();
-  app.UseSwaggerUI();
-}
 
 app.UseCors("corsPolicy");
 
