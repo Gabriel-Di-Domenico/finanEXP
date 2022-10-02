@@ -10,6 +10,7 @@ import User from '../../../../../shared/support/interfaces/user.interface';
 
 import IProfileService from './IProfile.service.interface';
 import ResponseDto from 'src/app/shared/support/classes/responseDto';
+import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,26 +22,26 @@ export class ProfileService implements IProfileService {
     private userHandlerService: UserHandlerService,
     private router:Router
   ) {}
-  updateProfilePreferences(userId: string, user: User, callback?: Function): void {
+  updateProfilePreferences(userId: string, user: User, callback?: (message: Message) => void): void {
     this.userConfigProxyService.updateUserRequest(userId, user)
       .pipe(
         take(1)
       )
       .subscribe({
         next: (data: ResponseDto) => {
-          this.userHandlerService.emit(userId)
+          this.userHandlerService.emit(userId);
           if (callback) {
-            callback(data.message)
+            callback(data.message);
           }
         },
         error: (err: HttpErrorResponse) => {
           if(err.status === 401){
-            this.router.navigate(['auth'])
+            this.router.navigate(['auth']);
           }
           if (callback) {
-            callback(err.error.message)
+            callback(err.error.message);
           }
         }
-      })
+      });
   }
 }

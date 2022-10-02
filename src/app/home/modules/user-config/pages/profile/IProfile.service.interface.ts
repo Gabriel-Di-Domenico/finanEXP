@@ -1,6 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import User from "src/app/shared/support/interfaces/user.interface";
+import Message from 'src/app/shared/support/interfaces/message.interface';
+import User from 'src/app/shared/support/interfaces/user.interface';
 
 export default interface IProfileService {
-    updateProfilePreferences: (userId: string, user: User, callback?:Function) => void
+  updateProfilePreferences: (userId: string, user: User, callback?: (message: Message) => void) => void;
 }

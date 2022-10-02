@@ -1,0 +1,23 @@
+<mat-form-field *ngIf="type !== 'password'" class="mat-form-field" appearance="standard" [hintLabel]="hint">
+  <mat-label>{{ label }} </mat-label>
+  <input matInput [type]="type" [placeholder]="placeholder" (input)="inputChanges($event)" [required]="required" />
+</mat-form-field>
+
+<mat-form-field *ngIf="type === 'password'" class="mat-form-field" appearance="standard" [hintLabel]="hint">
+  <mat-label>{{ label }} </mat-label>
+  <input
+    matInput
+    [type]="showPassword ? 'text' : 'password'"
+    [placeholder]="placeholder"
+    (input)="inputChanges($event)"
+    [required]="required" />
+  <button
+    type="button"
+    mat-icon-button
+    matSuffix
+    (click)="showPassword = !showPassword"
+    [attr.aria-label]="'Hide password'"
+    [attr.aria-pressed]="showPassword">
+    <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+  </button>
+</mat-form-field>

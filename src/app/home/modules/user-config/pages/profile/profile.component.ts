@@ -1,12 +1,12 @@
-import  ResponseGetUserByIdDto  from 'src/app/shared/support/classes/responseGetUserByIdDto';
-import  Message  from 'src/app/shared/support/interfaces/message.interface';
+import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import Message from 'src/app/shared/support/interfaces/message.interface';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { take } from 'rxjs';
 
-import  UserOutput  from '../../../../../shared/support/interfaces/userOutput.interface';
+import UserOutput from '../../../../../shared/support/interfaces/userOutput.interface';
 
 import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
@@ -17,18 +17,17 @@ import { UserCrudProxysService } from '../../../../../shared/proxys/userCrudProx
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
   host: {
-    class: "h-100 w-100"
-  }
+    class: 'h-100 w-100',
+  },
 })
 export class ProfileComponent implements OnInit {
-
-  form!: FormGroup
-  currentUserId: string = ''
+  form!: FormGroup;
+  currentUserId = '';
   currentUser: UserOutput = {
     id: '',
     name: '',
-    email: ''
-  }
+    email: '',
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,41 +38,34 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.data
-      .pipe(
-        take(1)
-      )
+    this.route.data.pipe(take(1)).subscribe({
+      next: data => {
+        this.currentUserId = data['currentUserId'].token;
+      },
+    });
+    this.userCrudProxysService
+      .getUserByIdRequest(this.currentUserId)
+      .pipe(take(1))
       .subscribe({
-        next: (data) => {
-          this.currentUserId = data['currentUserId'].token
-        }
-      })
-    this.userCrudProxysService.getUserByIdRequest(this.currentUserId)
-      .pipe(
-        take(1)
-      ).subscribe({
         next: (data: ResponseGetUserByIdDto) => {
-          this.currentUser = data.user
-          this.form.setValue(
-            {
-              email: data.user.email,
-              name: data.user.name
-            }
-          )
-        }
-      })
+          this.currentUser = data.user;
+          this.form.setValue({
+            email: data.user.email,
+            name: data.user.name,
+          });
+        },
+      });
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.maxLength(25)]],
       email: [null, [Validators.email, Validators.required]],
-    })
+    });
   }
-  canSave(){
-    return this.form.valid
+  canSave() {
+    return this.form.valid;
   }
   saveChanges() {
     this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (message: Message) => {
-      this.snackBarControlService.showMessage(message.message, message.error)
-    })
+      this.snackBarControlService.showMessage(message.message, message.error);
+    });
   }
-
 }

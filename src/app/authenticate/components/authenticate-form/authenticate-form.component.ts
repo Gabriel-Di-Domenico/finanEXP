@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { AuthenticateService } from './../../services/authenticate-service/authenticate.service';
-import Errors from '../../../shared/support/enums/Errors';
 import UserInput from '../../../shared/support/interfaces/userInput.interface';
 import { SnackBarControlService } from '../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import Message from 'src/app/shared/support/interfaces/message.interface';
@@ -13,9 +11,8 @@ import Message from 'src/app/shared/support/interfaces/message.interface';
 @Component({
   selector: 'app-authenticate-form',
   templateUrl: './authenticate-form.component.html',
-  styleUrls: ['./styles/authenticate-form.component.css']
+  styleUrls: ['./styles/authenticate-form.component.css'],
 })
-
 export class AuthenticateFormComponent implements OnInit {
   showPassword = false;
   loginForm!: FormGroup;
@@ -27,7 +24,7 @@ export class AuthenticateFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticateService: AuthenticateService,
     private snackBarControlService: SnackBarControlService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.createForms();
@@ -49,16 +46,16 @@ export class AuthenticateFormComponent implements OnInit {
     this.actualForm.patchValue({
       name,
       email,
-      password
+      password,
     });
     this.actualForm.enable();
     this.notActualForm.disable();
   }
-  public canSave():boolean{
+  public canSave(): boolean {
     return this.actualForm.valid;
   }
   public submitRegisterForm() {
-    if(this.canSave()){
+    if (this.canSave()) {
       const userValues: UserInput = this.registerForm.value;
 
       this.authenticateService.createNewUser(userValues, (message: Message) => {
@@ -80,15 +77,26 @@ export class AuthenticateFormComponent implements OnInit {
   private createForms() {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
+      password: [
+        null,
+        [Validators.required],
+      ],
     });
     this.registerForm = this.formBuilder.group({
       name: [null, [Validators.required, Validators.maxLength(25)]],
       email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required, Validators.max(30), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/)]]
+      password: [
+        null,
+        [
+          Validators.required,
+          Validators.max(30),
+          Validators.pattern(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/
+          ),
+        ],
+      ],
     });
     this.actualForm = this.loginForm;
     this.notActualForm = this.registerForm;
   }
-
 }

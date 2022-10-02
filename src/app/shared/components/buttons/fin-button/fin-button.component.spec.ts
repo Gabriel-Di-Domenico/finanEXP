@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PerfilPhotoComponent } from './perfil-photo.component';
+import { FinButtonComponent } from './fin-button.component';
 
-describe('PerfilPhotoComponent', () => {
-  let component: PerfilPhotoComponent;
-  let fixture: ComponentFixture<PerfilPhotoComponent>;
+describe('FinButtonComponent', () => {
+  let component: FinButtonComponent;
+  let fixture: ComponentFixture<FinButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PerfilPhotoComponent ]
+      declarations: [ FinButtonComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PerfilPhotoComponent);
+    fixture = TestBed.createComponent(FinButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
