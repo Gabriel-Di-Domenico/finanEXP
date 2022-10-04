@@ -1,28 +1,26 @@
-using backend.Customers.Models;
-using backend.Expenses.Models;
-using backend.Revenues.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace backend.Custumers.Models
+namespace backend.Customers.Models
 {
+  [Table("Customers")]
   public class CustomerModel
   {
     [Key]
-    Guid Id { get; set; }
+    public Guid Id { get; set; }
 
     [Required]
-    string Name { get; set; }
+    public string Name { get; set; }
 
     [Required]
     [ForeignKey("User")]
-    int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     [Required]
-    CustumerTypes Type { get; set; }
+    public string Type { get; set; }
 
     [Required]
-    int Saldo { get; set; } = 0;
+    public int Balance { get; set; } = 0;
 
   }
 }

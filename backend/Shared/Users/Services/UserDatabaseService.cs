@@ -9,22 +9,28 @@ namespace backend.Shared.Users.Services
 {
   public class UserDatabaseService : IUserDatabaseService
   {
-    private readonly UserContext _context;
+    private readonly FinEXPDatabaseContext _context;
 
-    public UserDatabaseService(UserContext context)
+    public UserDatabaseService(FinEXPDatabaseContext context)
     {
       _context = context;
     }
 
-    public void CreateUser(UserModel user)
+    public bool CreateUser(UserModel user)
     {
       if (user == null)
       {
         throw new ArgumentNullException(nameof(user));
+        return false;
       }
-      user.password = Bcrypt.Encrypt(user.password);
+      else
+      {
+        user.password = Bcrypt.Encrypt(user.password);
 
-      _context.Users.Add(user);
+        _context.Users.Add(user);
+        return true;
+      }
+      
     }
 
     public IEnumerable<UserModel> GetAllUsers()
@@ -32,7 +38,7 @@ namespace backend.Shared.Users.Services
       return _context.Users.ToList();
     }
 
-    public UserModel GetUserByID(int id)
+    public UserModel GetUserByID(Guid id)
     {
       var users = _context.Users.FirstOrDefault(p => p.ID == id);
       if (users != null)
@@ -63,7 +69,7 @@ namespace backend.Shared.Users.Services
       }
     }
 
-    public UserModel UpdateUser(int id, UserUpdateDto newUser)
+    public UserModel UpdateUser(Guid id, UserUpdateDto newUser)
     {
       var user = GetUserByID(id);
 
@@ -91,7 +97,7 @@ namespace backend.Shared.Users.Services
       }
     }
 
-    public UserModel UpdateUserPassword(int id, UpdatePasswordDto passwordConfigs)
+    public UserModel UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
     {
       var userFromDatabase = GetUserByID(id);
       var authenticatedPassword = AuthUserService.AuthenticatePasswords(passwordConfigs.ActualPassword, userFromDatabase.password);

@@ -26,7 +26,7 @@ namespace backend.UserSettings.Controllers
 
     [HttpPut("{id}")]
     [Authorize]
-    public ActionResult<UserReadDto> UpdateUser([FromRoute] int id, [FromBody] UserUpdateDto user)
+    public ActionResult<UserReadDto> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateDto user)
     {
       var userFromEmail = _userDataBaseService.GetUserByEmail(user.email);
 
@@ -67,7 +67,7 @@ namespace backend.UserSettings.Controllers
 
     [HttpPut("update-password/{id}")]
     [Authorize]
-    public ActionResult UpdateUserPassword([FromRoute] int id, [FromBody] UpdatePasswordDto passwordConfigs)
+    public ActionResult UpdateUserPassword([FromRoute] Guid id, [FromBody] UpdatePasswordDto passwordConfigs)
     {
       var newUser = _userSettingsService.UpdateUserPassword(id, passwordConfigs);
 

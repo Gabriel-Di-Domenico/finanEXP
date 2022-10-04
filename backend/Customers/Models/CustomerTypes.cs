@@ -1,6 +1,6 @@
 namespace backend.Customers.Models
 {
-  public class CustumerTypes
+  public class CustomerTypes
   {
     public string BankAccount = "Conta bancária";
     public string Savings = "Poupança";
