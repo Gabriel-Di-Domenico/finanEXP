@@ -23,7 +23,6 @@
     <PackageReference Include="Npgsql" Version="6.0.6" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.6" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.1" />
   </ItemGroup>
 
@@ -37,6 +36,9 @@
     <Folder Include="Revenues\Controllers\" />
     <Folder Include="Revenues\Dtos\" />
     <Folder Include="Revenues\Services\" />
+    <Folder Include="Shared\Classes\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
