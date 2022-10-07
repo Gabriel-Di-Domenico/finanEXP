@@ -17,7 +17,7 @@ namespace backend.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    Balance = table.Column<int>(type: "integer", nullable: false)
+                    Balance = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {

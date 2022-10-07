@@ -7,8 +7,10 @@ namespace backend.Customers.Services
   {
     CustomerModel GetCustomerByName(CustomerModel name);
     List<CustomerModel> GetAllCustomers(Guid userId);
+    CustomerModel GetCustomerById(Guid id, Guid userId);
+    CustomerModel UpdateCustomer(Guid id, Guid userId ,CustomerUpdateDto newCustomer);
+    bool DeleteCustomer(Guid id, Guid userId);
     bool CreateCustomer(CustomerModel customer);
-
     bool SaveChanges();
 
   }

@@ -93,7 +93,6 @@ namespace backend.UserSettings.Controllers
 
         return BadRequest(result);
       }
-
     }
   }
 }

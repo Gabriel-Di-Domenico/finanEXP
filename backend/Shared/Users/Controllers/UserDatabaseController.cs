@@ -89,6 +89,5 @@ public class UserDatabaseController : ControllerBase
       };
       return BadRequest(result);
     }
-
   }
 }

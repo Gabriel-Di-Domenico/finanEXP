@@ -36,7 +36,7 @@ namespace backend.UserSettings.Services
           user.name = newUser.name;
         }
 
-        _context.Update(user);
+        _context.Users.Update(user);
         _userDatabaseService.SaveChanges();
         return user;
       }
@@ -57,7 +57,7 @@ namespace backend.UserSettings.Services
         var newPassword = Bcrypt.Encrypt(passwordConfigs.NewPassword);
         newUser.password = newPassword;
 
-        _context.Update(newUser);
+        _context.Users.Update(newUser);
         _userDatabaseService.SaveChanges();
         return newUser;
       }

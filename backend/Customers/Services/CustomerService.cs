@@ -14,7 +14,7 @@ namespace backend.Customers.Services
     }
     public bool CreateCustomer(CustomerModel customer)
     {
-      if(customer == null)
+      if (customer == null)
       {
         throw new ArgumentNullException();
         return false;
@@ -35,11 +35,12 @@ namespace backend.Customers.Services
     {
       if (newCustomer != null)
       {
-        var customer = _context.Customers.FirstOrDefault(p => p.UserId == newCustomer.UserId && p.Name == newCustomer.Name);
-        if(customer != null)
+        var customer = _context.Customers.FirstOrDefault(customer => customer.UserId == newCustomer.UserId && customer.Name == newCustomer.Name);
+        if (customer != null)
         {
           return customer;
-        }else
+        }
+        else
         {
           return null;
         }
@@ -52,9 +53,9 @@ namespace backend.Customers.Services
 
     public List<CustomerModel> GetAllCustomers(Guid userId)
     {
-      var customers = _context.Customers.Where(p => p.UserId == userId).ToList();
+      var customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
 
-      if(customers != null)
+      if (customers != null)
       {
         return customers;
       }
@@ -62,6 +63,58 @@ namespace backend.Customers.Services
       {
         return null;
       }
+    }
+
+    public CustomerModel GetCustomerById(Guid id, Guid userId)
+    {
+      var customer = _context.Customers.FirstOrDefault(customer => customer.Id == id);
+      if (customer != null && customer.UserId == userId)
+      {
+
+        return customer;
+
+      }
+      return null;
+    }
+
+    public CustomerModel UpdateCustomer(Guid id, Guid userId, CustomerUpdateDto newCustomer)
+    {
+      var customer = GetCustomerById(id, userId);
+
+      if (customer != null)
+      {
+        customer.Type = newCustomer.Type;
+        customer.Name = newCustomer.Name;
+
+        if(newCustomer.Balance != null)
+        {
+          customer.Balance = (decimal)newCustomer.Balance;
+        }
+
+        _context.Customers.Update(customer);
+        SaveChanges();
+        return customer;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    public bool DeleteCustomer(Guid id, Guid userId)
+    {
+      var customer = GetCustomerById(id, userId);
+      if(customer != null)
+      {
+        _context.Customers.Remove(customer);
+        SaveChanges();
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+      
     }
   }
 }

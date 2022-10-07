@@ -20,7 +20,7 @@ namespace backend.Customers.Models
     public string Type { get; set; }
 
     [Required]
-    public int Balance { get; set; } = 0;
+    public decimal Balance { get; set; } = 0;
 
   }
 }

@@ -12,7 +12,7 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221004001127_AddMigrations")]
+    [Migration("20221007023142_AddMigrations")]
     partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,8 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Balance")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -60,7 +60,7 @@ namespace backend.Customers.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<List<CustomerReadDto>> GetAll()
+    public ActionResult<GetAllCustomersReturnDto> GetAll()
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
@@ -68,12 +68,12 @@ namespace backend.Customers.Controllers
       var customers = _customerService.GetAllCustomers(userId);
       var result = new GetAllCustomersReturnDto();
 
-      if (customers.Count > 0)
+      if (customers != null)
       {
         result.Message = new Message
         {
           error = false,
-          message = "Carteira criada com sucesso"
+          message = "Sucesso ao adiquirir lista de carteiras"
         };
 
         var customersModel = _mapper.Map<List<CustomerReadDto>>(customers);
@@ -86,7 +86,102 @@ namespace backend.Customers.Controllers
         result.Message = new Message
         {
           error = true,
-          message = "Nome de carteira já utilizado"
+          message = "Falha ao adiquirir lista de carteiras"
+        };
+        return BadRequest(result);
+      }
+    }
+    [HttpGet("{id}")]
+    [Authorize]
+    public ActionResult<GetCustomerByIdReturnDto> GetById([FromRoute] Guid Id)
+    {
+
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+
+      var customer = _customerService.GetCustomerById(Id, userId);
+
+      var result = new GetCustomerByIdReturnDto();
+
+      if (customer != null)
+      {
+        var customerModel = _mapper.Map<CustomerReadDto>(customer);
+
+        result.Message = new Message
+        {
+          error = false,
+          message = "Sucesso ao adiquirir carteira"
+        };
+
+        result.Customer = customerModel;
+
+        return Ok(result);
+      }
+      else
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Falha ao adiquirir carteira"
+        };
+        return BadRequest(result);
+      }
+    }
+    [HttpPut("{id}")]
+    [Authorize]
+    public ActionResult<ReturnDto> Update([FromRoute] Guid id, [FromBody] CustomerUpdateDto newCustomer)
+    {
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+
+      var customer = _customerService.UpdateCustomer(id, userId, newCustomer);
+      var result = new ReturnDto();
+      if (customer != null)
+      {
+        result.Message = new Message
+        {
+          error = false,
+          message = "Carteira alterada com sucesso"
+        };
+
+        return Ok(result);
+      }
+      else
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Falha ao alterar carteira"
+        };
+        return BadRequest(result);
+      }
+    }
+    [HttpDelete("{id}")]
+    [Authorize]
+    public ActionResult<ReturnDto> Delete([FromRoute] Guid id)
+    {
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+      var succefullDelete = _customerService.DeleteCustomer(id, userId);
+
+      var result = new ReturnDto();
+
+      if (succefullDelete)
+      {
+        result.Message = new Message
+        {
+          error = false,
+          message = "Carteira deletada com sucesso"
+        };
+
+        return Ok(result);
+      }
+      else
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Falha ao deletar carteira"
         };
         return BadRequest(result);
       }
