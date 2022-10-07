@@ -11,14 +11,14 @@ namespace backend.UserSettings.Services
   public class UserSettingsService : IUserSettingsService
   {
     private readonly IUserDatabaseService _userDatabaseService;
-    private readonly UserContext _context;
+    private readonly FinEXPDatabaseContext _context;
 
-    public UserSettingsService(IUserDatabaseService userDatabaseService,UserContext context)
+    public UserSettingsService(IUserDatabaseService userDatabaseService,FinEXPDatabaseContext context)
     {
       _userDatabaseService = userDatabaseService;
       _context = context;
     }
-    public UserModel UpdateUser(int id, UserUpdateDto newUser)
+    public UserModel UpdateUser(Guid id, UserUpdateDto newUser)
     {
       var user = _userDatabaseService.GetUserByID(id);
 
@@ -36,7 +36,7 @@ namespace backend.UserSettings.Services
           user.name = newUser.name;
         }
 
-        _context.Update(user);
+        _context.Users.Update(user);
         _userDatabaseService.SaveChanges();
         return user;
       }
@@ -46,7 +46,7 @@ namespace backend.UserSettings.Services
       }
     }
 
-    public UserModel UpdateUserPassword(int id, UpdatePasswordDto passwordConfigs)
+    public UserModel UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
     {
       var userFromDatabase = _userDatabaseService.GetUserByID(id);
       var authenticatedPassword = AuthUserService.AuthenticatePasswords(passwordConfigs.ActualPassword, userFromDatabase.password);
@@ -57,7 +57,7 @@ namespace backend.UserSettings.Services
         var newPassword = Bcrypt.Encrypt(passwordConfigs.NewPassword);
         newUser.password = newPassword;
 
-        _context.Update(newUser);
+        _context.Users.Update(newUser);
         _userDatabaseService.SaveChanges();
         return newUser;
       }

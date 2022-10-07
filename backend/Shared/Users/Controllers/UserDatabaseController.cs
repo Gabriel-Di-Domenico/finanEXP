@@ -23,7 +23,7 @@ public class UserDatabaseController : ControllerBase
 
   [HttpGet("{id}", Name = "GetUserByID")]
   [Authorize]
-  public ActionResult<UserReadDto> GetUserByID([FromRoute] int id)
+  public ActionResult<UserReadDto> GetUserByID([FromRoute] Guid id)
   {
     var userItem = _UserDatabaseService.GetUserByID(id);
     var result = new GetUserByIdReturnDto();
@@ -49,19 +49,28 @@ public class UserDatabaseController : ControllerBase
 
   [HttpPost("add")]
 
-  public ActionResult<UserReadDto> CreateUser([FromBody] UserCreateDto user)
+  public ActionResult<ReturnDto> CreateUser([FromBody] UserCreateDto user)
   {
     var UserModel = _Mapper.Map<UserModel>(user);
-    var verifyUserModel = _UserDatabaseService.GetUserByEmail(UserModel.email);
+    var verifyUser = _UserDatabaseService.GetUserByEmail(UserModel.email);
 
     var result = new ReturnDto();
 
-    if (verifyUserModel == null)
+    if (verifyUser == null)
     {
-      _UserDatabaseService.CreateUser(UserModel);
-      _UserDatabaseService.SaveChanges();
-
-      var userReadDto = _Mapper.Map<UserReadDto>(UserModel);
+      if (_UserDatabaseService.CreateUser(UserModel))
+      {
+        _UserDatabaseService.SaveChanges();
+      }
+      else
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Erro ao criar usuário"
+        };
+        return BadRequest(result);
+      };
 
       result.Message = new Message
       {
@@ -80,6 +89,5 @@ public class UserDatabaseController : ControllerBase
       };
       return BadRequest(result);
     }
-
   }
 }

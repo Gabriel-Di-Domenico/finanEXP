@@ -5,7 +5,7 @@ namespace backend.Shared.Dtos
 {
   public class UserReadDto
   {
-    public int ID { get; set; } = 0;
+    public Guid ID { get; set; }
 
     public string name { get; set; } = "";
 
@@ -13,7 +13,7 @@ namespace backend.Shared.Dtos
 
     public string? perfilPhoto { get; set; }
 
-    public UserReadDto(int iD, string name, string email, byte[]? perfilPhoto)
+    public UserReadDto(Guid iD, string name, string email, byte[]? perfilPhoto)
     {
       ID = iD;
       this.name = name;

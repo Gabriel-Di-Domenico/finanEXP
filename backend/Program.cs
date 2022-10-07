@@ -1,5 +1,6 @@
 using backend;
 using backend.Contexts;
+using backend.Customers.Services;
 using backend.Shared.Users.Services;
 using backend.UserSettings.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,6 +37,7 @@ builder.Services.AddAuthentication(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserDatabaseService, UserDatabaseService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -48,8 +50,7 @@ builder.Services.AddCors(options =>
 
 });
 
-builder.Services.AddDbContext<UserContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database={Settings.DataBaseName};User Id=postgres;Password={Settings.DatabasePassword};"));
-
+builder.Services.AddDbContext<FinEXPDatabaseContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database={Settings.DataBaseName};User Id=postgres;Password={Settings.DatabasePassword};"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
