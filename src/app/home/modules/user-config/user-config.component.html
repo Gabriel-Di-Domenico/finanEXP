@@ -3,7 +3,7 @@
         <header>
             <div id="user">
                 <app-perfil-photo (click)="openPerfilPhotoEditor()" [perfilPhoto]="perfilPhoto"></app-perfil-photo>
-                <h1>{{currentUser.name}}</h1>
+                <span>{{currentUser.name}}</span>
                 <button mat-icon-button id='logoutButton' (click)="logout()"><mat-icon>exit_to_app</mat-icon></button>
             </div>
         </header>

@@ -40,7 +40,6 @@
     "require-await":"error",
     "spaced-comment":"warn",
     "yoda":"warn",
-    "array-bracket-newline":"warn",
     "no-multi-spaces":"warn",
     "no-trailing-spaces":"error",
     "no-multiple-empty-lines":["warn",{"max":1}],
