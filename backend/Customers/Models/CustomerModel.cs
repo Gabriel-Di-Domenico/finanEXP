@@ -1,3 +1,4 @@
+using backend.Customers.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,10 +18,9 @@ namespace backend.Customers.Models
     public Guid UserId { get; set; }
 
     [Required]
-    public string Type { get; set; }
+    public CustomersTypeOptions Type { get; set; }
 
     [Required]
     public decimal Balance { get; set; } = 0;
-
   }
 }

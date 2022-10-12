@@ -1,3 +1,4 @@
+import { CommonService } from './../../support/services/common.service';
 import { Observable } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,23 +8,20 @@ import userPasswordDtoInterface from '../../support/interfaces/userPasswordDto.i
 import IUserConfigProxyService from './IUser-config.proxy.service.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserConfigProxyService implements IUserConfigProxyService {
-  basePath: string = 'http://localhost:51235/user-settings/'
-  constructor(
-    private httpClient: HttpClient
-  ) { }
+  private basePath = 'http://localhost:51235/user-settings/';
+  constructor(private httpClient: HttpClient, private commonService: CommonService) {}
 
   updateUserRequest(userId: string, user: userInterface): Observable<any> {
-    const token = window.localStorage.getItem('fSSIdtkn')
-    const httpHeaders: HttpHeaders = new HttpHeaders({ Authorization: `Bearer ${token}` })
-    return this.httpClient.put(`${this.basePath}${userId}`, user, { headers: httpHeaders })
-  };
-  updateUserPasswordRequest(userId: String, passwordConfigs: userPasswordDtoInterface): Observable<any> {
-    const token = window.localStorage.getItem('fSSIdtkn')
-    const httpHeaders: HttpHeaders = new HttpHeaders({ Authorization: `Bearer ${token}` })
+    const token = window.localStorage.getItem('fSSIdtkn');
+    const httpHeaders: HttpHeaders = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.httpClient.put(`${this.basePath}${userId}`, user, { headers: httpHeaders });
+  }
+  updateUserPasswordRequest(userId: string, passwordConfigs: userPasswordDtoInterface): Observable<any> {
+    const headers = this.commonService.getHeaders();
 
-    return this.httpClient.put(`${this.basePath}update-password/${userId}`, passwordConfigs, { headers: httpHeaders })
-  };
+    return this.httpClient.put(`${this.basePath}update-password/${userId}`, passwordConfigs, { headers });
+  }
 }

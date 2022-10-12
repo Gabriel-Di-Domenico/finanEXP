@@ -1,5 +1,4 @@
 div.content {
-
   display: flex;
   justify-content: flex-start;
   overflow: auto;
@@ -13,7 +12,7 @@ app-customer-list {
 div.divTotalBalance {
   width: 35%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 mat-card.totalBalanceCard{
   margin: 10px;

@@ -1,19 +1,20 @@
 <div class="customersList">
   <mat-card class="customer-card add-card">
-    <app-fin-add-button></app-fin-add-button>
+    <app-fin-add-button (click)="openEditorDialog()"></app-fin-add-button>
     <mat-card-title>Nova carteira</mat-card-title>
   </mat-card>
-  <mat-card class="customer-card">
-    <mat-card-title>Nubank</mat-card-title>
+
+  <mat-card *ngFor="let customer of customers" class="customer-card" (click)="showDetails(customer.id)">
+    <mat-card-title>{{customer.name}}</mat-card-title>
     <mat-card-title-group>
       <mat-card-subtitle>Saldo atual</mat-card-subtitle>
       
-      <mat-card-content> R$ 9000,00 </mat-card-content>
+      <mat-card-content class="actualBalance"> {{customer.balance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'}} </mat-card-content>
     </mat-card-title-group>
     
     <mat-card-title-group>
       <mat-card-subtitle>Tipo</mat-card-subtitle>
-      <mat-card-content> Outros </mat-card-content>
+      <mat-card-content> {{customer.type | convertEnum : customerTypesOptionsPortuguese}} </mat-card-content>
     </mat-card-title-group>
   </mat-card>
 </div>

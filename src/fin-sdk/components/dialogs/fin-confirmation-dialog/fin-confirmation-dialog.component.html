@@ -1,0 +1,11 @@
+<div id="confirmationDialog">
+  <header>
+    <app-fin-title label="Você tem certeza ?"></app-fin-title>
+    <p>{{message}}</p>
+  </header>
+  
+  <main>
+    <app-fin-button color="primary" (click)="confirm()">Sim</app-fin-button>
+    <app-fin-button color="warn" (click)="cancel()">Não</app-fin-button>
+  </main>
+</div>

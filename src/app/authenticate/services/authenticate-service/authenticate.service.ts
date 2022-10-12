@@ -8,7 +8,6 @@ import { take } from 'rxjs';
 
 import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud.proxys.service';
 import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
-import JsonResult from '../../../shared/support/interfaces/JsonResult.interface';
 import UserInput from '../../../shared/support/interfaces/userInput.interface';
 import IAuthenticateService from './IAuthenticate.service.interface';
 import ResponseAuthUserDto from 'src/app/shared/support/classes/responseAuthUserDto';
@@ -31,13 +30,13 @@ export class AuthenticateService implements IAuthenticateService {
       )
       .subscribe({
         next: (data: ResponseDto) => {
-          this.authUser(user)
-          if (callback) callback(data.message)
+          this.authUser(user);
+          if (callback) callback(data.message);
         },
         error: (err: HttpErrorResponse) => {
-          if (callback) callback(err.error.message)
+          if (callback) callback(err.error.message);
         }
-      })
+      });
   }
   authUser(user: UserInput, callback?: Function): void {
     this.authenticateProxyService.authUserRequest(user)
@@ -46,13 +45,13 @@ export class AuthenticateService implements IAuthenticateService {
       )
       .subscribe({
         next: (data: ResponseAuthUserDto) => {
-          window.localStorage.setItem('fSSIdtkn', data.jwt)
+          window.localStorage.setItem('fSSIdtkn', data.jwt);
 
-          this.router.navigate(['home'])
+          this.router.navigate(['home']);
 
           if (callback) callback(data.message);
         },
         error: (err: HttpErrorResponse) => callback ? callback(err.error.message) : ''
-      })
+      });
   }
 }

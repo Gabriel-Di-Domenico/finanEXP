@@ -54,7 +54,6 @@ namespace backend.Customers.Services
     public List<CustomerModel> GetAllCustomers(Guid userId)
     {
       var customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
-
       if (customers != null)
       {
         return customers;
