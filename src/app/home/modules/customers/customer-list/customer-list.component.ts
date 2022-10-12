@@ -1,3 +1,5 @@
+import CustomerEditorDialogDataInterface
+  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 import { CustomersService } from './../customers.service';
 import { CustomerDetailsDialogComponent } from './customer-details-dialog/customer-details-dialog.component';
 import { CustomerEdtiorDialogComponent } from './../customer-edtior-dialog/customer-edtior-dialog.component';
@@ -38,9 +40,7 @@ export class CustomerListComponent {
       .subscribe({
         next: (data: { updated: boolean }) => {
           if(data?.updated){
-            this.customersService.getAll((data:ResponseGetAllCustomersDto) => {
-              this.customers = data.customers;
-            });
+            this.getAllCustomers();
           }
         },
       });
@@ -50,14 +50,20 @@ export class CustomerListComponent {
       .openDialog(CustomerEdtiorDialogComponent, {
         width: '650px',
         height: '500px',
+        data: {
+          operation:'create'
+        } as CustomerEditorDialogDataInterface
       })
       .afterClosed()
       .subscribe({
         next: () => {
-          this.customersService.getAll((data: ResponseGetAllCustomersDto) => {
-            this.customers = data.customers;
-          });
+          this.getAllCustomers();
         },
       });
+  }
+  private getAllCustomers(){
+    this.customersService.getAll((data: ResponseGetAllCustomersDto) => {
+      this.customers = data.customers;
+    });
   }
 }

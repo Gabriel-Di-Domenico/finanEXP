@@ -2,6 +2,7 @@
 @import url(./small.css);
 @import url(./medium.css);
 @import url(./extra-large.css);
+
 div.authenticate-component {
     background-color: #dde5ff;
     height: 100%;

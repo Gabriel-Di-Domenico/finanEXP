@@ -1,3 +1,5 @@
+import CustomerEditorDialogDataInterface from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import Message from 'src/app/shared/support/interfaces/message.interface';
 import { CustomerEdtiorDialogComponent } from '../../customer-edtior-dialog/customer-edtior-dialog.component';
@@ -38,7 +40,7 @@ export class CustomerDetailsDialogComponent {
       .openDialog(CustomerEdtiorDialogComponent, {
         width: '650px',
         height: '500px',
-        data: this.customer.id,
+        data: { customerId: this.customer.id, operation: 'update' } as CustomerEditorDialogDataInterface,
       })
       .afterClosed()
       .subscribe({

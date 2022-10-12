@@ -1,3 +1,19 @@
+div.perfilComponent{
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+header{
+    width: 90%;
+    height: 10%;
+    padding: 25px;
+    margin: 0;
+}
 form {
     width: 90%;
     height: 90%;

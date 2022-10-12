@@ -14,10 +14,3 @@ div.divTotalBalance {
   display: flex;
   justify-content: flex-end;
 }
-mat-card.totalBalanceCard{
-  margin: 10px;
-  width: 300px;
-  height: 55px;
-  border-radius: 30px;
-  
-}

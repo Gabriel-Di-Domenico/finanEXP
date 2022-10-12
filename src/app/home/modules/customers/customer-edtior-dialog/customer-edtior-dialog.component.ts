@@ -10,6 +10,7 @@ import { Component, Inject } from '@angular/core';
 import finSelectOption from 'src/app/shared/support/classes/fin-select-option';
 import Message from 'src/app/shared/support/interfaces/message.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import CustomerEditorDialogDataInterface from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 
 @Component({
   selector: 'app-customer-edtior-dialog',
@@ -29,18 +30,19 @@ export class CustomerEdtiorDialogComponent {
     private dialogControlService: DialogControlService,
     private snackBarControlService: SnackBarControlService,
     private dialogRef: MatDialogRef<CustomerEdtiorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) private data: CustomerEditorDialogDataInterface
   ) {
-    if (data) {
-      this.getCustomerById(data);
+    if(this.data.operation === 'update'){
+      this.getCustomerById();
     }
+
     this.getSelectOptions();
     this.createForm();
   }
   public submitForm() {
     this.unMaskbalance();
 
-    if (!this.customer) {
+    if (this.data.operation === 'create') {
       this.customerService.create(this.form.value, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
         this.dialogControlService.closeDialog(this.dialogRef);
@@ -52,17 +54,11 @@ export class CustomerEdtiorDialogComponent {
       });
     }
   }
-
   public canSave(): boolean {
     return this.form.valid;
   }
   public closeEditorDialog() {
     this.dialogControlService.closeDialog(this.dialogRef);
-  }
-  private populateForm() {
-    this.form.get(this.formControls.nameFormControl)?.setValue(this.customer.name);
-    this.form.get(this.formControls.balance)?.setValue(this.customer.balance);
-    this.form.get(this.formControls.type)?.setValue(this.customer.type);
   }
   private createForm() {
     this.form = this.formBuilder.group({});
@@ -86,13 +82,18 @@ export class CustomerEdtiorDialogComponent {
       this.form.get(this.formControls.balance)?.setValue(Number(balanceUnMasked));
     }
   }
-  private getCustomerById(customerId: string) {
-    this.customerService.getById(customerId, (data: ResponseGetByIdCustomerDto) => {
+  private getCustomerById() {
+    this.customerService.getById(this.data.customerId, (data: ResponseGetByIdCustomerDto) => {
       if (!data.message.error) {
         this.customer = data.customer;
         this.label = 'Editar Carteira';
         this.populateForm();
       }
     });
+  }
+  private populateForm() {
+    this.form.get(this.formControls.nameFormControl)?.setValue(this.customer.name);
+    this.form.get(this.formControls.balance)?.setValue(this.customer.balance);
+    this.form.get(this.formControls.type)?.setValue(this.customer.type);
   }
 }

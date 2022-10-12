@@ -1,0 +1,13 @@
+<mat-card class="customer-card" >
+  <mat-card-title>{{customer.name}}</mat-card-title>
+  <mat-card-title-group>
+    <mat-card-subtitle>Saldo atual</mat-card-subtitle>
+    
+    <mat-card-content class="actualBalance"> {{customer.balance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'}} </mat-card-content>
+  </mat-card-title-group>
+  
+  <mat-card-title-group>
+    <mat-card-subtitle>Tipo</mat-card-subtitle>
+    <mat-card-content> {{customer.type | convertEnum : customerTypesOptionsPortuguese}} </mat-card-content>
+  </mat-card-title-group>
+</mat-card>

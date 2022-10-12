@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import MustHaveControlName from '../../common/MustHaveControlName';
 
 @Component({
@@ -25,25 +25,24 @@ export class FinInputCurrencyComponent extends MustHaveControlName {
   @Input() public label!: string;
   @Input() public required!: boolean;
   @Input() public hint!: string;
+
   override value = '';
 
   override writeValue(value: string): void {
-
     this.value = value?.toString();
     this.value = this.currencyMask(Number(this.value).toFixed(2));
+  }
+  public inputChanges(): void {
+    this.value = this.currencyMask(this.value);
+
+    this.markAsTouched();
+    this.onChange(this.value);
   }
 
   public verifyKey(event: KeyboardEvent) {
     if (!this.verifyChar(event.key) || (this.value === 'R$ 0,00 ' && (event.key === 'Backspace' || event.key === '0'))) {
       event.preventDefault();
     }
-  }
-
-  public inputChanges(): void {
-    this.value = this.currencyMask(this.value);
-
-    this.markAsTouched();
-    this.onChange(this.value);
   }
 
   private currencyMask(value: string) {

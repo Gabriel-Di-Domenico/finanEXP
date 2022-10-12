@@ -1,3 +1,5 @@
+import CustomerEditorDialogDataInterface
+  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 import ResponseGetAllCustomersDto from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
 import { CustomersService } from './customers.service';
 import { CustomerEdtiorDialogComponent } from './customer-edtior-dialog/customer-edtior-dialog.component';
@@ -22,14 +24,13 @@ export class CustomersComponent implements OnInit {
     this.getCustomers();
   }
 
-  public createCustomer(): void {
-    this.openDialog();
-  }
-
-  private openDialog(): void {
+  public openCustomerEditorDialog(): void {
     this.dialogControl.openDialog(CustomerEdtiorDialogComponent, {
       width: '650px',
       height: '500px',
+      data:{
+        operation:'create'
+      } as CustomerEditorDialogDataInterface
     }).afterClosed().subscribe({
       next:() => {
         this.customersService.getAll((data:ResponseGetAllCustomersDto) => {

@@ -1,3 +1,4 @@
+import { CardsModule } from './components/cards/cards.module';
 import { PipesModule } from './pipes/pipes.module';
 import { SelectModule } from './components/select/select.module';
 import { InputsModule } from './components/inputs/inputs.module';
@@ -15,6 +16,6 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [PerfilPhotoComponent],
   imports: [CommonModule, HttpClientModule, MatSnackBarModule, MatDialogModule, MatIconModule, PipesModule],
-  exports: [ButtonsModule, FinCommonModule, DialogsModule, InputsModule, PerfilPhotoComponent, SelectModule, PipesModule],
+  exports: [ButtonsModule, FinCommonModule, DialogsModule, InputsModule, PerfilPhotoComponent, SelectModule, PipesModule, CardsModule],
 })
 export class FinSDKModule {}

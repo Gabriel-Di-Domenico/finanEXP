@@ -1,0 +1,14 @@
+mat-card{
+  margin: 10px;
+  width: 350px;
+  height: 120px;
+  margin-bottom: 8px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+app-fin-add-button{
+  margin: 25px;
+}

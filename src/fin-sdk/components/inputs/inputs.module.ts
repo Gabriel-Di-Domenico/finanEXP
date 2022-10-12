@@ -17,7 +17,8 @@ import { FinInputCurrencyComponent } from './fin-input-currency/fin-input-curren
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+
   ],
   exports:[FinInputComponent, FinInputCurrencyComponent]
 })
