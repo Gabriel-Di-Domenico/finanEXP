@@ -5,11 +5,10 @@
     src: url(../../../../../assets/fonts/FredokaOne-Regular.ttf);
 }
 
-h2 {
+app-fin-title {
     font-family: 'Fredoka-regular';
     color: #557bd6;
     text-align: center;
-    font-size: 2rem;
 }
 
 form {

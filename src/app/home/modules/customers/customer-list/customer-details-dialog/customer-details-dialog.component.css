@@ -1,0 +1,38 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  
+  height: 10%;
+}
+main{
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+app-fin-h3{
+  color: gray;
+}
+main>section#actualBalanceSection{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+main>section#actualBalanceSection>span{
+  color: green;
+}
+main>div{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+div#actionsDiv{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+div#actionsDiv>app-fin-edit-button{
+  margin-left: 5px;
+}

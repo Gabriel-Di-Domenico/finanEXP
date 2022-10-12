@@ -1,0 +1,18 @@
+.customer-card {
+  margin: 10px;
+  width: 350px;
+  height: 120px;
+  margin-bottom: 8px;
+  border-radius: 30px;
+}
+mat-card-content.actualBalance{
+  font-size: 0.9rem;
+  color: rgb(4, 180, 4);
+  font-weight: 500;
+}
+mat-card-title-group{
+  margin-top: 20px;
+}
+mat-card-subtitle{
+  font-size: 1rem;
+}

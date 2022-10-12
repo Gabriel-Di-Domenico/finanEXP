@@ -1,0 +1,16 @@
+div.content {
+  display: flex;
+  justify-content: flex-start;
+  overflow: auto;
+}
+
+app-customer-list {
+  width: 65%;
+  height: 100%;
+}
+
+div.divTotalBalance {
+  width: 35%;
+  display: flex;
+  justify-content: flex-end;
+}

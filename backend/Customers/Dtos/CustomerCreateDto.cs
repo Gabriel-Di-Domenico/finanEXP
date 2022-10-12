@@ -1,12 +1,14 @@
+using backend.Customers.Enums;
+
 namespace backend.Customers.Dtos
 {
   public class CustomerCreateDto
   {
     public string Name { get; set; }
 
-    public Guid UserId { get; set; }
+    public CustomersTypeOptions Type { get; set; }
 
-    public string Type { get; set; }
+    public decimal Balance {get;set;}
 
   }
 }

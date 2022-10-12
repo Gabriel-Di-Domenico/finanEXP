@@ -6,9 +6,9 @@
         label="Nome de usuário"
         type="text"
         [formControlName]="profileSettingFormControls.nameFormControl"
-        required="true"></app-fin-input>
+        [required]="true"></app-fin-input>
 
-      <app-fin-input class="app-fin-input" label="Email" type="text" [formControlName]="profileSettingFormControls.email" required="true"></app-fin-input>
+      <app-fin-input class="app-fin-input" label="Email" type="text" [formControlName]="profileSettingFormControls.email" [required]="true"></app-fin-input>
     </div>
     <div class="second-div">
       <app-fin-submit-button label="Salvar alterações" [disabled]="!canSave()"></app-fin-submit-button>

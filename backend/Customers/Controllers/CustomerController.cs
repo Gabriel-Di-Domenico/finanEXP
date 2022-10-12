@@ -31,6 +31,12 @@ namespace backend.Customers.Controllers
     public ActionResult<ReturnDto> Create([FromBody] CustomerCreateDto customer)
     {
       var customerModel = _mapper.Map<CustomerModel>(customer);
+
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+
+      customerModel.UserId = userId;
+      customerModel.Balance = customer.Balance;
       var verifyCustomer = _customerService.GetCustomerByName(customerModel);
 
       var result = new ReturnDto();

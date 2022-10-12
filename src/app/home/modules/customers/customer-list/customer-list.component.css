@@ -1,0 +1,11 @@
+div.customersList{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+mat-card-content.actualBalance{
+  font-size: 0.9rem;
+  color: rgb(4, 180, 4);
+  font-weight: 500;
+}

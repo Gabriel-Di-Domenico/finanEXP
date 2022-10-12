@@ -1,0 +1,39 @@
+<ng-container *ngIf="customer">
+  <header>
+    <app-fin-title label="Detalhes da carteira"></app-fin-title>
+    <app-fin-close-button (click)="closeDetailsDialog()"></app-fin-close-button>
+  </header>
+  
+  <main>
+    <app-fin-subtitle [label]="customer.name"></app-fin-subtitle>
+    <section id="actualBalanceSection">
+      <app-fin-h3 label="Saldo Atual"></app-fin-h3>
+      <span>WIP</span>
+    </section>
+    <div>
+      <p>Tipo</p> 
+      <p>{{customer.type | convertEnum :customerTypesOptionsPortuguese }}</p>
+    </div>
+    <div>
+      <p>Saldo inicial</p>
+      <span>{{customer.balance | currency : 'BRL' : 'symbol' : '1.2' : 'pt-br'}}</span>
+    </div>
+    <div>
+      <p>Quantidade de despesas</p>
+      <p>WIP</p>
+    </div>
+    <div>
+      <p>Quantidade de receitas</p>
+      <p>WIP</p>
+    </div>
+    <div>
+      <p>Quantidade de transações</p>
+      <p>WIP</p>
+    </div>
+    <div id="actionsDiv">
+      <app-fin-delete-button (click)="openConfirmationDeleteCustomerDialog()"></app-fin-delete-button>
+      <app-fin-edit-button (click)="openCustomerEditorDialog()"></app-fin-edit-button>
+    </div>
+    
+  </main>
+</ng-container>

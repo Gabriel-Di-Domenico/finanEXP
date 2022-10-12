@@ -12,8 +12,8 @@ main>header {
     align-items: center;
 }
 
-main>header>h1 {
-    margin: 0;
+app-fin-title {
+    margin-top: 20px;
     margin-left: 10px;
 }
 
