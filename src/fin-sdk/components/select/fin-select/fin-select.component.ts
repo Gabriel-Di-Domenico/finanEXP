@@ -32,7 +32,8 @@ export class FinSelectComponent extends MustHaveControlName{
     this.onChange(this.value);
   }
   override writeValue(value: string): void {
-    this.value = Number(value);
-
+    if(value !== null){
+      this.value = Number(value);
+    }
   }
 }

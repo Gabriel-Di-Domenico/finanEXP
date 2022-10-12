@@ -37,7 +37,7 @@ export class CustomerListComponent {
       .afterClosed()
       .subscribe({
         next: (data: { updated: boolean }) => {
-          if(data.updated){
+          if(data?.updated){
             this.customersService.getAll((data:ResponseGetAllCustomersDto) => {
               this.customers = data.customers;
             });
