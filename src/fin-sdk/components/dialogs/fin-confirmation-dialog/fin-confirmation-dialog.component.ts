@@ -3,7 +3,7 @@ import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-fin-confirmation-dialog',
+  selector: 'fin-confirmation-dialog',
   templateUrl: './fin-confirmation-dialog.component.html',
   styleUrls: ['./fin-confirmation-dialog.component.css'],
 })

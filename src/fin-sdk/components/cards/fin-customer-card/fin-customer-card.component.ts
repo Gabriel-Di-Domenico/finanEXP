@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
 
 @Component({
-  selector: 'app-fin-customer-card',
+  selector: 'fin-customer-card',
   templateUrl: './fin-customer-card.component.html',
   styleUrls: ['./fin-customer-card.component.css']
 })

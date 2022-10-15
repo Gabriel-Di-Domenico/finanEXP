@@ -4,7 +4,7 @@ import { finSelectOption } from 'src/app/shared/support/classes/fin-select-optio
 import { MustHaveControlName } from '../../common/MustHaveControlName';
 
 @Component({
-  selector: 'app-fin-select',
+  selector: 'fin-select',
   templateUrl: './fin-select.component.html',
   styleUrls: ['./fin-select.component.css'],
   providers: [

@@ -1,8 +1,8 @@
 <div class="customersList">
-  <app-fin-new-card [clickEvent]="openEditorDialog" title="Nova carteira"></app-fin-new-card>
+  <fin-new-card [clickEvent]="openEditorDialog" title="Nova carteira"></fin-new-card>
 
-  <app-fin-customer-card
+  <fin-customer-card
     *ngFor="let customer of customers"
     (click)="showDetails(customer.id)"
-    [customer]="customer"></app-fin-customer-card>
+    [customer]="customer"></fin-customer-card>
 </div>

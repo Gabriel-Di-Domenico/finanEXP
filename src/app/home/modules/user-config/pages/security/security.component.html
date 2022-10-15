@@ -1,31 +1,31 @@
 <app-config-view title="Segurança">
   <form [formGroup]="form" (ngSubmit)="saveChanges()">
     <div class="first-div">
-      <app-fin-input
+      <fin-input
         label="Senha atual"
         type="password"
         [formControlName]="securitySettingsFormConstrols.actualPassword"
-        class="app-fin-input"
-        [required]="true"></app-fin-input>
-      <app-fin-input
+        class="fin-input"
+        [required]="true"></fin-input>
+      <fin-input
         label="Nova senha"
         placeholder="Ex:aB@%3nbx"
         type="password"
         [formControlName]="securitySettingsFormConstrols.newPassword"
-        class="app-fin-input"
+        class="fin-input"
         [required]="true"
-        hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número."></app-fin-input>
-      <app-fin-input
+        hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número."></fin-input>
+      <fin-input
         label="Senha atual"
         type="password"
         [formControlName]="securitySettingsFormConstrols.confirmPassword"
-        class="app-fin-input"
-        [required]="true"></app-fin-input>
+        class="fin-input"
+        [required]="true"></fin-input>
     </div>
     <div class="second-div">
-        <app-fin-submit-button
+        <fin-submit-button
         label="Salvar alterações"
-        [disabled]="!canSave()"></app-fin-submit-button>
+        [disabled]="!canSave()"></fin-submit-button>
     </div>
   </form>
 </app-config-view>
