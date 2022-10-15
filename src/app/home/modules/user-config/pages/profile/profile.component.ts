@@ -59,10 +59,15 @@ export class ProfileComponent implements OnInit {
   }
 
   private createForm() {
-    this.form = this.formBuilder.group({
-      [this.profileSettingFormControls.nameFormControl]: [null, [Validators.required, Validators.maxLength(25)]],
-      [this.profileSettingFormControls.email]: [null, [Validators.email, Validators.required]],
-    });
+    this.form = this.formBuilder.group({});
+    this.form.addControl(
+      this.profileSettingFormControls.nameFormControl,
+      this.formBuilder.control(null, [Validators.required, Validators.maxLength(25)])
+    );
+    this.form.addControl(
+      this.profileSettingFormControls.email,
+      this.formBuilder.control(null, [Validators.email, Validators.required])
+    );
   }
 
   private populateForm() {
