@@ -30,7 +30,7 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
   override ngOnInitFunction(): void {
     this.route.data.subscribe({
       next: data => {
-        this.currentUserId = data['currentUserId'].token;
+        this.currentUserId = data['currentUserId'];
       },
     });
     this.UserService.getUserById(this.currentUserId, (data: ResponseGetUserByIdDto) => {

@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.pipe(take(1)).subscribe({
       next: data => {
-        this.currentUserId = data['currentUserId'].token;
+        this.currentUserId = data['currentUserId'];
       },
     });
 
