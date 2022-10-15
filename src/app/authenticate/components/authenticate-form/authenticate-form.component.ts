@@ -32,7 +32,10 @@ export class AuthenticateFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.createForms();
+    this.createLoginForm();
+    this.createRegisterForm();
+    this.actualForm = this.loginForm;
+    this.notActualForm = this.registerForm;
   }
 
   public changeForm(actualMatTab: MatTabChangeEvent) {
@@ -79,24 +82,33 @@ export class AuthenticateFormComponent implements OnInit {
     }
   }
 
-  private createForms() {
-    this.loginForm = this.formBuilder.group({
-      [this.loginFormControls.email]: [null, [Validators.email, Validators.required]],
-      [this.loginFormControls.password]: [null, [Validators.required]],
-    });
-    this.registerForm = this.formBuilder.group({
-      [this.registerFormControls.nameFormControl]: [null, [Validators.required, Validators.maxLength(25)]],
-      [this.registerFormControls.email]: [null, [Validators.email, Validators.required]],
-      [this.registerFormControls.password]: [
-        null,
-        [
-          Validators.required,
-          Validators.max(30),
-          Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
-        ],
-      ],
-    });
-    this.actualForm = this.loginForm;
-    this.notActualForm = this.registerForm;
+  private createLoginForm(){
+    this.loginForm = this.formBuilder.group({});
+    this.loginForm.addControl(
+      this.loginFormControls.email,
+      this.formBuilder.control(null, [Validators.email, Validators.required])
+    );
+    this.loginForm.addControl(this.loginFormControls.password, this.formBuilder.control(null, [Validators.required]));
+
+  }
+  private createRegisterForm(){
+    this.registerForm = this.formBuilder.group({});
+
+    this.registerForm.addControl(
+      this.registerFormControls.nameFormControl,
+      this.formBuilder.control(null, [Validators.required, Validators.maxLength(25)])
+    );
+    this.registerForm.addControl(
+      this.registerFormControls.email,
+      this.formBuilder.control(null, [Validators.email, Validators.required])
+    );
+    this.registerForm.addControl(
+      this.registerFormControls.password,
+      this.formBuilder.control(null, [
+        Validators.required,
+        Validators.max(30),
+        Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
+      ])
+    );
   }
 }
