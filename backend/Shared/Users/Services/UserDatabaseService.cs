@@ -16,7 +16,7 @@ namespace backend.Shared.Users.Services
       _context = context;
     }
 
-    public bool CreateUser(UserModel user)
+    public bool CreateUser(User user)
     {
       if (user == null)
       {
@@ -33,12 +33,12 @@ namespace backend.Shared.Users.Services
       
     }
 
-    public IEnumerable<UserModel> GetAllUsers()
+    public IEnumerable<User> GetAllUsers()
     {
       return _context.Users.ToList();
     }
 
-    public UserModel GetUserByID(Guid id)
+    public User GetUserByID(Guid id)
     {
       var users = _context.Users.FirstOrDefault(p => p.ID == id);
       if (users != null)
@@ -56,7 +56,7 @@ namespace backend.Shared.Users.Services
       return _context.SaveChanges() >= 0;
     }
 
-    public UserModel GetUserByEmail(string email)
+    public User GetUserByEmail(string email)
     {
       var users = _context.Users.FirstOrDefault(p => p.email == email);
       if (users != null)
@@ -69,7 +69,7 @@ namespace backend.Shared.Users.Services
       }
     }
 
-    public UserModel UpdateUser(Guid id, UserUpdateDto newUser)
+    public User UpdateUser(Guid id, UserUpdateDto newUser)
     {
       var user = GetUserByID(id);
 
@@ -97,7 +97,7 @@ namespace backend.Shared.Users.Services
       }
     }
 
-    public UserModel UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
+    public User UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
     {
       var userFromDatabase = GetUserByID(id);
       var authenticatedPassword = AuthUserService.AuthenticatePasswords(passwordConfigs.ActualPassword, userFromDatabase.password);

@@ -9,10 +9,10 @@ namespace backend.Profiles
   {
     public UsersProfile()
     {
-      CreateMap<UserModel, UserReadDto>();
-      CreateMap<UserCreateDto, UserModel>();
-      CreateMap<UserUpdateDto, UserModel>();
-      CreateMap<UserModel, UserUpdateDto>();
+      CreateMap<User, UserReadDto>();
+      CreateMap<UserCreateDto, User>();
+      CreateMap<UserUpdateDto, User>();
+      CreateMap<User, UserUpdateDto>();
     }
   }
 }

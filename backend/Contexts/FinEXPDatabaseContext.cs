@@ -10,8 +10,8 @@ namespace backend.Contexts
     public FinEXPDatabaseContext(DbContextOptions<FinEXPDatabaseContext> opt) : base(opt)
     {
     }
-    public DbSet<UserModel> Users { get; set; }
-    public DbSet<CustomerModel> Customers { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
   }
 }

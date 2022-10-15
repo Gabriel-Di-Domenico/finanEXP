@@ -6,7 +6,7 @@ namespace backend.Authenticate.Services
 {
   public static class AuthUserService
   {
-    public static string AuthUser(UserAuthDto user, UserModel userFromDataBase)
+    public static string AuthUser(UserAuthDto user, User userFromDataBase)
     {
 
       bool authenticatePassword = AuthenticatePasswords(user.password, userFromDataBase.password);

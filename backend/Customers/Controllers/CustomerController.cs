@@ -30,7 +30,7 @@ namespace backend.Customers.Controllers
     [Authorize]
     public ActionResult<ReturnDto> Create([FromBody] CustomerCreateDto customer)
     {
-      var customerModel = _mapper.Map<CustomerModel>(customer);
+      var customerModel = _mapper.Map<Customer>(customer);
 
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));

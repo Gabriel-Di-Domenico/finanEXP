@@ -8,7 +8,7 @@ namespace backend.Authenticate.Services
 {
   public class TokenService
   {
-    public static string GenerateToken(UserModel user)
+    public static string GenerateToken(User user)
     {
       var tokenHandler = new JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes(Settings.Secret);

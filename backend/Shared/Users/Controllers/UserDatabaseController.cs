@@ -51,14 +51,14 @@ public class UserDatabaseController : ControllerBase
 
   public ActionResult<ReturnDto> CreateUser([FromBody] UserCreateDto user)
   {
-    var UserModel = _Mapper.Map<UserModel>(user);
-    var verifyUser = _UserDatabaseService.GetUserByEmail(UserModel.email);
+    var User = _Mapper.Map<User>(user);
+    var verifyUser = _UserDatabaseService.GetUserByEmail(User.email);
 
     var result = new ReturnDto();
 
     if (verifyUser == null)
     {
-      if (_UserDatabaseService.CreateUser(UserModel))
+      if (_UserDatabaseService.CreateUser(User))
       {
         _UserDatabaseService.SaveChanges();
       }
