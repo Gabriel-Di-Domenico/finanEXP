@@ -1,7 +1,7 @@
 using AutoMapper;
 using backend.models;
 using backend.Shared.Dtos;
-using backend.UserSettings.Dtos;
+using backend.Users.Dtos;
 
 namespace backend.Profiles
 {

@@ -5,8 +5,8 @@ import { ProfileService } from '../../../modules/user-config/pages/profile/profi
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service';
-import UserOutput from 'src/app/shared/support/interfaces/userOutput.interface';
-import User from 'src/app/shared/support/interfaces/user.interface';
+import UserOutput from 'src/app/shared/support/interfaces/user/userOutput.interface';
+import User from 'src/app/shared/support/interfaces/user/user.interface';
 import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Component({

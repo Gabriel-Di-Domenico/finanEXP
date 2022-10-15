@@ -1,4 +1,5 @@
 using backend.models;
+using backend.Users.Dtos;
 
 namespace backend.Shared.Users.Services
 {
@@ -8,6 +9,7 @@ namespace backend.Shared.Users.Services
     User GetUserByID(Guid id);
     User GetUserByEmail(string email);
     bool CreateUser(User user);
+    User UpdateUser(Guid id, UserUpdateDto newUser);
     bool SaveChanges();
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import  UserOutput  from './../../../shared/support/interfaces/userOutput.interface';
+import  UserOutput  from '../../../shared/support/interfaces/user/userOutput.interface';
 
 @Component({
   selector: 'app-menu',

@@ -1,14 +1,12 @@
-
-import Message from 'src/app/shared/support/interfaces/message.interface';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { take } from 'rxjs';
 
-import { UserCrudProxysService } from '../../../shared/proxys/userCrudProxys/user-crud.proxys.service';
+import { UserProxysService } from '../../../shared/proxys/userProxys/user-proxys.service';
 import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
-import UserInput from '../../../shared/support/interfaces/userInput.interface';
+import UserInput from '../../../shared/support/interfaces/user/userInput.interface';
 import IAuthenticateService from './IAuthenticate.service.interface';
 import ResponseAuthUserDto from 'src/app/shared/support/classes/responseAuthUserDto';
 import ResponseDto from 'src/app/shared/support/classes/responseDto';
@@ -18,13 +16,13 @@ import ResponseDto from 'src/app/shared/support/classes/responseDto';
 })
 export class AuthenticateService implements IAuthenticateService {
   constructor(
-    private userCrudProxysService: UserCrudProxysService,
+    private userProxysService: UserProxysService,
     private router: Router,
     private authenticateProxyService: AuthenticateProxyService
   ) { }
 
   createNewUser(user: UserInput, callback?: Function): void {
-    this.userCrudProxysService.createNewUserRequest(user)
+    this.userProxysService.createNewUserRequest(user)
       .pipe(
         take(1)
       )

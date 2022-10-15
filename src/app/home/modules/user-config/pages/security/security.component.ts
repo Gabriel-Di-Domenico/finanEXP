@@ -1,3 +1,7 @@
+import UserInput from '../../../../../shared/support/interfaces/user/userInput.interface';
+import UserOutput from 'src/app/shared/support/interfaces/user/userOutput.interface';
+import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { UserService } from './../../../../services/user.service';
 import { securitySettingsFormConstrols } from './securitySettingsFormConstrols';
 import { take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -5,7 +9,6 @@ import { SecurityService } from './security.service';
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import UserPasswordDto from 'src/app/shared/support/interfaces/userPasswordDto.interface';
 import Message from 'src/app/shared/support/interfaces/message.interface';
 
 @Component({
@@ -22,13 +25,15 @@ export class SecurityComponent implements OnInit {
   public showNewPassword = false;
   public showActualPassword = false;
   public showConfirmPassword = false;
+  public currentUser!: UserOutput;
   public securitySettingsFormConstrols = securitySettingsFormConstrols;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private snackBarControlService: SnackBarControlService,
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +42,7 @@ export class SecurityComponent implements OnInit {
         this.currentUserId = data['currentUserId'].token;
       },
     });
+    this.getUserById();
     this.initForm();
   }
   public canSave(): boolean {
@@ -49,11 +55,13 @@ export class SecurityComponent implements OnInit {
     const confirmPassword = this.form.get('confirmPassword')?.value;
 
     if (this.verifyPasswords(newPassword, confirmPassword)) {
-      const passwordConfigs: UserPasswordDto = {
-        actualPassword,
-        newPassword,
+      const user: UserInput = {
+        email: this.currentUser.email,
+        name: this.currentUser.name,
+        password: actualPassword,
+        newPassword: newPassword
       };
-      this.securityService.updateUserPassword(this.currentUserId, passwordConfigs, (message: Message) => {
+      this.securityService.updateUserPassword(this.currentUserId, user, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
       });
       this.form.reset();
@@ -83,6 +91,11 @@ export class SecurityComponent implements OnInit {
           Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
         ],
       ],
+    });
+  }
+  private getUserById(): void {
+    this.userService.getUserById(this.currentUserId, (data:ResponseGetUserByIdDto) => {
+      this.currentUser = data.user;
     });
   }
 }

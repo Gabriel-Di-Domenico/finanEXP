@@ -2,7 +2,7 @@ using backend.Authenticate.Services;
 using backend.Contexts;
 using backend.models;
 using backend.Shared.Services;
-using backend.UserSettings.Dtos;
+using backend.Users.Dtos;
 using System.Text;
 
 namespace backend.Shared.Users.Services
@@ -75,6 +75,19 @@ namespace backend.Shared.Users.Services
 
       if (user != null)
       {
+        if (newUser.NewPassword != null)
+        {
+          var authenticatedPassword = AuthUserService.AuthenticatePasswords(newUser.password, user.password);
+          if (authenticatedPassword)
+          {
+            var newPassword = Bcrypt.Encrypt(newUser.NewPassword);
+            user.password = newPassword;
+          }
+          else
+          {
+            //TODO retornar mensagem de erro
+          }
+        }
         if (newUser.perfilPhoto != null)
         {
           byte[] bytes = Encoding.UTF8.GetBytes(newUser.perfilPhoto);
@@ -90,27 +103,6 @@ namespace backend.Shared.Users.Services
         _context.Update(user);
         SaveChanges();
         return user;
-      }
-      else
-      {
-        return null;
-      }
-    }
-
-    public User UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
-    {
-      var userFromDatabase = GetUserByID(id);
-      var authenticatedPassword = AuthUserService.AuthenticatePasswords(passwordConfigs.ActualPassword, userFromDatabase.password);
-
-      if (authenticatedPassword)
-      {
-        var newUser = userFromDatabase;
-        var newPassword = Bcrypt.Encrypt(passwordConfigs.NewPassword);
-        newUser.password = newPassword;
-
-        _context.Update(newUser);
-        SaveChanges();
-        return newUser;
       }
       else
       {
