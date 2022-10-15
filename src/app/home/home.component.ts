@@ -51,7 +51,7 @@ export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
 
     this.route.data.pipe(take(1)).subscribe({
       next: (data: any) => {
-        currentUserId = data['currentUserId'].token;
+        currentUserId = data['currentUserId'];
       },
     });
     this.userService.getUserById(currentUserId, (data: ResponseGetUserByIdDto) => {
