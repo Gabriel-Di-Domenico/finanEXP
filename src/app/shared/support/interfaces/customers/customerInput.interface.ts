@@ -1,7 +1,7 @@
-export default interface CustomerInput {
+export interface CustomerInput {
   name: string;
 
   userId: string;
 
   type: string;
-};
+}

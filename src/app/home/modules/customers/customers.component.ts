@@ -1,12 +1,12 @@
-import CustomerEditorDialogDataInterface
+import { CustomerEditorDialogDataInterface }
   from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
-import ResponseGetAllCustomersDto from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
+import { ResponseGetAllCustomersDto } from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
 import { CustomersService } from './customers.service';
 import { CustomerEdtiorDialogComponent } from './customer-edtior-dialog/customer-edtior-dialog.component';
 import { DialogControlService } from './../../../shared/support/services/dialogControl/dialog-control.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import CustomerOutput from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { take } from 'rxjs/operators';
 
 @Component({

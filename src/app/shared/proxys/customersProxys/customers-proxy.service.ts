@@ -1,12 +1,12 @@
-import { CustomerProxyInterface } from './customers.proxy.interface';
-import ResponseDto from 'src/app/shared/support/classes/responseDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Observable } from 'rxjs';
 import { CommonService } from './../../support/services/common.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import CustomerInput from '../../support/interfaces/customers/customerInput.interface';
-import ResponseGetAllCustomersDto from '../../support/classes/customers/responseGetAllCustomersDto';
-import ResponseGetByIdCustomerDto from '../../support/classes/customers/responseGetByIdCustomerDto';
+import { CustomerInput } from '../../support/interfaces/customers/customerInput.interface';
+import { ResponseGetAllCustomersDto } from '../../support/classes/customers/responseGetAllCustomersDto';
+import { ResponseGetByIdCustomerDto } from '../../support/classes/customers/responseGetByIdCustomerDto';
+import { CustomerProxyInterface } from './customers.proxy.interface';
 
 @Injectable({
   providedIn: 'root',

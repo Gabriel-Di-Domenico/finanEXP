@@ -1,6 +1,7 @@
-import UserInput from 'src/app/shared/support/interfaces/user/userInput.interface';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 
 export default interface IAuthenticateService {
-    createNewUser: (user: UserInput, callback?:Function) => void
-    authUser: (user: UserInput, callback?:Function) => void
-};
+    createNewUser: (user: UserInput, callback?:(data:Message) => void) => void
+    authUser: (user: UserInput, callback?:(data:Message) => void) => void
+}

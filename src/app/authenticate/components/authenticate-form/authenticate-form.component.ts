@@ -6,9 +6,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { AuthenticateService } from './../../services/authenticate-service/authenticate.service';
-import UserInput from '../../../shared/support/interfaces/user/userInput.interface';
+
 import { SnackBarControlService } from '../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import Message from 'src/app/shared/support/interfaces/message.interface';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 
 @Component({
   selector: 'app-authenticate-form',

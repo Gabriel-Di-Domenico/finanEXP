@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import finSelectOption from 'src/app/shared/support/classes/fin-select-option';
+import { finSelectOption } from 'src/app/shared/support/classes/fin-select-option';
 import MustHaveControlName from '../../common/MustHaveControlName';
 
 @Component({

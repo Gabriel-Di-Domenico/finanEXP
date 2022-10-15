@@ -1,4 +1,4 @@
-export default interface CustomerOutput {
+export interface CustomerOutput {
   id: string;
 
   name: string;

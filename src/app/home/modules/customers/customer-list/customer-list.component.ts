@@ -1,4 +1,4 @@
-import CustomerEditorDialogDataInterface
+import { CustomerEditorDialogDataInterface }
   from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 import { CustomersService } from './../customers.service';
 import { CustomerDetailsDialogComponent } from './customer-details-dialog/customer-details-dialog.component';
@@ -7,9 +7,9 @@ import { DialogControlService } from './../../../../shared/support/services/dial
 import { Component, Input, LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
-import CustomerOutput from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
-import ResponseGetAllCustomersDto from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
+import { ResponseGetAllCustomersDto } from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
 
 registerLocaleData(ptBr);
 

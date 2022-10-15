@@ -1,6 +1,4 @@
-import UserInput from '../../../../../shared/support/interfaces/user/userInput.interface';
-import UserOutput from 'src/app/shared/support/interfaces/user/userOutput.interface';
-import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { UserService } from './../../../../services/user.service';
 import { securitySettingsFormConstrols } from './securitySettingsFormConstrols';
 import { take } from 'rxjs';
@@ -9,7 +7,9 @@ import { SecurityService } from './security.service';
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import Message from 'src/app/shared/support/interfaces/message.interface';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
+import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 
 @Component({
   selector: 'app-security',

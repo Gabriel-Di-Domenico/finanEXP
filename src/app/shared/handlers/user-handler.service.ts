@@ -1,10 +1,10 @@
-import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { Observable, take } from 'rxjs';
 
-import { UserProxysService } from '../proxys/userProxys/user-proxys.service';
 import IUserHandlerService from './IUser-handler.service.interface';
+import { UserProxysService } from '../proxys/userProxys/user-proxys.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
-import CustomerOutput from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
-import ResponseGetByIdCustomerDto from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { ResponseGetByIdCustomerDto } from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
 import { SnackBarControlService } from './../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { CustomersService } from './../customers.service';
 import { DialogControlService } from './../../../../shared/support/services/dialogControl/dialog-control.service';
@@ -7,10 +7,12 @@ import { customerTypesOptions } from '../../../../shared/support/enums/customer-
 import { customerEditorFormControls } from './customerEditorFormControls';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, Inject } from '@angular/core';
-import finSelectOption from 'src/app/shared/support/classes/fin-select-option';
-import Message from 'src/app/shared/support/interfaces/message.interface';
+import { finSelectOption } from 'src/app/shared/support/classes/fin-select-option';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import CustomerEditorDialogDataInterface from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+
+import { CustomerEditorDialogDataInterface }
+  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 
 @Component({
   selector: 'app-customer-edtior-dialog',

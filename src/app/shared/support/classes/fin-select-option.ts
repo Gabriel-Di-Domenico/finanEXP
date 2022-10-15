@@ -1,4 +1,4 @@
-export default class finSelectOption {
+export class finSelectOption {
   public key!: string;
   public value!: number;
   constructor(options: { key: string; value: number }) {

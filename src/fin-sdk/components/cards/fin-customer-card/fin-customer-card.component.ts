@@ -1,4 +1,4 @@
-import CustomerOutput from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { Component, Input } from '@angular/core';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
 

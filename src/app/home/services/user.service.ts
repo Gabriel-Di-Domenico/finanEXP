@@ -1,7 +1,8 @@
-import { UserProxysService } from '../../shared/proxys/userProxys/user-proxys.service';
+
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';
+import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 
 @Injectable({
   providedIn: 'root',

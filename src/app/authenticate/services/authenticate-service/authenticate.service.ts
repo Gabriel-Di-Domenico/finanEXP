@@ -4,12 +4,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { take } from 'rxjs';
 
-import { UserProxysService } from '../../../shared/proxys/userProxys/user-proxys.service';
 import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
-import UserInput from '../../../shared/support/interfaces/user/userInput.interface';
+
 import IAuthenticateService from './IAuthenticate.service.interface';
-import ResponseAuthUserDto from 'src/app/shared/support/classes/responseAuthUserDto';
-import ResponseDto from 'src/app/shared/support/classes/responseDto';
+import { ResponseAuthUserDto } from 'src/app/shared/support/classes/responseAuthUserDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';
+import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class AuthenticateService implements IAuthenticateService {
     private authenticateProxyService: AuthenticateProxyService
   ) { }
 
-  createNewUser(user: UserInput, callback?: Function): void {
+  createNewUser(user: UserInput, callback?: (data:Message) => void): void {
     this.userProxysService.createNewUserRequest(user)
       .pipe(
         take(1)
@@ -36,7 +38,7 @@ export class AuthenticateService implements IAuthenticateService {
         }
       });
   }
-  authUser(user: UserInput, callback?: Function): void {
+  authUser(user: UserInput, callback?: (data:Message) => void): void {
     this.authenticateProxyService.authUserRequest(user)
       .pipe(
         take(1)

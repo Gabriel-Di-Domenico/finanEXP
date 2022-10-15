@@ -1,6 +1,7 @@
-import Message from 'src/app/shared/support/interfaces/message.interface';
-import User from 'src/app/shared/support/interfaces/user/user.interface';
+
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 
 export default interface IProfileService {
-  updateProfilePreferences: (userId: string, user: User, callback?: (message: Message) => void) => void;
+  updateProfilePreferences: (userId: string, user: UserInput, callback?: (message: Message) => void) => void;
 }

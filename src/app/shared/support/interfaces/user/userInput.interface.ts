@@ -1,6 +1,4 @@
-import User from './user.interface';
-
-export default interface UserInput{
+export interface UserInput{
     name: string,
     email: string,
     password?: string,

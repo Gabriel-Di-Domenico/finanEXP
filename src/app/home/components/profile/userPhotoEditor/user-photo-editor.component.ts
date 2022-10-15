@@ -1,13 +1,13 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { SnackBarControlService } from '../../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import { UserHandler } from '../../../../shared/support/classes/user-handler';
+import { UserHandler } from '../../../../shared/handlers/user-handler';
 import { ProfileService } from '../../../modules/user-config/pages/profile/profile.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service';
-import UserOutput from 'src/app/shared/support/interfaces/user/userOutput.interface';
-import User from 'src/app/shared/support/interfaces/user/user.interface';
-import Message from 'src/app/shared/support/interfaces/message.interface';
+
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
+import { User } from 'src/app/shared/support/interfaces/user/user.interface';
 
 @Component({
   selector: 'app-user-photo-editor',
@@ -36,7 +36,7 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
     this.getPerfilPhoto()
   }
   public closeUserPhotoEditor() {
-    this.dialog.getDialogById("userPhotoEditor")?.close()
+    this.dialog.getDialogById('userPhotoEditor')?.close()
   }
 
   public onFileSelected() {
@@ -47,7 +47,7 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-        if (archiveType === "image/jpeg" || archiveType === "image/png") {
+        if (archiveType === 'image/jpeg' || archiveType === 'image/png') {
           const arr = new Uint8Array(e.target?.result);
           const currentUser = <User>this.currentUser
 
@@ -55,9 +55,9 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
 
           this.saveChanges()
         } else {
-          this.snackBarControlService.showMessage("Apenas arquivos jpeg e png são suportados", true)
+          this.snackBarControlService.showMessage('Apenas arquivos jpeg e png são suportados', true)
         }
-        inputNode.value = ""
+        inputNode.value = ''
       };
 
       reader.readAsArrayBuffer(inputNode.files[0]);
@@ -77,7 +77,7 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
     currentUser.perfilPhoto = ''
 
     this.saveChanges()
-    
+
   }
   private saveChanges(){
     this.profileService.updateProfilePreferences(`${this.currentUser.id}`, <User>this.currentUser, (message: Message) => {
@@ -91,11 +91,10 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
     if(this.currentUser.perfilPhoto){
       const array = this.currentUser.perfilPhoto.split(',').map((byte:string) => Number(byte))
 
-      this.perfilPhoto = "data:image/png;base64," + window.btoa(String.fromCharCode.apply(null, array));
+      this.perfilPhoto = `data:image/png;base64,${ window.btoa(String.fromCharCode.apply(null, array))}`;
     }else{
-      this.perfilPhoto = ""
+      this.perfilPhoto = ''
     }
   }
 }
-
 

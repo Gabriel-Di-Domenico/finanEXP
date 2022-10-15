@@ -1,4 +1,4 @@
-export default interface CustomerEditorDialogDataInterface{
+export interface CustomerEditorDialogDataInterface{
   customerId:string,
   operation: 'create' | 'update';
-};
+}

@@ -1,5 +1,5 @@
 import { Component, Input, LOCALE_ID, OnInit } from '@angular/core';
-import CustomerOutput from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 

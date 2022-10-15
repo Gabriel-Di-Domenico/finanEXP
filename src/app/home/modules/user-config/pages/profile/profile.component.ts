@@ -1,17 +1,16 @@
 import { UserService } from './../../../../services/user.service';
 import { profileSettingFormControls } from './profileSettingsFormControls';
-import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
-import Message from 'src/app/shared/support/interfaces/message.interface';
+import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { take } from 'rxjs';
 
-import UserOutput from '../../../../../shared/support/interfaces/user/userOutput.interface';
-
 import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
+import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
 
 @Component({
   selector: 'app-profile',

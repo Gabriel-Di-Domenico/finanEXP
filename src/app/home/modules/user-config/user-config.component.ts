@@ -5,8 +5,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserHandlerService } from '../../../shared/handlers/user-handler.service';
-import { UserHandler } from 'src/app/shared/support/classes/user-handler';
-import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { UserHandler } from 'src/app/shared/handlers/user-handler';
+import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 
 @Component({
   selector: 'app-user-config',

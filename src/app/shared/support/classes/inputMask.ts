@@ -1,3 +1,3 @@
-export default class inputMask {
+export class inputMask {
   public static currency = 'currency';
 }
