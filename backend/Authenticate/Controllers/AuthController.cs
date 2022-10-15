@@ -2,6 +2,7 @@ using AutoMapper;
 using backend.Authenticate.Dtos;
 using backend.Authenticate.Services;
 using backend.Messages;
+using backend.Shared.Enums;
 using backend.Shared.Users.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,13 @@ namespace backend.Authenticate.Controllers
   {
     private readonly IUserDatabaseService _UserDatabase;
     private readonly IMapper _Mapper;
-    public AuthController(IUserDatabaseService userDatabase, IMapper mapper)
+    private readonly IAuthUserService _authUserService;
+
+    public AuthController(IUserDatabaseService userDatabase, IMapper mapper, IAuthUserService authUserService)
     {
       _UserDatabase = userDatabase;
       _Mapper = mapper;
+      _authUserService = authUserService;
     }
     [HttpPost("user")]
     public ActionResult<dynamic> AuthenticateAsync([FromBody] UserAuthDto user)
@@ -28,9 +32,9 @@ namespace backend.Authenticate.Controllers
 
       if (userFromDatabase != null)
       {
-        string JWT = AuthUserService.AuthUser(user, userFromDatabase);
+        var responseAuthUser = _authUserService.AuthUser(user, userFromDatabase);
 
-        if (JWT != null)
+        if (responseAuthUser.Status == ResponseStatus.Ok)
         {
 
           result.Message = new Message
@@ -38,21 +42,11 @@ namespace backend.Authenticate.Controllers
             error = false,
             message = "Usuário autenticado"
           };
-          result.JWT = JWT;
+          result.JWT = responseAuthUser.Content;
 
           return Ok(result);
         }
-        else
-        {
-          result.Message = new Message
-          {
-            error = true,
-            message = "Usuário não autorizado"
-          };
-          result.JWT = null;
-
-          return Unauthorized(result);
-        }
+        throw new Exception("Error AuthUser");
       }
       else
       {
@@ -60,12 +54,13 @@ namespace backend.Authenticate.Controllers
         result.Message = new Message
         {
           error = true,
-          message = "Usuário não autorizado"
+          message = "Usuário não Registrado"
         };
         result.JWT = null;
 
         return Unauthorized(result);
       }
+      throw new Exception("Error Auth User");
 
     }
     [HttpGet("verifyToken")]
@@ -92,7 +87,6 @@ namespace backend.Authenticate.Controllers
       }
       else
       {
-
         result.Message = new Message
         {
           error = true,
@@ -102,6 +96,7 @@ namespace backend.Authenticate.Controllers
 
         return Ok(result);
       }
+      throw new Exception("Error Verify Token");
 
     }
   }

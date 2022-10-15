@@ -6,6 +6,7 @@ using backend.Customers.Services;
 using backend.Messages;
 using backend.models;
 using backend.Shared.Dtos;
+using backend.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,8 +25,6 @@ namespace backend.Customers.Controllers
       _mapper = mapper;
     }
 
-    public IMapper Mapper { get; }
-
     [HttpPost]
     [Authorize]
     public ActionResult<ReturnDto> Create([FromBody] CustomerCreateDto customer)
@@ -36,16 +35,12 @@ namespace backend.Customers.Controllers
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
       customerModel.UserId = userId;
-      customerModel.Balance = customer.Balance;
-      var verifyCustomer = _customerService.GetCustomerByName(customerModel);
 
       var result = new ReturnDto();
 
-      if (verifyCustomer == null)
+      var createCustomerResult = _customerService.CreateCustomer(customerModel);
+      if (createCustomerResult == ResponseStatus.Ok)
       {
-        _customerService.CreateCustomer(customerModel);
-        _customerService.SaveChanges();
-
         result.Message = new Message
         {
           error = false,
@@ -54,7 +49,7 @@ namespace backend.Customers.Controllers
 
         return Created("", result);
       }
-      else
+      else if (createCustomerResult == ResponseStatus.AlreadyExists)
       {
         result.Message = new Message
         {
@@ -63,6 +58,7 @@ namespace backend.Customers.Controllers
         };
         return BadRequest(result);
       }
+      throw new Exception("Error create customer");
     }
     [HttpGet]
     [Authorize]
@@ -71,10 +67,10 @@ namespace backend.Customers.Controllers
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var customers = _customerService.GetAllCustomers(userId);
+      var getAllcustomersResponse = _customerService.GetAllCustomers(userId);
       var result = new GetAllCustomersReturnDto();
 
-      if (customers != null)
+      if (getAllcustomersResponse.Status == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -82,20 +78,12 @@ namespace backend.Customers.Controllers
           message = "Sucesso ao adiquirir lista de carteiras"
         };
 
-        var customersModel = _mapper.Map<List<CustomerReadDto>>(customers);
+        var customersModel = _mapper.Map<List<CustomerReadDto>>(getAllcustomersResponse.Content);
         result.Customers = customersModel;
 
         return Ok(result);
       }
-      else
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Falha ao adiquirir lista de carteiras"
-        };
-        return BadRequest(result);
-      }
+      throw new Exception("Error GetAll Customers");
     }
     [HttpGet("{id}")]
     [Authorize]
@@ -105,13 +93,13 @@ namespace backend.Customers.Controllers
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var customer = _customerService.GetCustomerById(Id, userId);
+      var getCustomerByIdResult = _customerService.GetCustomerById(Id, userId);
 
       var result = new GetCustomerByIdReturnDto();
 
-      if (customer != null)
+      if (getCustomerByIdResult.Status == ResponseStatus.Ok)
       {
-        var customerModel = _mapper.Map<CustomerReadDto>(customer);
+        var customerModel = _mapper.Map<CustomerReadDto>(getCustomerByIdResult.Content);
 
         result.Message = new Message
         {
@@ -123,16 +111,9 @@ namespace backend.Customers.Controllers
 
         return Ok(result);
       }
-      else
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Falha ao adiquirir carteira"
-        };
-        return BadRequest(result);
-      }
+      throw new Exception("Error Get Customer By Id");
     }
+
     [HttpPut("{id}")]
     [Authorize]
     public ActionResult<ReturnDto> Update([FromRoute] Guid id, [FromBody] CustomerUpdateDto newCustomer)
@@ -140,9 +121,9 @@ namespace backend.Customers.Controllers
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var customer = _customerService.UpdateCustomer(id, userId, newCustomer);
+      var updateCustomerResult = _customerService.UpdateCustomer(id, userId, newCustomer);
       var result = new ReturnDto();
-      if (customer != null)
+      if (updateCustomerResult == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -152,15 +133,7 @@ namespace backend.Customers.Controllers
 
         return Ok(result);
       }
-      else
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Falha ao alterar carteira"
-        };
-        return BadRequest(result);
-      }
+      throw new Exception("Error Update Customer");
     }
     [HttpDelete("{id}")]
     [Authorize]
@@ -168,11 +141,11 @@ namespace backend.Customers.Controllers
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-      var succefullDelete = _customerService.DeleteCustomer(id, userId);
+      var deleteCustomerResult = _customerService.DeleteCustomer(id, userId);
 
       var result = new ReturnDto();
 
-      if (succefullDelete)
+      if (deleteCustomerResult == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -182,15 +155,7 @@ namespace backend.Customers.Controllers
 
         return Ok(result);
       }
-      else
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Falha ao deletar carteira"
-        };
-        return BadRequest(result);
-      }
+      throw new Exception("Error Delete Customer");
     }
   }
 }

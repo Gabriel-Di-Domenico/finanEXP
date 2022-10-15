@@ -1,16 +1,17 @@
 using backend.Customers.Dtos;
 using backend.Customers.Models;
+using backend.Shared.Enums;
 
 namespace backend.Customers.Services
 {
   public interface ICustomerService
   {
     Customer GetCustomerByName(Customer name);
-    List<Customer> GetAllCustomers(Guid userId);
-    Customer GetCustomerById(Guid id, Guid userId);
-    Customer UpdateCustomer(Guid id, Guid userId ,CustomerUpdateDto newCustomer);
-    bool DeleteCustomer(Guid id, Guid userId);
-    bool CreateCustomer(Customer customer);
+    ResponseStatus<List<Customer>> GetAllCustomers(Guid userId);
+    ResponseStatus<Customer> GetCustomerById(Guid id, Guid userId);
+    ResponseStatus UpdateCustomer(Guid id, Guid userId ,CustomerUpdateDto newCustomer);
+    ResponseStatus DeleteCustomer(Guid id, Guid userId);
+    ResponseStatus CreateCustomer(Customer customer);
     bool SaveChanges();
 
   }

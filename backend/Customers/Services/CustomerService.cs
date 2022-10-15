@@ -1,6 +1,7 @@
 using backend.Contexts;
 using backend.Customers.Dtos;
 using backend.Customers.Models;
+using backend.Shared.Enums;
 
 namespace backend.Customers.Services
 {
@@ -12,18 +13,21 @@ namespace backend.Customers.Services
     {
       _context = context;
     }
-    public bool CreateCustomer(Customer customer)
+    public ResponseStatus CreateCustomer(Customer customer)
     {
-      if (customer == null)
+      var customerFromDatabase = GetCustomerByName(customer);
+
+      if (customerFromDatabase == null)
       {
-        throw new ArgumentNullException();
-        return false;
+        _context.Customers.Add(customer);
+        SaveChanges();
+        return ResponseStatus.Ok;
       }
       else
       {
-        _context.Customers.Add(customer);
-        return true;
+        return ResponseStatus.AlreadyExists;
       }
+
     }
 
     public bool SaveChanges()
@@ -31,89 +35,75 @@ namespace backend.Customers.Services
       return _context.SaveChanges() >= 0;
     }
 
-    public Customer GetCustomerByName(Customer newCustomer)
+    public Customer? GetCustomerByName(Customer newCustomer)
     {
-      if (newCustomer != null)
-      {
-        var customer = _context.Customers.FirstOrDefault(customer => customer.UserId == newCustomer.UserId && customer.Name == newCustomer.Name);
-        if (customer != null)
-        {
-          return customer;
-        }
-        else
-        {
-          return null;
-        }
-      }
-      else
-      {
-        return null;
-      }
+      return _context.Customers.FirstOrDefault(customer =>
+        customer.UserId == newCustomer.UserId
+        && customer.Name == newCustomer.Name
+      );
     }
-
-    public List<Customer> GetAllCustomers(Guid userId)
+    public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId)
     {
       var customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
       if (customers != null)
       {
-        return customers;
+        return new ResponseStatus<List<Customer>> { Status = ResponseStatus.Ok, Content = customers };
       }
-      else
+
+      return new ResponseStatus<List<Customer>>
       {
-        return null;
-      }
+        Status = ResponseStatus.NotFound,
+      };
+
     }
 
-    public Customer GetCustomerById(Guid id, Guid userId)
+    public ResponseStatus<Customer> GetCustomerById(Guid id, Guid userId)
     {
-      var customer = _context.Customers.FirstOrDefault(customer => customer.Id == id);
-      if (customer != null && customer.UserId == userId)
-      {
-
-        return customer;
-
-      }
-      return null;
-    }
-
-    public Customer UpdateCustomer(Guid id, Guid userId, CustomerUpdateDto newCustomer)
-    {
-      var customer = GetCustomerById(id, userId);
-
+      var customer = _context.Customers.FirstOrDefault(customer => customer.Id == id && customer.UserId == userId);
       if (customer != null)
       {
-        customer.Type = newCustomer.Type;
-        customer.Name = newCustomer.Name;
 
-        if(newCustomer.Balance != null)
-        {
-          customer.Balance = (decimal)newCustomer.Balance;
-        }
+        return new ResponseStatus<Customer> { Status = ResponseStatus.Ok, Content = customer };
 
-        _context.Customers.Update(customer);
-        SaveChanges();
-        return customer;
       }
-      else
+
+      return new ResponseStatus<Customer>
       {
-        return null;
-      }
+        Status = ResponseStatus.NotFound,
+      };
     }
 
-    public bool DeleteCustomer(Guid id, Guid userId)
+    public ResponseStatus UpdateCustomer(Guid id, Guid userId, CustomerUpdateDto newCustomer)
     {
-      var customer = GetCustomerById(id, userId);
-      if(customer != null)
+      var getCustomerByIdResult = GetCustomerById(id, userId);
+
+      if (getCustomerByIdResult.Status == ResponseStatus.Ok)
       {
-        _context.Customers.Remove(customer);
+        getCustomerByIdResult.Content.Type = newCustomer.Type;
+        getCustomerByIdResult.Content.Name = newCustomer.Name;
+
+        if (newCustomer.Balance != null)
+        {
+          getCustomerByIdResult.Content.Balance = (decimal)newCustomer.Balance;
+        }
+
+        _context.Customers.Update(getCustomerByIdResult.Content);
         SaveChanges();
-        return true;
+        return ResponseStatus.Ok;
       }
-      else
+      return ResponseStatus.BadRequest;
+    }
+    public ResponseStatus DeleteCustomer(Guid id, Guid userId)
+    {
+      var getCustomerByIdResult = GetCustomerById(id, userId);
+      if (getCustomerByIdResult.Status == ResponseStatus.Ok)
       {
-        return false;
+        _context.Customers.Remove(getCustomerByIdResult.Content);
+        SaveChanges();
+        return ResponseStatus.Ok;
       }
-      
+      return ResponseStatus.BadRequest;
     }
   }
 }
+
