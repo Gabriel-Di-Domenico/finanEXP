@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'fin-new-card',
@@ -6,7 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./fin-new-card.component.css']
 })
 export class FinNewCardComponent {
-  @Input() clickEvent!: () => void;
   @Input() title!: string;
+  @Output() clickEvent: EventEmitter<PointerEvent> = new EventEmitter<PointerEvent>()
 
+  sendClick(){
+    this.clickEvent.emit()
+  }
 }

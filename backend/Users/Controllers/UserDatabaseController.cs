@@ -72,7 +72,8 @@ public class UserDatabaseController : ControllerBase
 
       return Created("", result);
 
-    }else if(createUserResult == ResponseStatus.AlreadyExists)
+    }
+    else if (createUserResult == ResponseStatus.AlreadyExists)
     {
       result.Message = new Message
       {
@@ -89,33 +90,19 @@ public class UserDatabaseController : ControllerBase
   [Authorize]
   public ActionResult<UserReadDto> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateDto user)
   {
-    var userFromEmail = _UserDatabaseService.GetUserByEmail(user.email);
+    var updateUserResponse = _UserDatabaseService.UpdateUser(id, user);
 
     var result = new ReturnDto();
 
-    if (userFromEmail == null || userFromEmail.ID == id)
+    if (updateUserResponse == ResponseStatus.Ok)
     {
-      var newUser = _UserDatabaseService.UpdateUser(id, user);
-      if (newUser != null)
+      result.Message = new Message
       {
-        result.Message = new Message
-        {
-          error = false,
-          message = "Preferências salvas com sucesso"
-        };
-        return Ok(result);
-      }
-      else
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Erro ao modificar preferências"
-        };
-        return NotFound(result);
-      }
-    }
-    else
+        error = false,
+        message = "Preferências salvas com sucesso"
+      };
+      return Ok(result);
+    }else if (updateUserResponse == ResponseStatus.AlreadyExists)
     {
       result.Message = new Message
       {
@@ -123,6 +110,15 @@ public class UserDatabaseController : ControllerBase
         message = "Email já em uso"
       };
       return BadRequest(result);
+    }else if(updateUserResponse == ResponseStatus.Unauthorized)
+    {
+      result.Message = new Message
+      {
+        error = true,
+        message = "Senha atual não corresponde"
+      };
+      return BadRequest(result);
     }
+    throw new Exception("Update user error");
   }
 }

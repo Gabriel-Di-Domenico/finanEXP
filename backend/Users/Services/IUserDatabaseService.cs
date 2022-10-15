@@ -10,7 +10,7 @@ namespace backend.Shared.Users.Services
     User GetUserByID(Guid id);
     User GetUserByEmail(string email);
     ResponseStatus CreateUser(User user);
-    User UpdateUser(Guid id, UserUpdateDto newUser);
+    ResponseStatus UpdateUser(Guid id, UserUpdateDto newUser);
     bool SaveChanges();
   }
 }

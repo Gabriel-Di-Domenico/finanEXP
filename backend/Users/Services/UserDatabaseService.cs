@@ -11,10 +11,12 @@ namespace backend.Shared.Users.Services
   public class UserDatabaseService : IUserDatabaseService
   {
     private readonly FinEXPDatabaseContext _context;
+    private readonly IAuthUserService _authUserService;
 
-    public UserDatabaseService(FinEXPDatabaseContext context)
+    public UserDatabaseService(FinEXPDatabaseContext context, IAuthUserService authUserService)
     {
       _context = context;
+      _authUserService = authUserService;
     }
 
     public ResponseStatus CreateUser(User user)
@@ -55,44 +57,45 @@ namespace backend.Shared.Users.Services
       return _context.Users.FirstOrDefault(p => p.email == email);
     }
 
-    public User UpdateUser(Guid id, UserUpdateDto newUser)
+    public ResponseStatus UpdateUser(Guid id, UserUpdateDto newUser)
     {
-      var user = GetUserByID(id);
+      var verifyExistingUser = GetUserByEmail(newUser.email);
 
-      if (user != null)
+      if (verifyExistingUser == null || verifyExistingUser.ID == id)
       {
+        var userFromDataBase = GetUserByID(id);
+
+        userFromDataBase.email = newUser.email;
+        userFromDataBase.name = newUser.name;
+
         if (newUser.NewPassword != null)
         {
-          var authenticatedPassword = AuthUserService.AuthenticatePasswords(newUser.password, user.password);
+          var authenticatedPassword = _authUserService.AuthenticatePasswords(newUser.password, userFromDataBase.password);
+
           if (authenticatedPassword)
           {
             var newPassword = Bcrypt.Encrypt(newUser.NewPassword);
-            user.password = newPassword;
+            userFromDataBase.password = newPassword;
           }
           else
           {
-            //TODO retornar mensagem de erro
+            return ResponseStatus.Unauthorized;
           }
         }
+
         if (newUser.perfilPhoto != null)
         {
           byte[] bytes = Encoding.UTF8.GetBytes(newUser.perfilPhoto);
-          user.perfilPhoto = bytes;
+          userFromDataBase.perfilPhoto = bytes;
         }
-
-        if (user.email != newUser.email || user.name != newUser.name)
-        {
-          user.email = newUser.email;
-          user.name = newUser.name;
-        }
-
-        _context.Update(user);
+                
+        _context.Update(userFromDataBase);
         SaveChanges();
-        return user;
+        return ResponseStatus.Ok;
       }
       else
       {
-        return null;
+        return ResponseStatus.AlreadyExists;
       }
     }
   }

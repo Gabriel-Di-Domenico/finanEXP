@@ -26,9 +26,6 @@ export class CustomerListComponent {
 
   constructor(private dialogControlService: DialogControlService, private customersService: CustomersService) {}
 
-  public openEditorDialog() {
-    this.openCustomerEditorDialog();
-  }
   public showDetails(customerId: string): void {
     this.dialogControlService
       .openDialog(CustomerDetailsDialogComponent, {

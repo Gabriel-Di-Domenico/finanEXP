@@ -1,6 +1,8 @@
 using backend;
+using backend.Authenticate.Services;
 using backend.Contexts;
 using backend.Customers.Services;
+using backend.Shared.Services;
 using backend.Shared.Users.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,8 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserDatabaseService, UserDatabaseService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IAuthUserService, AuthUserService>();
+builder.Services.AddScoped<IAuthAndUserDependecyInjection, AuthAndUserDependecyInjection>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddCors(options =>
