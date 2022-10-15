@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-fin-new-card',
+  selector: 'fin-new-card',
   templateUrl: './fin-new-card.component.html',
   styleUrls: ['./fin-new-card.component.css']
 })

@@ -4,7 +4,7 @@ import { inputMask } from 'src/app/shared/support/classes/inputMask';
 import { MustHaveControlName } from '../../common/MustHaveControlName';
 
 @Component({
-  selector: 'app-fin-input',
+  selector: 'fin-input',
   templateUrl: './fin-input.component.html',
   styleUrls: ['./fin-input.component.css'],
   providers: [

@@ -1,34 +1,34 @@
 <header>
-  <app-fin-title [label]="label"></app-fin-title>
-  <app-fin-close-button (click)="closeEditorDialog()"></app-fin-close-button>
+  <fin-title [label]="label"></fin-title>
+  <fin-close-button (click)="closeEditorDialog()"></fin-close-button>
 </header>
 
 <form [formGroup]="form" (ngSubmit)="submitForm()">
   <div>
-    <app-fin-input-currency
-      class="app-fin-input"
+    <fin-input-currency
+      class="fin-input"
       label="Saldo"
       [formControlName]="formControls.balance"
       [required]="true"
-      ></app-fin-input-currency>
+      ></fin-input-currency>
 
-    <app-fin-input
-      class="app-fin-input"
+    <fin-input
+      class="fin-input"
       label="Nome"
       type="text"
       [formControlName]="formControls.nameFormControl"
-      [required]="true"></app-fin-input>
+      [required]="true"></fin-input>
 
-    <app-fin-select
+    <fin-select
       [formControlName]="formControls.type"
       [options]="selectOptions"
       label="Tipo de carteira"
       [required]="true">
-    </app-fin-select>
+    </fin-select>
   </div>
-  <div class="div-app-fin-submit-button">
-    <app-fin-submit-button label="Salvar" class="app-fin-submit-button" [disabled]="!canSave()">
+  <div class="div-fin-submit-button">
+    <fin-submit-button label="Salvar" class="fin-submit-button" [disabled]="!canSave()">
 
-    </app-fin-submit-button>
+    </fin-submit-button>
   </div>
 </form>

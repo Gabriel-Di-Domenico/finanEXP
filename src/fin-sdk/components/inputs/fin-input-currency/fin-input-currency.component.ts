@@ -3,7 +3,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MustHaveControlName } from '../../common/MustHaveControlName';
 
 @Component({
-  selector: 'app-fin-input-currency',
+  selector: 'fin-input-currency',
   templateUrl: './fin-input-currency.component.html',
   styleUrls: ['./fin-input-currency.component.css'],
   providers: [

@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-fin-add-button',
+  selector: 'fin-add-button',
   templateUrl: './fin-add-button.component.html',
   styleUrls: ['./fin-add-button.component.css'],
 })
-export class FinAddButtonComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class FinAddButtonComponent {
 }
