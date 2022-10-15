@@ -1,6 +1,7 @@
 using backend.Authenticate.Services;
 using backend.Contexts;
 using backend.models;
+using backend.Shared.Enums;
 using backend.Shared.Services;
 using backend.Users.Dtos;
 using System.Text;
@@ -16,21 +17,22 @@ namespace backend.Shared.Users.Services
       _context = context;
     }
 
-    public bool CreateUser(User user)
+    public ResponseStatus CreateUser(User user)
     {
-      if (user == null)
-      {
-        throw new ArgumentNullException(nameof(user));
-        return false;
-      }
-      else
+      var verifyExistingUser = GetUserByEmail(user.email);
+
+      if (verifyExistingUser == null)
       {
         user.password = Bcrypt.Encrypt(user.password);
 
         _context.Users.Add(user);
-        return true;
+        SaveChanges();
+        return ResponseStatus.Ok;
       }
-      
+      else
+      {
+        return ResponseStatus.AlreadyExists;
+      }
     }
 
     public IEnumerable<User> GetAllUsers()
@@ -40,15 +42,7 @@ namespace backend.Shared.Users.Services
 
     public User GetUserByID(Guid id)
     {
-      var users = _context.Users.FirstOrDefault(p => p.ID == id);
-      if (users != null)
-      {
-        return users;
-      }
-      else
-      {
-        return null;
-      }
+      return _context.Users.FirstOrDefault(p => p.ID == id);
     }
 
     public bool SaveChanges()
@@ -58,15 +52,7 @@ namespace backend.Shared.Users.Services
 
     public User GetUserByEmail(string email)
     {
-      var users = _context.Users.FirstOrDefault(p => p.email == email);
-      if (users != null)
-      {
-        return users;
-      }
-      else
-      {
-        return null;
-      }
+      return _context.Users.FirstOrDefault(p => p.email == email);
     }
 
     public User UpdateUser(Guid id, UserUpdateDto newUser)

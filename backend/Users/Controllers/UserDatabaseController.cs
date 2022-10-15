@@ -2,6 +2,7 @@ using AutoMapper;
 using backend.Messages;
 using backend.models;
 using backend.Shared.Dtos;
+using backend.Shared.Enums;
 using backend.Shared.Users.Services;
 using backend.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -24,21 +25,24 @@ public class UserDatabaseController : ControllerBase
 
   [HttpGet("{id}", Name = "GetUserByID")]
   [Authorize]
-  public ActionResult<UserReadDto> GetUserByID([FromRoute] Guid id)
+  public ActionResult<GetUserByIdReturnDto> GetUserByID([FromRoute] Guid id)
   {
-    var userItem = _UserDatabaseService.GetUserByID(id);
+    var user = _UserDatabaseService.GetUserByID(id);
+
     var result = new GetUserByIdReturnDto();
-    if (userItem != null)
+
+    if (user != null)
     {
       result.Message = new Message
       {
         error = false,
         message = "Sucesso"
       };
-      result.User = _Mapper.Map<UserReadDto>(userItem);
+      result.User = _Mapper.Map<UserReadDto>(user);
 
       return Ok(result);
     }
+
     result.Message = new Message
     {
       error = true,
@@ -53,26 +57,13 @@ public class UserDatabaseController : ControllerBase
   public ActionResult<ReturnDto> CreateUser([FromBody] UserCreateDto user)
   {
     var User = _Mapper.Map<User>(user);
-    var verifyUser = _UserDatabaseService.GetUserByEmail(User.email);
 
     var result = new ReturnDto();
 
-    if (verifyUser == null)
-    {
-      if (_UserDatabaseService.CreateUser(User))
-      {
-        _UserDatabaseService.SaveChanges();
-      }
-      else
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Erro ao criar usuário"
-        };
-        return BadRequest(result);
-      };
+    var createUserResult = _UserDatabaseService.CreateUser(User);
 
+    if (createUserResult == ResponseStatus.Ok)
+    {
       result.Message = new Message
       {
         error = false,
@@ -80,16 +71,18 @@ public class UserDatabaseController : ControllerBase
       };
 
       return Created("", result);
-    }
-    else
+
+    }else if(createUserResult == ResponseStatus.AlreadyExists)
     {
       result.Message = new Message
       {
         error = true,
-        message = "Usuário já registrado"
+        message = "Usuário já cadastrado"
       };
-      return BadRequest(result);
+
+      return Created("", result);
     }
+    throw new Exception("Create user error");
   }
 
   [HttpPut("{id}")]

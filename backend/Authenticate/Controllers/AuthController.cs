@@ -60,7 +60,7 @@ namespace backend.Authenticate.Controllers
         result.Message = new Message
         {
           error = true,
-          message = "Usuário não autorizado"
+          message = "Usuário não Registrado"
         };
         result.JWT = null;
 

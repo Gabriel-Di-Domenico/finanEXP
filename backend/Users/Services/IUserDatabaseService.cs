@@ -1,4 +1,5 @@
 using backend.models;
+using backend.Shared.Enums;
 using backend.Users.Dtos;
 
 namespace backend.Shared.Users.Services
@@ -8,7 +9,7 @@ namespace backend.Shared.Users.Services
     IEnumerable<User> GetAllUsers();
     User GetUserByID(Guid id);
     User GetUserByEmail(string email);
-    bool CreateUser(User user);
+    ResponseStatus CreateUser(User user);
     User UpdateUser(Guid id, UserUpdateDto newUser);
     bool SaveChanges();
   }

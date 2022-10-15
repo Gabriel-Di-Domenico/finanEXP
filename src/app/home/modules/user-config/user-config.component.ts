@@ -1,3 +1,4 @@
+import { CommonService } from './../../../shared/support/services/common.service';
 import { UserService } from './../../services/user.service';
 import { UserPhotoEditorComponent } from '../../components/profile/userPhotoEditor/user-photo-editor.component';
 import { DialogControlService } from '../../../shared/support/services/dialogControl/dialog-control.service';
@@ -22,7 +23,8 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
     private UserService: UserService,
     userHandlerService: UserHandlerService,
     private dialogControlService: DialogControlService,
-    private router: Router
+    private router: Router,
+    private commonService:CommonService
   ) {
     super(userHandlerService);
   }
@@ -49,8 +51,7 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
     });
   }
   public logout(): void {
-    window.localStorage.removeItem('fSSIdtkn');
-    this.router.navigate(['auth']);
+    this.commonService.logout();
   }
   private getPerfilPhoto(): void {
     if (this.currentUser.perfilPhoto) {
