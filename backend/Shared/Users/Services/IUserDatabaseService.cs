@@ -4,10 +4,10 @@ namespace backend.Shared.Users.Services
 {
   public interface IUserDatabaseService
   {
-    IEnumerable<UserModel> GetAllUsers();
-    UserModel GetUserByID(Guid id);
-    UserModel GetUserByEmail(string email);
-    bool CreateUser(UserModel user);
+    IEnumerable<User> GetAllUsers();
+    User GetUserByID(Guid id);
+    User GetUserByEmail(string email);
+    bool CreateUser(User user);
     bool SaveChanges();
   }
 }

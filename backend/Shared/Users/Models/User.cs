@@ -1,10 +1,12 @@
+using backend.Customers.Models;
+using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.models
 {
   [Table("Users")]
-  public class UserModel
+  public class User
   {
     [Key]
     public Guid ID { get; set; }
@@ -23,6 +25,8 @@ namespace backend.models
     public string password { get; set; } = "";
 
     public Byte[]? perfilPhoto { get; set; }
+
+    public List<Customer> Customers { get; set; }
 
   }
 }

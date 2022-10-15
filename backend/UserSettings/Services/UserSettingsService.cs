@@ -18,7 +18,7 @@ namespace backend.UserSettings.Services
       _userDatabaseService = userDatabaseService;
       _context = context;
     }
-    public UserModel UpdateUser(Guid id, UserUpdateDto newUser)
+    public User UpdateUser(Guid id, UserUpdateDto newUser)
     {
       var user = _userDatabaseService.GetUserByID(id);
 
@@ -46,7 +46,7 @@ namespace backend.UserSettings.Services
       }
     }
 
-    public UserModel UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
+    public User UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs)
     {
       var userFromDatabase = _userDatabaseService.GetUserByID(id);
       var authenticatedPassword = AuthUserService.AuthenticatePasswords(passwordConfigs.ActualPassword, userFromDatabase.password);

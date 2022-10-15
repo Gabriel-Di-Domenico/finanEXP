@@ -12,7 +12,7 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221009002824_AddMigrations")]
+    [Migration("20221015003809_AddMigrations")]
     partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,10 +45,12 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("backend.models.UserModel", b =>
+            modelBuilder.Entity("backend.models.User", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -75,6 +77,22 @@ namespace backend.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("backend.Customers.Models.CustomerModel", b =>
+                {
+                    b.HasOne("backend.models.User", "User")
+                        .WithMany("Customers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.models.User", b =>
+                {
+                    b.Navigation("Customers");
                 });
 #pragma warning restore 612, 618
         }

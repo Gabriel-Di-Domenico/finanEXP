@@ -5,7 +5,7 @@ namespace backend.UserSettings.Services
 {
   public interface IUserSettingsService
   {
-    UserModel UpdateUser(Guid id, UserUpdateDto newUser);
-    UserModel UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs);
+    User UpdateUser(Guid id, UserUpdateDto newUser);
+    User UpdateUserPassword(Guid id, UpdatePasswordDto passwordConfigs);
   }
 }

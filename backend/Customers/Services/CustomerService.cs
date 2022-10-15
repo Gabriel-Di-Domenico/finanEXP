@@ -12,7 +12,7 @@ namespace backend.Customers.Services
     {
       _context = context;
     }
-    public bool CreateCustomer(CustomerModel customer)
+    public bool CreateCustomer(Customer customer)
     {
       if (customer == null)
       {
@@ -31,7 +31,7 @@ namespace backend.Customers.Services
       return _context.SaveChanges() >= 0;
     }
 
-    public CustomerModel GetCustomerByName(CustomerModel newCustomer)
+    public Customer GetCustomerByName(Customer newCustomer)
     {
       if (newCustomer != null)
       {
@@ -51,7 +51,7 @@ namespace backend.Customers.Services
       }
     }
 
-    public List<CustomerModel> GetAllCustomers(Guid userId)
+    public List<Customer> GetAllCustomers(Guid userId)
     {
       var customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
       if (customers != null)
@@ -64,7 +64,7 @@ namespace backend.Customers.Services
       }
     }
 
-    public CustomerModel GetCustomerById(Guid id, Guid userId)
+    public Customer GetCustomerById(Guid id, Guid userId)
     {
       var customer = _context.Customers.FirstOrDefault(customer => customer.Id == id);
       if (customer != null && customer.UserId == userId)
@@ -76,7 +76,7 @@ namespace backend.Customers.Services
       return null;
     }
 
-    public CustomerModel UpdateCustomer(Guid id, Guid userId, CustomerUpdateDto newCustomer)
+    public Customer UpdateCustomer(Guid id, Guid userId, CustomerUpdateDto newCustomer)
     {
       var customer = GetCustomerById(id, userId);
 
