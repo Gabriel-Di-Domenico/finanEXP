@@ -1,6 +1,6 @@
 import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from '@angular/forms';
 
-export default class MustHaveControlName implements ControlValueAccessor, Validator {
+export class MustHaveControlName implements ControlValueAccessor, Validator {
   public disabled = false;
   public touched = false;
   public value!: unknown;

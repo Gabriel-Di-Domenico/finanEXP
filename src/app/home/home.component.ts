@@ -8,9 +8,10 @@ import { Subscription, take } from 'rxjs';
 import { UserHandlerService } from '../shared/handlers/user-handler.service';
 
 import { MatSidenav } from '@angular/material/sidenav';
-import UserOutput from '../shared/support/interfaces/user/userOutput.interface';
-import { UserHandler } from 'src/app/shared/support/classes/user-handler';
-import ResponseGetUserByIdDto from '../shared/support/classes/responseGetUserByIdDto';
+
+import { UserHandler } from 'src/app/shared/handlers/user-handler';
+import { ResponseGetUserByIdDto } from '../shared/support/classes/responseGetUserByIdDto';
+import { UserOutput } from '../shared/support/interfaces/user/userOutput.interface';
 
 @Component({
   selector: 'app-home',

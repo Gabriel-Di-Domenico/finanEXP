@@ -3,7 +3,7 @@ import { Observable, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import IVerifyTokenService from './IVerify-token.service.interface';
+import { IVerifyTokenService } from './IVerify-token.service.interface';
 
 @Injectable({
   providedIn: 'root',

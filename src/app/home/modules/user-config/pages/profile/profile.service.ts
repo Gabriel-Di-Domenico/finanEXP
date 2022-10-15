@@ -1,5 +1,3 @@
-
-import { UserProxysService } from '../../../../../shared/proxys/userProxys/user-proxys.service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -8,10 +6,11 @@ import { take } from 'rxjs';
 
 import { UserHandlerService } from '../../../../../shared/handlers/user-handler.service';
 
-import IProfileService from './IProfile.service.interface';
-import ResponseDto from 'src/app/shared/support/classes/responseDto';
-import Message from 'src/app/shared/support/interfaces/message.interface';
-import UserInput from 'src/app/shared/support/interfaces/user/userInput.interface';
+import { IProfileService } from './IProfile.service.interface';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';
+import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 
 @Injectable({
   providedIn: 'root',

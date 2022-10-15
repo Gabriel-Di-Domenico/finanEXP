@@ -1,12 +1,12 @@
-import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
-import ResponseDto from 'src/app/shared/support/classes/responseDto';
+import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { CommonService } from '../../support/services/common.service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import UserInput from '../../support/interfaces/user/userInput.interface';
+import { UserInput } from '../../support/interfaces/user/userInput.interface';
 
-import UserProxysInterface from './user-proxys.interface';
+import { UserProxysInterface } from './user-proxys.interface';
 
 @Injectable({
   providedIn: 'root',

@@ -32,7 +32,6 @@
     "eqeqeq": ["error", "always"],
     "max-classes-per-file": ["error", 1],
     "no-alert": "error",
-    "no-extra-semi": "error",
     "no-invalid-this": "error",
     "no-undef-init": "error",
     "no-var": "error",
@@ -44,7 +43,6 @@
     "no-trailing-spaces":"error",
     "no-multiple-empty-lines":["warn",{"max":1}],
     "object-curly-spacing":["warn", "always"],
-    "semi":["warn","always"],
     "max-len":["warn",{"code": 125}]
   }
 }

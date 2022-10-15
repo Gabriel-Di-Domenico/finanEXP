@@ -1,16 +1,18 @@
-import CustomerEditorDialogDataInterface from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+import { CustomerEditorDialogDataInterface }
+  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import Message from 'src/app/shared/support/interfaces/message.interface';
+import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { CustomerEdtiorDialogComponent } from '../../customer-edtior-dialog/customer-edtior-dialog.component';
 import { DialogControlService } from '../../../../../shared/support/services/dialogControl/dialog-control.service';
 import { CustomersService } from '../../customers.service';
-import CustomerOutput from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import ResponseGetByIdCustomerDto from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
+import { ResponseGetByIdCustomerDto } from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
-import { FinConfirmationDialogComponent } from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
+import { FinConfirmationDialogComponent }
+  from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
 
 @Component({
   selector: 'app-customer-details-dialog',

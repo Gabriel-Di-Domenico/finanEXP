@@ -1,5 +1,5 @@
-import Message from '../interfaces/message.interface';
+import { Message } from '../interfaces/message.interface';
 
-export default class ResponseDto {
+export class ResponseDto {
   message!: Message;
 }

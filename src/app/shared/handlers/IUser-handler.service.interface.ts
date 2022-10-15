@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-export default interface IUserHandlerService {
+export interface IUserHandlerService {
     registerGetUser: () => Observable<any>
     emit: (id: string) => void
 }

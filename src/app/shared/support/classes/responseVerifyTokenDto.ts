@@ -1,5 +1,5 @@
-import ResponseDto from './responseDto';
+import { ResponseDto } from './responseDto';
 
-export default class ResponseVerifyTokenDto extends ResponseDto {
+export class ResponseVerifyTokenDto extends ResponseDto {
   public token!: string;
 }
