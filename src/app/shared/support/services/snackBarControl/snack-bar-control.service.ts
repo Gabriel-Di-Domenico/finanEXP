@@ -1,6 +1,6 @@
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
-import ISnackBarControlService from './ISnack-bar-control.service.interface';
+import { ISnackBarControlService } from './ISnack-bar-control.service.interface';
 
 @Injectable({
   providedIn: 'any'

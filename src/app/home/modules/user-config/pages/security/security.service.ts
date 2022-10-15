@@ -3,7 +3,7 @@ import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { take } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import ISecurityService from './ISecurity.service.interface';
+import { ISecurityService } from './ISecurity.service.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';

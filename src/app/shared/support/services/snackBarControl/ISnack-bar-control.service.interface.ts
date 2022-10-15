@@ -1,3 +1,3 @@
-export default interface ISnackBarControlService {
+export interface ISnackBarControlService {
     showMessage: (message: string, error: boolean) => void
 }

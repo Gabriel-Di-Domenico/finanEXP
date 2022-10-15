@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 
 import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
 
-import IAuthenticateService from './IAuthenticate.service.interface';
+import { IAuthenticateService } from './IAuthenticate.service.interface';
 import { ResponseAuthUserDto } from 'src/app/shared/support/classes/responseAuthUserDto';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';

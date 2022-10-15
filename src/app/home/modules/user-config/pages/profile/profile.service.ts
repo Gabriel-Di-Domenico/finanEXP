@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 
 import { UserHandlerService } from '../../../../../shared/handlers/user-handler.service';
 
-import IProfileService from './IProfile.service.interface';
+import { IProfileService } from './IProfile.service.interface';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';

@@ -1,4 +1,4 @@
 import { Observable } from 'rxjs';
-export default interface IVerifyTokenService {
+export interface IVerifyTokenService {
     verifyToken: () => Observable<any>
 }

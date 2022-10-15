@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ResponseVerifyTokenDto } from '../../support/classes/responseVerifyTokenDto';
-import AuthenticateProxyInterface from './authenticate.proxy.interface';
+import { AuthenticateProxyInterface } from './authenticate.proxy.interface';
 import { UserInput } from '../../support/interfaces/user/userInput.interface';
 
 @Injectable({

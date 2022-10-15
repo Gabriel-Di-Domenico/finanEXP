@@ -3,7 +3,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 
 import { Observable, take } from 'rxjs';
 
-import IUserHandlerService from './IUser-handler.service.interface';
+import { IUserHandlerService } from './IUser-handler.service.interface';
 import { UserProxysService } from '../proxys/userProxys/user-proxys.service';
 
 @Injectable({

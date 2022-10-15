@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserInput } from '../../support/interfaces/user/userInput.interface';
 
-import UserProxysInterface from './user-proxys.interface';
+import { UserProxysInterface } from './user-proxys.interface';
 
 @Injectable({
   providedIn: 'root',
