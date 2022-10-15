@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.UserSettings.Dtos
+namespace backend.Users.Dtos
 {
   public class UserUpdateDto
   {
@@ -11,6 +11,8 @@ namespace backend.UserSettings.Dtos
     public string email { get; set; } = "";
 
     public string? password { get; set; } = "";
+
+    public string? NewPassword { get; set; }
 
     public string? perfilPhoto { get; set; }
   }

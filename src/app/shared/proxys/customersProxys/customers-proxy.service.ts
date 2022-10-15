@@ -1,3 +1,4 @@
+import { CustomerProxyInterface } from './customers.proxy.interface';
 import ResponseDto from 'src/app/shared/support/classes/responseDto';
 import { Observable } from 'rxjs';
 import { CommonService } from './../../support/services/common.service';
@@ -10,8 +11,9 @@ import ResponseGetByIdCustomerDto from '../../support/classes/customers/response
 @Injectable({
   providedIn: 'root',
 })
-export class CustomersProxyService {
+export class CustomersProxyService implements CustomerProxyInterface {
   private basePath = 'http://localhost:51235/customers';
+
   constructor(private httpClient: HttpClient, private commonService: CommonService) {}
   public create(customer: CustomerInput): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();

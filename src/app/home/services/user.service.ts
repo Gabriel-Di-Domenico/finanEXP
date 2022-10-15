@@ -1,4 +1,4 @@
-import { UserCrudProxysService } from '../../shared/proxys/userCrudProxys/user-crud.proxys.service';
+import { UserProxysService } from '../../shared/proxys/userProxys/user-proxys.service';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUserByIdDto';
@@ -7,10 +7,10 @@ import ResponseGetUserByIdDto from 'src/app/shared/support/classes/responseGetUs
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private userCrudProxysService: UserCrudProxysService) {}
+  constructor(private userProxysService: UserProxysService) {}
 
   getUserById(userId: string, callback?: (data: ResponseGetUserByIdDto) => void): void {
-    this.userCrudProxysService
+    this.userProxysService
       .getUserByIdRequest(userId)
       .pipe(take(1))
       .subscribe({

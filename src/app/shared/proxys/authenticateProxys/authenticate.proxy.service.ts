@@ -1,28 +1,27 @@
+import ResponseAuthUserDto from 'src/app/shared/support/classes/responseAuthUserDto';
 import { CommonService } from './../../support/services/common.service';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import IAuthenticateProxyService from './IAuthenticate.proxys.service.interface';
-import UserInput from '../../support/interfaces/userInput.interface';
+import AuthenticateProxyInterface from './authenticate.proxy.interface';
+import UserInput from '../../support/interfaces/user/userInput.interface';
+import ResponseVerifyTokenDto from '../../support/classes/responseVerifyTokenDto';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticateProxyService implements IAuthenticateProxyService {
+export class AuthenticateProxyService implements AuthenticateProxyInterface {
   private basePath = 'http://localhost:51235/auth/';
-  constructor(
-    private httpClient: HttpClient,
-    private commonService:CommonService
-  ) {}
+  constructor(private httpClient: HttpClient, private commonService: CommonService) {}
 
-  authUserRequest(user: UserInput): Observable<any> {
-    return this.httpClient.post(`${this.basePath}user`, user);
+  authUserRequest(user: UserInput): Observable<ResponseAuthUserDto> {
+    return <Observable<ResponseAuthUserDto>>this.httpClient.post(`${this.basePath}user`, user);
   }
-  verifyTokenRequest(): Observable<any> {
-    const headers= this.commonService.getHeaders();
+  verifyTokenRequest(): Observable<ResponseVerifyTokenDto> {
+    const headers = this.commonService.getHeaders();
 
-    return this.httpClient.get(`${this.basePath}verifyToken`, { headers });
+    return <Observable<ResponseVerifyTokenDto>>this.httpClient.get(`${this.basePath}verifyToken`, { headers });
   }
 }

@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { take } from 'rxjs';
 
-import UserOutput from '../../../../../shared/support/interfaces/userOutput.interface';
+import UserOutput from '../../../../../shared/support/interfaces/user/userOutput.interface';
 
 import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';

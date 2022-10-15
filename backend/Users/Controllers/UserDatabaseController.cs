@@ -3,6 +3,7 @@ using backend.Messages;
 using backend.models;
 using backend.Shared.Dtos;
 using backend.Shared.Users.Services;
+using backend.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -86,6 +87,47 @@ public class UserDatabaseController : ControllerBase
       {
         error = true,
         message = "Usuário já registrado"
+      };
+      return BadRequest(result);
+    }
+  }
+
+  [HttpPut("{id}")]
+  [Authorize]
+  public ActionResult<UserReadDto> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateDto user)
+  {
+    var userFromEmail = _UserDatabaseService.GetUserByEmail(user.email);
+
+    var result = new ReturnDto();
+
+    if (userFromEmail == null || userFromEmail.ID == id)
+    {
+      var newUser = _UserDatabaseService.UpdateUser(id, user);
+      if (newUser != null)
+      {
+        result.Message = new Message
+        {
+          error = false,
+          message = "Preferências salvas com sucesso"
+        };
+        return Ok(result);
+      }
+      else
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Erro ao modificar preferências"
+        };
+        return NotFound(result);
+      }
+    }
+    else
+    {
+      result.Message = new Message
+      {
+        error = true,
+        message = "Email já em uso"
       };
       return BadRequest(result);
     }
