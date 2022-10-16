@@ -14,20 +14,19 @@ import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.inte
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticateService implements IAuthenticateService {
   constructor(
     private userProxysService: UserProxysService,
     private router: Router,
     private authenticateProxyService: AuthenticateProxyService
-  ) { }
+  ) {}
 
-  createNewUser(user: UserInput, callback?: (data:Message) => void): void {
-    this.userProxysService.createNewUserRequest(user)
-      .pipe(
-        take(1)
-      )
+  createNewUser(user: UserInput, callback?: (data: Message) => void): void {
+    this.userProxysService
+      .createNewUserRequest(user)
+      .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto) => {
           this.authUser(user);
@@ -35,14 +34,13 @@ export class AuthenticateService implements IAuthenticateService {
         },
         error: (err: HttpErrorResponse) => {
           if (callback) callback(err.error.message);
-        }
+        },
       });
   }
-  authUser(user: UserInput, callback?: (data:Message) => void): void {
-    this.authenticateProxyService.authUserRequest(user)
-      .pipe(
-        take(1)
-      )
+  authUser(user: UserInput, callback?: (data: Message) => void): void {
+    this.authenticateProxyService
+      .authUserRequest(user)
+      .pipe(take(1))
       .subscribe({
         next: (data: ResponseAuthUserDto) => {
           window.localStorage.setItem('fSSIdtkn', data.jwt);
@@ -51,7 +49,7 @@ export class AuthenticateService implements IAuthenticateService {
 
           if (callback) callback(data.message);
         },
-        error: (err: HttpErrorResponse) => callback ? callback(err.error.message) : ''
+        error: (err: HttpErrorResponse) => (callback ? callback(err.error.message) : ''),
       });
   }
 }

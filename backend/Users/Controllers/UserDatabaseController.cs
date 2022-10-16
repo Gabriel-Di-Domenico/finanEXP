@@ -81,7 +81,7 @@ public class UserDatabaseController : ControllerBase
         message = "Usuário já cadastrado"
       };
 
-      return Created("", result);
+      return BadRequest(result);
     }
     throw new Exception("Create user error");
   }
