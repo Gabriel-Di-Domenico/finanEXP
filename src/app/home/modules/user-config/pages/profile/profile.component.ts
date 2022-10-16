@@ -1,3 +1,4 @@
+import { FinValidatorsService } from './../../../../../../fin-sdk/validators/fin-validators.service';
 import { UserService } from './../../../../services/user.service';
 import { profileSettingFormControls } from './profileSettingsFormControls';
 import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
@@ -35,7 +36,8 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private snackBarControlService: SnackBarControlService,
-    private userService: UserService
+    private userService: UserService,
+    private finValidatorsService: FinValidatorsService
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +64,11 @@ export class ProfileComponent implements OnInit {
     this.form = this.formBuilder.group({});
     this.form.addControl(
       this.profileSettingFormControls.nameFormControl,
-      this.formBuilder.control(null, [Validators.required, Validators.maxLength(25)])
+      this.formBuilder.control(null, [
+        Validators.required,
+        Validators.maxLength(25),
+        this.finValidatorsService.trimValidator,
+      ])
     );
     this.form.addControl(
       this.profileSettingFormControls.email,

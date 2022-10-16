@@ -1,3 +1,4 @@
+import { FinValidatorsService } from './../../../../../fin-sdk/validators/fin-validators.service';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { ResponseGetByIdCustomerDto } from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
 import { SnackBarControlService } from './../../../../shared/support/services/snackBarControl/snack-bar-control.service';
@@ -11,8 +12,7 @@ import { finSelectOption } from 'src/app/shared/support/classes/fin-select-optio
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { CustomerEditorDialogDataInterface }
-  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+import { CustomerEditorDialogDataInterface } from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 
 @Component({
   selector: 'app-customer-edtior-dialog',
@@ -32,9 +32,10 @@ export class CustomerEdtiorDialogComponent {
     private dialogControlService: DialogControlService,
     private snackBarControlService: SnackBarControlService,
     private dialogRef: MatDialogRef<CustomerEdtiorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: CustomerEditorDialogDataInterface
+    @Inject(MAT_DIALOG_DATA) private data: CustomerEditorDialogDataInterface,
+    private finValidatorsService: FinValidatorsService
   ) {
-    if(this.data.operation === 'update'){
+    if (this.data.operation === 'update') {
       this.getCustomerById();
     }
 
@@ -64,7 +65,10 @@ export class CustomerEdtiorDialogComponent {
   }
   private createForm() {
     this.form = this.formBuilder.group({});
-    this.form.addControl(this.formControls.nameFormControl, this.formBuilder.control(null, Validators.required));
+    this.form.addControl(
+      this.formControls.nameFormControl,
+      this.formBuilder.control(null, [Validators.required, this.finValidatorsService.trimValidator])
+    );
     this.form.addControl(this.formControls.balance, this.formBuilder.control(0, Validators.required));
     this.form.addControl(this.formControls.type, this.formBuilder.control(null, Validators.required));
   }
