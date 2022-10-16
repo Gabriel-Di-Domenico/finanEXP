@@ -23,6 +23,11 @@
       "dom"
     ],
     "esModuleInterop": true,
+    "paths": {
+      "teste": [
+        "dist/teste"
+      ]
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

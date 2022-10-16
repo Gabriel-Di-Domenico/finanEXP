@@ -26,7 +26,7 @@ namespace backend.Shared.Users.Services
       if (verifyExistingUser == null)
       {
         user.password = Bcrypt.Encrypt(user.password);
-
+        
         _context.Users.Add(user);
         SaveChanges();
         return ResponseStatus.Ok;

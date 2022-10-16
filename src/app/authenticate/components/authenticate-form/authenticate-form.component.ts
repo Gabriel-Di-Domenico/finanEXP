@@ -1,3 +1,4 @@
+import { FinValidatorsService } from './../../../../fin-sdk/validators/fin-validators.service';
 import { loginFormControls } from './loginFormControls';
 import { registerFormControls } from './registerFormControls';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +11,6 @@ import { AuthenticateService } from './../../services/authenticate-service/authe
 import { SnackBarControlService } from '../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
-
 @Component({
   selector: 'app-authenticate-form',
   templateUrl: './authenticate-form.component.html',
@@ -28,7 +28,8 @@ export class AuthenticateFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authenticateService: AuthenticateService,
-    private snackBarControlService: SnackBarControlService
+    private snackBarControlService: SnackBarControlService,
+    private finValidatorsService: FinValidatorsService
   ) {}
 
   ngOnInit(): void {
@@ -82,21 +83,20 @@ export class AuthenticateFormComponent implements OnInit {
     }
   }
 
-  private createLoginForm(){
+  private createLoginForm() {
     this.loginForm = this.formBuilder.group({});
     this.loginForm.addControl(
       this.loginFormControls.email,
       this.formBuilder.control(null, [Validators.email, Validators.required])
     );
     this.loginForm.addControl(this.loginFormControls.password, this.formBuilder.control(null, [Validators.required]));
-
   }
-  private createRegisterForm(){
+  private createRegisterForm() {
     this.registerForm = this.formBuilder.group({});
 
     this.registerForm.addControl(
       this.registerFormControls.nameFormControl,
-      this.formBuilder.control(null, [Validators.required, Validators.maxLength(25)])
+      this.formBuilder.control(null, [Validators.required, Validators.maxLength(25), this.finValidatorsService.trimValidator])
     );
     this.registerForm.addControl(
       this.registerFormControls.email,
