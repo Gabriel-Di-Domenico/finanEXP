@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { UserHandlerService } from './user-handler.service';
-import { Injectable, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { UserOutput } from '../support/interfaces/user/userOutput.interface';
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,10 @@ export class UserHandler implements OnInit, OnDestroy {
   constructor(private userHandlerService: UserHandlerService) {}
   protected ngOnInitFunction(): void {}
   protected ngOnDestroyFunction(): void {}
-  protected afterListening(): void {}
+  protected execAfterGetUser(): void {}
+  protected emit(){
+    this.userHandlerService.emit(this.currentUser.id);
+  }
   ngOnInit(): void {
     this.ngOnInitFunction();
     this.listenHandler();
@@ -29,7 +32,7 @@ export class UserHandler implements OnInit, OnDestroy {
     this.handlerSubscription = this.userHandlerService.registerGetUser().subscribe({
       next: (user: UserOutput) => {
         this.currentUser = user;
-        this.afterListening();
+        this.execAfterGetUser();
       },
     });
   }

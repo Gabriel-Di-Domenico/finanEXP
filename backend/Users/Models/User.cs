@@ -1,5 +1,5 @@
 using backend.Customers.Models;
-using Microsoft.Extensions.Hosting;
+using backend.Users.PerfilPhotos.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,7 +24,9 @@ namespace backend.models
     [MaxLength(250)]
     public string password { get; set; } = "";
 
-    public Byte[]? perfilPhoto { get; set; }
+    [ForeignKey("PerfilPhotos")]
+    public Guid? PerfilPhotoId { get; set; }
+    public virtual PerfilPhoto? PerfilPhoto { get; set; }
 
     public List<Customer> Customers { get; set; }
 

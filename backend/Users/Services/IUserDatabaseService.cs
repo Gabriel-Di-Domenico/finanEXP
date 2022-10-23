@@ -11,6 +11,8 @@ namespace backend.Shared.Users.Services
     User GetUserByEmail(string email);
     ResponseStatus CreateUser(User user);
     ResponseStatus UpdateUser(Guid id, UserUpdateDto newUser);
+
+    ResponseStatus UpdatePerfilPhotoUser(Guid userId, Guid? perfilPhotoId);
     bool SaveChanges();
   }
 }

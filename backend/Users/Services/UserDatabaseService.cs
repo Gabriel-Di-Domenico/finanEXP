@@ -4,7 +4,6 @@ using backend.models;
 using backend.Shared.Enums;
 using backend.Shared.Services;
 using backend.Users.Dtos;
-using System.Text;
 
 namespace backend.Shared.Users.Services
 {
@@ -81,14 +80,8 @@ namespace backend.Shared.Users.Services
           {
             return ResponseStatus.Unauthorized;
           }
-        }
-
-        if (newUser.perfilPhoto != null)
-        {
-          byte[] bytes = Encoding.UTF8.GetBytes(newUser.perfilPhoto);
-          userFromDataBase.perfilPhoto = bytes;
-        }
-                
+        }       
+               
         _context.Update(userFromDataBase);
         SaveChanges();
         return ResponseStatus.Ok;
@@ -97,6 +90,17 @@ namespace backend.Shared.Users.Services
       {
         return ResponseStatus.AlreadyExists;
       }
+    }
+
+    public ResponseStatus UpdatePerfilPhotoUser(Guid userId, Guid? perfilPhotoId)
+    {
+      User user = GetUserByID(userId);
+      
+       user.PerfilPhotoId = perfilPhotoId;
+       _context.Update(user);
+      
+      SaveChanges();
+      return ResponseStatus.Ok;
     }
   }
 }

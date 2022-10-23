@@ -4,6 +4,7 @@ using backend.Contexts;
 using backend.Customers.Services;
 using backend.Shared.Services;
 using backend.Shared.Users.Services;
+using backend.Users.PerfilPhotos.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -40,6 +41,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserDatabaseService, UserDatabaseService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAuthUserService, AuthUserService>();
+builder.Services.AddScoped<IPerfilPhotoService, PerfilPhotoService>();
 builder.Services.AddScoped<IAuthAndUserDependecyInjection, AuthAndUserDependecyInjection>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

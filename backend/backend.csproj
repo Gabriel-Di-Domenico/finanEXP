@@ -37,6 +37,7 @@
     <Folder Include="Revenues\Dtos\" />
     <Folder Include="Revenues\Services\" />
     <Folder Include="Shared\Classes\" />
+    <Folder Include="Shared\Interfaces\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
