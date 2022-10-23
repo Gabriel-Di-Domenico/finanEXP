@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class FinButtonComponent {
   @Input() color!:string;
+  @Input() disabled?:boolean;
 }

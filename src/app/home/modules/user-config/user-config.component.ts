@@ -50,6 +50,8 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
       panelClass: 'custom-dialog-container',
       id: 'userPhotoEditor',
       data: this.currentUser,
+      width:'500px',
+      height:'300px'
     });
   }
   public logout(): void {
