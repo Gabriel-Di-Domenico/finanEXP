@@ -1,6 +1,5 @@
-main {
-    width: 400px;
-    height: 250px;
+main{
+    height: 100%;
 }
 
 main>header {
@@ -8,10 +7,9 @@ main>header {
     height: 20%;
     background-color: #efeeea;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
-
 fin-title {
     margin-top: 20px;
     margin-left: 10px;
@@ -26,7 +24,7 @@ main>div#photoOptions {
 }
 
 app-perfil-photo {
-    width: 125px;
+    width: 145px;
     height: 64%;
     display: flex;
     align-items: center;
@@ -39,6 +37,6 @@ main>div#photoOptions>div#divButtons {
     flex-direction: column;
 }
 
-main>div#photoOptions>div#divButtons>button {
+fin-button {
     margin-top: 10px;
 }
