@@ -10,10 +10,9 @@ namespace backend.Users.Dtos
     [Required]
     public string email { get; set; } = "";
 
-    public string? password { get; set; } = "";
+    public string? password { get; set; }
 
     public string? NewPassword { get; set; }
 
-    public string? perfilPhoto { get; set; }
   }
 }

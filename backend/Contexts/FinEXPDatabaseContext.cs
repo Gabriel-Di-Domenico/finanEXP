@@ -1,5 +1,6 @@
 using backend.Customers.Models;
 using backend.models;
+using backend.Users.PerfilPhotos.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Contexts
@@ -12,6 +13,8 @@ namespace backend.Contexts
     }
     public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
+
+    public DbSet<PerfilPhoto> PerfilPhotos { get; set; }
 
   }
 }

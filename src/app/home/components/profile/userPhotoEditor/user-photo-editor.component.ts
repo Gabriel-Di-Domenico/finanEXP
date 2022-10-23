@@ -1,100 +1,119 @@
+import { ResponseGetPerfilPhotoDto } from '../../../../shared/support/classes/perfilPhoto/responseGetPerfilPhotoDto';
+import { PerfilPhotoInput } from '../../../../shared/support/interfaces/perfilPhoto/perfilPhotoInput.interface';
+import { PerfilPhotoService } from './perfil-photo.service';
 import { SnackBarControlService } from '../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { UserHandler } from '../../../../shared/handlers/user-handler';
-import { ProfileService } from '../../../modules/user-config/pages/profile/profile.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service';
 
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
-import { User } from 'src/app/shared/support/interfaces/user/user.interface';
 
 @Component({
   selector: 'app-user-photo-editor',
   templateUrl: './user-photo-editor.component.html',
   styleUrls: ['./user-photo-editor.component.css'],
 })
-
 export class UserPhotoEditorComponent extends UserHandler implements OnInit {
-  perfilPhoto!: any
+  public perfilPhoto!: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: UserOutput,
     private dialog: MatDialog,
-    private profileService: ProfileService,
-    userHandlerService: UserHandlerService,
-    private snackBarControlService: SnackBarControlService
+    private perfilPhotoService: PerfilPhotoService,
+    private snackBarControlService: SnackBarControlService,
+    userHandlerService: UserHandlerService
   ) {
-    super(userHandlerService)
-    this.currentUser = data
+    super(userHandlerService);
+    this.currentUser = data;
   }
 
-  override ngOnInitFunction(): void {
-    this.getPerfilPhoto()
-
+  protected override ngOnInitFunction(): void {
+    this.getPerfilPhoto();
   }
-  protected override afterListening(): void {
-    this.getPerfilPhoto()
+  protected override execAfterGetUser(): void {
+    this.getPerfilPhoto();
   }
   public closeUserPhotoEditor() {
-    this.dialog.getDialogById('userPhotoEditor')?.close()
+    this.dialog.getDialogById('userPhotoEditor')?.close();
   }
 
   public onFileSelected() {
-    const inputNode: any = document.querySelector('#file');
-    const archiveType = inputNode.files[0].type
+    const inputNode: HTMLInputElement = document.querySelector('#file') as HTMLInputElement;
+    const file = (inputNode.files as FileList)[0]
+    const archiveType = file.type;
 
-    if (typeof (FileReader) !== 'undefined') {
+    if (typeof FileReader !== 'undefined') {
       const reader = new FileReader();
 
-      reader.onload = (e: any) => {
+      reader.onload = (e: ProgressEvent<FileReader>) => {
         if (archiveType === 'image/jpeg' || archiveType === 'image/png') {
-          const arr = new Uint8Array(e.target?.result);
-          const currentUser = <User>this.currentUser
+          const base64Data = window.btoa(e.target?.result as string)
+          const perfilPhoto = {
+            data: base64Data,
+            name: file.name,
+          } as PerfilPhotoInput;
 
-          currentUser.perfilPhoto = arr.toString()
-
-          this.saveChanges()
+          if (this.currentUser.perfilPhotoId) {
+            this.updatePerfilPhoto(perfilPhoto);
+          } else {
+            this.createPerfilPhoto(perfilPhoto);
+          }
         } else {
-          this.snackBarControlService.showMessage('Apenas arquivos jpeg e png são suportados', true)
+          this.snackBarControlService.showMessage('Apenas arquivos jpeg e png são suportados', true);
         }
-        inputNode.value = ''
+        inputNode.value = '';
       };
 
-      reader.readAsArrayBuffer(inputNode.files[0]);
-
-      this.currentUser.perfilPhoto
+      reader.readAsBinaryString(file);
     }
   }
   public canRemove() {
-    if (this.perfilPhoto.length) {
-      return false
+    if (this.perfilPhoto?.length) {
+      return false;
     } else {
-      return true
+      return true;
     }
   }
   public removeImage() {
-    const currentUser = <User>this.currentUser
-    currentUser.perfilPhoto = ''
-
-    this.saveChanges()
-
-  }
-  private saveChanges(){
-    this.profileService.updateProfilePreferences(`${this.currentUser.id}`, <User>this.currentUser, (message: Message) => {
-      this.snackBarControlService.showMessage(message.message, message.error)
-      if(message.error){
-        this.closeUserPhotoEditor()
-      }
-    })
-  }
-  private getPerfilPhoto() {
-    if(this.currentUser.perfilPhoto){
-      const array = this.currentUser.perfilPhoto.split(',').map((byte:string) => Number(byte))
-
-      this.perfilPhoto = `data:image/png;base64,${ window.btoa(String.fromCharCode.apply(null, array))}`;
-    }else{
-      this.perfilPhoto = ''
+    if (this.currentUser.perfilPhotoId) {
+      this.perfilPhotoService.delete(this.currentUser.perfilPhotoId, (message: Message) => {
+        this.snackBarControlService.showMessage(message.message, message.error);
+        if (!message.error) {
+          this.currentUser.perfilPhotoId = undefined;
+          this.emit();
+        }
+      });
     }
   }
-}
 
+  private getPerfilPhoto() {
+    this.perfilPhoto = '';
+    if (this.currentUser.perfilPhotoId) {
+      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseGetPerfilPhotoDto) => {
+        if (!data.message.error) {
+          this.perfilPhoto = `data:image/png;base64,${data.perfilPhoto.data}`;
+        }
+      });
+    }
+  }
+  private updatePerfilPhoto(perfilPhoto: PerfilPhotoInput) {
+    this.perfilPhotoService.updatePerfilPhoto(this.currentUser.perfilPhotoId as string, perfilPhoto, (message: Message) => {
+      this.snackBarControlService.showMessage(message.message, message.error);
+      this.emit();
+      if (message.error) {
+        this.closeUserPhotoEditor();
+      }
+    });
+  }
+  private createPerfilPhoto(perfilPhoto: PerfilPhotoInput) {
+    this.perfilPhotoService.createPerfilPhoto(perfilPhoto, (message: Message) => {
+      this.snackBarControlService.showMessage(message.message, message.error);
+      this.emit();
+      if (message.error) {
+        this.closeUserPhotoEditor();
+      }
+    });
+  }
+}

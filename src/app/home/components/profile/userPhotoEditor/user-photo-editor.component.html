@@ -4,7 +4,7 @@
         <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="closeUserPhotoEditor()"><mat-icon>clear</mat-icon></button>
     </header>
     <div id="photoOptions">
-
+        
         <app-perfil-photo [perfilPhoto]="perfilPhoto"></app-perfil-photo>
 
         <div id="divButtons">
@@ -13,7 +13,4 @@
             <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
         </div>
     </div>
-
-
-
 </main>
