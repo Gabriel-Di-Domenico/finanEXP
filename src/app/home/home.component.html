@@ -1,11 +1,26 @@
-<mat-sidenav-container autosize>
+<ng-container *ngIf="!smallScreen">
+  <mat-sidenav-container autosize>
     <mat-sidenav class="mat-sidenav" [class.mat-elevation-z3]="isExtended" #sidenav mode="side" opened="{{ isExtended }}">
-        <app-menu [currentUser]="currentUser"></app-menu>
+      <app-menu [currentUser]="currentUser"></app-menu>
     </mat-sidenav>
     <mat-sidenav-content class="mat-sidenav-content">
-        <router-outlet></router-outlet>
-        <button mat-mini-fab id="chevronButton" (click)="isExtended = !isExtended">
-            <mat-icon class="chevron-button" mat-list-icon [ngClass]="{ rotated: isExtended } ">chevron_right</mat-icon>
-        </button>
+      <router-outlet></router-outlet>
+      <button mat-mini-fab id="chevronButton" (click)="isExtended = !isExtended">
+        <mat-icon class="chevron-button" mat-list-icon [ngClass]="{ rotated: isExtended }">chevron_right</mat-icon>
+      </button>
     </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-sidenav-container>
+</ng-container>
+
+<ng-container *ngIf="smallScreen">
+  <header>
+    <button id="menuButton" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </header>
+  
+  <mat-menu class="mat-menu" #menu="matMenu">
+    <app-menu [currentUser]="currentUser"></app-menu>
+  </mat-menu>
+  <router-outlet></router-outlet>
+</ng-container>
