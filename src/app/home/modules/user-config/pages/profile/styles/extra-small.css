@@ -1,0 +1,19 @@
+@media only screen and (max-width:600px) {
+  form>div.first-div {
+    width: 100%;
+    height: 90%;
+  }
+
+  header> {
+    width: 90%;
+    height: 10%;
+    padding: 25px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  fin-submit-button{
+    width: 55%;
+    align-self: center;
+  }
+}
