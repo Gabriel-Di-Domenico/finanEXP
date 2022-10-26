@@ -1,40 +1,52 @@
+import { CommonService } from './../../../../../shared/support/services/common.service';
 import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { UserService } from './../../../../services/user.service';
 import { securitySettingsFormConstrols } from './securitySettingsFormConstrols';
-import { take } from 'rxjs';
+import { take, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SecurityService } from './security.service';
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
 import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
+import { BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-security',
   templateUrl: './security.component.html',
-  styleUrls: ['./security.component.css'],
+  styleUrls: ['./styles/security.component.css'],
   host: {
     class: 'h-100 w-100',
   },
 })
-export class SecurityComponent implements OnInit {
+export class SecurityComponent implements OnInit, OnDestroy {
   private currentUserId = '';
   public form!: FormGroup;
   public showNewPassword = false;
   public showActualPassword = false;
   public showConfirmPassword = false;
   public currentUser!: UserOutput;
+  public smallScreen = false;
   public securitySettingsFormConstrols = securitySettingsFormConstrols;
-
+  private viewPortSizeObserver!: Subscription;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private snackBarControlService: SnackBarControlService,
     private securityService: SecurityService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private commonService: CommonService
+  ) {
+    this.viewPortSizeObserver = this.commonService.startViewPortSizeObserver().subscribe((res: BreakpointState) => {
+      if (res.matches) {
+        this.smallScreen = true;
+      } else {
+        this.smallScreen = false;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.route.data.pipe(take(1)).subscribe({
@@ -44,6 +56,9 @@ export class SecurityComponent implements OnInit {
     });
     this.getUserById();
     this.initForm();
+  }
+  ngOnDestroy() {
+    this.viewPortSizeObserver.unsubscribe();
   }
   public canSave(): boolean {
     return this.form.valid;
@@ -59,7 +74,7 @@ export class SecurityComponent implements OnInit {
         email: this.currentUser.email,
         name: this.currentUser.name,
         password: actualPassword,
-        newPassword: newPassword
+        newPassword: newPassword,
       };
       this.securityService.updateUserPassword(this.currentUserId, user, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
@@ -94,7 +109,7 @@ export class SecurityComponent implements OnInit {
     });
   }
   private getUserById(): void {
-    this.userService.getUserById(this.currentUserId, (data:ResponseGetUserByIdDto) => {
+    this.userService.getUserById(this.currentUserId, (data: ResponseGetUserByIdDto) => {
       this.currentUser = data.user;
     });
   }

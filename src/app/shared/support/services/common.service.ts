@@ -21,6 +21,6 @@ export class CommonService {
   }
 
   public startViewPortSizeObserver() {
-    return this.observer.observe(['(max-width:700px)'])
+    return this.observer.observe('(max-width:768px)')
   }
 }
