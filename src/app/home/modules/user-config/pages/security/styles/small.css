@@ -1,0 +1,6 @@
+@media (min-width:600px) and (max-width:768px) {
+  form>div.first-div {
+    width: 50%;
+    height: 90%;
+  }
+}

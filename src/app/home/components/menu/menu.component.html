@@ -1,8 +1,6 @@
 <mat-nav-list>
     <div>
-        <fin-add-button id="addButton">
-
-        </fin-add-button>
+        <fin-add-button id="addButton"></fin-add-button>
 
         <mat-list-item id="dashboardLink" routerLink="dashboard" routerLinkActive="active">
             <mat-icon mat-list-icon>home</mat-icon>
@@ -17,5 +15,5 @@
     <mat-list-item id="userConfig" routerLink="user/config/profile" routerLinkActive="active">
         <span class="menu-item">{{currentUser.name}}</span>
     </mat-list-item>
-
+    <button *ngIf="smallScreen" mat-icon-button id='logoutButton' ><mat-icon>exit_to_app</mat-icon></button>
 </mat-nav-list>

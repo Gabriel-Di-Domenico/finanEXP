@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { HomeComponent } from './home.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -31,7 +32,7 @@ import { UserPhotoEditorComponent } from './components/profile/userPhotoEditor/u
     MatListModule,
     MatButtonModule,
     SharedModule,
-
+    MatMenuModule,
     HomeRoutingModule
   ]
 })

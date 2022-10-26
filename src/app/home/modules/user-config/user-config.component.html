@@ -4,7 +4,7 @@
             <div id="user">
                 <app-perfil-photo (click)="openPerfilPhotoEditor()" [perfilPhoto]="perfilPhoto"></app-perfil-photo>
                 <span>{{currentUser.name}}</span>
-                <button mat-icon-button id='logoutButton' (click)="logout()"><mat-icon>exit_to_app</mat-icon></button>
+                <button *ngIf="!smallScreen" mat-icon-button id='logoutButton' (click)="logout()"><mat-icon>exit_to_app</mat-icon></button>
             </div>
         </header>
         <div class="div-nav">

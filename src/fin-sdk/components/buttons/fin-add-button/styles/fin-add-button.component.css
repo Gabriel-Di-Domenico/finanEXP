@@ -1,0 +1,10 @@
+@import url(./extra-small.css);
+@import url(./small.css);
+@import url(./medium.css);
+@import url(./extra-large.css);
+
+div.fin-add-button > button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

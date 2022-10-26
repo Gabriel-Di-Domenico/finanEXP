@@ -1,3 +1,8 @@
+@import url(./extra-small.css);
+@import url(./small.css);
+@import url(./medium.css);
+@import url(./extra-large.css);
+
 main {
     background-color: #dde5ff;
     height: 100%;
@@ -17,11 +22,9 @@ main>div {
 
 header {
     display: flex;
-    height: 15%;
 }
 
 header>#user {
-    width: 50%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -51,7 +54,7 @@ header>#user>span {
 .div-nav {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    
     align-items: center;
     margin-bottom: 20px;
 }

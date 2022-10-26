@@ -1,17 +1,33 @@
 <app-config-view title="Perfil">
   <form [formGroup]="form" (ngSubmit)="saveChanges()">
-    <div class="first-div">
-      <fin-input
-        class="fin-input"
-        label="Nome de usuário"
-        type="text"
-        [formControlName]="profileSettingFormControls.nameFormControl"
-        [required]="true"></fin-input>
-
-      <fin-input class="fin-input" label="Email" type="text" [formControlName]="profileSettingFormControls.email" [required]="true"></fin-input>
-    </div>
-    <div class="second-div">
-      <fin-submit-button label="Salvar alterações" [disabled]="!canSave()"></fin-submit-button>
-    </div>
+    <ng-container *ngIf="!smallScreen">
+      <div class="first-div">
+        <fin-input
+          class="fin-input"
+          label="Nome de usuário"
+          type="text"
+          [formControlName]="profileSettingFormControls.nameFormControl"
+          [required]="true"></fin-input>
+  
+        <fin-input class="fin-input" label="Email" type="text" [formControlName]="profileSettingFormControls.email" [required]="true"></fin-input>
+      </div>
+      <div class="second-div">
+        <fin-submit-button label="Salvar alterações" [disabled]="!canSave()"></fin-submit-button>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="smallScreen">
+      <div class="first-div">
+        <fin-input
+          class="fin-input"
+          label="Nome de usuário"
+          type="text"
+          [formControlName]="profileSettingFormControls.nameFormControl"
+          [required]="true"></fin-input>
+  
+        <fin-input class="fin-input" label="Email" type="text" [formControlName]="profileSettingFormControls.email" [required]="true"></fin-input>
+        <fin-submit-button label="Salvar alterações" [disabled]="!canSave()"></fin-submit-button>
+      </div>
+    </ng-container>
   </form>
 </app-config-view>

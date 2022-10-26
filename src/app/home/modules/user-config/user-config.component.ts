@@ -10,25 +10,36 @@ import { UserHandlerService } from '../../../shared/handlers/user-handler.servic
 import { UserHandler } from 'src/app/shared/handlers/user-handler';
 import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { ResponseGetPerfilPhotoDto } from 'src/app/shared/support/classes/perfilPhoto/responseGetPerfilPhotoDto';
+import { BreakpointState } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-config',
   templateUrl: './user-config.component.html',
-  styleUrls: ['./user-config.component.css'],
+  styleUrls: ['./styles/user-config.component.css'],
 })
 export class UserConfigComponent extends UserHandler implements OnInit, OnDestroy {
-  currentUserId = '';
-  perfilPhoto = '';
+  public currentUserId = '';
+  public perfilPhoto = '';
+  public smallScreen = false;
+  private viewPortSizeObserver!:Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private UserService: UserService,
-    private perfilPhotoService:PerfilPhotoService,
+    private perfilPhotoService: PerfilPhotoService,
     userHandlerService: UserHandlerService,
     private dialogControlService: DialogControlService,
-    private commonService:CommonService
+    private commonService: CommonService
   ) {
     super(userHandlerService);
+    this.viewPortSizeObserver = this.commonService.startViewPortSizeObserver().subscribe((res: BreakpointState) => {
+      if (res.matches) {
+        this.smallScreen = true;
+      } else {
+        this.smallScreen = false;
+      }
+    });
   }
 
   override ngOnInitFunction(): void {
@@ -42,6 +53,9 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
       this.getPerfilPhoto();
     });
   }
+  override ngOnDestroyFunction(): void {
+    this.viewPortSizeObserver.unsubscribe();
+  }
   protected override execAfterGetUser(): void {
     this.getPerfilPhoto();
   }
@@ -50,8 +64,8 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
       panelClass: 'custom-dialog-container',
       id: 'userPhotoEditor',
       data: this.currentUser,
-      width:'500px',
-      height:'300px'
+      width: '500px',
+      height: '300px',
     });
   }
   public logout(): void {
@@ -59,7 +73,7 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
   }
   private getPerfilPhoto(): void {
     this.perfilPhoto = '';
-    if(this.currentUser.perfilPhotoId){
+    if (this.currentUser.perfilPhotoId) {
       this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseGetPerfilPhotoDto) => {
         if (!data.message.error) {
           this.perfilPhoto = `data:image/png;base64,${data.perfilPhoto.data}`;

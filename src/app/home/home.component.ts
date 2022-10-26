@@ -1,3 +1,4 @@
+import { CommonService } from './../shared/support/services/common.service';
 import { UserService } from './services/user.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -16,10 +17,11 @@ import { UserHandler } from '../shared/handlers/user-handler';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./styles/home.component.css'],
 })
 export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
   public isExtended = false;
+  public smallScreen = false;
   private viewPortSizeObserver!: Subscription;
 
   override currentUser: UserOutput = {
@@ -34,13 +36,23 @@ export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
     private observer: BreakpointObserver,
     private route: ActivatedRoute,
     private userService: UserService,
+    private commonService:CommonService,
     userHandlerService: UserHandlerService
   ) {
     super(userHandlerService);
+    this.viewPortSizeObserver = this.commonService.startViewPortSizeObserver().subscribe((res: BreakpointState) => {
+      if (res.matches) {
+        this.smallScreen = true;
+        this.isExtended = false;
+        this.sideNave?.close();
+      } else {
+        this.smallScreen = false;
+        this.isExtended = true;
+        this.sideNave?.open();
+      }
+    })
   }
   override ngOnInitFunction(): void {
-    this.startViewPortSizeObserver();
-
     this.getCurrentUser();
   }
   override ngOnDestroyFunction(): void {
@@ -57,18 +69,6 @@ export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
     });
     this.userService.getUserById(currentUserId, (data: ResponseGetUserByIdDto) => {
       this.currentUser = data.user;
-    });
-  }
-
-  private startViewPortSizeObserver() {
-    this.viewPortSizeObserver = this.observer.observe(['(max-width:800px)']).subscribe((res: BreakpointState) => {
-      if (res.matches) {
-        this.isExtended = false;
-        this.sideNave?.close();
-      } else {
-        this.isExtended = true;
-        this.sideNave?.open();
-      }
     });
   }
 }

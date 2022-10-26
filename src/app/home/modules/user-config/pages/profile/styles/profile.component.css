@@ -1,3 +1,9 @@
+@import url(./extra-small.css);
+@import url(./small.css);
+@import url(./medium.css);
+@import url(./extra-large.css);
+
+
 div.perfilComponent{
     background-color: white;
     height: 100%;
@@ -24,8 +30,6 @@ form>div.first-div {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 50%;
-    height: 90%;
 }
 
 form>div.second-div {
