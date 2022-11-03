@@ -22,6 +22,6 @@ namespace backend.Revenues.Models
     DateTime Date { get; set; }
 
     [Required]
-    CategoryModel Category { get; set; }
+    Category Category { get; set; }
   }
 }

@@ -4,9 +4,8 @@ import { CommonService } from './../../support/services/common.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomerInput } from '../../support/interfaces/customers/customerInput.interface';
-import { ResponseGetAllCustomersDto } from '../../support/classes/customers/responseGetAllCustomersDto';
-import { ResponseGetByIdCustomerDto } from '../../support/classes/customers/responseGetByIdCustomerDto';
 import { CustomerProxyInterface } from './customers.proxy.interface';
+import { CustomerOutput } from '../../support/interfaces/customers/customerOutput.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -39,9 +38,9 @@ export class CustomersProxyService implements CustomerProxyInterface {
       })
     );
   }
-  public getAll(): Observable<ResponseGetAllCustomersDto> {
+  public getAll(): Observable<ResponseDto<Array<CustomerOutput>>> {
     const headers = this.commonService.getHeaders();
-    return <Observable<any>>this.httpClient.get(`${this.basePath}`, { headers }).pipe(
+    return <Observable<any>> this.httpClient.get(`${this.basePath}`, { headers }).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
           if (err.status === 401) {
@@ -51,7 +50,7 @@ export class CustomersProxyService implements CustomerProxyInterface {
       })
     );
   }
-  public getById(customerId: string): Observable<ResponseGetByIdCustomerDto> {
+  public getById(customerId: string): Observable<ResponseDto<CustomerOutput>> {
     const headers = this.commonService.getHeaders();
     return <Observable<any>>this.httpClient.get(`${this.basePath}/${customerId}`, { headers }).pipe(
       tap({

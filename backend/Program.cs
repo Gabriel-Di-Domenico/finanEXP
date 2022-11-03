@@ -1,5 +1,6 @@
 using backend;
 using backend.Authenticate.Services;
+using backend.Categories.Services;
 using backend.Contexts;
 using backend.Customers.Services;
 using backend.Shared.Services;
@@ -42,7 +43,7 @@ builder.Services.AddScoped<IUserDatabaseService, UserDatabaseService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAuthUserService, AuthUserService>();
 builder.Services.AddScoped<IPerfilPhotoService, PerfilPhotoService>();
-builder.Services.AddScoped<IAuthAndUserDependecyInjection, AuthAndUserDependecyInjection>();
+builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddCors(options =>

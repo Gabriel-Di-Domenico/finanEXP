@@ -2,7 +2,6 @@ import { CommonService } from './../../../../../shared/support/services/common.s
 import { FinValidatorsService } from './../../../../../../fin-sdk/validators/fin-validators.service';
 import { UserService } from './../../../../services/user.service';
 import { profileSettingFormControls } from './profileSettingsFormControls';
-import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +12,8 @@ import { Subscription, take } from 'rxjs';
 import { ProfileService } from './profile.service';
 import { SnackBarControlService } from '../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointState } from '@angular/cdk/layout';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 @Component({
   selector: 'app-profile',
@@ -95,11 +95,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private populateForm() {
-    this.userService.getUserById(this.currentUserId, (data: ResponseGetUserByIdDto) => {
-      this.currentUser = data.user;
+    this.userService.getUserById(this.currentUserId, (data: ResponseDto<UserOutput>) => {
+      this.currentUser = data.content;
       this.form.setValue({
-        email: data.user.email,
-        name: data.user.name,
+        email: data.content.email,
+        name: data.content.name,
       });
     });
   }

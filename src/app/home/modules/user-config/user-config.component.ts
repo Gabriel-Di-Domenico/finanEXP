@@ -8,10 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { UserHandlerService } from '../../../shared/handlers/user-handler.service';
 import { UserHandler } from 'src/app/shared/handlers/user-handler';
-import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
-import { ResponseGetPerfilPhotoDto } from 'src/app/shared/support/classes/perfilPhoto/responseGetPerfilPhotoDto';
 import { BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { PerfilPhotoOutput } from 'src/app/shared/support/interfaces/perfilPhoto/perfilPhotoOutput';
+import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
 
 @Component({
   selector: 'app-user-config',
@@ -48,8 +49,8 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
         this.currentUserId = data['currentUserId'];
       },
     });
-    this.UserService.getUserById(this.currentUserId, (data: ResponseGetUserByIdDto) => {
-      this.currentUser = data.user;
+    this.UserService.getUserById(this.currentUserId, (data: ResponseDto<UserOutput>) => {
+      this.currentUser = data.content;
       this.getPerfilPhoto();
     });
   }
@@ -74,9 +75,9 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
   private getPerfilPhoto(): void {
     this.perfilPhoto = '';
     if (this.currentUser.perfilPhotoId) {
-      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseGetPerfilPhotoDto) => {
+      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseDto<PerfilPhotoOutput>) => {
         if (!data.message.error) {
-          this.perfilPhoto = `data:image/png;base64,${data.perfilPhoto.data}`;
+          this.perfilPhoto = `data:image/png;base64,${data.content.data}`;
         }
       });
     }

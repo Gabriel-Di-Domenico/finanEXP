@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
-import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { CommonService } from '../../support/services/common.service';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserInput } from '../../support/interfaces/user/userInput.interface';
 
 import { UserProxysInterface } from './user-proxys.interface';
+import { UserOutput } from '../../support/interfaces/user/userOutput.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class UserProxysService implements UserProxysInterface {
   public createNewUserRequest(user: UserInput): Observable<ResponseDto> {
     return <Observable<ResponseDto>>this.httpClient.post(`${this.basePath}add`, user);
   }
-  public getUserByIdRequest(id: string): Observable<ResponseGetUserByIdDto> {
+  public getUserByIdRequest(id: string): Observable<ResponseDto<UserOutput>> {
     const headers = this.commonService.getHeaders();
     return <Observable<any>>this.httpClient.get(`${this.basePath}${id}`, { headers }).pipe(
       tap({

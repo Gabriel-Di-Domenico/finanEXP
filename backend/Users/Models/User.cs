@@ -1,3 +1,4 @@
+using backend.Categories.Models;
 using backend.Customers.Models;
 using backend.Users.PerfilPhotos.Models;
 using System.ComponentModel.DataAnnotations;
@@ -29,6 +30,8 @@ namespace backend.models
     public virtual PerfilPhoto? PerfilPhoto { get; set; }
 
     public List<Customer> Customers { get; set; }
+
+    public List<Category> Categories { get; set; }
 
   }
 }

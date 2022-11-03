@@ -2,6 +2,7 @@ using AutoMapper;
 using backend.Authenticate.Dtos;
 using backend.Authenticate.Services;
 using backend.Messages;
+using backend.Shared.Dtos;
 using backend.Shared.Enums;
 using backend.Shared.Users.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -24,11 +25,11 @@ namespace backend.Authenticate.Controllers
       _authUserService = authUserService;
     }
     [HttpPost("user")]
-    public ActionResult<dynamic> AuthenticateAsync([FromBody] UserAuthDto user)
+    public ActionResult<ReturnDto<string>> AuthenticateAsync([FromBody] UserAuthDto user)
     {
       var userFromDatabase = _UserDatabase.GetUserByEmail(user.email);
 
-      var result = new AuthUserReturnDto();
+      var result = new ReturnDto<string>();
 
       if (userFromDatabase != null)
       {
@@ -42,7 +43,7 @@ namespace backend.Authenticate.Controllers
             error = false,
             message = "Usuário autenticado"
           };
-          result.JWT = responseAuthUser.Content;
+          result.Content = responseAuthUser.Content;
 
           return Ok(result);
         }
@@ -56,7 +57,7 @@ namespace backend.Authenticate.Controllers
           error = true,
           message = "Usuário não Registrado"
         };
-        result.JWT = null;
+        result.Content = null;
 
         return Unauthorized(result);
       }
@@ -65,11 +66,11 @@ namespace backend.Authenticate.Controllers
     }
     [HttpGet("verifyToken")]
     [Authorize]
-    public ActionResult<string> VerifyToken()
+    public ActionResult<ReturnDto<string>> VerifyToken()
     {
       var Bearertoken = Request.Headers["Authorization"];
 
-      var result = new VerifyTokenReturnDto();
+      var result = new ReturnDto<string>();
 
       string userID = TokenService.DeserializeToken(Bearertoken);
 
@@ -81,7 +82,7 @@ namespace backend.Authenticate.Controllers
           error = false,
           message = "Token válido"
         };
-        result.Token = userID;
+        result.Content = userID;
 
         return Ok(result);
       }
@@ -92,7 +93,7 @@ namespace backend.Authenticate.Controllers
           error = true,
           message = "Token inválido"
         };
-        result.Token = null;
+        result.Content = null;
 
         return Ok(result);
       }

@@ -7,7 +7,6 @@ import { take } from 'rxjs';
 import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
 
 import { IAuthenticateService } from './IAuthenticate.service.interface';
-import { ResponseAuthUserDto } from 'src/app/shared/support/classes/responseAuthUserDto';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';
 import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
@@ -42,8 +41,8 @@ export class AuthenticateService implements IAuthenticateService {
       .authUserRequest(user)
       .pipe(take(1))
       .subscribe({
-        next: (data: ResponseAuthUserDto) => {
-          window.localStorage.setItem('fSSIdtkn', data.jwt);
+        next: (data: ResponseDto<string>) => {
+          window.localStorage.setItem('fSSIdtkn', data.content);
 
           this.router.navigate(['home']);
 

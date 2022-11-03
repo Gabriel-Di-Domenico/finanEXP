@@ -62,12 +62,12 @@ namespace backend.Users.PerfilPhotos.Controllers
     }
 
     [HttpGet("{perfilPhotoId}")]
-    public async Task<ActionResult<ReturnPerfilPhotoDto>> GetPerfilPhoto([FromRoute] Guid perfilPhotoId)
+    public async Task<ActionResult<ReturnDto<PerfilPhotoReadDto>>> GetPerfilPhoto([FromRoute] Guid perfilPhotoId)
     {
 
       var perfilPhotoResponse = await _perfilPhotoService.GetPerfilPhoto(perfilPhotoId);
 
-      var result = new ReturnPerfilPhotoDto();
+      var result = new ReturnDto<PerfilPhotoReadDto>();
 
       if (perfilPhotoResponse.Status == ResponseStatus.Ok)
       {
@@ -78,7 +78,7 @@ namespace backend.Users.PerfilPhotos.Controllers
           error = false,
           message = "Sucesso ao adquirir a foto de perfil"
         };
-        result.PerfilPhoto = perfilPhotoReturn;
+        result.Content = perfilPhotoReturn;
 
         return Ok(result);
       }

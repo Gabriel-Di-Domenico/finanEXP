@@ -25,11 +25,11 @@ public class UserDatabaseController : ControllerBase
 
   [HttpGet("{id}", Name = "GetUserByID")]
   [Authorize]
-  public ActionResult<GetUserByIdReturnDto> GetUserByID([FromRoute] Guid id)
+  public ActionResult<ReturnDto<UserReadDto>> GetUserByID([FromRoute] Guid id)
   {
     var user = _UserDatabaseService.GetUserByID(id);
 
-    var result = new GetUserByIdReturnDto();
+    var result = new ReturnDto<UserReadDto>();
 
     if (user != null)
     {
@@ -38,7 +38,7 @@ public class UserDatabaseController : ControllerBase
         error = false,
         message = "Sucesso"
       };
-      result.User = _Mapper.Map<UserReadDto>(user);
+      result.Content = _Mapper.Map<UserReadDto>(user);
 
       return Ok(result);
     }
@@ -88,7 +88,7 @@ public class UserDatabaseController : ControllerBase
 
   [HttpPut("{id}")]
   [Authorize]
-  public ActionResult<UserReadDto> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateDto user)
+  public ActionResult<ReturnDto> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateDto user)
   {
     var updateUserResponse = _UserDatabaseService.UpdateUser(id, user);
 

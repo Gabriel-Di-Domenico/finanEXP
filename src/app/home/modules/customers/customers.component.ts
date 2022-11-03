@@ -1,6 +1,5 @@
 import { CustomerEditorDialogDataInterface }
   from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
-import { ResponseGetAllCustomersDto } from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
 import { CustomersService } from './customers.service';
 import { CustomerEdtiorDialogComponent } from './customer-edtior-dialog/customer-edtior-dialog.component';
 import { DialogControlService } from './../../../shared/support/services/dialogControl/dialog-control.service';
@@ -8,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { take } from 'rxjs/operators';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 @Component({
   selector: 'app-customers',
@@ -33,8 +33,8 @@ export class CustomersComponent implements OnInit {
       } as CustomerEditorDialogDataInterface
     }).afterClosed().subscribe({
       next:() => {
-        this.customersService.getAll((data:ResponseGetAllCustomersDto) => {
-          this.customers = data.customers;
+        this.customersService.getAll((data:ResponseDto<Array<CustomerOutput>>) => {
+          this.customers = <Array<CustomerOutput>>data.content;
         });
       }
     });
@@ -42,7 +42,7 @@ export class CustomersComponent implements OnInit {
 
   private getCustomers() {
     this.route.data.pipe(take(1)).subscribe({
-      next: data => {
+      next: (data: any) => {
         this.customers = data['customers'];
       },
     });

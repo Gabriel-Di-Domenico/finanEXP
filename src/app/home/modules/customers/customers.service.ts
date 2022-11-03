@@ -5,8 +5,7 @@ import { CustomersProxyService } from './../../../shared/proxys/customersProxys/
 import { Injectable } from '@angular/core';
 import { CustomerInput } from 'src/app/shared/support/interfaces/customers/customerInput.interface';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
-import { ResponseGetAllCustomersDto } from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
-import { ResponseGetByIdCustomerDto } from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -48,12 +47,12 @@ export class CustomersService {
         },
       });
   }
-  public getAll(callback?: (data: ResponseGetAllCustomersDto) => void): void {
+  public getAll(callback?: (data: ResponseDto<Array<CustomerOutput>>) => void): void {
     this.customersProxyService
       .getAll()
       .pipe(take(1))
       .subscribe({
-        next: (data: ResponseGetAllCustomersDto) => {
+        next: (data: ResponseDto<Array<CustomerOutput>>) => {
           if (callback) {
             callback(data);
           }
@@ -65,12 +64,12 @@ export class CustomersService {
         },
       });
   }
-  public getById(customerId: string, callback?: (data: ResponseGetByIdCustomerDto) => void): void {
+  public getById(customerId: string, callback?: (data: ResponseDto<CustomerOutput>) => void): void {
     this.customersProxyService
       .getById(customerId)
       .pipe(take(1))
       .subscribe({
-        next: (data: ResponseGetByIdCustomerDto) => {
+        next: (data: ResponseDto<CustomerOutput>) => {
           if (callback) {
             callback(data);
           }
