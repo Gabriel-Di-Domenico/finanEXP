@@ -1,4 +1,3 @@
-import { ResponseGetPerfilPhotoDto } from '../../../../shared/support/classes/perfilPhoto/responseGetPerfilPhotoDto';
 import { PerfilPhotoInput } from '../../../../shared/support/interfaces/perfilPhoto/perfilPhotoInput.interface';
 import { PerfilPhotoService } from './perfil-photo.service';
 import { SnackBarControlService } from '../../../../shared/support/services/snackBarControl/snack-bar-control.service';
@@ -9,6 +8,8 @@ import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service
 
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { PerfilPhotoOutput } from 'src/app/shared/support/interfaces/perfilPhoto/perfilPhotoOutput';
 
 @Component({
   selector: 'app-user-photo-editor',
@@ -91,9 +92,9 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
   private getPerfilPhoto() {
     this.perfilPhoto = '';
     if (this.currentUser.perfilPhotoId) {
-      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseGetPerfilPhotoDto) => {
+      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseDto<PerfilPhotoOutput>) => {
         if (!data.message.error) {
-          this.perfilPhoto = `data:image/png;base64,${data.perfilPhoto.data}`;
+          this.perfilPhoto = `data:image/png;base64,${data.content.data}`;
         }
       });
     }

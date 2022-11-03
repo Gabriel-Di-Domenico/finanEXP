@@ -1,9 +1,8 @@
-import { ResponseAuthUserDto } from 'src/app/shared/support/classes/responseAuthUserDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Observable } from 'rxjs';
 import { UserInput } from '../../support/interfaces/user/userInput.interface';
-import { ResponseVerifyTokenDto } from '../../support/classes/responseVerifyTokenDto';
 
 export interface AuthenticateProxyInterface {
-    authUserRequest: (user: UserInput) => Observable<ResponseAuthUserDto>
-    verifyTokenRequest:() => Observable<ResponseVerifyTokenDto>
+    authUserRequest: (user: UserInput) => Observable<ResponseDto<string>>
+    verifyTokenRequest:() => Observable<ResponseDto<string>>
 }

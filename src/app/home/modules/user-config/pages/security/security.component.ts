@@ -1,5 +1,4 @@
 import { CommonService } from './../../../../../shared/support/services/common.service';
-import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
 import { UserService } from './../../../../services/user.service';
 import { securitySettingsFormConstrols } from './securitySettingsFormConstrols';
 import { take, Subscription } from 'rxjs';
@@ -12,6 +11,7 @@ import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
 import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 import { BreakpointState } from '@angular/cdk/layout';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 @Component({
   selector: 'app-security',
@@ -50,7 +50,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.data.pipe(take(1)).subscribe({
-      next: data => {
+      next: (data:any) => {
         this.currentUserId = data['currentUserId'];
       },
     });
@@ -109,8 +109,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
     });
   }
   private getUserById(): void {
-    this.userService.getUserById(this.currentUserId, (data: ResponseGetUserByIdDto) => {
-      this.currentUser = data.user;
+    this.userService.getUserById(this.currentUserId, (data: ResponseDto<UserOutput>) => {
+      this.currentUser = data.content;
     });
   }
 }

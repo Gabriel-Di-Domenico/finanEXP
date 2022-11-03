@@ -1,10 +1,11 @@
-import { ResponseGetUserByIdDto } from 'src/app/shared/support/classes/responseGetUserByIdDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { Observable, take } from 'rxjs';
 
 import { IUserHandlerService } from './IUser-handler.service.interface';
 import { UserProxysService } from '../proxys/userProxys/user-proxys.service';
+import { UserOutput } from '../support/interfaces/user/userOutput.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class UserHandlerService implements IUserHandlerService {
         take(1)
       )
       .subscribe({
-        next: (data: ResponseGetUserByIdDto) => {
-          this.getUser.emit(data.user);
+        next: (data: ResponseDto<UserOutput>) => {
+          this.getUser.emit(data.content);
         }
       });
   }

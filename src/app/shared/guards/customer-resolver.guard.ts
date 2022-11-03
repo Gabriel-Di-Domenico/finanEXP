@@ -1,4 +1,4 @@
-import { ResponseGetAllCustomersDto } from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { CustomersProxyService } from './../proxys/customersProxys/customers-proxy.service';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { Injectable } from '@angular/core';
@@ -17,7 +17,7 @@ export class CustomerResolverGuard implements Resolve<CustomerOutput> {
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return this.customersProxyService.getAll().pipe(
-      map((data:ResponseGetAllCustomersDto) => data.customers)
+      map((data:ResponseDto<Array<CustomerOutput>>) => data.content)
     );
   }
 }

@@ -1,3 +1,4 @@
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { CustomerEditorDialogDataInterface }
   from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 
@@ -9,7 +10,6 @@ import { CustomersService } from '../../customers.service';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ResponseGetByIdCustomerDto } from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
 import { FinConfirmationDialogComponent }
   from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
@@ -73,9 +73,9 @@ export class CustomerDetailsDialogComponent {
       });
   }
   private getCustomerById(customerId: string) {
-    this.customerService.getById(customerId, (data: ResponseGetByIdCustomerDto) => {
+    this.customerService.getById(customerId, (data: ResponseDto<CustomerOutput>) => {
       if (data.message) {
-        this.customer = data.customer;
+        this.customer = data.content;
       }
     });
   }

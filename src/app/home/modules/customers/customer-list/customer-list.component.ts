@@ -9,7 +9,7 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
-import { ResponseGetAllCustomersDto } from 'src/app/shared/support/classes/customers/responseGetAllCustomersDto';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 registerLocaleData(ptBr);
 
@@ -59,8 +59,8 @@ export class CustomerListComponent {
       });
   }
   private getAllCustomers(){
-    this.customersService.getAll((data: ResponseGetAllCustomersDto) => {
-      this.customers = data.customers;
+    this.customersService.getAll((data: ResponseDto<Array<CustomerOutput>>) => {
+      this.customers = <Array<CustomerOutput>>data.content;
     });
   }
 }

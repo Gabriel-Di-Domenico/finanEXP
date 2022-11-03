@@ -62,13 +62,13 @@ namespace backend.Customers.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<GetAllCustomersReturnDto> GetAll()
+    public ActionResult<ReturnDto<List<CustomerReadDto>>> GetAll()
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
       var getAllcustomersResponse = _customerService.GetAllCustomers(userId);
-      var result = new GetAllCustomersReturnDto();
+      var result = new ReturnDto<List<CustomerReadDto>>();
 
       if (getAllcustomersResponse.Status == ResponseStatus.Ok)
       {
@@ -79,7 +79,7 @@ namespace backend.Customers.Controllers
         };
 
         var customersModel = _mapper.Map<List<CustomerReadDto>>(getAllcustomersResponse.Content);
-        result.Customers = customersModel;
+        result.Content = customersModel;
 
         return Ok(result);
       }
@@ -87,7 +87,7 @@ namespace backend.Customers.Controllers
     }
     [HttpGet("{id}")]
     [Authorize]
-    public ActionResult<GetCustomerByIdReturnDto> GetById([FromRoute] Guid Id)
+    public ActionResult<ReturnDto<CustomerReadDto>> GetById([FromRoute] Guid Id)
     {
 
       var Bearertoken = Request.Headers["Authorization"];
@@ -95,7 +95,7 @@ namespace backend.Customers.Controllers
 
       var getCustomerByIdResult = _customerService.GetCustomerById(Id, userId);
 
-      var result = new GetCustomerByIdReturnDto();
+      var result = new ReturnDto<CustomerReadDto>();
 
       if (getCustomerByIdResult.Status == ResponseStatus.Ok)
       {
@@ -107,7 +107,7 @@ namespace backend.Customers.Controllers
           message = "Sucesso ao adiquirir carteira"
         };
 
-        result.Customer = customerModel;
+        result.Content = customerModel;
 
         return Ok(result);
       }

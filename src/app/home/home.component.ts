@@ -10,9 +10,9 @@ import { UserHandlerService } from '../shared/handlers/user-handler.service';
 
 import { MatSidenav } from '@angular/material/sidenav';
 
-import { ResponseGetUserByIdDto } from '../shared/support/classes/responseGetUserByIdDto';
 import { UserOutput } from '../shared/support/interfaces/user/userOutput.interface';
 import { UserHandler } from '../shared/handlers/user-handler';
+import { ResponseDto } from '../shared/support/classes/responseDto';
 
 @Component({
   selector: 'app-home',
@@ -67,8 +67,8 @@ export class HomeComponent extends UserHandler implements OnInit, OnDestroy {
         currentUserId = data['currentUserId'];
       },
     });
-    this.userService.getUserById(currentUserId, (data: ResponseGetUserByIdDto) => {
-      this.currentUser = data.user;
+    this.userService.getUserById(currentUserId, (data: ResponseDto<UserOutput>) => {
+      this.currentUser = data.content;
     });
   }
 }

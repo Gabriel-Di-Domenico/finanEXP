@@ -1,6 +1,6 @@
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { FinValidatorsService } from './../../../../../fin-sdk/validators/fin-validators.service';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
-import { ResponseGetByIdCustomerDto } from 'src/app/shared/support/classes/customers/responseGetByIdCustomerDto';
 import { SnackBarControlService } from './../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { CustomersService } from './../customers.service';
 import { DialogControlService } from './../../../../shared/support/services/dialogControl/dialog-control.service';
@@ -89,9 +89,9 @@ export class CustomerEdtiorDialogComponent {
     }
   }
   private getCustomerById() {
-    this.customerService.getById(this.data.customerId, (data: ResponseGetByIdCustomerDto) => {
+    this.customerService.getById(this.data.customerId, (data: ResponseDto<CustomerOutput>) => {
       if (!data.message.error) {
-        this.customer = data.customer;
+        this.customer = data.content;
         this.label = 'Editar Carteira';
         this.populateForm();
       }
