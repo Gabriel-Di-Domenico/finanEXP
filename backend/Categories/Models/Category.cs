@@ -1,4 +1,5 @@
 using backend.models;
+using backend.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +13,8 @@ namespace backend.Categories.Models
 
     [Required]
     public string Name { get; set; }
+    [Required]
+    public TransactionType TransactionType { get; set; }
     
     [Required]
     [ForeignKey("Users")]

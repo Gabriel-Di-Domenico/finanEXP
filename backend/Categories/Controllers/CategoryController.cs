@@ -61,12 +61,12 @@ namespace backend.Categories.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto> GetAll()
+    public ActionResult<ReturnDto> GetAll([FromQuery] TransactionType? transactionType)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var getAllcategoriesResponse = _categoriesService.GetAllCategories(userId);
+      var getAllcategoriesResponse = _categoriesService.GetAllCategories(userId, transactionType);
       var result = new ReturnDto<List<CategoryReadDto>>();
 
       if (getAllcategoriesResponse.Status == ResponseStatus.Ok)
