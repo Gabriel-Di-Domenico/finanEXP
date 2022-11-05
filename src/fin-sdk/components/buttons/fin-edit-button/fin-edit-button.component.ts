@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'fin-edit-button',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./fin-edit-button.component.css']
 })
 export class FinEditButtonComponent {
-
+  @Input() color = 'primary';
 }

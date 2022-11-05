@@ -1,4 +1,4 @@
-<button type="submit" mat-raised-button color="primary" [disabled]="disabled">
+<button type="submit" mat-raised-button [color]="color" [disabled]="disabled" [ngClass]="{'success': color === 'success'}">
   {{ label }}
   <mat-icon>send</mat-icon>
 </button>
