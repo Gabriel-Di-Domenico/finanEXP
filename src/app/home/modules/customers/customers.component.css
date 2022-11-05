@@ -7,7 +7,7 @@ main {
   align-items: center;
 }
 
-app-content.content {
+content.content {
   margin-top: 5%;
   min-height: 100%;
   width: 90%;
