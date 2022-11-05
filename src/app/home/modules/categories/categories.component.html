@@ -1,0 +1,16 @@
+<main>
+  <header>
+    <div>
+      <fin-button id="menuButton" [matMenuTriggerFor]="menu" aria-label="Open menu" [color]="finAddButtonColor">
+        <mat-icon>expand_more</mat-icon>
+        {{currentTransactionType | convertEnum : PortugueseTransactionTypeEnum}}
+      </fin-button>
+      <mat-menu class="mat-menu" #menu="matMenu">
+        <transaction-menu (transactionTypeReturnEvent)="setTransactionType($event)"></transaction-menu>
+      </mat-menu>
+  
+      <fin-add-button (click)="openCategoriesEditorDialog()" [color]="finAddButtonColor"></fin-add-button>
+    </div>
+  </header>
+  <categories-list [transactionType]="currentTransactionType"></categories-list>
+</main>
