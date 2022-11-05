@@ -14,7 +14,6 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     resolve: { currentUserId: UserResolverGuard },
   },
-  { path: 'customers', loadChildren: () => import('./home/modules/customers/customers.module').then(m => m.CustomersModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
