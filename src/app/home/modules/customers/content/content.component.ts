@@ -6,7 +6,7 @@ import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr);
 
 @Component({
-  selector: 'app-content',
+  selector: 'content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css'],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],

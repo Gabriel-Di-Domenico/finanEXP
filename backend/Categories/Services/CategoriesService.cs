@@ -37,9 +37,10 @@ namespace backend.Categories.Services
       return _context.SaveChanges() >= 0;
     }
 
-    public ResponseStatus<List<Category>> GetAllCategories(Guid userId)
+    public ResponseStatus<List<Category>> GetAllCategories(Guid userId, TransactionType? transactionType)
     {
-      var categories = _context.Categories.Where(category => category.UserId == userId).ToList();
+      var categories = _context.Categories.Where(category => category.UserId == userId
+        && category.TransactionType == transactionType).ToList();
 
       if (categories != null)
       {

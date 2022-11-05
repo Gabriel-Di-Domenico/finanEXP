@@ -1,0 +1,22 @@
+main{
+  height: 75%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+table{
+  margin-top: 15px;
+  width: 100%;
+}
+.mat-column-name{
+  width: 90%;
+}
+td.actions-list{
+  display: flex;
+  margin-top: 7px;
+}
+fin-edit-button{
+  margin-right: 5px;
+}

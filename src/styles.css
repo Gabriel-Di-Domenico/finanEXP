@@ -19,11 +19,16 @@ snack-bar-container.message-successful {
     background-color: #4CAF50;
 }
 
+
 snack-bar-container.message-error {
     background-color: #f44336;
     color: white;
     font-weight: 500;
 }
+.success {
+    background-color:#4CAF50 ;
+    color: white;
+  }
 .custom-dialog-container .mat-dialog-container {
     padding: 0;
 }

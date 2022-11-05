@@ -1,3 +1,4 @@
+using backend.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace backend.Categories.Dtos
@@ -6,5 +7,8 @@ namespace backend.Categories.Dtos
   {
     [Required]
     public string Name{ get;set;}
+
+    [Required]
+    public TransactionType TransactionType { get; set; }
   }
 }

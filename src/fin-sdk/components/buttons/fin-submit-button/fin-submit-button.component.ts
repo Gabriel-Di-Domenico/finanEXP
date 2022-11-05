@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class FinSubmitButtonComponent {
   @Input() disabled!:string | boolean;
   @Input() label!:string;
+  @Input() color = 'primary';
 }

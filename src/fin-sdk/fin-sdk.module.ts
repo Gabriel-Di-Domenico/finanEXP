@@ -12,10 +12,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { TablesModule } from './components/tables/tables.module';
 
 @NgModule({
   declarations: [PerfilPhotoComponent],
   imports: [CommonModule, HttpClientModule, MatSnackBarModule, MatDialogModule, MatIconModule, PipesModule],
-  exports: [ButtonsModule, FinCommonModule, DialogsModule, InputsModule, PerfilPhotoComponent, SelectModule, PipesModule, CardsModule],
+  exports: [
+    ButtonsModule,
+    FinCommonModule,
+    DialogsModule,
+    InputsModule,
+    PerfilPhotoComponent,
+    SelectModule,
+    PipesModule,
+    CardsModule,
+    TablesModule
+  ],
 })
 export class FinSDKModule {}
