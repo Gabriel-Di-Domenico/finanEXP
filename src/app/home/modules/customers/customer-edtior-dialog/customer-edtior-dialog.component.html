@@ -1,6 +1,6 @@
 <header>
   <fin-title [label]="label"></fin-title>
-  <fin-close-button (click)="closeEditorDialog()"></fin-close-button>
+  <fin-icon-button (click)="closeEditorDialog()" icon="close" color="warn"></fin-icon-button>
 </header>
 
 <form [formGroup]="form" (ngSubmit)="submitForm()">

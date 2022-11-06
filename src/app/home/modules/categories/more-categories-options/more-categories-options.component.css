@@ -1,0 +1,12 @@
+main{
+  width: 100%;
+  height: 100%;
+}
+button{
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+}
+mat-icon{
+  font-size: 23px;
+}

@@ -1,3 +1,4 @@
+import { GetAllFilter } from './../../../../shared/support/interfaces/getAllFilter';
 import { SnackBarControlService } from './../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { CategoriesEditorDialogData } from 'src/app/shared/support/interfaces/categories/categoriesEditorDialogData';
 import { CategoriesEditorDialogComponent } from './../categories-editor-dialog/categories-editor-dialog.component';
@@ -21,6 +22,7 @@ import { FinConfirmationDialogComponent } from 'src/fin-sdk/components/dialogs/f
 export class CategoriesListComponent implements OnInit, OnDestroy {
   @Input() public transactionType!: TransactionType;
   @Input() categories!: Array<CategoryOutput>;
+  @Input() isArchivedComponent!: boolean;
   @ViewChild(MatTable) table!: MatTable<{ name: string }>;
 
   public displayedColumns: string[] = ['name', 'actions'];
@@ -62,32 +64,36 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
         },
       });
   }
-  public openConfirmationDeleteCustomerDialog(categoryId:string) {
+  public openConfirmationDialog(category: CategoryOutput, isDelete: boolean) {
     this.dialogControlService
       .openDialog(FinConfirmationDialogComponent, {
         width: '400px',
         height: '200px',
-        data: { message: 'Uma vez deletada a categoria não poderá ser recuperada' },
+        data: { message: isDelete ? 'Uma vez deletada a categoria não poderá ser recuperada' : '' },
       })
       .afterClosed()
       .subscribe({
         next: (data: { confirm: boolean }) => {
           if (data.confirm) {
-            this.categoriesService.delete(categoryId, (message: Message) => {
-              if(!message.error){
-                this.getCategories();
-              }
-              this.snackBarControlService.showMessage(message.message, message.error);
-            });
+            if (isDelete) {
+              this.deleteCategory(category);
+            } else if (this.isArchivedComponent) {
+              this.unArchiveCategory(category);
+            } else {
+              this.archiveCategory(category);
+            }
           }
         },
       });
   }
   private getCategories(): void {
-    this.categoriesService.getAll(this.transactionType, (data: ResponseDto<Array<CategoryOutput>>) => {
-      this.categories = data.content;
-      this.getDataSource();
-    });
+    this.categoriesService.getAll(
+      { transactionType: this.transactionType, isArchived: this.isArchivedComponent } as GetAllFilter,
+      (data: ResponseDto<Array<CategoryOutput>>) => {
+        this.categories = data.content;
+        this.getDataSource();
+      }
+    );
   }
   private getDataSource(): void {
     this.dataSource = [];
@@ -97,5 +103,29 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
     });
 
     this.loaded = true;
+  }
+  private deleteCategory(category: CategoryOutput): void {
+    this.categoriesService.delete(category.id, (message: Message) => {
+      if (!message.error) {
+        this.getCategories();
+      }
+      this.snackBarControlService.showMessage(message.message, message.error);
+    });
+  }
+  private archiveCategory(category: CategoryOutput): void {
+    this.categoriesService.archive(category, (message: Message) => {
+      if (!message.error) {
+        this.getCategories();
+      }
+      this.snackBarControlService.showMessage(message.message, message.error);
+    });
+  }
+  private unArchiveCategory(category: CategoryOutput): void {
+    this.categoriesService.unArchive(category, (message: Message) => {
+      if (!message.error) {
+        this.getCategories();
+      }
+      this.snackBarControlService.showMessage(message.message, message.error);
+    });
   }
 }

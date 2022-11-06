@@ -12,8 +12,8 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221102202103_AddCategoryTable")]
-    partial class AddCategoryTable
+    [Migration("20221105215729_AddMigrations")]
+    partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,15 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

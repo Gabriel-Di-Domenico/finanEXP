@@ -1,4 +1,5 @@
-import { TransactionType } from '../../../shared/support/enums/transactionTypes/transaction-types';
+import { GetAllFilter } from './../../../shared/support/interfaces/getAllFilter';
+import { UpdateFilter } from './../../../shared/support/interfaces/updateFilter';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { CategoryInput } from './../../../shared/support/interfaces/categories/categoryInput';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -47,9 +48,11 @@ export class CategoriesService {
         },
       });
   }
-  public getAll(transactionType: TransactionType, callback?: (data: ResponseDto<Array<CategoryOutput>>) => void): void {
+  public getAll(
+    getAllFilter:GetAllFilter,
+    callback?: (data: ResponseDto<Array<CategoryOutput>>) => void): void {
     this.categoriesProxyService
-      .getAll(transactionType)
+      .getAll(getAllFilter)
       .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto<Array<CategoryOutput>>) => {
@@ -97,5 +100,33 @@ export class CategoriesService {
           }
         },
       });
+  }
+  public archive(category: CategoryOutput, callback?: (message: Message) => void) {
+    this.categoriesProxyService.update(category.id, category, { toArchive: true } as UpdateFilter).pipe(take(1)).subscribe({
+      next:(data:ResponseDto) => {
+        if(callback){
+          callback(data.message)
+        }
+      },
+      error:(err:HttpErrorResponse) => {
+        if(callback){
+          callback(err.error.message)
+        }
+      }
+    });
+  }
+  public unArchive(category: CategoryOutput, callback?: (message: Message) => void){
+    this.categoriesProxyService.update(category.id, category, { toArchive: false } as UpdateFilter).pipe(take(1)).subscribe({
+      next:(data:ResponseDto) => {
+        if(callback){
+          callback(data.message)
+        }
+      },
+      error:(err:HttpErrorResponse) => {
+        if(callback){
+          callback(err.error.message)
+        }
+      }
+    });
   }
 }

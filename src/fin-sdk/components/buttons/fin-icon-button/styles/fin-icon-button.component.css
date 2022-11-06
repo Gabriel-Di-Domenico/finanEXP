@@ -3,8 +3,13 @@
 @import url(./medium.css);
 @import url(./extra-large.css);
 
-div.fin-add-button > button{
+div.fin-icon-button>button {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.table {
+  height: 40px !important;
+  width: 40px !important;
 }

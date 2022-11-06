@@ -1,7 +1,7 @@
 <ng-container *ngIf="customer">
   <header>
     <fin-title label="Detalhes da carteira"></fin-title>
-    <fin-close-button (click)="closeDetailsDialog()"></fin-close-button>
+    <fin-icon-button (click)="closeDetailsDialog()" icon="close" color="warn"></fin-icon-button>
   </header>
   
   <main>
@@ -31,8 +31,8 @@
       <p>WIP</p>
     </div>
     <div id="actionsDiv">
-      <fin-delete-button (click)="openConfirmationDeleteCustomerDialog()"></fin-delete-button>
-      <fin-edit-button (click)="openCustomerEditorDialog()"></fin-edit-button>
+      <fin-icon-button (click)="openConfirmationDeleteCustomerDialog()" icon="delete" color="warn"></fin-icon-button>
+      <fin-icon-button (click)="openCustomerEditorDialog()" icon="edit"></fin-icon-button>
     </div>
     
   </main>

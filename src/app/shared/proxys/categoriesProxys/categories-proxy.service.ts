@@ -1,9 +1,10 @@
-import { TransactionType } from '../../support/enums/transactionTypes/transaction-types';
+import { UpdateFilter } from './../../support/interfaces/updateFilter';
+import { GetAllFilter } from './../../support/interfaces/getAllFilter';
 import { CommonService } from './../../support/services/common.service';
 import { CategoryOutput } from './../../support/interfaces/categories/categoryOutput';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryInput } from '../../support/interfaces/categories/categoryInput';
 
@@ -23,15 +24,26 @@ export class CategoriesProxyService {
     const headers = this.commonService.getHeaders();
     return <Observable<ResponseDto>>this.httpClient.post(`${this.basePath}`, category, { headers });
   }
-  public getAll(transactionType: TransactionType): Observable<ResponseDto<Array<CategoryOutput>>> {
+  public getAll(getAllFilter: GetAllFilter): Observable<ResponseDto<Array<CategoryOutput>>> {
     const headers = this.commonService.getHeaders();
+    let params = new HttpParams();
+    if(getAllFilter.transactionType != null){
+      params = params.append('transactionType', getAllFilter.transactionType)
+    }
+    if(getAllFilter.isArchived != null){
+      params = params.append('isArchived', getAllFilter.isArchived)
+    }
     return <Observable<ResponseDto<Array<CategoryOutput>>>>(
-      this.httpClient.get(`${this.basePath}?transactionType=${transactionType}`, { headers })
+      this.httpClient.get(`${this.basePath}`, { headers, params:params })
     );
   }
-  public update(categoryId: string, category: CategoryInput): Observable<ResponseDto> {
+  public update(categoryId: string, category: CategoryInput, updateFilter?:UpdateFilter): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();
-    return <Observable<ResponseDto>>this.httpClient.put(`${this.basePath}/${categoryId}`, category, { headers });
+    let params = new HttpParams();
+    if(updateFilter?.toArchive != null){
+      params = params.append('toArchive', updateFilter?.toArchive)
+    }
+    return <Observable<ResponseDto>>this.httpClient.put(`${this.basePath}/${categoryId}`, category, { headers, params });
   }
   public delete(categoryId: string): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();
