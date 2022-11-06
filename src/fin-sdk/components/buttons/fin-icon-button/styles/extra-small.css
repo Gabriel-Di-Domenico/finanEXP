@@ -1,5 +1,5 @@
 @media only screen and (max-width:600px) {
-  div.fin-add-button > button{
+  div.fin-icon-button > button{
     height: 35px;
     width: 35px;
   }

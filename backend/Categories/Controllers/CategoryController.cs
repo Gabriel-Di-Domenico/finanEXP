@@ -4,6 +4,7 @@ using backend.Categories.Dtos;
 using backend.Categories.Models;
 using backend.Categories.Services;
 using backend.Messages;
+using backend.Shared.Classes;
 using backend.Shared.Dtos;
 using backend.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace backend.Categories.Controllers
 
     public CategoryController(ICategoriesService categoriesService, IMapper mapper)
     {
-     _categoriesService = categoriesService;
+      _categoriesService = categoriesService;
       _mapper = mapper;
     }
 
@@ -61,12 +62,12 @@ namespace backend.Categories.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto> GetAll([FromQuery] TransactionType? transactionType)
+    public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter filter)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var getAllcategoriesResponse = _categoriesService.GetAllCategories(userId, transactionType);
+      var getAllcategoriesResponse = _categoriesService.GetAllCategories(userId, filter);
       var result = new ReturnDto<List<CategoryReadDto>>();
 
       if (getAllcategoriesResponse.Status == ResponseStatus.Ok)
@@ -115,12 +116,20 @@ namespace backend.Categories.Controllers
 
     [HttpPut("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> Update([FromRoute] Guid id, [FromBody] CategoryCreateDto newCategory)
+    public ActionResult<ReturnDto> Update(
+      [FromRoute] Guid id,
+      [FromBody] CategoryCreateDto newCategory,
+      [FromQuery] UpdateFilter filter)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
+      if (filter.ToArchive != null)
+      {
+        newCategory.IsArchived = filter.ToArchive;
+      }
       var updateCategoryResult = _categoriesService.UpdateCategory(id, userId, newCategory);
+
       var result = new ReturnDto();
       if (updateCategoryResult == ResponseStatus.Ok)
       {

@@ -12,13 +12,15 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
 import { MatMenuModule } from '@angular/material/menu';
 import { TransactionMenuComponent } from './transaction-menu/transaction-menu.component';
 import { CategoriesEditorDialogComponent } from './categories-editor-dialog/categories-editor-dialog.component';
+import { MoreCategoriesOptionsComponent } from './more-categories-options/more-categories-options.component';
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     CategoriesListComponent,
     TransactionMenuComponent,
-    CategoriesEditorDialogComponent
+    CategoriesEditorDialogComponent,
+    MoreCategoriesOptionsComponent,
   ],
   imports: [
     CommonModule,

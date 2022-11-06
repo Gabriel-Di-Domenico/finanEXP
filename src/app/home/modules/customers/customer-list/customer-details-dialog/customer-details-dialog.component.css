@@ -33,6 +33,6 @@ div#actionsDiv{
   display: flex;
   justify-content: flex-end;
 }
-div#actionsDiv>fin-edit-button{
+div#actionsDiv>fin-icon-button{
   margin-left: 5px;
 }

@@ -15,6 +15,9 @@ namespace backend.Categories.Models
     public string Name { get; set; }
     [Required]
     public TransactionType TransactionType { get; set; }
+
+    [Required]
+    public bool IsArchived { get; set; }
     
     [Required]
     [ForeignKey("Users")]

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinEditButtonComponent } from './fin-edit-button.component';
+import { FinIconButtonComponent } from './fin-icon-button.component';
 
-describe('FinEditButtonComponent', () => {
-  let component: FinEditButtonComponent;
-  let fixture: ComponentFixture<FinEditButtonComponent>;
+describe('FinIconButtonComponent', () => {
+  let component: FinIconButtonComponent;
+  let fixture: ComponentFixture<FinIconButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FinEditButtonComponent ]
+      declarations: [ FinIconButtonComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FinEditButtonComponent);
+    fixture = TestBed.createComponent(FinIconButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
