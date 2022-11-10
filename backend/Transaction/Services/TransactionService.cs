@@ -1,0 +1,94 @@
+using backend.Contexts;
+using backend.Transactions.Dtos;
+using backend.Transactions.Models;
+using backend.models;
+using backend.Shared.Classes;
+using backend.Shared.Enums;
+
+namespace backend.Transactions.Services
+{
+  public class TransactionService : ITransactionService
+  {
+    private readonly FinEXPDatabaseContext _context;
+
+    public TransactionService(FinEXPDatabaseContext context)
+    {
+      _context = context;
+    }
+
+    public ResponseStatus CreateTransaction(Transaction transaction)
+    {    
+      _context.Transactions.Add(transaction);
+      SaveChanges();
+      return ResponseStatus.Ok;
+      //TODO Adicionar o calculo de valor de customers
+    }
+
+    public ResponseStatus DeleteTransaction(Guid id)
+    {
+      var getTransactionByIdResult = GetTransactionById(id);
+      if (getTransactionByIdResult.Status == ResponseStatus.Ok)
+      {
+        _context.Transactions.Remove(getTransactionByIdResult.Content);
+        SaveChanges();
+        return ResponseStatus.Ok;
+      }
+      return ResponseStatus.BadRequest;
+      //TODO Adicionar o calculo de valor de customers
+    }
+
+    public ResponseStatus<List<Transaction>> GetAllTransactions(GetAllFilter? filter)
+    {
+      var transactions = _context.Transactions.ToList();
+
+      if (transactions != null)
+      {
+        return new ResponseStatus<List<Transaction>> { Status = ResponseStatus.Ok, Content = transactions };
+      }
+
+      return new ResponseStatus<List<Transaction>>
+      {
+        Status = ResponseStatus.NotFound,
+      };
+    }
+
+    public ResponseStatus<Transaction> GetTransactionById(Guid id)
+    {
+      var transaction = _context.Transactions.FirstOrDefault(transaction => transaction.Id == id);
+      if (transaction != null)
+      {
+        return new ResponseStatus<Transaction> { Status = ResponseStatus.Ok, Content = transaction };
+      }
+
+      return new ResponseStatus<Transaction>
+      {
+        Status = ResponseStatus.NotFound,
+      };
+    }
+
+    public bool SaveChanges()
+    {
+      return _context.SaveChanges() >= 0;
+    }
+
+    public ResponseStatus UpdateTransaction(Guid id, TransactionCreateDto newTransaction)
+    {
+      var getTransactionByIdResult = GetTransactionById(id);
+
+      if (getTransactionByIdResult.Status == ResponseStatus.Ok)
+      {
+
+        getTransactionByIdResult.Content.CategoryId = newTransaction.CategoryId;
+        getTransactionByIdResult.Content.CustomerId = newTransaction.CustomerId;
+        getTransactionByIdResult.Content.Value = newTransaction.Value;
+        getTransactionByIdResult.Content.TransactionType = newTransaction.TransactionType;
+
+        _context.Transactions.Update(getTransactionByIdResult.Content);
+        SaveChanges();
+        return ResponseStatus.Ok;
+      }
+      return ResponseStatus.BadRequest;
+      //TODO adicionar calculo
+    }
+  }
+}

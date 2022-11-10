@@ -1,12 +1,14 @@
 using backend.Categories.Models;
 using backend.Customers.Models;
 using backend.models;
+using backend.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace backend.Expenses.Models
+namespace backend.Transactions.Models
 {
-  public class Expense
+  [Table("Transactions")]
+  public class Transaction
   {
     [Required]
     public Guid Id { get; set; }
@@ -29,5 +31,8 @@ namespace backend.Expenses.Models
     public Guid CustomerId { get; set; }
 
     public virtual Customer Customer { get; set; }
+
+    [Required]
+    public TransactionType TransactionType { get; set; }
   }
 }
