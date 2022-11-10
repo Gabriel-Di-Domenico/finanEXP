@@ -1,6 +1,8 @@
-namespace backend.Expenses.Dtos
+using backend.Shared.Enums;
+
+namespace backend.Transactions.Dtos
 {
-  public class ExpenseReadDto
+  public class TransactionReadDto
   {
     public Guid Id { get; set; }
     public string Description { get; set; }
@@ -12,5 +14,7 @@ namespace backend.Expenses.Dtos
     public Guid CategoryId { get; set; }
 
     public Guid CustomerId { get; set; }
+
+    public TransactionType transactionType;
   }
 }

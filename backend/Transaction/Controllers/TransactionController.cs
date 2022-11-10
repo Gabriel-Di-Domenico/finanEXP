@@ -1,7 +1,7 @@
 using AutoMapper;
-using backend.Expenses.Dtos;
-using backend.Expenses.Models;
-using backend.Expenses.Services;
+using backend.Transactions.Dtos;
+using backend.Transactions.Models;
+using backend.Transactions.Services;
 using backend.Messages;
 using backend.Shared.Classes;
 using backend.Shared.Dtos;
@@ -9,32 +9,32 @@ using backend.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Expenses.Controllers
+namespace backend.Transactions.Controllers
 {
-  [Route("/Expenses")]
+  [Route("/Transactions")]
   [ApiController]
-  public class ExpenseController : ControllerBase
+  public class TransactionController : ControllerBase
   {
-    private readonly IExpensesService _expensesService;
+    private readonly ITransactionService _transactionsService;
     private readonly IMapper _mapper;
 
-    public ExpenseController(IExpensesService expensesService, IMapper mapper)
+    public TransactionController(ITransactionService transactionsService, IMapper mapper)
     {
-      _expensesService = expensesService;
+      _transactionsService = transactionsService;
       _mapper = mapper;
     }
 
     [HttpPost]
     [Authorize]
-    public ActionResult<ReturnDto> Create([FromBody] ExpenseCreateDto expense)
+    public ActionResult<ReturnDto> Create([FromBody] TransactionCreateDto transaction)
     {
-      var expenseModel = _mapper.Map<Expense>(expense);
+      var transactionModel = _mapper.Map<Transaction>(transaction);
 
       var result = new ReturnDto();
 
-      var createExpenseResult = _expensesService.CreateExpense(expenseModel);
+      var createTransactionResult = _transactionsService.CreateTransaction(transactionModel);
 
-      if (createExpenseResult == ResponseStatus.Ok)
+      if (createTransactionResult == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -44,17 +44,17 @@ namespace backend.Expenses.Controllers
 
         return Created("", result);
       }
-      throw new Exception("Error create expense");
+      throw new Exception("Error create transaction");
 
     }
     [HttpGet]
     [Authorize]
     public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter filter)
     {
-      var getAllExpensesResponse = _expensesService.GetAllExpenses(filter);
-      var result = new ReturnDto<List<ExpenseReadDto>>();
+      var getAllTransactionsResponse = _transactionsService.GetAllTransactions(filter);
+      var result = new ReturnDto<List<TransactionReadDto>>();
 
-      if (getAllExpensesResponse.Status == ResponseStatus.Ok)
+      if (getAllTransactionsResponse.Status == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -62,8 +62,8 @@ namespace backend.Expenses.Controllers
           message = "Sucesso ao adiquirir lista de despesas"
         };
 
-        var expensesModel = _mapper.Map<List<ExpenseReadDto>>(getAllExpensesResponse.Content);
-        result.Content = expensesModel;
+        var transactionsModel = _mapper.Map<List<TransactionReadDto>>(getAllTransactionsResponse.Content);
+        result.Content = transactionsModel;
 
         return Ok(result);
       }
@@ -73,13 +73,13 @@ namespace backend.Expenses.Controllers
     [Authorize]
     public ActionResult<ReturnDto> GetById([FromRoute] Guid Id)
     {
-      var getExpenseByIdResult = _expensesService.GetExpenseById(Id);
+      var getTransactionByIdResult = _transactionsService.GetTransactionById(Id);
 
-      var result = new ReturnDto<ExpenseReadDto>();
+      var result = new ReturnDto<TransactionReadDto>();
 
-      if (getExpenseByIdResult.Status == ResponseStatus.Ok)
+      if (getTransactionByIdResult.Status == ResponseStatus.Ok)
       {
-        var customerModel = _mapper.Map<ExpenseReadDto>(getExpenseByIdResult.Content);
+        var customerModel = _mapper.Map<TransactionReadDto>(getTransactionByIdResult.Content);
 
         result.Message = new Message
         {
@@ -91,20 +91,20 @@ namespace backend.Expenses.Controllers
 
         return Ok(result);
       }
-      throw new Exception("Error Get Expense By Id");
+      throw new Exception("Error Get Transaction By Id");
     }
 
     [HttpPut("{id}")]
     [Authorize]
     public ActionResult<ReturnDto> Update(
       [FromRoute] Guid id,
-      [FromBody] ExpenseCreateDto newExpense,
+      [FromBody] TransactionCreateDto newTransaction,
       [FromQuery] UpdateFilter filter)
     {
-      var updateExpenseResult = _expensesService.UpdateExpense(id, newExpense);
+      var updateTransactionResult = _transactionsService.UpdateTransaction(id, newTransaction);
 
       var result = new ReturnDto();
-      if (updateExpenseResult == ResponseStatus.Ok)
+      if (updateTransactionResult == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -114,17 +114,17 @@ namespace backend.Expenses.Controllers
 
         return Ok(result);
       }
-      throw new Exception("Error Update Expense");
+      throw new Exception("Error Update Transaction");
     }
     [HttpDelete("{id}")]
     [Authorize]
     public ActionResult<ReturnDto> Delete([FromRoute] Guid id)
     {
-      var deleteExpenseResult = _expensesService.DeleteExpense(id);
+      var deleteTransactionResult = _transactionsService.DeleteTransaction(id);
 
       var result = new ReturnDto();
 
-      if (deleteExpenseResult == ResponseStatus.Ok)
+      if (deleteTransactionResult == ResponseStatus.Ok)
       {
         result.Message = new Message
         {
@@ -134,7 +134,7 @@ namespace backend.Expenses.Controllers
 
         return Ok(result);
       }
-      throw new Exception("Error Delete Expense");
+      throw new Exception("Error Delete Transaction");
     }
   }
 

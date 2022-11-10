@@ -1,8 +1,9 @@
+using backend.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Expenses.Dtos
+namespace backend.Transactions.Dtos
 {
-  public class ExpenseCreateDto
+  public class TransactionCreateDto
   {
     public string Description { get; set; }
 
@@ -15,5 +16,8 @@ namespace backend.Expenses.Dtos
     [Required]
 
     public Guid CustomerId { get; set; }
+
+    [Required]
+    public TransactionType TransactionType { get; set; }
   }
 }
