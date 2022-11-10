@@ -98,15 +98,15 @@ namespace backend.Categories.Controllers
 
       if (getCategoryByIdResult.Status == ResponseStatus.Ok)
       {
-        var customerModel = _mapper.Map<CategoryReadDto>(getCategoryByIdResult.Content);
+        var categoryModel = _mapper.Map<CategoryReadDto>(getCategoryByIdResult.Content);
 
         result.Message = new Message
         {
           error = false,
-          message = "Sucesso ao adiquirir categoria"
+          message = "Sucesso ao adquirir categoria"
         };
 
-        result.Content = customerModel;
+        result.Content = categoryModel;
 
         return Ok(result);
       }

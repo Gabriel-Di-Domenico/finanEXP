@@ -1,7 +1,5 @@
 using backend.Categories.Dtos;
 using backend.Categories.Models;
-using backend.Customers.Dtos;
-using backend.Customers.Models;
 using backend.Shared.Classes;
 using backend.Shared.Enums;
 
