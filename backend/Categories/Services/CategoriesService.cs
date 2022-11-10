@@ -1,8 +1,6 @@
 using backend.Categories.Dtos;
 using backend.Categories.Models;
 using backend.Contexts;
-using backend.Customers.Dtos;
-using backend.Customers.Models;
 using backend.Shared.Classes;
 using backend.Shared.Enums;
 
@@ -22,7 +20,7 @@ namespace backend.Categories.Services
       if (categoryFromDatabase == null)
       {
         category.IsArchived = false;
-        _context.Add(category);
+        _context.Categories.Add(category);
         SaveChanges();
         return ResponseStatus.Ok;
       }
@@ -30,8 +28,6 @@ namespace backend.Categories.Services
       {
         return ResponseStatus.AlreadyExists;
       }
-
-
     }
 
     public bool SaveChanges()

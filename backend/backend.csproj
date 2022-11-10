@@ -27,9 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Expenses\Controllers\" />
-    <Folder Include="Expenses\Dtos\" />
-    <Folder Include="Expenses\Services\" />
     <Folder Include="Revenues\Controllers\" />
     <Folder Include="Revenues\Dtos\" />
     <Folder Include="Revenues\Services\" />

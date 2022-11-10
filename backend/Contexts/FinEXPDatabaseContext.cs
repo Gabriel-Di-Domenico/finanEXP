@@ -1,5 +1,6 @@
 using backend.Categories.Models;
 using backend.Customers.Models;
+using backend.Expenses.Models;
 using backend.models;
 using backend.Users.PerfilPhotos.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ namespace backend.Contexts
     public DbSet<PerfilPhoto> PerfilPhotos { get; set; }
 
     public DbSet<Category> Categories { get; set; }
+
+    public DbSet<Expense> Expenses { get; set; }
 
   }
 }
