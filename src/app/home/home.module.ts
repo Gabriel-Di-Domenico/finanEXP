@@ -13,16 +13,16 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './home.component';
 import { MenuComponent } from './components/menu/menu.component';
 
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FormsModule } from '@angular/forms';
 import { UserPhotoEditorComponent } from './components/profile/userPhotoEditor/user-photo-editor.component';
+import { TransactionsEditorDialogComponent } from './components/transactions-editor-dialog/transactions-editor-dialog.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     MenuComponent,
-    DashboardComponent,
     UserPhotoEditorComponent,
+    TransactionsEditorDialogComponent,
   ],
   imports: [
     CommonModule,
