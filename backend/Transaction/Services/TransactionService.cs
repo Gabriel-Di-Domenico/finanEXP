@@ -1,7 +1,6 @@
 using backend.Contexts;
 using backend.Transactions.Dtos;
 using backend.Transactions.Models;
-using backend.models;
 using backend.Shared.Classes;
 using backend.Shared.Enums;
 
@@ -17,29 +16,32 @@ namespace backend.Transactions.Services
     }
 
     public ResponseStatus CreateTransaction(Transaction transaction)
-    {    
+    {
       _context.Transactions.Add(transaction);
       SaveChanges();
       return ResponseStatus.Ok;
-      //TODO Adicionar o calculo de valor de customers
     }
 
-    public ResponseStatus DeleteTransaction(Guid id)
+    public ResponseStatus<Transaction> DeleteTransaction(Guid id)
     {
       var getTransactionByIdResult = GetTransactionById(id);
       if (getTransactionByIdResult.Status == ResponseStatus.Ok)
       {
         _context.Transactions.Remove(getTransactionByIdResult.Content);
         SaveChanges();
-        return ResponseStatus.Ok;
+        return new ResponseStatus<Transaction>
+        {
+          Status = ResponseStatus.Ok,
+          Content = getTransactionByIdResult.Content
+        };
       }
-      return ResponseStatus.BadRequest;
-      //TODO Adicionar o calculo de valor de customers
+      return new ResponseStatus<Transaction> { Status = ResponseStatus.BadRequest };
     }
 
     public ResponseStatus<List<Transaction>> GetAllTransactions(GetAllFilter? filter)
     {
-      var transactions = _context.Transactions.ToList();
+      var transactions = _context.Transactions.Where(transaction =>
+        filter.CustomerId != null ? transaction.Id == filter.CustomerId : true).ToList();
 
       if (transactions != null)
       {
@@ -88,7 +90,6 @@ namespace backend.Transactions.Services
         return ResponseStatus.Ok;
       }
       return ResponseStatus.BadRequest;
-      //TODO adicionar calculo
     }
   }
 }

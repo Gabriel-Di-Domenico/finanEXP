@@ -8,6 +8,8 @@ using backend.Shared.Dtos;
 using backend.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using backend.Customers.Services;
+using backend.Authenticate.Services;
 
 namespace backend.Transactions.Controllers
 {
@@ -17,11 +19,14 @@ namespace backend.Transactions.Controllers
   {
     private readonly ITransactionService _transactionsService;
     private readonly IMapper _mapper;
+    private readonly ICustomerBalanceService _customerBalanceService;
 
-    public TransactionController(ITransactionService transactionsService, IMapper mapper)
+    public TransactionController(ITransactionService transactionsService, IMapper mapper,
+      ICustomerBalanceService customerBalanceService)
     {
       _transactionsService = transactionsService;
       _mapper = mapper;
+      _customerBalanceService = customerBalanceService;
     }
 
     [HttpPost]
@@ -36,13 +41,21 @@ namespace backend.Transactions.Controllers
 
       if (createTransactionResult == ResponseStatus.Ok)
       {
-        result.Message = new Message
-        {
-          error = false,
-          message = "Despesa criada com sucesso"
-        };
+        var Bearertoken = Request.Headers["Authorization"];
+        Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.CustomerId, userId);
 
-        return Created("", result);
+        if(calculateCustomerBalanceResult == ResponseStatus.Ok)
+        {
+          result.Message = new Message
+          {
+            error = false,
+            message = "Despesa criada com sucesso"
+          };
+
+          return Created("", result);
+        }
+        throw new Exception("Error Calculate Customer balance from create transaction");
       }
       throw new Exception("Error create transaction");
 
@@ -104,15 +117,24 @@ namespace backend.Transactions.Controllers
       var updateTransactionResult = _transactionsService.UpdateTransaction(id, newTransaction);
 
       var result = new ReturnDto();
+
       if (updateTransactionResult == ResponseStatus.Ok)
       {
-        result.Message = new Message
-        {
-          error = false,
-          message = "Despesa alterada com sucesso"
-        };
+        var Bearertoken = Request.Headers["Authorization"];
+        Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(newTransaction.CustomerId, userId);
 
-        return Ok(result);
+        if (calculateCustomerBalanceResult == ResponseStatus.Ok)
+        {
+          result.Message = new Message
+          {
+            error = false,
+            message = "Despesa alterada com sucesso"
+          };
+
+          return Ok(result);
+        }
+        throw new Exception("Error calculate customer balance from delete transaction");
       }
       throw new Exception("Error Update Transaction");
     }
@@ -124,15 +146,24 @@ namespace backend.Transactions.Controllers
 
       var result = new ReturnDto();
 
-      if (deleteTransactionResult == ResponseStatus.Ok)
+      if (deleteTransactionResult.Status == ResponseStatus.Ok)
       {
-        result.Message = new Message
-        {
-          error = false,
-          message = "Despesa deletada com sucesso"
-        };
+        var Bearertoken = Request.Headers["Authorization"];
+        Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(deleteTransactionResult.Content.CustomerId, userId);
 
-        return Ok(result);
+        if (calculateCustomerBalanceResult == ResponseStatus.Ok)
+        {
+          result.Message = new Message
+          {
+            error = false,
+            message = "Despesa deletada com sucesso"
+          };
+
+          return Ok(result);
+        }
+        throw new Exception("Error calculate customer balance from delete transaction");
+       
       }
       throw new Exception("Error Delete Transaction");
     }

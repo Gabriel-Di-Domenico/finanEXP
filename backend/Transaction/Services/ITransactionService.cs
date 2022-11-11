@@ -10,7 +10,7 @@ namespace backend.Transactions.Services
     ResponseStatus<List<Transaction>> GetAllTransactions(GetAllFilter? filter);
     ResponseStatus<Transaction> GetTransactionById(Guid id);
     ResponseStatus UpdateTransaction(Guid id, TransactionCreateDto newTransaction);
-    ResponseStatus DeleteTransaction(Guid id);
+    ResponseStatus<Transaction> DeleteTransaction(Guid id);
     ResponseStatus CreateTransaction(Transaction category);
     bool SaveChanges();
   }
