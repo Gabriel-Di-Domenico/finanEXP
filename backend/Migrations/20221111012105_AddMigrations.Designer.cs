@@ -12,8 +12,8 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221109000237_AddExpenses")]
-    partial class AddExpenses
+    [Migration("20221111012105_AddMigrations")]
+    partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,37 +76,6 @@ namespace backend.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("backend.Expenses.Models.Expense", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<byte[]>("Description")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<decimal>("Value")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Expenses");
-                });
-
             modelBuilder.Entity("backend.models.User", b =>
                 {
                     b.Property<Guid>("ID")
@@ -136,6 +105,40 @@ namespace backend.Migrations
                     b.HasIndex("PerfilPhotoId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("backend.Transactions.Models.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<byte[]>("Description")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("backend.Users.PerfilPhotos.Models.PerfilPhoto", b =>
@@ -179,7 +182,16 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Expenses.Models.Expense", b =>
+            modelBuilder.Entity("backend.models.User", b =>
+                {
+                    b.HasOne("backend.Users.PerfilPhotos.Models.PerfilPhoto", "PerfilPhoto")
+                        .WithMany()
+                        .HasForeignKey("PerfilPhotoId");
+
+                    b.Navigation("PerfilPhoto");
+                });
+
+            modelBuilder.Entity("backend.Transactions.Models.Transaction", b =>
                 {
                     b.HasOne("backend.Categories.Models.Category", "Category")
                         .WithMany()
@@ -196,15 +208,6 @@ namespace backend.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("backend.models.User", b =>
-                {
-                    b.HasOne("backend.Users.PerfilPhotos.Models.PerfilPhoto", "PerfilPhoto")
-                        .WithMany()
-                        .HasForeignKey("PerfilPhotoId");
-
-                    b.Navigation("PerfilPhoto");
                 });
 
             modelBuilder.Entity("backend.models.User", b =>
