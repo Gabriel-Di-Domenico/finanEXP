@@ -13,7 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './home.component';
 import { MenuComponent } from './components/menu/menu.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserPhotoEditorComponent } from './components/profile/userPhotoEditor/user-photo-editor.component';
 import { TransactionsEditorDialogComponent } from './components/transactions-editor-dialog/transactions-editor-dialog.component';
 
@@ -27,6 +27,7 @@ import { TransactionsEditorDialogComponent } from './components/transactions-edi
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,

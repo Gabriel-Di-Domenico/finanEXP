@@ -5,6 +5,7 @@ namespace backend.Transactions.Dtos
 {
   public class TransactionCreateDto
   {
+    [MaxLength(100)]
     public string Description { get; set; }
 
     [Required]

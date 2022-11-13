@@ -15,6 +15,6 @@ namespace backend.Transactions.Dtos
 
     public Guid CustomerId { get; set; }
 
-    public TransactionType transactionType;
+    public TransactionType TransactionType { get; set; }
   }
 }

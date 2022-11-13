@@ -4,4 +4,6 @@ export interface CustomerInput {
   userId: string;
 
   type: string;
+
+  initialBalance:string;
 }

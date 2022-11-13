@@ -19,6 +19,7 @@ namespace backend.Customers.Services
 
       if (customerFromDatabase == null)
       {
+        customer.ActualBalance = customer.InitialBalance;
         _context.Customers.Add(customer);
         SaveChanges();
         return ResponseStatus.Ok;
@@ -81,10 +82,11 @@ namespace backend.Customers.Services
       {
         getCustomerByIdResult.Content.Type = newCustomer.Type;
         getCustomerByIdResult.Content.Name = newCustomer.Name;
+        getCustomerByIdResult.Content.InitialBalance = (decimal)newCustomer.InitialBalance;
 
-        if (newCustomer.Balance != null)
+        if(newCustomer.ActualBalance > 0)
         {
-          getCustomerByIdResult.Content.Balance = (decimal)newCustomer.Balance;
+          getCustomerByIdResult.Content.ActualBalance = newCustomer.ActualBalance;
         }
 
         _context.Customers.Update(getCustomerByIdResult.Content);

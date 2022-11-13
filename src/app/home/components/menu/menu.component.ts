@@ -30,7 +30,7 @@ export class MenuComponent {
     this.dialogControlService
       .openDialog(TransactionsEditorDialogComponent, {
         width: '400px',
-        height: '220px',
+        height: '570px',
         data: {
           transactionType: transactionType,
           operation: 'create',

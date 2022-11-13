@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { take } from 'rxjs/operators';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-customers',
@@ -16,6 +17,7 @@ import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 })
 export class CustomersComponent implements OnInit {
   public customers!: Array<CustomerOutput>;
+  public subscriptions:Array<Subscription> = [];
   constructor(
     private dialogControl: DialogControlService,
      private route: ActivatedRoute,

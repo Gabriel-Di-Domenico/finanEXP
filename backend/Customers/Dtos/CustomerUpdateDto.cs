@@ -8,7 +8,9 @@ namespace backend.Customers.Dtos
 
     public CustomersTypeOptions Type { get; set; }
 
-    public decimal Balance { get; set; }
+    public decimal InitialBalance { get; set; }
+
+    public decimal ActualBalance { get; set; }
 
   }
 }

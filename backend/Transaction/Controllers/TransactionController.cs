@@ -32,8 +32,12 @@ namespace backend.Transactions.Controllers
     [HttpPost]
     [Authorize]
     public ActionResult<ReturnDto> Create([FromBody] TransactionCreateDto transaction)
-    {
+    {         
       var transactionModel = _mapper.Map<Transaction>(transaction);
+
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+      transactionModel.UserId = userId;
 
       var result = new ReturnDto();
 
@@ -41,8 +45,7 @@ namespace backend.Transactions.Controllers
 
       if (createTransactionResult == ResponseStatus.Ok)
       {
-        var Bearertoken = Request.Headers["Authorization"];
-        Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+        
         var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.CustomerId, userId);
 
         if(calculateCustomerBalanceResult == ResponseStatus.Ok)
@@ -50,7 +53,7 @@ namespace backend.Transactions.Controllers
           result.Message = new Message
           {
             error = false,
-            message = "Despesa criada com sucesso"
+            message = $"{transaction.TransactionType} criada com sucesso"
           };
 
           return Created("", result);
@@ -64,7 +67,10 @@ namespace backend.Transactions.Controllers
     [Authorize]
     public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter filter)
     {
-      var getAllTransactionsResponse = _transactionsService.GetAllTransactions(filter);
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+
+      var getAllTransactionsResponse = _transactionsService.GetAllTransactions(userId, filter);
       var result = new ReturnDto<List<TransactionReadDto>>();
 
       if (getAllTransactionsResponse.Status == ResponseStatus.Ok)

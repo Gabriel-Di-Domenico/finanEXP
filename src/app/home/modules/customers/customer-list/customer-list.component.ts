@@ -10,6 +10,8 @@ import ptBr from '@angular/common/locales/pt';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { Subscription } from 'rxjs';
+import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
 
 registerLocaleData(ptBr);
 
@@ -23,8 +25,13 @@ export class CustomerListComponent {
   @Input() public customers!: Array<CustomerOutput>;
   public type!: string;
   customerTypesOptionsPortuguese = customerTypesOptionsPortuguese;
+  private subscriptions:Array<Subscription> = []
 
-  constructor(private dialogControlService: DialogControlService, private customersService: CustomersService) {}
+  constructor(private dialogControlService: DialogControlService, private customersService: CustomersService) {
+    this.subscriptions.push(transactionCreatedHandler.subscribe(() => {
+      this.getAllCustomers();
+    }));
+  }
 
   public showDetails(customerId: string): void {
     this.dialogControlService

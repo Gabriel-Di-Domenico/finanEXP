@@ -1,1 +1,12 @@
-<p>dashboard works!</p>
+<main>
+  <div>
+    <header>
+      <fin-title label="Dashboard"></fin-title>
+    </header>
+    <div class="card">
+      <fin-card (click)="navigate('customers')" subtitle="Saldo atual" [content]="actualBalance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'" icon="account_balance" iconColor="blue"></fin-card>
+      <fin-card (click)="navigate('revenues')" subtitle="Receitas" [content]="revenuesValue | currency:'BRL':'symbol':'1.2-2': 'pt-BR'" contentColor="green" icon="arrow_upward" iconColor="green"></fin-card>
+      <fin-card (click)="navigate('expenses')" subtitle="Despesas" [content]="expensesValue | currency:'BRL':'symbol':'1.2-2': 'pt-BR'" contentColor="red" icon="arrow_downward" iconColor="red"></fin-card>
+    </div>
+  </div>
+</main>

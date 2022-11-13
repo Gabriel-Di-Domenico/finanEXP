@@ -38,10 +38,10 @@ namespace backend.Transactions.Services
       return new ResponseStatus<Transaction> { Status = ResponseStatus.BadRequest };
     }
 
-    public ResponseStatus<List<Transaction>> GetAllTransactions(GetAllFilter? filter)
+    public ResponseStatus<List<Transaction>> GetAllTransactions(Guid userId, GetAllFilter? filter)
     {
-      var transactions = _context.Transactions.Where(transaction =>
-        filter.CustomerId != null ? transaction.Id == filter.CustomerId : true).ToList();
+      var transactions = _context.Transactions.Where(transaction => transaction.UserId == userId
+      && transaction.CustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.CustomerId)).ToList();
 
       if (transactions != null)
       {
