@@ -10,7 +10,6 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoriesComponent } from './categories.component';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { TransactionMenuComponent } from './transaction-menu/transaction-menu.component';
 import { CategoriesEditorDialogComponent } from './categories-editor-dialog/categories-editor-dialog.component';
 import { MoreCategoriesOptionsComponent } from './more-categories-options/more-categories-options.component';
 
@@ -18,7 +17,6 @@ import { MoreCategoriesOptionsComponent } from './more-categories-options/more-c
   declarations: [
     CategoriesComponent,
     CategoriesListComponent,
-    TransactionMenuComponent,
     CategoriesEditorDialogComponent,
     MoreCategoriesOptionsComponent,
   ],

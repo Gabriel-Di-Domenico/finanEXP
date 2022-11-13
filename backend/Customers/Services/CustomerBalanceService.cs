@@ -25,19 +25,22 @@ namespace backend.Customers.Services
       var customerModel = _mapper.Map<CustomerUpdateDto>(customer.Content);
 
       var filter = new GetAllFilter { CustomerId = customerId };
-      var transactions = _transactionService.GetAllTransactions(filter);
+      var transactions = _transactionService.GetAllTransactions(userId, filter);
+
+      decimal totalValue = customerModel.InitialBalance;
 
       transactions.Content.ForEach(transaction =>
       {
         if (transaction.TransactionType == TransactionType.Revenue)
         {
-          customerModel.Balance = customerModel.Balance += transaction.Value;
+          totalValue = totalValue += transaction.Value;
         }
         else if (transaction.TransactionType == TransactionType.Expense)
         {
-          customerModel.Balance = customerModel.Balance -= transaction.Value;
+          totalValue = totalValue -= transaction.Value;
         }
       });
+      customerModel.ActualBalance = totalValue;
 
       var updateCustomerResult = _customerService.UpdateCustomer(customer.Content.Id, userId, customerModel);
       if (updateCustomerResult == ResponseStatus.Ok)

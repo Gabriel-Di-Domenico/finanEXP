@@ -23,6 +23,9 @@ namespace backend.Customers.Models
     public CustomersTypeOptions Type { get; set; }
 
     [Required]
-    public decimal Balance { get; set; } = 0;
+    public decimal InitialBalance { get; set; }
+
+    [Required]
+    public decimal ActualBalance { get; set; }
   }
 }

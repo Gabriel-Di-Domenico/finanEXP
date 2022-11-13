@@ -5,5 +5,7 @@ export interface CustomerOutput {
 
   type: number;
 
-  balance: number;
+  initialBalance: number;
+
+  actualBalance:number;
 }

@@ -13,7 +13,8 @@ namespace backend.Transactions.Models
     [Required]
     public Guid Id { get; set; }
 
-    public Byte[] Description { get; set; }
+    [MaxLength(100)]
+    public string Description { get; set; }
 
     [Required]
     public decimal Value { get; set; }
@@ -34,5 +35,10 @@ namespace backend.Transactions.Models
 
     [Required]
     public TransactionType TransactionType { get; set; }
+
+    [Required]
+    [ForeignKey("Users")]
+    public Guid UserId { get; set; }
+    public virtual User User { get; set; }
   }
 }

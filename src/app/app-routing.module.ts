@@ -14,6 +14,7 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     resolve: { currentUserId: UserResolverGuard },
   },
+  { path: 'dashboard', loadChildren: () => import('./home/modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

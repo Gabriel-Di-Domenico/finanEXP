@@ -18,11 +18,13 @@ namespace backend.Customers.Controllers
   {
     private readonly ICustomerService _customerService;
     private readonly IMapper _mapper;
+    private readonly ICustomerBalanceService _customerBalanceService;
 
-    public CustomerController(ICustomerService customerService, IMapper mapper)
+    public CustomerController(ICustomerService customerService, IMapper mapper, ICustomerBalanceService customerBalanceService)
     {
       _customerService = customerService;
       _mapper = mapper;
+      _customerBalanceService = customerBalanceService;
     }
 
     [HttpPost]
@@ -114,24 +116,29 @@ namespace backend.Customers.Controllers
       throw new Exception("Error Get Customer By Id");
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{customerId}")]
     [Authorize]
-    public ActionResult<ReturnDto> Update([FromRoute] Guid id, [FromBody] CustomerUpdateDto newCustomer)
+    public ActionResult<ReturnDto> Update([FromRoute] Guid customerId, [FromBody] CustomerUpdateDto newCustomer)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var updateCustomerResult = _customerService.UpdateCustomer(id, userId, newCustomer);
+      var updateCustomerResult = _customerService.UpdateCustomer(customerId, userId, newCustomer);
       var result = new ReturnDto();
       if (updateCustomerResult == ResponseStatus.Ok)
       {
-        result.Message = new Message
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(customerId, userId);
+        if(calculateCustomerBalanceResult == ResponseStatus.Ok)
         {
-          error = false,
-          message = "Carteira alterada com sucesso"
-        };
+          result.Message = new Message
+          {
+            error = false,
+            message = "Carteira alterada com sucesso"
+          };
 
-        return Ok(result);
+          return Ok(result);
+        }
+        throw new Exception("Error Calculate Customer balance from update customer");
       }
       throw new Exception("Error Update Customer");
     }

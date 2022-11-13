@@ -1,0 +1,30 @@
+/* @import url(./extra-small.css);
+@import url(./small.css);
+@import url(./medium.css);
+@import url(./extra-large.css); */
+
+main {
+    background-color: #dde5ff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main>div {
+    height: 70%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+div.card{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+}
+fin-card{
+    cursor: pointer;
+}

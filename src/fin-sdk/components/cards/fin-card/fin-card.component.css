@@ -1,0 +1,53 @@
+mat-card.fin-card {
+  margin: 10px;
+  width: 300px;
+  height: 100px;
+  margin-bottom: 8px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+}
+mat-card-content.content{
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+mat-card-title-group.informations{
+  width: 75%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+mat-card-title-group.icon{
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+mat-card-subtitle{
+  font-size: 1rem;
+}
+div.mat-icon{
+  height: 60px;
+  width: 60px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+mat-icon{
+  color: white;
+}
+.blue{
+  background-color: rgb(38, 110, 245);
+}
+.green{
+  background-color: #4CAF50
+}
+.red{
+  background-color: #f44336
+}
+.colorGreen{
+  color: #4CAF50
+}
+.colorRed{
+  color: #f44336
+}

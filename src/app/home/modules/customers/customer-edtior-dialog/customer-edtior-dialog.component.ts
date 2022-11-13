@@ -43,7 +43,7 @@ export class CustomerEdtiorDialogComponent {
     this.createForm();
   }
   public submitForm() {
-    this.unMaskbalance();
+    this.unMaskinitialBalance();
 
     if (this.data.operation === 'create') {
       this.customerService.create(this.form.value, (message: Message) => {
@@ -69,7 +69,7 @@ export class CustomerEdtiorDialogComponent {
       this.formControls.nameFormControl,
       this.formBuilder.control(null, [Validators.required, this.finValidatorsService.trimValidator])
     );
-    this.form.addControl(this.formControls.balance, this.formBuilder.control(0, Validators.required));
+    this.form.addControl(this.formControls.initialBalance, this.formBuilder.control(0, Validators.required));
     this.form.addControl(this.formControls.type, this.formBuilder.control(null, Validators.required));
   }
   private getSelectOptions() {
@@ -81,11 +81,11 @@ export class CustomerEdtiorDialogComponent {
       new finSelectOption({ key: 'Outros', value: customerTypesOptions.Others }),
     ];
   }
-  private unMaskbalance(): void {
-    let balanceUnMasked: string = this.form.get(this.formControls.balance)?.value;
-    if (typeof balanceUnMasked === 'string') {
-      balanceUnMasked = balanceUnMasked.replace('R$', '').replace(/\./g, '').replace(',', '.');
-      this.form.get(this.formControls.balance)?.setValue(Number(balanceUnMasked));
+  private unMaskinitialBalance(): void {
+    let initialBalanceUnMasked: string = this.form.get(this.formControls.initialBalance)?.value;
+    if (typeof initialBalanceUnMasked === 'string') {
+      initialBalanceUnMasked = initialBalanceUnMasked.replace('R$', '').replace(/\./g, '').replace(',', '.');
+      this.form.get(this.formControls.initialBalance)?.setValue(Number(initialBalanceUnMasked));
     }
   }
   private getCustomerById() {
@@ -99,7 +99,7 @@ export class CustomerEdtiorDialogComponent {
   }
   private populateForm() {
     this.form.get(this.formControls.nameFormControl)?.setValue(this.customer.name);
-    this.form.get(this.formControls.balance)?.setValue(this.customer.balance);
+    this.form.get(this.formControls.initialBalance)?.setValue(this.customer.initialBalance);
     this.form.get(this.formControls.type)?.setValue(this.customer.type);
   }
 }

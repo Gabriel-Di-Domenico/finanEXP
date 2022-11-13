@@ -1,6 +1,6 @@
+import { Subscription } from 'rxjs';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
-import { CustomerEditorDialogDataInterface }
-  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+import { CustomerEditorDialogDataInterface } from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 
 import { SnackBarControlService } from './../../../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
@@ -8,21 +8,20 @@ import { CustomerEdtiorDialogComponent } from '../../customer-edtior-dialog/cust
 import { DialogControlService } from '../../../../../shared/support/services/dialogControl/dialog-control.service';
 import { CustomersService } from '../../customers.service';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
-import { FinConfirmationDialogComponent }
-  from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
+import { FinConfirmationDialogComponent } from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
 
 @Component({
   selector: 'app-customer-details-dialog',
   templateUrl: './customer-details-dialog.component.html',
   styleUrls: ['./customer-details-dialog.component.css'],
 })
-export class CustomerDetailsDialogComponent {
+export class CustomerDetailsDialogComponent implements OnDestroy {
   public customer!: CustomerOutput;
   public customerTypesOptionsPortuguese = customerTypesOptionsPortuguese;
-
+  private subscriptions: Array<Subscription> = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string,
     private customerService: CustomersService,
@@ -33,6 +32,11 @@ export class CustomerDetailsDialogComponent {
     if (data) {
       this.getCustomerById(data);
     }
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
   public closeDetailsDialog(data?: any) {
     this.dialogControlService.closeDialog(this.dialogRef, data);

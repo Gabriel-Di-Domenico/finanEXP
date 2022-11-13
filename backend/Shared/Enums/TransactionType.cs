@@ -2,7 +2,7 @@ namespace backend.Shared.Enums
 {
   public enum TransactionType
   {
-    Expense = 0,
-    Revenue = 1
+    Revenue = 0,
+    Expense = 1
   }
 }

@@ -1,4 +1,4 @@
-import { TransactionType } from '../../../../shared/support/enums/transactionTypes/transaction-types';
+import { TransactionType } from '../../support/enums/transactionTypes/transaction-types';
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({

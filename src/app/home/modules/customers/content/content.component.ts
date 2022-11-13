@@ -20,7 +20,7 @@ export class ContentComponent implements OnInit {
   }
   private getTotalBalance(){
     this.customers.forEach((customer : CustomerOutput) => {
-      this.totalBalance += customer.balance;
+      this.totalBalance += customer.initialBalance;
     });
   }
 }

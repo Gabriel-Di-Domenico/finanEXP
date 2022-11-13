@@ -3,7 +3,7 @@ import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } fr
 export class MustHaveControlName implements ControlValueAccessor, Validator {
   public disabled = false;
   public touched = false;
-  public value!: unknown;
+  public value!: any;
 
   validate(control: AbstractControl<any, any>): ValidationErrors | null {
     return null;
@@ -12,7 +12,7 @@ export class MustHaveControlName implements ControlValueAccessor, Validator {
     this.value = Number(value);
   }
   registerOnChange(
-    onChange: (type: number | string | undefined) => {
+    onChange: (type: unknown) => {
       // Vazio
     }
   ): void {
@@ -28,7 +28,7 @@ export class MustHaveControlName implements ControlValueAccessor, Validator {
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
-  protected onChange = (type: number | string | undefined) => {
+  protected onChange = (type: unknown) => {
     // Vazio
   };
 

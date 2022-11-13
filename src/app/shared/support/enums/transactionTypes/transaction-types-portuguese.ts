@@ -1,4 +1,4 @@
 export enum TransactionTypePortuguese {
-  Receitas = 0,
-  Despesas = 1,
+  Receita = 0,
+  Despesa = 1,
 }

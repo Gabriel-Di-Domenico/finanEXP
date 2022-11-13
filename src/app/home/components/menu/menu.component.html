@@ -1,23 +1,29 @@
 <mat-nav-list>
-    <div>
-        <fin-icon-button id="addButton" icon="add"></fin-icon-button>
+  <div>
+    <fin-icon-button icon="add" id="addButton" [matMenuTriggerFor]="menu" aria-label="Open menu">
+      
+    </fin-icon-button>
 
-        <mat-list-item id="dashboardLink" routerLink="dashboard" routerLinkActive="active">
-            <mat-icon mat-list-icon>home</mat-icon>
-            <span class="menu-item">Dashboard</span>
-        </mat-list-item>
-        <mat-list-item id="customersButton" routerLink="customers" routerLinkActive="active">
-            <mat-icon mat-list-icon>account_balance_wallet</mat-icon>
-            <span class="menu-item">Carteiras</span>
-        </mat-list-item>
-        <mat-list-item id="categoriesButton" routerLink="categories" routerLinkActive="active">
-            <mat-icon mat-list-icon>bookmark</mat-icon>
-            <span class="menu-item">Categorias</span>
-        </mat-list-item>
-    </div>
+    <mat-menu class="mat-menu" #menu="matMenu" [xPosition]="menuPositionX">
+      <transaction-menu (transactionTypeReturnEvent)="openTransactionEditorModal($event)"></transaction-menu>
+    </mat-menu>
 
-    <mat-list-item id="userConfig" routerLink="user/config/profile" routerLinkActive="active">
-        <span class="menu-item">{{currentUser.name}}</span>
+    <mat-list-item id="dashboardLink" routerLink="dashboard" routerLinkActive="active">
+      <mat-icon mat-list-icon>home</mat-icon>
+      <span class="menu-item">Dashboard</span>
     </mat-list-item>
-    <button *ngIf="smallScreen" mat-icon-button id='logoutButton' ><mat-icon>exit_to_app</mat-icon></button>
+    <mat-list-item id="customersButton" routerLink="customers" routerLinkActive="active">
+      <mat-icon mat-list-icon>account_balance_wallet</mat-icon>
+      <span class="menu-item">Carteiras</span>
+    </mat-list-item>
+    <mat-list-item id="categoriesButton" routerLink="categories" routerLinkActive="active">
+      <mat-icon mat-list-icon>bookmark</mat-icon>
+      <span class="menu-item">Categorias</span>
+    </mat-list-item>
+  </div>
+
+  <mat-list-item id="userConfig" routerLink="user/config/profile" routerLinkActive="active">
+    <span class="menu-item">{{ currentUser.name }}</span>
+  </mat-list-item>
+  <button *ngIf="smallScreen" mat-icon-button id="logoutButton"><mat-icon>exit_to_app</mat-icon></button>
 </mat-nav-list>

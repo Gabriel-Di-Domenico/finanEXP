@@ -2,9 +2,8 @@ import { CustomerResolverGuard } from './../shared/guards/customer-resolver.guar
 import { UserResolverGuard } from '../shared/guards/user-resolver.guard';
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, Resolve } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './home.component';
 import { AuthGuard } from '../guards/auth.guard';
 
@@ -13,7 +12,12 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      { path: 'dashboard', component: DashboardComponent },
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
+        canActivate: [AuthGuard],
+        canLoad: [AuthGuard],
+      },
       {
         path: 'customers',
         loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule),
@@ -26,14 +30,14 @@ const routes: Routes = [
         loadChildren: () => import('./modules/user-config/user-config.module').then(m => m.UserConfigModule),
         resolve: { currentUserId: UserResolverGuard },
         canActivate: [AuthGuard],
-        canLoad: [AuthGuard]
+        canLoad: [AuthGuard],
       },
       {
         path: 'categories',
         loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
         canActivate: [AuthGuard],
-        canLoad: [AuthGuard]
-      }
+        canLoad: [AuthGuard],
+      },
     ],
   },
 ];
