@@ -121,7 +121,7 @@ namespace backend.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("Date");
 
                     b.Property<string>("Description")
                         .IsRequired()

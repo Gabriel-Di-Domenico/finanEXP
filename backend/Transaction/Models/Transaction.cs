@@ -19,7 +19,7 @@ namespace backend.Transactions.Models
     [Required]
     public decimal Value { get; set; }
 
-    [Required]
+    [Column(TypeName = "Date")]
     public DateTime Date { get; set; }
 
     [Required]

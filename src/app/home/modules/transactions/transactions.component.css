@@ -1,6 +1,9 @@
 main{
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 header{
   width: 100%;
@@ -17,14 +20,12 @@ header>div{
 categories-list{
   height: 75%;
   width: 100%;
+  background-color: aqua;
 }
 fin-icon-button{
   margin-right: 5px;
 }
 .actionButtons{
-  display: flex;
-}
-div.transactionType{
   display: flex;
 }
 
@@ -34,4 +35,15 @@ fin-title{
 mat-icon{
   margin-right: 10px;
   cursor: pointer;
+}
+div.container{
+  width: 99%;
+  display: flex;
+  justify-content: space-between;
+}
+div.card{
+  width: 26%;
+}
+transactions-list{
+  width: 74%;
 }

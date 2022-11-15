@@ -1,5 +1,5 @@
 <header>
-  <fin-title label="Nova {{transactionType | convertEnum: transactionTypesPortuguese}}"></fin-title>
+  <fin-title [label]="label"></fin-title>
   <fin-icon-button (click)="closeEditorDialog()" icon="close" color="warn"></fin-icon-button>
 </header>
 

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FinSDKModule } from './../../fin-sdk/fin-sdk.module';
@@ -7,7 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [TransactionMenuComponent],
-  imports: [FinSDKModule, MatIconModule, MatButtonModule, MatMenuModule],
+  imports: [CommonModule, FinSDKModule, MatIconModule, MatButtonModule, MatMenuModule],
   exports: [FinSDKModule, TransactionMenuComponent],
 })
 export class SharedModule {}

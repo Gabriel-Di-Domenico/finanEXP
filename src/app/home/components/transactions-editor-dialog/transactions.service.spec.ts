@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TransactionsService } from './transactions.service';
+import { TransactionsService } from '../../modules/transactions/transactions.service';
 
 describe('TransactionsService', () => {
   let service: TransactionsService;

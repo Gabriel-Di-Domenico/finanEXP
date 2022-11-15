@@ -1,37 +1,39 @@
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { SnackBarControlService } from './../../../shared/support/services/snackBarControl/snack-bar-control.service';
-import { DashboardService } from './dashboard.service';
-import { Component, LOCALE_ID, OnInit, OnDestroy } from '@angular/core';
-import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
-import { TransactionOutput } from 'src/app/shared/support/interfaces/transactions/transactionOutput';
-import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
-import ptBr from '@angular/common/locales/pt';
-import { registerLocaleData } from '@angular/common';
+import { TransactionsService } from './transactions.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
+import { TransactionTypePortuguese } from 'src/app/shared/support/enums/transactionTypes/transaction-types-portuguese';
+import { Subscription } from 'rxjs';
+import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
+import { TransactionOutput } from 'src/app/shared/support/interfaces/transactions/transactionOutput';
 import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
 
-registerLocaleData(ptBr);
-
 @Component({
-  selector: 'fin-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./styles/dashboard.component.css'],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
+  selector: 'fin-transactions',
+  templateUrl: './transactions.component.html',
+  styleUrls: ['./transactions.component.css'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-  private customers: Array<CustomerOutput> = [];
-  private transactions: Array<TransactionOutput> = [];
+export class TransactionsComponent implements OnInit {
+  public PortugueseTransactionTypeEnum = TransactionTypePortuguese;
+  public currentTransactionType = TransactionType.transactions;
+  public finAddButtonColor: 'success' | 'warn' | 'primary' = 'primary';
   public actualBalance = 0;
   public revenuesValue = 0;
   public expensesValue = 0;
   public subscriptions: Array<Subscription> = [];
-  constructor(
-    private dashboardService: DashboardService,
-    private snackBarControlService: SnackBarControlService,
-    private router: Router
-  ) {}
+  private customers: Array<CustomerOutput> = [];
+  private transactions: Array<TransactionOutput> = [];
 
+  constructor(
+    private router: Router,
+    private transactionsService: TransactionsService,
+    private snackBarControlService: SnackBarControlService,
+    private route: ActivatedRoute
+  ) {
+    this.getTransactionType();
+  }
   ngOnInit(): void {
     this.getCustomers();
     this.getTransactions();
@@ -47,6 +49,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       subscription.unsubscribe();
     });
   }
+  public setTransactionType(transactionType: TransactionType) {
+    if (transactionType === TransactionType.expense) {
+      this.router.navigate(['home', 'transactions', 'expenses']);
+    } else if (transactionType === TransactionType.revenue) {
+      this.router.navigate(['home', 'transactions', 'revenues']);
+    } else {
+      this.router.navigate(['home', 'transactions']);
+    }
+  }
   public navigate(route: 'customers' | 'revenues' | 'expenses') {
     if (route === 'customers') {
       this.router.navigate(['home', route]);
@@ -61,7 +72,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
   private getCustomers() {
-    this.dashboardService.getAllCustomers((data: ResponseDto<Array<CustomerOutput>>) => {
+    this.transactionsService.getAllCustomers((data: ResponseDto<Array<CustomerOutput>>) => {
       if (data.message.error) {
         this.snackBarControlService.showMessage(data.message.message, data.message.error);
       } else {
@@ -71,7 +82,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
   private getTransactions() {
-    this.dashboardService.getAllTransactions((data: ResponseDto<Array<TransactionOutput>>) => {
+    this.transactionsService.getAll(undefined, (data: ResponseDto<Array<TransactionOutput>>) => {
       if (data.message.error) {
         this.snackBarControlService.showMessage(data.message.message, data.message.error);
       } else {
@@ -90,5 +101,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.expensesValue += transaction.value;
       }
     });
+  }
+  private getTransactionType() {
+    if (!this.route.snapshot.url.length) {
+      this.currentTransactionType = TransactionType.transactions;
+      this.finAddButtonColor = 'primary';
+    } else if (this.route.snapshot.url[0].path === 'expenses') {
+      this.currentTransactionType = TransactionType.expense;
+      this.finAddButtonColor = 'warn';
+    } else {
+      this.currentTransactionType = TransactionType.revenue;
+      this.finAddButtonColor = 'success';
+    }
   }
 }

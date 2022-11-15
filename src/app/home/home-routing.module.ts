@@ -19,6 +19,13 @@ const routes: Routes = [
         canLoad: [AuthGuard],
       },
       {
+        path: 'transactions',
+        loadChildren: () => import('./modules/transactions/transactions.module').then(m => m.TransactionsModule),
+        canActivate: [AuthGuard],
+        canLoad: [AuthGuard],
+      },
+
+      {
         path: 'customers',
         loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule),
         resolve: { customers: CustomerResolverGuard },
