@@ -7,8 +7,8 @@
     <ng-container *ngIf="!isArchivedComponent" matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef aria-label="row actions">Ações</th>
       <td mat-cell *matCellDef="let element" class="actions-list">
-          <fin-icon-button (click)="openCategoriesEditorDialog(element.id)" icon="edit"></fin-icon-button>
-          <fin-icon-button (click)="openConfirmationDialog(element, false)" icon="archive" color="warn"></fin-icon-button>
+          <fin-icon-button (click)="openCategoriesEditorDialog(element.id)" icon="edit" fontSize="table"></fin-icon-button>
+          <fin-icon-button (click)="openConfirmationDialog(element, false)" icon="archive" color="warn" fontSize="table"></fin-icon-button>
       </td>
     </ng-container>
     <ng-container *ngIf="isArchivedComponent" matColumnDef="actions">

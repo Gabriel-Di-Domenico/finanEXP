@@ -17,7 +17,6 @@ header>div{
 categories-list{
   height: 75%;
   width: 100%;
-  background-color: aqua;
 }
 fin-icon-button{
   margin-right: 5px;
@@ -28,10 +27,7 @@ fin-icon-button{
 div.transactionType{
   display: flex;
 }
-div.titleDiv{
-  display: flex;
-  align-items: baseline;
-}
+
 fin-title{
   margin-right: 10px;
 }

@@ -4,28 +4,27 @@
       <div class="transactionType">
         <div *ngIf="isArchivedComponent" class="titleDiv">
           <mat-icon (click)="openCategoriesComponent()">arrow_back</mat-icon>
-          <fin-title  label="Categorias arquivadas"></fin-title>
+          <fin-title label="Categorias arquivadas"></fin-title>
         </div>
         <fin-button id="menuButton" [matMenuTriggerFor]="menu" aria-label="Open menu" [color]="finAddButtonColor">
           <mat-icon>expand_more</mat-icon>
-          {{currentTransactionType | convertEnum : PortugueseTransactionTypeEnum}}
+          {{ currentTransactionType | convertEnum: PortugueseTransactionTypeEnum }}
         </fin-button>
+        <mat-menu class="mat-menu" #menu="matMenu">
+          <transaction-menu module="categories" (transactionTypeReturnEvent)="setTransactionType($event)"></transaction-menu>
+        </mat-menu>
       </div>
-      
-      <mat-menu class="mat-menu" #menu="matMenu">
-        <transaction-menu (transactionTypeReturnEvent)="setTransactionType($event)"></transaction-menu>
-      </mat-menu>
+
       <div *ngIf="!isArchivedComponent" class="actionButtons">
         <fin-icon-button (click)="openCategoriesEditorDialog()" [color]="finAddButtonColor" icon="add"> </fin-icon-button>
         <fin-icon-button icon="more_vert" [matMenuTriggerFor]="moreCategoriesOptions" aria-label="Open menu">
           <mat-icon>expand_more</mat-icon>
-          {{currentTransactionType | convertEnum : PortugueseTransactionTypeEnum}}
+          {{ currentTransactionType | convertEnum: PortugueseTransactionTypeEnum }}
         </fin-icon-button>
         <mat-menu class="mat-menu" #moreCategoriesOptions="matMenu">
           <more-categories-options></more-categories-options>
         </mat-menu>
       </div>
-      
     </div>
   </header>
   <categories-list [transactionType]="currentTransactionType" [isArchivedComponent]="isArchivedComponent"></categories-list>

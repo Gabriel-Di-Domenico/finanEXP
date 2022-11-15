@@ -3,7 +3,6 @@ main{
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 header{
@@ -29,13 +28,7 @@ fin-icon-button{
 .actionButtons{
   display: flex;
 }
-div.transactionType{
-  display: flex;
-}
-div.titleDiv{
-  display: flex;
-  align-items: baseline;
-}
+
 fin-title{
   margin-right: 10px;
 }

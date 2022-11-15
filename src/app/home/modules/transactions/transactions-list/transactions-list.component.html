@@ -31,8 +31,8 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef aria-label="row actions">Ações</th>
       <td mat-cell *matCellDef="let element" class="actions-list">
-        <fin-icon-button (click)="openTransactionEditorDialog(element)" icon="edit"></fin-icon-button>
-        <fin-icon-button (click)="openConfirmationDialog(element)" icon="delete" color="warn"></fin-icon-button>
+        <fin-icon-button (click)="openTransactionEditorDialog(element)" icon="edit" fontSize="table"></fin-icon-button>
+        <fin-icon-button (click)="openConfirmationDialog(element)" icon="delete" color="warn" fontSize="table"></fin-icon-button>
       </td>
     </ng-container>
 
