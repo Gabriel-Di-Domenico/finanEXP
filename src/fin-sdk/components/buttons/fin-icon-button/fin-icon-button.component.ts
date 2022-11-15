@@ -9,7 +9,5 @@ export class FinIconButtonComponent {
   @Input() icon!: string;
   @Input() color = 'primary';
   @Input() fontSize?:string
-  ngOnInit(){
-    console.log(this.fontSize)
-  }
+
 }
