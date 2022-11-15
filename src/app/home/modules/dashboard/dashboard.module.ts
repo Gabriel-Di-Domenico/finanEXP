@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +13,8 @@ import { DashboardComponent } from './dashboard.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    MatIconModule
   ]
 })
 export class DashboardModule { }

@@ -1,4 +1,5 @@
 <main>
+  <button *ngIf="module === 'transactions'" mat-menu-item (click)="returnTransactionType(transactionTypes.transactions)">Transações</button>
   <button mat-menu-item (click)="returnTransactionType(transactionTypes.revenue)">Receitas</button>
   <button mat-menu-item (click)="returnTransactionType(transactionTypes.expense)">Despesas</button>
 </main>

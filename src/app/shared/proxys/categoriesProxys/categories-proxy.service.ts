@@ -24,24 +24,24 @@ export class CategoriesProxyService {
     const headers = this.commonService.getHeaders();
     return <Observable<ResponseDto>>this.httpClient.post(`${this.basePath}`, category, { headers });
   }
-  public getAll(getAllFilter: GetAllFilter): Observable<ResponseDto<Array<CategoryOutput>>> {
+  public getAll(getAllFilter?: GetAllFilter): Observable<ResponseDto<Array<CategoryOutput>>> {
     const headers = this.commonService.getHeaders();
     let params = new HttpParams();
-    if(getAllFilter.transactionType != null){
-      params = params.append('transactionType', getAllFilter.transactionType)
+    if (getAllFilter && getAllFilter.transactionType != null) {
+      params = params.append('transactionType', getAllFilter.transactionType);
     }
-    if(getAllFilter.isArchived != null){
-      params = params.append('isArchived', getAllFilter.isArchived)
+    if (getAllFilter && getAllFilter.isArchived != null) {
+      params = params.append('isArchived', getAllFilter.isArchived);
     }
     return <Observable<ResponseDto<Array<CategoryOutput>>>>(
-      this.httpClient.get(`${this.basePath}`, { headers, params:params })
+      this.httpClient.get(`${this.basePath}`, { headers, params: params })
     );
   }
-  public update(categoryId: string, category: CategoryInput, updateFilter?:UpdateFilter): Observable<ResponseDto> {
+  public update(categoryId: string, category: CategoryInput, updateFilter?: UpdateFilter): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();
     let params = new HttpParams();
-    if(updateFilter?.toArchive != null){
-      params = params.append('toArchive', updateFilter?.toArchive)
+    if (updateFilter?.toArchive != null) {
+      params = params.append('toArchive', updateFilter?.toArchive);
     }
     return <Observable<ResponseDto>>this.httpClient.put(`${this.basePath}/${categoryId}`, category, { headers, params });
   }

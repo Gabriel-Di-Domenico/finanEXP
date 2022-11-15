@@ -1,0 +1,42 @@
+<main>
+  <header>
+    <div>
+      <div class="transactionType">
+        <fin-button id="menuButton" [matMenuTriggerFor]="menu" aria-label="Open menu" [color]="finAddButtonColor">
+          <mat-icon>expand_more</mat-icon>
+          {{ currentTransactionType | convertEnum: PortugueseTransactionTypeEnum }}
+        </fin-button>
+        <mat-menu class="mat-menu" #menu="matMenu">
+          <transaction-menu
+            module="transactions"
+            (transactionTypeReturnEvent)="setTransactionType($event)"></transaction-menu>
+        </mat-menu>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <transactions-list [transactionType]="currentTransactionType"></transactions-list>
+    <div class="card">
+      <fin-card
+        (click)="navigate('customers')"
+        subtitle="Saldo atual"
+        [content]="actualBalance | currency: 'BRL':'symbol':'1.2-2':'pt-BR'"
+        icon="account_balance"
+        iconColor="blue"></fin-card>
+      <fin-card
+        (click)="navigate('revenues')"
+        subtitle="Receitas"
+        [content]="revenuesValue | currency: 'BRL':'symbol':'1.2-2':'pt-BR'"
+        contentColor="green"
+        icon="arrow_upward"
+        iconColor="green"></fin-card>
+      <fin-card
+        (click)="navigate('expenses')"
+        subtitle="Despesas"
+        [content]="expensesValue | currency: 'BRL':'symbol':'1.2-2':'pt-BR'"
+        contentColor="red"
+        icon="arrow_downward"
+        iconColor="red"></fin-card>
+    </div>
+  </div>
+</main>

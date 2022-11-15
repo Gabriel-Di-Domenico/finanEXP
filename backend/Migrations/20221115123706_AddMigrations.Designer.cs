@@ -12,7 +12,7 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221113224120_AddMigrations")]
+    [Migration("20221115123706_AddMigrations")]
     partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,7 +123,7 @@ namespace backend.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("Date");
 
                     b.Property<string>("Description")
                         .IsRequired()

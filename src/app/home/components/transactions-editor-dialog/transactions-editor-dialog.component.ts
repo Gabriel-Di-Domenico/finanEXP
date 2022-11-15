@@ -3,7 +3,7 @@ import { SnackBarControlService } from './../../../shared/support/services/snack
 import { GetAllFilter } from './../../../shared/support/interfaces/getAllFilter';
 import { CategoryOutput } from './../../../shared/support/interfaces/categories/categoryOutput';
 import { ResponseDto } from './../../../shared/support/classes/responseDto';
-import { TransactionsService } from './transactions.service';
+import { TransactionsService } from '../../modules/transactions/transactions.service';
 import { TransactionTypePortuguese } from './../../../shared/support/enums/transactionTypes/transaction-types-portuguese';
 import { TransactionType } from './../../../shared/support/enums/transactionTypes/transaction-types';
 import { DialogControlService } from './../../../shared/support/services/dialogControl/dialog-control.service';
@@ -23,6 +23,7 @@ import { Message } from 'src/app/shared/support/interfaces/message.interface';
   styleUrls: ['./styles/transactions-editor-dialog.component.css'],
 })
 export class TransactionsEditorDialogComponent {
+  public label = 'Nova transação';
   public transactionTypesPortuguese = TransactionTypePortuguese;
   public form!: FormGroup;
   public formControls = TransactionEditorFormControls;
@@ -39,7 +40,7 @@ export class TransactionsEditorDialogComponent {
     private snackBarControlService: SnackBarControlService
   ) {
     if (this.data.operation === 'update') {
-      /* this.getCategoryById(); */
+      this.getTransactionById();
     }
     this.transactionType = this.data.transactionType;
     this.createForm();
@@ -70,26 +71,26 @@ export class TransactionsEditorDialogComponent {
         this.snackBarControlService.showMessage(message.message, message.error);
         this.dialogControlService.closeDialog(this.dialogRef);
       });
-    } /* else {
-      this.categoriesService.update(this.category.id, this.form.value, (message: Message) => {
+    } else {
+      this.transactionsService.update(this.transaction.id, this.form.value, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
         this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
       });
-    } */
+    }
   }
   public canSave(): boolean {
     return this.form.valid;
   }
 
-  /* private getTransactionById(){
-    this.categoriesService.getById(this.data.categoryId, (data: ResponseDto<CategoryOutput>) => {
+  private getTransactionById() {
+    this.transactionsService.getById(this.data.transactionId, (data: ResponseDto<TransactionOutput>) => {
       if (!data.message.error) {
-        this.category = data.content;
-        this.label = 'Editar Carteira';
+        this.transaction = data.content;
+        this.label = 'Editar Transação';
         this.populateForm();
       }
     });
-  } */
+  }
   private populateForm() {
     this.form.get(this.formControls.value)?.setValue(this.transaction.value);
     this.form.get(this.formControls.description)?.setValue(this.transaction.description);

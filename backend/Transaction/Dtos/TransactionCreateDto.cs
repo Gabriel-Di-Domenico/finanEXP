@@ -20,5 +20,8 @@ namespace backend.Transactions.Dtos
 
     [Required]
     public TransactionType TransactionType { get; set; }
+
+    [Required]
+    public DateTime Date { get; set; }
   }
 }

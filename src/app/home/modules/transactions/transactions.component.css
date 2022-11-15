@@ -1,0 +1,56 @@
+main{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+header{
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+header>div{
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+}
+categories-list{
+  height: 75%;
+  width: 100%;
+  background-color: aqua;
+}
+fin-icon-button{
+  margin-right: 5px;
+}
+.actionButtons{
+  display: flex;
+}
+div.transactionType{
+  display: flex;
+}
+div.titleDiv{
+  display: flex;
+  align-items: baseline;
+}
+fin-title{
+  margin-right: 10px;
+}
+mat-icon{
+  margin-right: 10px;
+  cursor: pointer;
+}
+div.container{
+  width: 99%;
+  display: flex;
+  justify-content: space-between;
+}
+div.card{
+  width: 26%;
+}
+transactions-list{
+  width: 74%;
+}

@@ -38,7 +38,7 @@ namespace backend.Categories.Services
     public ResponseStatus<List<Category>> GetAllCategories(Guid userId, GetAllFilter? filter)
     {
       var categories = _context.Categories.Where(category => category.UserId == userId
-        && category.TransactionType == filter.TransactionType
+        && category.TransactionType == (filter.TransactionType != null ? filter.TransactionType : category.TransactionType)
         && category.IsArchived == (filter.IsArchived != null ? filter.IsArchived : false)).ToList();
 
       if (categories != null)

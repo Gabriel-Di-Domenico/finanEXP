@@ -20,20 +20,21 @@ import { MustHaveControlName } from '../../common/MustHaveControlName';
     },
   ],
 })
-export class FinSelectComponent extends MustHaveControlName{
-  override value!: number;
+export class FinSelectComponent extends MustHaveControlName {
+  override value!: string;
 
   @Input() options!: Array<finSelectOption>;
   @Input() label?: string;
-  @Input() required!:boolean;
+  @Input() required!: boolean;
 
-  selectType(){
+  selectType() {
     this.markAsTouched();
     this.onChange(this.value);
   }
   override writeValue(value: string): void {
-    if(value !== null){
-      this.value = Number(value);
+    if (value !== null) {
+      this.value = value
+
     }
   }
 }
