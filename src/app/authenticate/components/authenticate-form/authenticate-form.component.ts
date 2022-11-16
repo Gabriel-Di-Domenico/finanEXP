@@ -65,11 +65,17 @@ export class AuthenticateFormComponent implements OnInit {
   }
   public submitRegisterForm() {
     if (this.canSave()) {
-      const userValues: UserInput = this.registerForm.value;
+      const password = this.registerForm.get(registerFormControls.password)?.value;
+      const confirmPassword = this.registerForm.get(registerFormControls.confirmationPassword)?.value;
+      if (this.verifyPasswords(password, confirmPassword)) {
+        const userValues: UserInput = this.registerForm.value;
 
-      this.authenticateService.createNewUser(userValues, (message: Message) => {
-        this.snackBarControlService.showMessage(message.message, message.error);
-      });
+        this.authenticateService.createNewUser(userValues, (message: Message) => {
+          this.snackBarControlService.showMessage(message.message, message.error);
+        });
+      }else {
+        this.snackBarControlService.showMessage('As senhas não correspondem', true);
+      }
     }
   }
 
@@ -81,6 +87,10 @@ export class AuthenticateFormComponent implements OnInit {
         this.snackBarControlService.showMessage(message.message, message.error);
       });
     }
+  }
+
+  private verifyPasswords(newPassword: string, confirmPassword: string): boolean {
+    return newPassword === confirmPassword;
   }
 
   private createLoginForm() {
@@ -96,7 +106,11 @@ export class AuthenticateFormComponent implements OnInit {
 
     this.registerForm.addControl(
       this.registerFormControls.nameFormControl,
-      this.formBuilder.control(null, [Validators.required, Validators.maxLength(25), this.finValidatorsService.trimValidator])
+      this.formBuilder.control(null, [
+        Validators.required,
+        Validators.maxLength(25),
+        this.finValidatorsService.trimValidator,
+      ])
     );
     this.registerForm.addControl(
       this.registerFormControls.email,
@@ -109,6 +123,10 @@ export class AuthenticateFormComponent implements OnInit {
         Validators.max(30),
         Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#%_=!¨()+ç?[])[0-9a-zA-Z$*&@#%_=!¨()+ç?[]{8,}$/),
       ])
+    );
+    this.registerForm.addControl(
+      this.registerFormControls.confirmationPassword,
+      this.formBuilder.control(null, [Validators.required])
     );
   }
 }
