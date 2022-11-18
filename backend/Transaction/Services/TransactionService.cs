@@ -41,7 +41,7 @@ namespace backend.Transactions.Services
     public ResponseStatus<List<Transaction>> GetAllTransactions(Guid userId, GetAllFilter? filter)
     {
       var transactions = _context.Transactions.Where(transaction => transaction.UserId == userId
-      && transaction.CustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.CustomerId)
+      && transaction.ReceiverCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId)
       && transaction.TransactionType == (filter.TransactionType != null ? filter.TransactionType : transaction.TransactionType)).ToList();
 
       if (transactions != null)
@@ -82,7 +82,7 @@ namespace backend.Transactions.Services
       {
 
         getTransactionByIdResult.Content.CategoryId = newTransaction.CategoryId;
-        getTransactionByIdResult.Content.CustomerId = newTransaction.CustomerId;
+        getTransactionByIdResult.Content.ReceiverCustomerId = newTransaction.ReceiverCustomerId;
         getTransactionByIdResult.Content.Value = newTransaction.Value;
         getTransactionByIdResult.Content.TransactionType = newTransaction.TransactionType;
         getTransactionByIdResult.Content.Description = newTransaction.Description;

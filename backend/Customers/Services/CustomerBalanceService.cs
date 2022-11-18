@@ -1,8 +1,11 @@
 using AutoMapper;
 using backend.Customers.Dtos;
+using backend.Customers.Models;
 using backend.Shared.Classes;
 using backend.Shared.Enums;
+using backend.Transactions.Models;
 using backend.Transactions.Services;
+using System.Collections.Generic;
 
 namespace backend.Customers.Services
 {
@@ -18,6 +21,39 @@ namespace backend.Customers.Services
       _transactionService = transactionService;
       _mapper = mapper;
     }
+
+    public ResponseStatus CalculateTransferValue(bool isCreate, Transaction transaction, Guid userId)
+    {
+      if(transaction.SenderCustomerId == null)
+      {
+        throw new Exception("SenderCustomerId is Required");
+      }
+      else
+      {
+        
+        var receiverCustomer = _customerService.GetCustomerById(transaction.ReceiverCustomerId, userId);
+
+        var senderCustomer = _customerService.GetCustomerById((Guid)transaction.SenderCustomerId, userId);
+        if (isCreate)
+        {
+          receiverCustomer.Content.TransferValue += transaction.Value;
+          senderCustomer.Content.TransferValue -= transaction.Value;
+        }
+        else
+        {
+          receiverCustomer.Content.TransferValue -= transaction.Value;
+          senderCustomer.Content.TransferValue += transaction.Value;
+        }
+        var list = new List<Customer>();
+        list.Add(receiverCustomer.Content);
+        list.Add(senderCustomer.Content);
+
+        var teste = _customerService.BatchUpdateCustomer(list);
+
+        return ResponseStatus.Ok;
+      }
+    }
+
     public ResponseStatus CalculateCustomerBalance(Guid customerId, Guid userId)
     {
       var customer = _customerService.GetCustomerById(customerId, userId);

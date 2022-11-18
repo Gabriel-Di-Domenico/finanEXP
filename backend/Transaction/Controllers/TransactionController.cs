@@ -45,8 +45,11 @@ namespace backend.Transactions.Controllers
 
       if (createTransactionResult == ResponseStatus.Ok)
       {
-        
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.CustomerId, userId);
+        if(transaction.TransactionType == TransactionType.Transfer)
+        {
+          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
+        }
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.ReceiverCustomerId, userId);
 
         if(calculateCustomerBalanceResult == ResponseStatus.Ok)
         {
@@ -128,7 +131,7 @@ namespace backend.Transactions.Controllers
       {
         var Bearertoken = Request.Headers["Authorization"];
         Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(newTransaction.CustomerId, userId);
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(newTransaction.ReceiverCustomerId, userId);
 
         if (calculateCustomerBalanceResult == ResponseStatus.Ok)
         {
@@ -156,7 +159,11 @@ namespace backend.Transactions.Controllers
       {
         var Bearertoken = Request.Headers["Authorization"];
         Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(deleteTransactionResult.Content.CustomerId, userId);
+        if (deleteTransactionResult.Content.TransactionType == TransactionType.Transfer)
+        {
+          _customerBalanceService.CalculateTransferValue(true, deleteTransactionResult.Content, userId);
+        }
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(deleteTransactionResult.Content.ReceiverCustomerId, userId);
 
         if (calculateCustomerBalanceResult == ResponseStatus.Ok)
         {

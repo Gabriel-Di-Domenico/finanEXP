@@ -12,7 +12,7 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221115123706_AddMigrations")]
+    [Migration("20221116221902_AddMigrations")]
     partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<decimal>("TransferValue")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -116,10 +119,7 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CustomerId")
+                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
@@ -129,6 +129,12 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("ReceiverCustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SenderCustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("TransactionType")
                         .HasColumnType("integer");
@@ -143,7 +149,9 @@ namespace backend.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("ReceiverCustomerId");
+
+                    b.HasIndex("SenderCustomerId");
 
                     b.HasIndex("UserId");
 
@@ -204,15 +212,17 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Categories.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("backend.Customers.Models.Customer", "ReceiverCustomer")
+                        .WithMany()
+                        .HasForeignKey("ReceiverCustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Customers.Models.Customer", "Customer")
+                    b.HasOne("backend.Customers.Models.Customer", "SenderCustomer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SenderCustomerId");
 
                     b.HasOne("backend.models.User", "User")
                         .WithMany()
@@ -222,7 +232,9 @@ namespace backend.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("Customer");
+                    b.Navigation("ReceiverCustomer");
+
+                    b.Navigation("SenderCustomer");
 
                     b.Navigation("User");
                 });

@@ -19,6 +19,7 @@ namespace backend.Customers.Services
 
       if (customerFromDatabase == null)
       {
+        customer.TransferValue = 0;
         customer.ActualBalance = customer.InitialBalance;
         _context.Customers.Add(customer);
         SaveChanges();
@@ -84,7 +85,7 @@ namespace backend.Customers.Services
         getCustomerByIdResult.Content.Name = newCustomer.Name;
         getCustomerByIdResult.Content.InitialBalance = (decimal)newCustomer.InitialBalance;
 
-        if(newCustomer.ActualBalance > 0)
+        if (newCustomer.ActualBalance > 0)
         {
           getCustomerByIdResult.Content.ActualBalance = newCustomer.ActualBalance;
         }
@@ -94,6 +95,16 @@ namespace backend.Customers.Services
         return ResponseStatus.Ok;
       }
       return ResponseStatus.BadRequest;
+    }
+    public ResponseStatus BatchUpdateCustomer(List<Customer> customers)
+    {
+      foreach (var customer in customers)
+      {
+        _context.Customers.Update(customer);
+      }
+      SaveChanges();
+
+      return ResponseStatus.Ok;
     }
     public ResponseStatus DeleteCustomer(Guid id, Guid userId)
     {

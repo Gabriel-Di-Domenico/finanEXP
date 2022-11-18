@@ -54,7 +54,7 @@ export class TransactionsEditorDialogComponent {
     this.form.addControl(this.formControls.description, this.formBuilder.control(null));
     this.form.addControl(this.formControls.transactionType, this.formBuilder.control(this.data.transactionType));
     this.form.addControl(this.formControls.categoryId, this.formBuilder.control(null, [Validators.required]));
-    this.form.addControl(this.formControls.customerId, this.formBuilder.control(null, [Validators.required]));
+    this.form.addControl(this.formControls.receiverCustomerId, this.formBuilder.control(null, [Validators.required]));
     this.form.addControl(this.formControls.date, this.formBuilder.control(null, [Validators.required]));
   }
   public closeEditorDialog() {
@@ -95,7 +95,7 @@ export class TransactionsEditorDialogComponent {
     this.form.get(this.formControls.value)?.setValue(this.transaction.value);
     this.form.get(this.formControls.description)?.setValue(this.transaction.description);
     this.form.get(this.formControls.categoryId)?.setValue(this.transaction.categoryId);
-    this.form.get(this.formControls.customerId)?.setValue(this.transaction.customerId);
+    this.form.get(this.formControls.receiverCustomerId)?.setValue(this.transaction.customerId);
     this.form.get(this.formControls.transactionType)?.setValue(this.transaction.transactionType);
     this.form.get(this.formControls.date)?.setValue(this.transaction.date);
   }

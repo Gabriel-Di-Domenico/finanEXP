@@ -6,17 +6,18 @@ namespace backend.Transactions.Dtos
   public class TransactionCreateDto
   {
     [MaxLength(100)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [Required]
     public decimal Value { get; set; }
 
-    [Required]
-    public Guid CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
     [Required]
 
-    public Guid CustomerId { get; set; }
+    public Guid ReceiverCustomerId { get; set; }
+
+    public Guid? SenderCustomerId { get; set; }
 
     [Required]
     public TransactionType TransactionType { get; set; }
