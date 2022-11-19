@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.transactions.forEach((transaction: TransactionOutput) => {
       if (transaction.transactionType === TransactionType.revenue) {
         this.revenuesValue += transaction.value;
-      } else {
+      } else if(transaction.transactionType === TransactionType.expense) {
         this.expensesValue += transaction.value;
       }
     });

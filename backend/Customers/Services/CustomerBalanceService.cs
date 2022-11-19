@@ -30,25 +30,61 @@ namespace backend.Customers.Services
       }
       else
       {
+        var customersFilter = new GetAllFilter
+        {
+          CustomersIds = new List<Guid> { transaction.ReceiverCustomerId, (Guid)transaction.SenderCustomerId },
+        };
+        var customers = _customerService.GetAllCustomers(userId, customersFilter);
+
+        var senderCustomer = customers.Content.Find((Customer customer) => customer.Id == transaction.SenderCustomerId);
+        var receiverCustomer = customers.Content.Find((Customer customer) => customer.Id == transaction.ReceiverCustomerId);
+
+        var senderCustomertransactions = _transactionService.GetAllTransactions(userId, new GetAllFilter
+        {
+          CustomerId = senderCustomer.Id,
+          TransactionType = TransactionType.Transfer
+
+        });
+        var receiverCustomertransactions = _transactionService.GetAllTransactions(userId, new GetAllFilter
+        {
+          CustomerId = receiverCustomer.Id,
+          TransactionType = TransactionType.Transfer
+
+        });
+        decimal transferValue = 0;
+
+        senderCustomertransactions.Content.ForEach(transaction =>
+        {
+          if(transaction.SenderCustomerId == senderCustomer.Id)
+          {
+            transferValue -= transaction.Value;
+          }else if(transaction.ReceiverCustomerId == senderCustomer.Id)
+          {
+            transferValue += transaction.Value;
+          }
+        });
+        senderCustomer.TransferValue = transferValue;
+
+        transferValue = 0;
+
+        receiverCustomertransactions.Content.ForEach(transaction =>
+        {
+          if (transaction.SenderCustomerId == receiverCustomer.Id)
+          {
+            transferValue -= transaction.Value;
+          }
+          else if (transaction.ReceiverCustomerId == receiverCustomer.Id)
+          {
+            transferValue += transaction.Value;
+          }
+        });
+        receiverCustomer.TransferValue = transferValue;
+
+        var updateCustomersResult = _customerService.BatchUpdateCustomer(new List<Customer>
+        {
+          senderCustomer, receiverCustomer
+        });
         
-        var receiverCustomer = _customerService.GetCustomerById(transaction.ReceiverCustomerId, userId);
-
-        var senderCustomer = _customerService.GetCustomerById((Guid)transaction.SenderCustomerId, userId);
-        if (isCreate)
-        {
-          receiverCustomer.Content.TransferValue += transaction.Value;
-          senderCustomer.Content.TransferValue -= transaction.Value;
-        }
-        else
-        {
-          receiverCustomer.Content.TransferValue -= transaction.Value;
-          senderCustomer.Content.TransferValue += transaction.Value;
-        }
-        var list = new List<Customer>();
-        list.Add(receiverCustomer.Content);
-        list.Add(senderCustomer.Content);
-
-        var teste = _customerService.BatchUpdateCustomer(list);
 
         return ResponseStatus.Ok;
       }
@@ -58,12 +94,12 @@ namespace backend.Customers.Services
     {
       var customer = _customerService.GetCustomerById(customerId, userId);
 
-      var customerModel = _mapper.Map<CustomerUpdateDto>(customer.Content);
+      
 
       var filter = new GetAllFilter { CustomerId = customerId };
       var transactions = _transactionService.GetAllTransactions(userId, filter);
 
-      decimal totalValue = customerModel.InitialBalance;
+      decimal totalValue = customer.Content.InitialBalance + customer.Content.TransferValue;
 
       transactions.Content.ForEach(transaction =>
       {
@@ -76,9 +112,12 @@ namespace backend.Customers.Services
           totalValue = totalValue -= transaction.Value;
         }
       });
-      customerModel.ActualBalance = totalValue;
+      customer.Content.ActualBalance = totalValue;
+
+      var customerModel = _mapper.Map<CustomerUpdateDto>(customer.Content);
 
       var updateCustomerResult = _customerService.UpdateCustomer(customer.Content.Id, userId, customerModel);
+
       if (updateCustomerResult == ResponseStatus.Ok)
       {
         return ResponseStatus.Ok;

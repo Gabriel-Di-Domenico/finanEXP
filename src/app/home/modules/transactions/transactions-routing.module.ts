@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: '', component: TransactionsComponent },
   { path: 'expenses', component: TransactionsComponent },
   { path: 'revenues', component: TransactionsComponent },
+  { path: 'transfers', component: TransactionsComponent },
 ];
 
 @NgModule({

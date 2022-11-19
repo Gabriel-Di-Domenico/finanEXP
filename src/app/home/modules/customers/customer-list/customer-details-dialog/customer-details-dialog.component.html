@@ -8,7 +8,7 @@
     <fin-subtitle [label]="customer.name"></fin-subtitle>
     <section id="actualBalanceSection">
       <fin-h3 label="Saldo Atual"></fin-h3>
-      <span>WIP</span>
+      <span>{{actualBalance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'}}</span>
     </section>
     <div>
       <p>Tipo</p> 
@@ -20,15 +20,15 @@
     </div>
     <div>
       <p>Quantidade de despesas</p>
-      <p>WIP</p>
+      <p>{{expenses.length}}</p>
     </div>
     <div>
       <p>Quantidade de receitas</p>
-      <p>WIP</p>
+      <p>{{revenues.length}}</p>
     </div>
     <div>
-      <p>Quantidade de transações</p>
-      <p>WIP</p>
+      <p>Quantidade de transferências</p>
+      <p>{{transfers.length}}</p>
     </div>
     <div id="actionsDiv">
       <fin-icon-button (click)="openConfirmationDeleteCustomerDialog()" icon="delete" color="warn"></fin-icon-button>

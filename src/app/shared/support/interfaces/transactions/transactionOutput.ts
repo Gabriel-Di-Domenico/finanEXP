@@ -5,6 +5,7 @@ export interface TransactionOutput {
   date: Date;
   value: number;
   categoryId: string;
-  customerId: string;
+  receiverCustomerId: string;
+  senderCustomerId?:string;
   transactionType: TransactionType;
 }

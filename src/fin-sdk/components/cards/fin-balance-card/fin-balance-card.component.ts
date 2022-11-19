@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class FinBalanceCardComponent {
   @Input() title!: string;
-  @Input() subtitle!: string;
+  @Input() subtitle?: string | number | null;
 }

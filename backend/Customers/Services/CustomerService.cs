@@ -1,6 +1,7 @@
 using backend.Contexts;
 using backend.Customers.Dtos;
 using backend.Customers.Models;
+using backend.Shared.Classes;
 using backend.Shared.Enums;
 
 namespace backend.Customers.Services
@@ -44,9 +45,11 @@ namespace backend.Customers.Services
         && customer.Name == newCustomer.Name
       );
     }
-    public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId)
+    public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId, GetAllFilter? filter)
     {
-      var customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
+      var customers = _context.Customers.Where(customer => customer.UserId == userId
+      && filter != null && filter.CustomersIds != null ? filter.CustomersIds.Contains(customer.Id) : true).ToList();
+
       if (customers != null)
       {
         return new ResponseStatus<List<Customer>> { Status = ResponseStatus.Ok, Content = customers };

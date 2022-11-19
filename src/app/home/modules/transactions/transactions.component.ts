@@ -18,7 +18,7 @@ import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCr
 export class TransactionsComponent implements OnInit {
   public PortugueseTransactionTypeEnum = TransactionTypePortuguese;
   public currentTransactionType = TransactionType.transactions;
-  public finAddButtonColor: 'success' | 'warn' | 'primary' = 'primary';
+  public finAddButtonColor: 'success' | 'warn' | 'primary' | 'accent' = 'primary';
   public actualBalance = 0;
   public revenuesValue = 0;
   public expensesValue = 0;
@@ -54,6 +54,8 @@ export class TransactionsComponent implements OnInit {
       this.router.navigate(['home', 'transactions', 'expenses']);
     } else if (transactionType === TransactionType.revenue) {
       this.router.navigate(['home', 'transactions', 'revenues']);
+    } else if (transactionType === TransactionType.transfer) {
+      this.router.navigate(['home', 'transactions', 'transfers']);
     } else {
       this.router.navigate(['home', 'transactions']);
     }
@@ -97,7 +99,7 @@ export class TransactionsComponent implements OnInit {
     this.transactions.forEach((transaction: TransactionOutput) => {
       if (transaction.transactionType === TransactionType.revenue) {
         this.revenuesValue += transaction.value;
-      } else {
+      } else if (transaction.transactionType === TransactionType.expense) {
         this.expensesValue += transaction.value;
       }
     });
@@ -109,9 +111,12 @@ export class TransactionsComponent implements OnInit {
     } else if (this.route.snapshot.url[0].path === 'expenses') {
       this.currentTransactionType = TransactionType.expense;
       this.finAddButtonColor = 'warn';
-    } else {
+    } else if(this.route.snapshot.url[0].path === 'revenues'){
       this.currentTransactionType = TransactionType.revenue;
       this.finAddButtonColor = 'success';
+    }else if(this.route.snapshot.url[0].path === 'transfers'){
+      this.currentTransactionType = TransactionType.transfer;
+      this.finAddButtonColor = 'accent';
     }
   }
 }
