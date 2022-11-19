@@ -46,7 +46,18 @@ namespace backend.Authenticate.Controllers
           result.Content = responseAuthUser.Content;
 
           return Ok(result);
+        } else if (responseAuthUser.Status == ResponseStatus.Unauthorized)
+        {
+          result.Message = new Message
+          {
+            error = true,
+            message = "Usuário não autorizado"
+          };
+          result.Content = responseAuthUser.Content;
+
+          return Unauthorized(result);
         }
+
         throw new Exception("Error AuthUser");
       }
       else
@@ -61,7 +72,7 @@ namespace backend.Authenticate.Controllers
 
         return Unauthorized(result);
       }
-      throw new Exception("Error Auth User");
+      throw new Exception("Error AuthUser");
 
     }
     [HttpGet("verifyToken")]
