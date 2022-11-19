@@ -52,7 +52,7 @@ export class CategoriesEditorDialogComponent {
     }
   }
   public canSave():boolean{
-    return this.form.valid;
+    return this.form.valid && this.form.touched;
   }
   private createForm() {
     this.form = this.formBuilder.group({});

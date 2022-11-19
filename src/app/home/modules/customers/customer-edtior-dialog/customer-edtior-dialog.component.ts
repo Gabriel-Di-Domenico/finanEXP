@@ -58,7 +58,7 @@ export class CustomerEdtiorDialogComponent {
     }
   }
   public canSave(): boolean {
-    return this.form.valid;
+    return this.form.valid && this.form.touched;
   }
   public closeEditorDialog() {
     this.dialogControlService.closeDialog(this.dialogRef);
