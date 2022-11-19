@@ -42,7 +42,6 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
     }
   }
   ngOnInit(): void {
-
     this.getTransactions();
   }
   ngOnDestroy(): void {
@@ -82,7 +81,7 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
           if (data.confirm) {
             this.customerService.delete(this.customer.id, (message: Message) => {
               this.snackBarControlService.showMessage(message.message, message.error);
-              this.dialogControlService.closeDialog(this.dialogRef);
+              this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
             });
           }
         },

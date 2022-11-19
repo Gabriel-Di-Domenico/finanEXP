@@ -124,7 +124,6 @@ namespace backend.Migrations
                         .HasColumnType("Date");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
