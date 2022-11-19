@@ -30,9 +30,9 @@ export class PerfilPhotoService {
         },
       });
   }
-  public updatePerfilPhoto(perfilPhotoId: string, perfilPhoto: PerfilPhotoInput, callback: (message: Message) => void) {
+  public updatePerfilPhoto(perfilPhoto: PerfilPhotoInput, callback: (message: Message) => void) {
     this.perfilPhotoProxysService
-      .updatePerfilPhotoRequest(perfilPhotoId, perfilPhoto)
+      .updatePerfilPhotoRequest(perfilPhoto)
       .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto) => {
@@ -47,9 +47,9 @@ export class PerfilPhotoService {
         },
       });
   }
-  public get(perfilPhotoId: string, callback?: (data: ResponseDto<PerfilPhotoOutput>) => void) {
+  public get(callback?: (data: ResponseDto<PerfilPhotoOutput>) => void) {
     this.perfilPhotoProxysService
-      .getRequest(perfilPhotoId)
+      .getRequest()
       .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto<PerfilPhotoOutput>) => {
@@ -64,9 +64,9 @@ export class PerfilPhotoService {
         },
       });
   }
-  public delete(perfilPhotoId: string, callback?: (message: Message) => void) {
+  public delete(callback?: (message: Message) => void) {
     this.perfilPhotoProxysService
-      .deleteRequest(perfilPhotoId)
+      .deleteRequest()
       .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto) => {

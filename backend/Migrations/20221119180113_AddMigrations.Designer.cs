@@ -12,7 +12,7 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221116221902_AddMigrations")]
+    [Migration("20221119180113_AddMigrations")]
     partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,9 +88,6 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("PerfilPhotoId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -108,8 +105,6 @@ namespace backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PerfilPhotoId");
-
                     b.ToTable("Users");
                 });
 
@@ -126,7 +121,6 @@ namespace backend.Migrations
                         .HasColumnType("Date");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -172,7 +166,12 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PerfilPhotos");
                 });
@@ -180,7 +179,7 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Categories.Models.Category", b =>
                 {
                     b.HasOne("backend.models.User", "User")
-                        .WithMany("Categories")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -191,21 +190,12 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Customers.Models.Customer", b =>
                 {
                     b.HasOne("backend.models.User", "User")
-                        .WithMany("Customers")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.models.User", b =>
-                {
-                    b.HasOne("backend.Users.PerfilPhotos.Models.PerfilPhoto", "PerfilPhoto")
-                        .WithMany()
-                        .HasForeignKey("PerfilPhotoId");
-
-                    b.Navigation("PerfilPhoto");
                 });
 
             modelBuilder.Entity("backend.Transactions.Models.Transaction", b =>
@@ -239,11 +229,15 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.models.User", b =>
+            modelBuilder.Entity("backend.Users.PerfilPhotos.Models.PerfilPhoto", b =>
                 {
-                    b.Navigation("Categories");
+                    b.HasOne("backend.models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Customers");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

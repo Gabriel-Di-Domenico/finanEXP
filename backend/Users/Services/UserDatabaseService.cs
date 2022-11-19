@@ -91,16 +91,5 @@ namespace backend.Shared.Users.Services
         return ResponseStatus.AlreadyExists;
       }
     }
-
-    public ResponseStatus UpdatePerfilPhotoUser(Guid userId, Guid? perfilPhotoId)
-    {
-      User user = GetUserByID(userId);
-      
-       user.PerfilPhotoId = perfilPhotoId;
-       _context.Update(user);
-      
-      SaveChanges();
-      return ResponseStatus.Ok;
-    }
   }
 }

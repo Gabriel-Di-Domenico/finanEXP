@@ -43,11 +43,14 @@ namespace backend.Users.PerfilPhotos.Controllers
       throw new Exception("Error Create Perfil Photo");
     }
 
-    [HttpPut("{perfilPhotoId}")]
-    public async Task<ActionResult<ReturnDto>> UpdatePerfilPhoto([FromRoute] Guid perfilPhotoId,
+    [HttpPut()]
+    public async Task<ActionResult<ReturnDto>> UpdatePerfilPhoto(
       [FromBody] PerfilPhotoCreateDto newPerfilPhoto)
     {
-      var updatePerfilPhotoResponse = await _perfilPhotoService.UpdatePerfilPhoto(perfilPhotoId, newPerfilPhoto);
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+
+      var updatePerfilPhotoResponse = await _perfilPhotoService.UpdatePerfilPhoto(userId, newPerfilPhoto);
       var result = new ReturnDto();
       if (updatePerfilPhotoResponse == ResponseStatus.Ok)
       {
@@ -61,11 +64,12 @@ namespace backend.Users.PerfilPhotos.Controllers
       throw new Exception("Update Perfil Photo Error");
     }
 
-    [HttpGet("{perfilPhotoId}")]
-    public async Task<ActionResult<ReturnDto<PerfilPhotoReadDto>>> GetPerfilPhoto([FromRoute] Guid perfilPhotoId)
+    [HttpGet()]
+    public async Task<ActionResult<ReturnDto<PerfilPhotoReadDto>>> GetPerfilPhoto()
     {
-
-      var perfilPhotoResponse = await _perfilPhotoService.GetPerfilPhoto(perfilPhotoId);
+      var Bearertoken = Request.Headers["Authorization"];
+      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+      var perfilPhotoResponse = await _perfilPhotoService.GetPerfilPhoto(userId);
 
       var result = new ReturnDto<PerfilPhotoReadDto>();
 
@@ -86,13 +90,13 @@ namespace backend.Users.PerfilPhotos.Controllers
     }
 
 
-    [HttpDelete("{perfilPhotoId}")]
-    public async Task<ActionResult<ReturnDto>> DeletePerfilPhoto([FromRoute] Guid perfilPhotoId)
+    [HttpDelete()]
+    public async Task<ActionResult<ReturnDto>> DeletePerfilPhoto()
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var deletePerfilPhotoResponse = await _perfilPhotoService.DeletePerfilPhoto(userId, perfilPhotoId);
+      var deletePerfilPhotoResponse = await _perfilPhotoService.DeletePerfilPhoto(userId);
       var result = new ReturnDto();
       if (deletePerfilPhotoResponse == ResponseStatus.Ok)
       {
