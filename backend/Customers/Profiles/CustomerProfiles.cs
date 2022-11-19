@@ -10,7 +10,7 @@ namespace backend.Customers.Profiles
     {
       CreateMap<CustomerCreateDto, Customer>();
       CreateMap<Customer, CustomerReadDto>();
-      CreateMap<Customer, CustomerUpdateDto>();
+      CreateMap<CustomerUpdateDto, Customer>();
     }
   }
 }

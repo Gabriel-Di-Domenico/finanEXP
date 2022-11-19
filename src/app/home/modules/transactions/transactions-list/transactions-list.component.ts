@@ -16,7 +16,7 @@ import { registerLocaleData } from '@angular/common';
 import { TransactionsEditorDialogComponent } from 'src/app/home/components/transactions-editor-dialog/transactions-editor-dialog.component';
 import { TransactionsEditorDialogData } from 'src/app/shared/support/interfaces/transactions/TransactionsEditorDialogData';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
-import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
+import { transactionUpdatedHandler } from 'src/app/shared/handlers/transactionHandler/transactionUpdatedHandler';
 registerLocaleData(ptBr);
 @Component({
   selector: 'transactions-list',
@@ -71,7 +71,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
-    this.transactionTypeChangesubscription = transactionCreatedHandler.subscribe(() => {
+    this.transactionTypeChangesubscription = transactionUpdatedHandler.subscribe(() => {
       this.getData();
     });
   }
@@ -110,7 +110,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
             this.transactionsService.delete(transaction.id, (message: Message) => {
               if (!message.error) {
                 this.getTransactions();
-                transactionCreatedHandler.emit();
+                transactionUpdatedHandler.emit();
               }
               this.snackBarControlService.showMessage(message.message, message.error);
             });

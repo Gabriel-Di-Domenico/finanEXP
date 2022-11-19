@@ -2,7 +2,7 @@
   <button *ngIf="module === 'transactions'" mat-menu-item (click)="returnTransactionType(transactionTypes.transactions)">Transações</button>
   <button mat-menu-item (click)="returnTransactionType(transactionTypes.revenue)">Receitas</button>
   <button mat-menu-item (click)="returnTransactionType(transactionTypes.expense)">Despesas</button>
-  <button mat-menu-item (click)="returnTransactionType(transactionTypes.transfer)">Transferência</button>
+  <button *ngIf="module === 'transactions' || module === 'menu'" mat-menu-item (click)="returnTransactionType(transactionTypes.transfer)">Transferência</button>
 </main>
   
 

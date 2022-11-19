@@ -42,7 +42,7 @@ namespace backend.Transactions.Services
     public ResponseStatus<List<Transaction>> GetAllTransactions(Guid userId, GetAllFilter? filter)
     {
       var transactions = _context.Transactions.Where(transaction => transaction.UserId == userId
-      && (transaction.ReceiverCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId) || transaction.SenderCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId))
+      && (transaction.ReceiverCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId) || transaction.SenderCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.SenderCustomerId))
       && transaction.TransactionType == (filter.TransactionType != null ? filter.TransactionType : transaction.TransactionType)).ToList();
 
       if (transactions != null)

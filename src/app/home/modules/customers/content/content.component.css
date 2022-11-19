@@ -5,12 +5,12 @@ div.content {
 }
 
 app-customer-list {
-  width: 65%;
+  width: 71%;
   height: 100%;
 }
 
 div.divTotalBalance {
-  width: 35%;
+  width: 29%;
   display: flex;
   justify-content: flex-end;
 }

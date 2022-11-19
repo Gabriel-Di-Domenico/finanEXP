@@ -7,7 +7,6 @@
 }
 mat-card-content.actualBalance{
   font-size: 0.9rem;
-  color: rgb(4, 180, 4);
   font-weight: 500;
 }
 mat-card-title-group{
@@ -15,4 +14,10 @@ mat-card-title-group{
 }
 mat-card-subtitle{
   font-size: 1rem;
+}
+.green{
+  color: #4CAF50
+}
+.red{
+  color: #f44336
 }

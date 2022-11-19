@@ -47,8 +47,17 @@ namespace backend.Customers.Services
     }
     public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId, GetAllFilter? filter)
     {
-      var customers = _context.Customers.Where(customer => customer.UserId == userId
-      && filter != null && filter.CustomersIds != null ? filter.CustomersIds.Contains(customer.Id) : true).ToList();
+      var customers = new List<Customer>();
+      if (filter == null)
+      {
+        customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
+      }
+      else
+      {
+        customers = _context.Customers.Where(customer => customer.UserId == userId
+         && filter.CustomersIds.Contains(customer.Id)).ToList();
+      }
+
 
       if (customers != null)
       {
@@ -78,24 +87,25 @@ namespace backend.Customers.Services
       };
     }
 
-    public ResponseStatus UpdateCustomer(Guid id, Guid userId, CustomerUpdateDto newCustomer)
+    public ResponseStatus UpdateCustomer(Guid id, Customer newCustomer)
     {
-      var getCustomerByIdResult = GetCustomerById(id, userId);
+      var verifyExistingCustomer = GetCustomerByName(newCustomer);
 
-      if (getCustomerByIdResult.Status == ResponseStatus.Ok)
+      if (verifyExistingCustomer == null || verifyExistingCustomer.Id == id)
       {
-        getCustomerByIdResult.Content.Type = newCustomer.Type;
-        getCustomerByIdResult.Content.Name = newCustomer.Name;
-        getCustomerByIdResult.Content.InitialBalance = (decimal)newCustomer.InitialBalance;
+        var userFromDataBase = GetCustomerById(id, newCustomer.UserId);
 
-        if (newCustomer.ActualBalance > 0)
-        {
-          getCustomerByIdResult.Content.ActualBalance = newCustomer.ActualBalance;
-        }
+        userFromDataBase.Content.InitialBalance = newCustomer.InitialBalance;
+        userFromDataBase.Content.Name = newCustomer.Name;
+        userFromDataBase.Content.Type = newCustomer.Type;
 
-        _context.Customers.Update(getCustomerByIdResult.Content);
+        _context.Customers.Update(userFromDataBase.Content);
         SaveChanges();
         return ResponseStatus.Ok;
+      }
+      else
+      {
+        return ResponseStatus.AlreadyExists;
       }
       return ResponseStatus.BadRequest;
     }

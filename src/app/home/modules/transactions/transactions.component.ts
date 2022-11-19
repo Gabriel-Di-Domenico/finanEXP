@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { TransactionOutput } from 'src/app/shared/support/interfaces/transactions/transactionOutput';
-import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
+import { transactionUpdatedHandler } from 'src/app/shared/handlers/transactionHandler/transactionUpdatedHandler';
 
 @Component({
   selector: 'fin-transactions',
@@ -22,6 +22,7 @@ export class TransactionsComponent implements OnInit {
   public actualBalance = 0;
   public revenuesValue = 0;
   public expensesValue = 0;
+  public actualBalanceColor: 'green' | 'red' = 'green';
   public subscriptions: Array<Subscription> = [];
   private customers: Array<CustomerOutput> = [];
   private transactions: Array<TransactionOutput> = [];
@@ -38,7 +39,7 @@ export class TransactionsComponent implements OnInit {
     this.getCustomers();
     this.getTransactions();
     this.subscriptions.push(
-      transactionCreatedHandler.subscribe(() => {
+      transactionUpdatedHandler.subscribe(() => {
         this.getCustomers();
         this.getTransactions();
       })
@@ -72,6 +73,11 @@ export class TransactionsComponent implements OnInit {
     this.customers.forEach((customer: CustomerOutput) => {
       this.actualBalance += customer.actualBalance;
     });
+    if (this.actualBalance < 0) {
+      this.actualBalanceColor = 'red';
+    } else {
+      this.actualBalanceColor = 'green';
+    }
   }
   private getCustomers() {
     this.transactionsService.getAllCustomers((data: ResponseDto<Array<CustomerOutput>>) => {

@@ -94,8 +94,6 @@ namespace backend.Customers.Services
     {
       var customer = _customerService.GetCustomerById(customerId, userId);
 
-      
-
       var filter = new GetAllFilter { CustomerId = customerId };
       var transactions = _transactionService.GetAllTransactions(userId, filter);
 
@@ -114,11 +112,9 @@ namespace backend.Customers.Services
       });
       customer.Content.ActualBalance = totalValue;
 
-      var customerModel = _mapper.Map<CustomerUpdateDto>(customer.Content);
+      var updateCustomerResult = _customerService.UpdateCustomer(customer.Content.Id, customer.Content);
 
-      var updateCustomerResult = _customerService.UpdateCustomer(customer.Content.Id, userId, customerModel);
-
-      if (updateCustomerResult == ResponseStatus.Ok)
+      if (updateCustomerResult == ResponseStatus.Ok || updateCustomerResult == ResponseStatus.AlreadyExists)
       {
         return ResponseStatus.Ok;
       }

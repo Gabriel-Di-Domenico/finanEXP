@@ -2,6 +2,11 @@
   <app-customer-list [customers]="customers"> </app-customer-list>
 
   <div class="divTotalBalance">
-    <fin-balance-card title="Saldo atual" [subtitle]="totalBalance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'"></fin-balance-card>
+    <fin-card
+      subtitle="Saldo atual"
+      [content]="totalBalance | currency: 'BRL':'symbol':'1.2-2':'pt-BR'"
+      icon="account_balance"
+      iconColor="blue"
+      [contentColor]="actualBalanceColor"></fin-card>
   </div>
 </div>

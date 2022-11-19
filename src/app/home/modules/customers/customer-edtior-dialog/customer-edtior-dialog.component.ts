@@ -13,6 +13,7 @@ import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CustomerEditorDialogDataInterface } from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+import { customerUpdateHandler } from 'src/app/shared/handlers/customerHandler/customerUpdateHandler';
 
 @Component({
   selector: 'app-customer-edtior-dialog',
@@ -48,12 +49,19 @@ export class CustomerEdtiorDialogComponent {
     if (this.data.operation === 'create') {
       this.customerService.create(this.form.value, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
-        this.dialogControlService.closeDialog(this.dialogRef);
+        if (!message.error) {
+          this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
+          customerUpdateHandler.emit();
+        }
+
       });
     } else {
       this.customerService.update(this.customer.id, this.form.value, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
-        this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
+        if (!message.error) {
+          this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
+          customerUpdateHandler.emit();
+        }
       });
     }
   }

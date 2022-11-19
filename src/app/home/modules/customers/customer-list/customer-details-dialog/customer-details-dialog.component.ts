@@ -15,6 +15,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
 import { FinConfirmationDialogComponent } from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
+import { customerUpdateHandler } from 'src/app/shared/handlers/customerHandler/customerUpdateHandler';
 
 @Component({
   selector: 'app-customer-details-dialog',
@@ -82,6 +83,9 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
             this.customerService.delete(this.customer.id, (message: Message) => {
               this.snackBarControlService.showMessage(message.message, message.error);
               this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
+              if(!message.error){
+                customerUpdateHandler.emit();
+              }
             });
           }
         },

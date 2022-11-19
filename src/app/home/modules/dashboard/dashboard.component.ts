@@ -9,7 +9,7 @@ import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
-import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
+import { transactionUpdatedHandler } from 'src/app/shared/handlers/transactionHandler/transactionUpdatedHandler';
 
 registerLocaleData(ptBr);
 
@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public revenuesValue = 0;
   public expensesValue = 0;
   public subscriptions: Array<Subscription> = [];
+  public actualBalanceColor: 'green' | 'red' = 'green';
   constructor(
     private dashboardService: DashboardService,
     private snackBarControlService: SnackBarControlService,
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getCustomers();
     this.getTransactions();
     this.subscriptions.push(
-      transactionCreatedHandler.subscribe(() => {
+      transactionUpdatedHandler.subscribe(() => {
         this.getCustomers();
         this.getTransactions();
       })
@@ -59,6 +60,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.customers.forEach((customer: CustomerOutput) => {
       this.actualBalance += customer.actualBalance;
     });
+    if (this.actualBalance < 0) {
+      this.actualBalanceColor = 'red';
+    } else {
+      this.actualBalanceColor = 'green';
+    }
   }
   private getCustomers() {
     this.dashboardService.getAllCustomers((data: ResponseDto<Array<CustomerOutput>>) => {
@@ -86,7 +92,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.transactions.forEach((transaction: TransactionOutput) => {
       if (transaction.transactionType === TransactionType.revenue) {
         this.revenuesValue += transaction.value;
-      } else if(transaction.transactionType === TransactionType.expense) {
+      } else if (transaction.transactionType === TransactionType.expense) {
         this.expensesValue += transaction.value;
       }
     });
