@@ -8,6 +8,9 @@ namespace backend.Shared.Classes
     public bool? IsArchived { get; set;}
 
     public Guid? CustomerId { get; set; }
+
+    public List<Guid>? CustomersIds { get; set; }
+
   }
  
 }

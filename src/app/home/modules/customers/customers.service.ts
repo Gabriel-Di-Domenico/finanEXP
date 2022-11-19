@@ -1,3 +1,6 @@
+import { TransactionsProxysService } from './../../../shared/proxys/transactionsProxys/transactions-proxys.service';
+import { TransactionOutput } from 'src/app/shared/support/interfaces/transactions/transactionOutput';
+import { GetAllFilter } from './../../../shared/support/interfaces/getAllFilter';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { take } from 'rxjs';
@@ -11,7 +14,8 @@ import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/cust
   providedIn: 'root',
 })
 export class CustomersService {
-  constructor(private customersProxyService: CustomersProxyService) {}
+  constructor(private customersProxyService: CustomersProxyService,
+    private transactionsProxysService:TransactionsProxysService) {}
 
   public create(customer: CustomerInput, callback?: (data: Message) => void) {
     this.customersProxyService
@@ -97,5 +101,19 @@ export class CustomersService {
           }
         },
       });
+  }
+  public getAllTransactions(getAllFilter?:GetAllFilter, callback?:(data:ResponseDto<Array<TransactionOutput>>) => void){
+    this.transactionsProxysService.getAll(getAllFilter).pipe(take(1)).subscribe({
+      next:(data:ResponseDto<Array<TransactionOutput>>) => {
+        if(callback){
+          callback(data)
+        }
+      },
+      error:(err:HttpErrorResponse) => {
+        if(callback){
+          callback(err.error)
+        }
+      }
+    })
   }
 }

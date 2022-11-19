@@ -72,7 +72,8 @@ namespace backend.Migrations
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
                     InitialBalance = table.Column<decimal>(type: "numeric", nullable: false),
-                    ActualBalance = table.Column<decimal>(type: "numeric", nullable: false)
+                    ActualBalance = table.Column<decimal>(type: "numeric", nullable: false),
+                    TransferValue = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,8 +94,9 @@ namespace backend.Migrations
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Value = table.Column<decimal>(type: "numeric", nullable: false),
                     Date = table.Column<DateTime>(type: "Date", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ReceiverCustomerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SenderCustomerId = table.Column<Guid>(type: "uuid", nullable: true),
                     TransactionType = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -105,14 +107,18 @@ namespace backend.Migrations
                         name: "FK_Transactions_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Transactions_Customers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Transactions_Customers_ReceiverCustomerId",
+                        column: x => x.ReceiverCustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Customers_SenderCustomerId",
+                        column: x => x.SenderCustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Transactions_Users_UserId",
                         column: x => x.UserId,
@@ -137,9 +143,14 @@ namespace backend.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_CustomerId",
+                name: "IX_Transactions_ReceiverCustomerId",
                 table: "Transactions",
-                column: "CustomerId");
+                column: "ReceiverCustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_SenderCustomerId",
+                table: "Transactions",
+                column: "SenderCustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_UserId",

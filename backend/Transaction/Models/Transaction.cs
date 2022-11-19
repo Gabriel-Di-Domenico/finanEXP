@@ -14,24 +14,30 @@ namespace backend.Transactions.Models
     public Guid Id { get; set; }
 
     [MaxLength(100)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [Required]
     public decimal Value { get; set; }
 
     [Column(TypeName = "Date")]
+    [Required]
     public DateTime Date { get; set; }
 
-    [Required]
     [ForeignKey("Category")]
-    public Guid CategoryId { get; set; }
-    public virtual Category Category { get; set; }
+    public Guid? CategoryId { get; set; }
+    public virtual Category? Category { get; set; }
 
     [Required]
     [ForeignKey("Custumer")]
-    public Guid CustomerId { get; set; }
+    public Guid ReceiverCustomerId { get; set; }
 
-    public virtual Customer Customer { get; set; }
+    public virtual Customer ReceiverCustomer { get; set; }
+
+    [ForeignKey("Custumer")]
+    
+    public Guid? SenderCustomerId { get; set; }
+
+    public virtual Customer? SenderCustomer { get; set; }
 
     [Required]
     public TransactionType TransactionType { get; set; }

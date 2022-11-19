@@ -24,6 +24,7 @@ import { Message } from 'src/app/shared/support/interfaces/message.interface';
 })
 export class TransactionsEditorDialogComponent {
   public label = 'Nova transação';
+  public transactionTypeEnum = TransactionType
   public transactionTypesPortuguese = TransactionTypePortuguese;
   public form!: FormGroup;
   public formControls = TransactionEditorFormControls;
@@ -40,22 +41,29 @@ export class TransactionsEditorDialogComponent {
     private snackBarControlService: SnackBarControlService
   ) {
     if (this.data.operation === 'update') {
+      this.label = 'Editar Transação';
       this.getTransactionById();
     }
     this.transactionType = this.data.transactionType;
     this.createForm();
     this.getCustomerSelectOptions();
-    this.getCategorySelectOptions();
+    if(this.transactionType !== TransactionType.transfer){
+      this.getCategorySelectOptions();
+    }
   }
 
   private createForm() {
     this.form = this.formBuilder.group({});
+    if(this.transactionType === TransactionType.transfer){
+      this.form.addControl(this.formControls.senderCustomerId, this.formBuilder.control(null, [Validators.required]));
+    }else{
+      this.form.addControl(this.formControls.categoryId, this.formBuilder.control(null, [Validators.required]));
+    }
     this.form.addControl(this.formControls.value, this.formBuilder.control(null, [Validators.required]));
     this.form.addControl(this.formControls.description, this.formBuilder.control(null));
     this.form.addControl(this.formControls.transactionType, this.formBuilder.control(this.data.transactionType));
-    this.form.addControl(this.formControls.categoryId, this.formBuilder.control(null, [Validators.required]));
-    this.form.addControl(this.formControls.customerId, this.formBuilder.control(null, [Validators.required]));
     this.form.addControl(this.formControls.date, this.formBuilder.control(null, [Validators.required]));
+    this.form.addControl(this.formControls.receiverCustomerId, this.formBuilder.control(null, [Validators.required]));
   }
   public closeEditorDialog() {
     this.dialogControlService.closeDialog(this.dialogRef);
@@ -81,12 +89,18 @@ export class TransactionsEditorDialogComponent {
   public canSave(): boolean {
     return this.form.valid;
   }
-
+  public getCustomerLabel():string{
+    if(this.transactionType !== TransactionType.transfer){
+      return 'Carteira';
+    }else{
+      return 'Carteira destinatária'
+    }
+  }
   private getTransactionById() {
     this.transactionsService.getById(this.data.transactionId, (data: ResponseDto<TransactionOutput>) => {
       if (!data.message.error) {
         this.transaction = data.content;
-        this.label = 'Editar Transação';
+
         this.populateForm();
       }
     });
@@ -95,7 +109,8 @@ export class TransactionsEditorDialogComponent {
     this.form.get(this.formControls.value)?.setValue(this.transaction.value);
     this.form.get(this.formControls.description)?.setValue(this.transaction.description);
     this.form.get(this.formControls.categoryId)?.setValue(this.transaction.categoryId);
-    this.form.get(this.formControls.customerId)?.setValue(this.transaction.customerId);
+    this.form.get(this.formControls.receiverCustomerId)?.setValue(this.transaction.receiverCustomerId);
+    this.form.get(this.formControls.senderCustomerId)?.setValue(this.transaction.senderCustomerId);
     this.form.get(this.formControls.transactionType)?.setValue(this.transaction.transactionType);
     this.form.get(this.formControls.date)?.setValue(this.transaction.date);
   }

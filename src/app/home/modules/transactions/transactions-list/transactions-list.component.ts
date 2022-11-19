@@ -29,18 +29,35 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
   @Input() transactions!: Array<TransactionOutput>;
   @ViewChild(MatTable) table!: MatTable<{ name: string }>;
   public transactionTypes = TransactionType;
-  public displayedColumns: string[] = ['description', 'date', 'category', 'customer', 'value', 'actions'];
+  public displayedColumns: string[] = [
+    'description',
+    'date',
+    'category',
+    'receiverCustomer',
+    'value',
+    'actions',
+  ];
+  public displayedColumnsTransfer: string[] = [
+    'description',
+    'date',
+    'receiverCustomer',
+    'senderCustomer',
+    'value',
+    'actions',
+  ];
   public dataSource: Array<{
     id: string;
     description: string;
     date: Date;
-    category: string;
-    customer: string;
+    category?: string;
+    receiverCustomer: string;
+    senderCustomer?: string;
     value: number;
     transactionType: TransactionType;
   }> = [];
 
   public loaded = false;
+  public transactionTypeEnum = TransactionType
   private customers: Array<CustomerOutput> = [];
   private categories: Array<CategoryOutput> = [];
   private getterControl = new EventEmitter<'customer' | 'category' | 'transactions'>();
@@ -93,7 +110,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
             this.transactionsService.delete(transaction.id, (message: Message) => {
               if (!message.error) {
                 this.getTransactions();
-                transactionCreatedHandler.emit()
+                transactionCreatedHandler.emit();
               }
               this.snackBarControlService.showMessage(message.message, message.error);
             });
@@ -103,7 +120,11 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
   }
   private getData() {
     this.getDataSource();
-    this.getCategories();
+    if (this.transactionType !== TransactionType.transfer) {
+      this.getCategories();
+    } else {
+      this.getterControl.emit('category');
+    }
     this.getCustomers();
     this.getTransactions();
   }
@@ -151,14 +172,28 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
         this.dataSource = [];
         this.transactions.forEach((transaction: TransactionOutput) => {
           const category = this.categories.find((category: CategoryOutput) => category.id === transaction.categoryId);
-          const customer = this.customers.find((customer: CustomerOutput) => customer.id === transaction.customerId);
-
-          if (category != null && customer != null) {
+          const receiverCustomer = this.customers.find(
+            (customer: CustomerOutput) => customer.id === transaction.receiverCustomerId
+          );
+          if (this.transactionType === TransactionType.transfer && receiverCustomer != null) {
+            const senderCustomer = this.customers.find(
+              (customer: CustomerOutput) => customer.id === transaction.senderCustomerId
+            );
+            this.dataSource.push({
+              id: transaction.id,
+              description: transaction.description,
+              receiverCustomer: receiverCustomer.name,
+              senderCustomer: senderCustomer?.name,
+              value: transaction.value,
+              date: transaction.date,
+              transactionType: transaction.transactionType,
+            });
+          } else if (category != null && receiverCustomer != null) {
             this.dataSource.push({
               id: transaction.id,
               description: transaction.description,
               category: category.name,
-              customer: customer.name,
+              receiverCustomer: receiverCustomer.name,
               value: transaction.value,
               date: transaction.date,
               transactionType: transaction.transactionType,

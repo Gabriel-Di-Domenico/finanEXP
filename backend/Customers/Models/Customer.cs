@@ -27,5 +27,8 @@ namespace backend.Customers.Models
 
     [Required]
     public decimal ActualBalance { get; set; }
+
+    [Required]
+    public decimal TransferValue { get; set; }
   }
 }

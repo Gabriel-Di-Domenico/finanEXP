@@ -1,6 +1,7 @@
 using backend.Contexts;
 using backend.Customers.Dtos;
 using backend.Customers.Models;
+using backend.Shared.Classes;
 using backend.Shared.Enums;
 
 namespace backend.Customers.Services
@@ -19,6 +20,7 @@ namespace backend.Customers.Services
 
       if (customerFromDatabase == null)
       {
+        customer.TransferValue = 0;
         customer.ActualBalance = customer.InitialBalance;
         _context.Customers.Add(customer);
         SaveChanges();
@@ -43,9 +45,11 @@ namespace backend.Customers.Services
         && customer.Name == newCustomer.Name
       );
     }
-    public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId)
+    public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId, GetAllFilter? filter)
     {
-      var customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
+      var customers = _context.Customers.Where(customer => customer.UserId == userId
+      && filter != null && filter.CustomersIds != null ? filter.CustomersIds.Contains(customer.Id) : true).ToList();
+
       if (customers != null)
       {
         return new ResponseStatus<List<Customer>> { Status = ResponseStatus.Ok, Content = customers };
@@ -84,7 +88,7 @@ namespace backend.Customers.Services
         getCustomerByIdResult.Content.Name = newCustomer.Name;
         getCustomerByIdResult.Content.InitialBalance = (decimal)newCustomer.InitialBalance;
 
-        if(newCustomer.ActualBalance > 0)
+        if (newCustomer.ActualBalance > 0)
         {
           getCustomerByIdResult.Content.ActualBalance = newCustomer.ActualBalance;
         }
@@ -94,6 +98,16 @@ namespace backend.Customers.Services
         return ResponseStatus.Ok;
       }
       return ResponseStatus.BadRequest;
+    }
+    public ResponseStatus BatchUpdateCustomer(List<Customer> customers)
+    {
+      foreach (var customer in customers)
+      {
+        _context.Customers.Update(customer);
+      }
+      SaveChanges();
+
+      return ResponseStatus.Ok;
     }
     public ResponseStatus DeleteCustomer(Guid id, Guid userId)
     {

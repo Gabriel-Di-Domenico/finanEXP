@@ -19,6 +19,7 @@ export class ContentComponent implements OnInit {
     this.getTotalBalance();
   }
   private getTotalBalance(){
+    this.totalBalance = 0;
     this.customers.forEach((customer : CustomerOutput) => {
       this.totalBalance += customer.initialBalance;
     });

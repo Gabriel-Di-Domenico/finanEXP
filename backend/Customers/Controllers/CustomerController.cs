@@ -69,7 +69,7 @@ namespace backend.Customers.Controllers
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var getAllcustomersResponse = _customerService.GetAllCustomers(userId);
+      var getAllcustomersResponse = _customerService.GetAllCustomers(userId,null);
       var result = new ReturnDto<List<CustomerReadDto>>();
 
       if (getAllcustomersResponse.Status == ResponseStatus.Ok)

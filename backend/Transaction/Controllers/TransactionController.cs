@@ -45,10 +45,19 @@ namespace backend.Transactions.Controllers
 
       if (createTransactionResult == ResponseStatus.Ok)
       {
-        
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.CustomerId, userId);
+        ResponseStatus calculateSenderCustomerBalanceResult = ResponseStatus.BadRequest;
+        if (transaction.TransactionType == TransactionType.Transfer)
+        {
+          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
+           calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transaction.SenderCustomerId, userId);
+        }
+        else
+        {
+          calculateSenderCustomerBalanceResult = ResponseStatus.Ok;
+        }
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.ReceiverCustomerId, userId);
 
-        if(calculateCustomerBalanceResult == ResponseStatus.Ok)
+        if(calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {
           result.Message = new Message
           {
@@ -124,13 +133,26 @@ namespace backend.Transactions.Controllers
 
       var result = new ReturnDto();
 
-      if (updateTransactionResult == ResponseStatus.Ok)
+      if (updateTransactionResult.Status == ResponseStatus.Ok)
       {
         var Bearertoken = Request.Headers["Authorization"];
         Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(newTransaction.CustomerId, userId);
+        ResponseStatus calculateSenderCustomerBalanceResult = ResponseStatus.BadRequest;
 
-        if (calculateCustomerBalanceResult == ResponseStatus.Ok)
+        var transactionModel = _mapper.Map<Transaction>(updateTransactionResult.Content);
+
+        if (transactionModel.TransactionType == TransactionType.Transfer)
+        {
+          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
+          calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transactionModel.SenderCustomerId, userId);
+        }
+        else
+        {
+          calculateSenderCustomerBalanceResult = ResponseStatus.Ok;
+        }
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transactionModel.ReceiverCustomerId, userId);
+
+        if (calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {
           result.Message = new Message
           {
@@ -156,9 +178,22 @@ namespace backend.Transactions.Controllers
       {
         var Bearertoken = Request.Headers["Authorization"];
         Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(deleteTransactionResult.Content.CustomerId, userId);
+        ResponseStatus calculateSenderCustomerBalanceResult = ResponseStatus.BadRequest;
 
-        if (calculateCustomerBalanceResult == ResponseStatus.Ok)
+        var transactionModel = _mapper.Map<Transaction>(deleteTransactionResult.Content);
+
+        if (transactionModel.TransactionType == TransactionType.Transfer)
+        {
+          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
+          calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transactionModel.SenderCustomerId, userId);
+        }
+        else
+        {
+          calculateSenderCustomerBalanceResult = ResponseStatus.Ok;
+        }
+        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transactionModel.ReceiverCustomerId, userId);
+
+        if (calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {
           result.Message = new Message
           {

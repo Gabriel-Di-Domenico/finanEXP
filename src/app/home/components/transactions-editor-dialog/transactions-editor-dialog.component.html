@@ -17,12 +17,22 @@
     <fin-date-picker [formControlName]="formControls.date" [required]="true"></fin-date-picker>
     
     <fin-select
-      [formControlName]="formControls.customerId"
-      label="Carteira"
+      *ngIf="transactionType === transactionTypeEnum.transfer"
+      [formControlName]="formControls.senderCustomerId"
+      label="Carteira de origem"
       [required]="true"
       [options]="customerSelectOptions"
     ></fin-select>
+
     <fin-select
+      [formControlName]="formControls.receiverCustomerId"
+      [label]="getCustomerLabel()"
+      [required]="true"
+      [options]="customerSelectOptions"
+    ></fin-select>
+    
+    <fin-select
+      *ngIf="transactionType !== transactionTypeEnum.transfer"
       [formControlName]="formControls.categoryId"
       label="Categoria"
       [required]="true"

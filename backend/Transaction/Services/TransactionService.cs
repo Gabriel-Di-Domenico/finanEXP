@@ -3,6 +3,7 @@ using backend.Transactions.Dtos;
 using backend.Transactions.Models;
 using backend.Shared.Classes;
 using backend.Shared.Enums;
+using backend.Customers.Models;
 
 namespace backend.Transactions.Services
 {
@@ -41,7 +42,7 @@ namespace backend.Transactions.Services
     public ResponseStatus<List<Transaction>> GetAllTransactions(Guid userId, GetAllFilter? filter)
     {
       var transactions = _context.Transactions.Where(transaction => transaction.UserId == userId
-      && transaction.CustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.CustomerId)
+      && (transaction.ReceiverCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId) || transaction.SenderCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId))
       && transaction.TransactionType == (filter.TransactionType != null ? filter.TransactionType : transaction.TransactionType)).ToList();
 
       if (transactions != null)
@@ -54,7 +55,6 @@ namespace backend.Transactions.Services
         Status = ResponseStatus.NotFound,
       };
     }
-
     public ResponseStatus<Transaction> GetTransactionById(Guid id)
     {
       var transaction = _context.Transactions.FirstOrDefault(transaction => transaction.Id == id);
@@ -74,7 +74,7 @@ namespace backend.Transactions.Services
       return _context.SaveChanges() >= 0;
     }
 
-    public ResponseStatus UpdateTransaction(Guid id, TransactionCreateDto newTransaction)
+    public ResponseStatus<Transaction> UpdateTransaction(Guid id, TransactionCreateDto newTransaction)
     {
       var getTransactionByIdResult = GetTransactionById(id);
 
@@ -82,7 +82,7 @@ namespace backend.Transactions.Services
       {
 
         getTransactionByIdResult.Content.CategoryId = newTransaction.CategoryId;
-        getTransactionByIdResult.Content.CustomerId = newTransaction.CustomerId;
+        getTransactionByIdResult.Content.ReceiverCustomerId = newTransaction.ReceiverCustomerId;
         getTransactionByIdResult.Content.Value = newTransaction.Value;
         getTransactionByIdResult.Content.TransactionType = newTransaction.TransactionType;
         getTransactionByIdResult.Content.Description = newTransaction.Description;
@@ -90,9 +90,16 @@ namespace backend.Transactions.Services
 
         _context.Transactions.Update(getTransactionByIdResult.Content);
         SaveChanges();
-        return ResponseStatus.Ok;
+        return new ResponseStatus<Transaction>
+        {
+          Status = ResponseStatus.Ok,
+          Content = getTransactionByIdResult.Content
+        };
       }
-      return ResponseStatus.BadRequest;
+      return new ResponseStatus<Transaction>
+      {
+        Status = ResponseStatus.BadRequest,
+      };
     }
   }
 }

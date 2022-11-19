@@ -11,9 +11,11 @@ namespace backend.Transactions.Dtos
 
     public decimal Value { get; set; }
 
-    public Guid CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
-    public Guid CustomerId { get; set; }
+    public Guid ReceiverCustomerId { get; set; }
+
+    public Guid? SenderCustomerId { get; set; }
 
     public TransactionType TransactionType { get; set; }
   }
