@@ -5,7 +5,7 @@
     </fin-icon-button>
 
     <mat-menu class="mat-menu" #menu="matMenu" [xPosition]="menuPositionX">
-      <transaction-menu (transactionTypeReturnEvent)="openTransactionEditorModal($event)"></transaction-menu>
+      <transaction-menu (transactionTypeReturnEvent)="openTransactionEditorModal($event)" module="menu"></transaction-menu>
     </mat-menu>
 
     <mat-list-item id="dashboardLink" routerLink="dashboard" routerLinkActive="active">

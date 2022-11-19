@@ -123,7 +123,12 @@ namespace backend.Customers.Controllers
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var updateCustomerResult = _customerService.UpdateCustomer(customerId, userId, newCustomer);
+      var customerModel = _mapper.Map<Customer>(newCustomer);
+
+      customerModel.UserId = userId;
+
+      var updateCustomerResult = _customerService.UpdateCustomer(customerId, customerModel);
+
       var result = new ReturnDto();
       if (updateCustomerResult == ResponseStatus.Ok)
       {
@@ -139,6 +144,15 @@ namespace backend.Customers.Controllers
           return Ok(result);
         }
         throw new Exception("Error Calculate Customer balance from update customer");
+      }else if (updateCustomerResult == ResponseStatus.AlreadyExists)
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Nome de carteira já utilizado"
+        };
+
+        return BadRequest(result);
       }
       throw new Exception("Error Update Customer");
     }

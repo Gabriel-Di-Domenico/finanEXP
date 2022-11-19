@@ -11,7 +11,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 })
 export class TransactionMenuComponent {
   public transactionTypes = TransactionType;
-  @Input() module!: 'transactions' | 'categories';
+  @Input() module!: 'transactions' | 'categories' | 'menu';
   @Output() transactionTypeReturnEvent = new EventEmitter<TransactionType>;
 
   public returnTransactionType(transactionType:TransactionType){

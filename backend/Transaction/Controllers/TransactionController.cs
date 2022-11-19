@@ -32,7 +32,7 @@ namespace backend.Transactions.Controllers
     [HttpPost]
     [Authorize]
     public ActionResult<ReturnDto> Create([FromBody] TransactionCreateDto transaction)
-    {         
+    {
       var transactionModel = _mapper.Map<Transaction>(transaction);
 
       var Bearertoken = Request.Headers["Authorization"];
@@ -49,7 +49,7 @@ namespace backend.Transactions.Controllers
         if (transaction.TransactionType == TransactionType.Transfer)
         {
           _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
-           calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transaction.SenderCustomerId, userId);
+          calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transaction.SenderCustomerId, userId);
         }
         else
         {
@@ -57,12 +57,25 @@ namespace backend.Transactions.Controllers
         }
         var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.ReceiverCustomerId, userId);
 
-        if(calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
+        if (calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {
+          string transactionTypeReturnMessage = "";
+          switch (transaction.TransactionType)
+          {
+            case TransactionType.Transfer:
+              transactionTypeReturnMessage = "Transferência";
+              break;
+            case TransactionType.Revenue:
+              transactionTypeReturnMessage = "Receita";
+              break;
+            case TransactionType.Expense:
+              transactionTypeReturnMessage = "Despesa";
+              break;
+          }
           result.Message = new Message
           {
             error = false,
-            message = $"{transaction.TransactionType} criada com sucesso"
+            message = $"{transactionTypeReturnMessage} criada com sucesso"
           };
 
           return Created("", result);
@@ -204,7 +217,7 @@ namespace backend.Transactions.Controllers
           return Ok(result);
         }
         throw new Exception("Error calculate customer balance from delete transaction");
-       
+
       }
       throw new Exception("Error Delete Transaction");
     }

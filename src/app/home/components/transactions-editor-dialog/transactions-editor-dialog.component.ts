@@ -1,4 +1,4 @@
-import { transactionCreatedHandler } from './../../../shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
+import { transactionUpdatedHandler } from '../../../shared/handlers/transactionHandler/transactionUpdatedHandler';
 import { SnackBarControlService } from './../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { GetAllFilter } from './../../../shared/support/interfaces/getAllFilter';
 import { CategoryOutput } from './../../../shared/support/interfaces/categories/categoryOutput';
@@ -74,13 +74,16 @@ export class TransactionsEditorDialogComponent {
     if (this.data.operation === 'create') {
       this.transactionsService.create(this.form.value, (message: Message) => {
         if (!message.error) {
-          transactionCreatedHandler.emit();
+          transactionUpdatedHandler.emit();
         }
         this.snackBarControlService.showMessage(message.message, message.error);
         this.dialogControlService.closeDialog(this.dialogRef);
       });
     } else {
       this.transactionsService.update(this.transaction.id, this.form.value, (message: Message) => {
+        if (!message.error) {
+          transactionUpdatedHandler.emit();
+        }
         this.snackBarControlService.showMessage(message.message, message.error);
         this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
       });

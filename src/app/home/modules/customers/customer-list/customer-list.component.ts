@@ -11,7 +11,7 @@ import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/cust
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Subscription } from 'rxjs';
-import { transactionCreatedHandler } from 'src/app/shared/handlers/transactionCreatedHandler/transactionCreatedHandler';
+import { transactionUpdatedHandler } from 'src/app/shared/handlers/transactionHandler/transactionUpdatedHandler';
 
 registerLocaleData(ptBr);
 
@@ -24,11 +24,11 @@ registerLocaleData(ptBr);
 export class CustomerListComponent {
   @Input() public customers!: Array<CustomerOutput>;
   public type!: string;
-  customerTypesOptionsPortuguese = customerTypesOptionsPortuguese;
+  public customerTypesOptionsPortuguese = customerTypesOptionsPortuguese;
   private subscriptions:Array<Subscription> = []
 
   constructor(private dialogControlService: DialogControlService, private customersService: CustomersService) {
-    this.subscriptions.push(transactionCreatedHandler.subscribe(() => {
+    this.subscriptions.push(transactionUpdatedHandler.subscribe(() => {
       this.getAllCustomers();
     }));
   }

@@ -27,7 +27,9 @@ fin-icon-button{
 div.transactionType{
   display: flex;
 }
-
+div.titleDiv{
+  display: flex;
+}
 fin-title{
   margin-right: 10px;
 }
