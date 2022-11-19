@@ -17,16 +17,16 @@ export class PerfilPhotoProxysService {
     const headers = this.commonService.getHeaders();
     return <Observable<ResponseDto>>this.httpClient.post(`${this.basePath}`, perfilPhoto, { headers });
   }
-  public updatePerfilPhotoRequest(perfilPhotoId: string, perfilPhoto: PerfilPhotoInput): Observable<ResponseDto> {
+  public updatePerfilPhotoRequest(perfilPhoto: PerfilPhotoInput): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();
-    return <Observable<ResponseDto>>this.httpClient.put(`${this.basePath}/${perfilPhotoId}`, perfilPhoto, { headers });
+    return <Observable<ResponseDto>>this.httpClient.put(`${this.basePath}`, perfilPhoto, { headers });
   }
-  public getRequest(perfilPhotoId: string): Observable<ResponseDto<PerfilPhotoOutput>> {
+  public getRequest(): Observable<ResponseDto<PerfilPhotoOutput>> {
     const headers = this.commonService.getHeaders();
-    return <Observable<ResponseDto<PerfilPhotoOutput>>>this.httpClient.get(`${this.basePath}/${perfilPhotoId}`, { headers });
+    return <Observable<ResponseDto<PerfilPhotoOutput>>>this.httpClient.get(`${this.basePath}`, { headers });
   }
-  public deleteRequest(perfilPhotoId: string): Observable<ResponseDto> {
+  public deleteRequest(): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();
-    return <Observable<ResponseDto>>this.httpClient.delete(`${this.basePath}/${perfilPhotoId}`, { headers });
+    return <Observable<ResponseDto>>this.httpClient.delete(`${this.basePath}`, { headers });
   }
 }

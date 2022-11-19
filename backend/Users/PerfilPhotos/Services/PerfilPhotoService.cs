@@ -25,11 +25,10 @@ namespace backend.Users.PerfilPhotos.Services
 
       if (newPerfilPhoto.name != null && newPerfilPhoto.data != null)
       {
-        PerfilPhoto perfilPhoto = new PerfilPhoto { Name = newPerfilPhoto.name, Data = newPerfilPhoto.data };
+        PerfilPhoto perfilPhoto = new PerfilPhoto { Name = newPerfilPhoto.name, Data = newPerfilPhoto.data, UserId = userId };
         perfilPhoto.Id = new Guid();
 
         _context.PerfilPhotos.Add(perfilPhoto);
-        _userDatabaseService.UpdatePerfilPhotoUser(userId, perfilPhoto.Id);
 
         _context.SaveChanges();
         return ResponseStatus.Ok;
@@ -39,21 +38,20 @@ namespace backend.Users.PerfilPhotos.Services
         return ResponseStatus.BadRequest;
       }
     }
-    public async Task<ResponseStatus<PerfilPhoto>> GetPerfilPhoto(Guid perfilPhotoId)
+    public async Task<ResponseStatus<PerfilPhoto>> GetPerfilPhoto(Guid userId)
     {
-      PerfilPhoto perfilPhoto = await _context.PerfilPhotos.FirstAsync(p => p.Id == perfilPhotoId);
+      PerfilPhoto perfilPhoto = _context.PerfilPhotos.FirstOrDefault(p => p.UserId == userId);
 
       return new ResponseStatus<PerfilPhoto> { Status = ResponseStatus.Ok, Content = perfilPhoto };
     }
 
-    public async Task<ResponseStatus> DeletePerfilPhoto(Guid userId, Guid perfilPhotoId)
+    public async Task<ResponseStatus> DeletePerfilPhoto(Guid userId)
     {
-      PerfilPhoto perfilPhoto = (await GetPerfilPhoto(perfilPhotoId)).Content;
+      PerfilPhoto perfilPhoto = (await GetPerfilPhoto(userId)).Content;
 
-      if (perfilPhoto.Id == perfilPhotoId)
+      if (perfilPhoto.UserId == userId)
       {
         _context.PerfilPhotos.Remove(perfilPhoto);
-        _userDatabaseService.UpdatePerfilPhotoUser(userId, null);
         _context.SaveChanges();
         return ResponseStatus.Ok;
       }
@@ -63,9 +61,9 @@ namespace backend.Users.PerfilPhotos.Services
       }
     }
 
-    public async Task<ResponseStatus> UpdatePerfilPhoto(Guid perfilPhotoId, PerfilPhotoCreateDto newPerfilPhoto)
+    public async Task<ResponseStatus> UpdatePerfilPhoto(Guid userId, PerfilPhotoCreateDto newPerfilPhoto)
     {
-      var perfilPhoto = await GetPerfilPhoto(perfilPhotoId);
+      var perfilPhoto = await GetPerfilPhoto(userId);
 
       perfilPhoto.Content.Name = newPerfilPhoto.name;
       perfilPhoto.Content.Data = newPerfilPhoto.data;

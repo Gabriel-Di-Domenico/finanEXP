@@ -78,29 +78,25 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
     }
   }
   public removeImage() {
-    if (this.currentUser.perfilPhotoId) {
-      this.perfilPhotoService.delete(this.currentUser.perfilPhotoId, (message: Message) => {
-        this.snackBarControlService.showMessage(message.message, message.error);
-        if (!message.error) {
-          this.currentUser.perfilPhotoId = undefined;
-          this.emit();
-        }
-      });
-    }
+    this.perfilPhotoService.delete((message: Message) => {
+      this.snackBarControlService.showMessage(message.message, message.error);
+      if (!message.error) {
+        this.currentUser.perfilPhotoId = undefined;
+        this.emit();
+      }
+    });
   }
 
   private getPerfilPhoto() {
     this.perfilPhoto = '';
-    if (this.currentUser.perfilPhotoId) {
-      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseDto<PerfilPhotoOutput>) => {
-        if (!data.message.error) {
-          this.perfilPhoto = `data:image/png;base64,${data.content.data}`;
-        }
-      });
-    }
+    this.perfilPhotoService.get((data: ResponseDto<PerfilPhotoOutput>) => {
+      if (!data.message.error) {
+        this.perfilPhoto = `data:image/png;base64,${data.content.data}`;
+      }
+    });
   }
   private updatePerfilPhoto(perfilPhoto: PerfilPhotoInput) {
-    this.perfilPhotoService.updatePerfilPhoto(this.currentUser.perfilPhotoId as string, perfilPhoto, (message: Message) => {
+    this.perfilPhotoService.updatePerfilPhoto(perfilPhoto, (message: Message) => {
       this.snackBarControlService.showMessage(message.message, message.error);
       this.emit();
       if (message.error) {

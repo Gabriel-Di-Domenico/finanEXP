@@ -23,7 +23,7 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
   public currentUserId = '';
   public perfilPhoto = '';
   public smallScreen = false;
-  private viewPortSizeObserver!:Subscription;
+  private viewPortSizeObserver!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -74,12 +74,11 @@ export class UserConfigComponent extends UserHandler implements OnInit, OnDestro
   }
   private getPerfilPhoto(): void {
     this.perfilPhoto = '';
-    if (this.currentUser.perfilPhotoId) {
-      this.perfilPhotoService.get(this.currentUser.perfilPhotoId, (data: ResponseDto<PerfilPhotoOutput>) => {
-        if (!data.message.error) {
-          this.perfilPhoto = `data:image/png;base64,${data.content.data}`;
-        }
-      });
-    }
+
+    this.perfilPhotoService.get((data: ResponseDto<PerfilPhotoOutput>) => {
+      if (!data.message.error) {
+        this.perfilPhoto = `data:image/png;base64,${data.content.data}`;
+      }
+    });
   }
 }
