@@ -12,7 +12,7 @@ using backend.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(FinEXPDatabaseContext))]
-    [Migration("20221119180113_AddMigrations")]
+    [Migration("20221119184705_AddMigrations")]
     partial class AddMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
