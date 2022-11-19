@@ -70,11 +70,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.viewPortSizeObserver.unsubscribe();
   }
   public canSave() {
-    return this.form.valid;
+
+    return this.form.valid && this.form.touched;
   }
   public saveChanges() {
     this.profileService.updateProfilePreferences(this.currentUser.id, this.form.value, (message: Message) => {
       this.snackBarControlService.showMessage(message.message, message.error);
+      this.form.markAsUntouched()
     });
   }
 

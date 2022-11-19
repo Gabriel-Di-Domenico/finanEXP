@@ -61,7 +61,7 @@ export class AuthenticateFormComponent implements OnInit {
     this.notActualForm.disable();
   }
   public canSave(): boolean {
-    return this.actualForm.valid;
+    return this.actualForm.valid && this.actualForm.dirty;
   }
   public submitRegisterForm() {
     if (this.canSave()) {
@@ -71,6 +71,7 @@ export class AuthenticateFormComponent implements OnInit {
         const userValues: UserInput = this.registerForm.value;
 
         this.authenticateService.createNewUser(userValues, (message: Message) => {
+          this.actualForm.reset();
           this.snackBarControlService.showMessage(message.message, message.error);
         });
       }else {
@@ -85,6 +86,7 @@ export class AuthenticateFormComponent implements OnInit {
 
       this.authenticateService.authUser(userValues, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
+        this.actualForm.reset();
       });
     }
   }

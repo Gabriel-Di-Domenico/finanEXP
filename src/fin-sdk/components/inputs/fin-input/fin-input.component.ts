@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { inputMask } from 'src/app/shared/support/classes/inputMask';
 import { MustHaveControlName } from '../../common/MustHaveControlName';
@@ -11,7 +11,7 @@ import { MustHaveControlName } from '../../common/MustHaveControlName';
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: FinInputComponent,
+      useExisting: forwardRef(() => FinInputComponent),
     },
     {
       provide: NG_VALIDATORS,

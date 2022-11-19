@@ -87,7 +87,7 @@ export class TransactionsEditorDialogComponent {
     }
   }
   public canSave(): boolean {
-    return this.form.valid;
+    return this.form.valid && this.form.touched;
   }
   public getCustomerLabel():string{
     if(this.transactionType !== TransactionType.transfer){

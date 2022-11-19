@@ -2,7 +2,6 @@ import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } fr
 
 export class MustHaveControlName implements ControlValueAccessor, Validator {
   public disabled = false;
-  public touched = false;
   public value!: any;
 
   validate(control: AbstractControl<any, any>): ValidationErrors | null {
@@ -36,9 +35,6 @@ export class MustHaveControlName implements ControlValueAccessor, Validator {
     // Vazio
   };
   protected markAsTouched() {
-    if (!this.touched) {
-      this.onTouched();
-      this.touched = true;
-    }
+    this.onTouched();
   }
 }
