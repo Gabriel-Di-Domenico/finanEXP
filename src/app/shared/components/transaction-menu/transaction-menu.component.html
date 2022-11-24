@@ -1,8 +1,21 @@
 <main>
-  <button *ngIf="module === 'transactions'" mat-menu-item (click)="returnTransactionType(transactionTypes.transactions)">Transações</button>
-  <button mat-menu-item (click)="returnTransactionType(transactionTypes.revenue)">Receitas</button>
-  <button mat-menu-item (click)="returnTransactionType(transactionTypes.expense)">Despesas</button>
-  <button *ngIf="module === 'transactions' || module === 'menu'" mat-menu-item (click)="returnTransactionType(transactionTypes.transfer)">Transferência</button>
+  <ng-container *ngIf="module === 'menu'">
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.revenue)">Receita</button>
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.expense)">Despesa</button>
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.transfer)">Transferência</button>
+  </ng-container>
+
+  <ng-container *ngIf="module === 'transactions'">
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.transactions)">Transações</button>
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.revenue)">Receitas</button>
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.expense)">Despesas</button>
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.transfer)">Transferências</button>
+  </ng-container>
+
+  <ng-container *ngIf="module === 'categories'">
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.revenue)">Receitas</button>
+    <button mat-menu-item (click)="returnTransactionType(transactionTypes.expense)">Despesas</button>
+  </ng-container>
 </main>
   
 
