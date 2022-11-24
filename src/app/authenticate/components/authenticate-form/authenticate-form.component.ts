@@ -85,7 +85,10 @@ export class AuthenticateFormComponent implements OnInit {
       const userValues: UserInput = this.loginForm.value;
 
       this.authenticateService.authUser(userValues, (message: Message) => {
-        this.snackBarControlService.showMessage(message.message, message.error);
+        if(message.error){
+          this.snackBarControlService.showMessage(message.message, message.error);
+        }
+
         this.actualForm.reset();
       });
     }
