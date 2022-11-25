@@ -30,5 +30,8 @@ namespace backend.Customers.Models
 
     [Required]
     public decimal TransferValue { get; set; }
+
+    [Required]
+    public bool IsArchived { get; set; }
   }
 }

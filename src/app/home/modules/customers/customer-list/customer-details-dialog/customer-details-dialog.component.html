@@ -31,7 +31,8 @@
       <p>{{transfers.length}}</p>
     </div>
     <div id="actionsDiv">
-      <fin-icon-button (click)="openConfirmationDeleteCustomerDialog()" icon="delete" color="warn"></fin-icon-button>
+      <fin-icon-button *ngIf="!customer.isArchived" (click)="openConfirmationArchiveCustomerDialog()" icon="archive" color="warn"></fin-icon-button>
+      <fin-icon-button *ngIf="customer.isArchived" (click)="openConfirmationDeleteCustomerDialog()" icon="delete" color="warn"></fin-icon-button>
       <fin-icon-button (click)="openCustomerEditorDialog()" icon="edit"></fin-icon-button>
     </div>
     

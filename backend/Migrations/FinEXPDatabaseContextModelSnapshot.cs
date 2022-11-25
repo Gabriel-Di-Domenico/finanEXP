@@ -60,6 +60,9 @@ namespace backend.Migrations
                     b.Property<decimal>("InitialBalance")
                         .HasColumnType("numeric");
 
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");

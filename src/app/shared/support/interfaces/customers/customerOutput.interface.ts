@@ -8,4 +8,6 @@ export interface CustomerOutput {
   initialBalance: number;
 
   actualBalance:number;
+
+  isArchived:boolean;
 }

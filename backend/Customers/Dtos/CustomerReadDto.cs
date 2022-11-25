@@ -10,5 +10,7 @@ namespace backend.Customers.Dtos
     public decimal InitialBalance { get; set; }
 
     public decimal ActualBalance { get; set; }
+
+    public bool IsArchived { get; set; }
   }
 }

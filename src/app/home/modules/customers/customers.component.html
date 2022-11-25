@@ -1,7 +1,20 @@
 <main>
   <header>
-    <fin-title label="Carteiras"></fin-title>
-    <fin-icon-button (click)="openCustomerEditorDialog()" icon="add"></fin-icon-button>
+    <div *ngIf="isArchivedComponent" class="titleDiv">
+      <mat-icon (click)="openCustomerComponent()">arrow_back</mat-icon>
+      <fin-title label="Carteiras"></fin-title>
+    </div>
+    <fin-title *ngIf="!isArchivedComponent" label="Carteiras"></fin-title>
+    <div class="actions">
+      <fin-icon-button (click)="openCustomerEditorDialog()" icon="add"></fin-icon-button>
+
+      <fin-icon-button icon="more_vert" [matMenuTriggerFor]="moreCategoriesOptions" aria-label="Open menu"></fin-icon-button>
+    </div>
+    
+    <mat-menu class="mat-menu" #moreCategoriesOptions="matMenu">
+      <more-customers-options></more-customers-options>
+    </mat-menu>
+    
   </header>
   <content class="content" [customers]="customers"></content>
 </main>

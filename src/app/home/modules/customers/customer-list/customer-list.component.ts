@@ -1,5 +1,5 @@
-import { CustomerEditorDialogDataInterface }
-  from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+import { GetAllFilter } from './../../../../shared/support/interfaces/getAllFilter';
+import { CustomerEditorDialogDataInterface } from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
 import { CustomersService } from './../customers.service';
 import { CustomerDetailsDialogComponent } from './customer-details-dialog/customer-details-dialog.component';
 import { CustomerEdtiorDialogComponent } from './../customer-edtior-dialog/customer-edtior-dialog.component';
@@ -23,16 +23,28 @@ registerLocaleData(ptBr);
 })
 export class CustomerListComponent {
   @Input() public customers!: Array<CustomerOutput>;
+  @Input() public isArchivedComponent = false;
   public type!: string;
   public customerTypesOptionsPortuguese = customerTypesOptionsPortuguese;
-  private subscriptions:Array<Subscription> = []
+
+  private subscriptions: Array<Subscription> = [];
 
   constructor(private dialogControlService: DialogControlService, private customersService: CustomersService) {
-    this.subscriptions.push(transactionUpdatedHandler.subscribe(() => {
-      this.getAllCustomers();
-    }));
-  }
+    this.subscriptions.push(
+      transactionUpdatedHandler.subscribe(() => {
+        this.getAllCustomers();
+      })
+    );
 
+  }
+  ngOnInit(){
+    this.getAllCustomers()
+    if(this.isArchivedComponent){
+      this.customers = this.customers.filter((customer:CustomerOutput) => customer.isArchived)
+    }else{
+      this.customers = this.customers.filter((customer:CustomerOutput) => !customer.isArchived)
+    }
+  }
   public showDetails(customerId: string): void {
     this.dialogControlService
       .openDialog(CustomerDetailsDialogComponent, {
@@ -42,8 +54,9 @@ export class CustomerListComponent {
       })
       .afterClosed()
       .subscribe({
-        next: (data: { updated: boolean }) => {
-          if(data?.updated){
+        next: (data: { updated: boolean, isArchivedComponent:boolean }) => {
+          this.isArchivedComponent = data.isArchivedComponent;
+          if (data?.updated) {
             this.getAllCustomers();
           }
         },
@@ -55,8 +68,8 @@ export class CustomerListComponent {
         width: '650px',
         height: '500px',
         data: {
-          operation:'create'
-        } as CustomerEditorDialogDataInterface
+          operation: 'create',
+        } as CustomerEditorDialogDataInterface,
       })
       .afterClosed()
       .subscribe({
@@ -65,8 +78,14 @@ export class CustomerListComponent {
         },
       });
   }
-  private getAllCustomers(){
-    this.customersService.getAll((data: ResponseDto<Array<CustomerOutput>>) => {
+  private getAllCustomers() {
+    const filter = {
+      isArchived: false,
+    } as GetAllFilter;
+    if (this.isArchivedComponent) {
+      filter.isArchived = true;
+    }
+    this.customersService.getAll(filter, (data: ResponseDto<Array<CustomerOutput>>) => {
       this.customers = <Array<CustomerOutput>>data.content;
     });
   }

@@ -9,4 +9,5 @@ export class FinSubmitButtonComponent {
   @Input() disabled!:string | boolean;
   @Input() label!:string;
   @Input() color = 'primary';
+  @Input() withIcon = true;
 }

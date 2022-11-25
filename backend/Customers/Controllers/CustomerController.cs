@@ -5,6 +5,7 @@ using backend.Customers.Models;
 using backend.Customers.Services;
 using backend.Messages;
 using backend.models;
+using backend.Shared.Classes;
 using backend.Shared.Dtos;
 using backend.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -64,12 +65,12 @@ namespace backend.Customers.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto<List<CustomerReadDto>>> GetAll()
+    public ActionResult<ReturnDto<List<CustomerReadDto>>> GetAll([FromQuery] GetAllFilter? filter)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var getAllcustomersResponse = _customerService.GetAllCustomers(userId,null);
+      var getAllcustomersResponse = _customerService.GetAllCustomers(userId,filter);
       var result = new ReturnDto<List<CustomerReadDto>>();
 
       if (getAllcustomersResponse.Status == ResponseStatus.Ok)
@@ -118,11 +119,19 @@ namespace backend.Customers.Controllers
 
     [HttpPut("{customerId}")]
     [Authorize]
-    public ActionResult<ReturnDto> Update([FromRoute] Guid customerId, [FromBody] CustomerUpdateDto newCustomer)
+    public ActionResult<ReturnDto> Update(
+      [FromRoute] Guid customerId,
+      [FromBody] CustomerUpdateDto newCustomer,
+      [FromQuery] UpdateFilter filter
+      )
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
+      if (filter.ToArchive != null)
+      {
+        newCustomer.IsArchived = filter.ToArchive;
+      }
       var customerModel = _mapper.Map<Customer>(newCustomer);
 
       customerModel.UserId = userId;

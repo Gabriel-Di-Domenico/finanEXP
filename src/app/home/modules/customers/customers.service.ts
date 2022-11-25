@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { CustomerInput } from 'src/app/shared/support/interfaces/customers/customerInput.interface';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
+import { UpdateFilter } from 'src/app/shared/support/interfaces/updateFilter';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,7 @@ export class CustomersService {
         },
       });
   }
-  public update(customerId: string, customer: CustomerInput, callback?: (data: Message) => void): void {
+  public update(customerId: string, customer: CustomerOutput, callback?: (data: Message) => void): void {
     this.customersProxyService
       .update(customerId, customer)
       .pipe(take(1))
@@ -51,9 +52,9 @@ export class CustomersService {
         },
       });
   }
-  public getAll(callback?: (data: ResponseDto<Array<CustomerOutput>>) => void): void {
+  public getAll(filter?:GetAllFilter, callback?: (data: ResponseDto<Array<CustomerOutput>>) => void): void {
     this.customersProxyService
-      .getAll()
+      .getAll(filter)
       .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto<Array<CustomerOutput>>) => {
@@ -115,5 +116,33 @@ export class CustomersService {
         }
       }
     })
+  }
+  public archive(customer: CustomerOutput, callback?: (message: Message) => void) {
+    this.customersProxyService.update(customer.id, customer, { toArchive: true } as UpdateFilter).pipe(take(1)).subscribe({
+      next:(data:ResponseDto) => {
+        if(callback){
+          callback(data.message)
+        }
+      },
+      error:(err:HttpErrorResponse) => {
+        if(callback){
+          callback(err.error.message)
+        }
+      }
+    });
+  }
+  public unArchive(customer: CustomerOutput, callback?: (message: Message) => void){
+    this.customersProxyService.update(customer.id, customer, { toArchive: false } as UpdateFilter).pipe(take(1)).subscribe({
+      next:(data:ResponseDto) => {
+        if(callback){
+          callback(data.message)
+        }
+      },
+      error:(err:HttpErrorResponse) => {
+        if(callback){
+          callback(err.error.message)
+        }
+      }
+    });
   }
 }
