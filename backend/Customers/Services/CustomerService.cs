@@ -1,3 +1,4 @@
+using backend.Categories.Models;
 using backend.Contexts;
 using backend.Customers.Dtos;
 using backend.Customers.Models;
@@ -20,6 +21,7 @@ namespace backend.Customers.Services
 
       if (customerFromDatabase == null)
       {
+        customer.IsArchived = false;
         customer.TransferValue = 0;
         customer.ActualBalance = customer.InitialBalance;
         _context.Customers.Add(customer);
@@ -52,10 +54,17 @@ namespace backend.Customers.Services
       {
         customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
       }
+      else if (filter.CustomersIds != null || filter.IsArchived != null)
+      {
+        customers = _context.Customers.Where(customer => filter.CustomersIds != null ? filter.CustomersIds.Contains(customer.Id) : true)
+          .Where(customer => customer.UserId == userId
+         && customer.IsArchived == (filter.IsArchived != null ? filter.IsArchived : false)).ToList();
+
+
+      }
       else
       {
-        customers = _context.Customers.Where(customer => customer.UserId == userId
-         && filter.CustomersIds.Contains(customer.Id)).ToList();
+        customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
       }
 
 
@@ -94,6 +103,11 @@ namespace backend.Customers.Services
       if (verifyExistingCustomer == null || verifyExistingCustomer.Id == id)
       {
         var userFromDataBase = GetCustomerById(id, newCustomer.UserId);
+
+        if (newCustomer.IsArchived != null)
+        {
+          userFromDataBase.Content.IsArchived = (bool)newCustomer.IsArchived;
+        }
 
         userFromDataBase.Content.InitialBalance = newCustomer.InitialBalance;
         userFromDataBase.Content.Name = newCustomer.Name;

@@ -16,6 +16,7 @@ import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/cus
 import { FinConfirmationDialogComponent } from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/fin-confirmation-dialog.component';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
 import { customerUpdateHandler } from 'src/app/shared/handlers/customerHandler/customerUpdateHandler';
+import { FinConfirmationDialogData } from 'src/fin-sdk/components/dialogs/fin-confirmation-dialog/finConfirmationDialogData';
 
 @Component({
   selector: 'app-customer-details-dialog',
@@ -50,7 +51,7 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
       subscription.unsubscribe();
     });
   }
-  public closeDetailsDialog(data?: any) {
+  public closeDetailsDialog(data?: { updated: boolean; isArchivedComponent: boolean }) {
     this.dialogControlService.closeDialog(this.dialogRef, data);
   }
   public openCustomerEditorDialog(): void {
@@ -64,7 +65,32 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
       .subscribe({
         next: (data: { updated: boolean }) => {
           if (data?.updated) {
-            this.closeDetailsDialog({ updated: true });
+            this.closeDetailsDialog({ updated: true, isArchivedComponent: this.customer.isArchived });
+          }
+        },
+      });
+  }
+  public openConfirmationArchiveCustomerDialog() {
+    this.dialogControlService
+      .openDialog(FinConfirmationDialogComponent, {
+        width: '400px',
+        height: '200px',
+        data: { message: '' } as FinConfirmationDialogData,
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { confirm: boolean }) => {
+          if (data.confirm) {
+            this.customerService.archive(this.customer, (message: Message) => {
+              this.snackBarControlService.showMessage(message.message, message.error);
+              this.dialogControlService.closeDialog(this.dialogRef, {
+                updated: true,
+                isArchivedComponent: this.customer.isArchived,
+              });
+              if (!message.error) {
+                customerUpdateHandler.emit();
+              }
+            });
           }
         },
       });
@@ -73,8 +99,11 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
     this.dialogControlService
       .openDialog(FinConfirmationDialogComponent, {
         width: '400px',
-        height: '200px',
-        data: { message: 'Uma vez deletada a carteira não poderá ser recuperada' },
+        height: '300px',
+        data: {
+          message: 'Ao deletar uma carteira, todas as transações relacionadas serão deletadas',
+          withVerification: true,
+        } as FinConfirmationDialogData,
       })
       .afterClosed()
       .subscribe({
@@ -82,8 +111,11 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
           if (data.confirm) {
             this.customerService.delete(this.customer.id, (message: Message) => {
               this.snackBarControlService.showMessage(message.message, message.error);
-              this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
-              if(!message.error){
+              this.dialogControlService.closeDialog(this.dialogRef, {
+                updated: true,
+                isArchivedComponent: this.customer.isArchived,
+              });
+              if (!message.error) {
                 customerUpdateHandler.emit();
               }
             });

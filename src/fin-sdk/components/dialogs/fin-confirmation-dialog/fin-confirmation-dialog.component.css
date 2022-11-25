@@ -4,6 +4,7 @@ div#confirmationDialog {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
 }
 
 header {
@@ -11,8 +12,15 @@ header {
   flex-direction: column;
   align-items: center;
 }
-main{
-  width: 40%;
+form{
+  height: 50%;
+  width: 95%;
+}
+div.buttons{
+  width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+}
+fin-button{
+  margin-left: 5px;
 }

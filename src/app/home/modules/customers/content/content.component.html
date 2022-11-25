@@ -1,8 +1,9 @@
 <div class="content">
-  <app-customer-list [customers]="customers"> </app-customer-list>
+  <app-customer-list [customers]="customers" [isArchivedComponent]="isArchivedComponent"> </app-customer-list>
 
   <div class="divTotalBalance">
     <fin-card
+    *ngIf="!isArchivedComponent"
       subtitle="Saldo atual"
       [content]="totalBalance | currency: 'BRL':'symbol':'1.2-2':'pt-BR'"
       icon="account_balance"

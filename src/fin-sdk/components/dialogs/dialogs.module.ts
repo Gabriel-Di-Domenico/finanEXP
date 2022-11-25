@@ -1,3 +1,5 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputsModule } from './../inputs/inputs.module';
 import { ButtonsModule } from './../buttons/buttons.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
@@ -13,7 +15,10 @@ import { FinCommonModule } from '../common/fin-common.module';
     CommonModule,
     MatDialogModule,
     FinCommonModule,
-    ButtonsModule
+    ButtonsModule,
+    InputsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
 })
 export class DialogsModule {}

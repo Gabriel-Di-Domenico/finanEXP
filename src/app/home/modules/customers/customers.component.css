@@ -19,4 +19,19 @@ main>header {
   display: flex;
   justify-content: space-between;
 }
-
+div.actions{
+  display: flex;
+}
+fin-icon-button{
+  margin-right: 5px;
+}
+div.titleDiv{
+  display: flex;
+}
+fin-title{
+  margin-right: 10px;
+}
+mat-icon{
+  margin-right: 10px;
+  cursor: pointer;
+}

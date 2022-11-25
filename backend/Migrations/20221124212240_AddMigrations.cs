@@ -54,7 +54,8 @@ namespace backend.Migrations
                     Type = table.Column<int>(type: "integer", nullable: false),
                     InitialBalance = table.Column<decimal>(type: "numeric", nullable: false),
                     ActualBalance = table.Column<decimal>(type: "numeric", nullable: false),
-                    TransferValue = table.Column<decimal>(type: "numeric", nullable: false)
+                    TransferValue = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsArchived = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,5 +1,5 @@
 <div class="customersList">
-  <fin-new-card (clickEvent)="openCustomerEditorDialog()" title="Nova carteira"></fin-new-card>
+  <fin-new-card *ngIf="!isArchivedComponent" (clickEvent)="openCustomerEditorDialog()" title="Nova carteira"></fin-new-card>
 
   <fin-customer-card
     *ngFor="let customer of customers"

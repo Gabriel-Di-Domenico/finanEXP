@@ -17,10 +17,7 @@
 
       <div *ngIf="!isArchivedComponent" class="actionButtons">
         <fin-icon-button (click)="openCategoriesEditorDialog()" [color]="finAddButtonColor" icon="add"> </fin-icon-button>
-        <fin-icon-button icon="more_vert" [matMenuTriggerFor]="moreCategoriesOptions" aria-label="Open menu">
-          <mat-icon>expand_more</mat-icon>
-          {{ currentTransactionType | convertEnum: PortugueseTransactionTypeEnum }}
-        </fin-icon-button>
+        <fin-icon-button icon="more_vert" [matMenuTriggerFor]="moreCategoriesOptions" aria-label="Open menu"></fin-icon-button>
         <mat-menu class="mat-menu" #moreCategoriesOptions="matMenu">
           <more-categories-options></more-categories-options>
         </mat-menu>
