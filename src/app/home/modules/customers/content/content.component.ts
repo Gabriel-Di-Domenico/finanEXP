@@ -19,7 +19,7 @@ registerLocaleData(ptBr);
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })
 export class ContentComponent implements OnInit, OnDestroy {
-  @Input() public customers!: Array<CustomerOutput>;
+  public customers!: Array<CustomerOutput>;
   public totalBalance = 0;
   public actualBalanceColor: 'green' | 'red' = 'green';
   public isArchivedComponent = false;
@@ -35,7 +35,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.url.length) {
       this.isArchivedComponent = true
     }
-    this.getTotalBalance();
 
     this.subscriptions.push(
       transactionUpdatedHandler.subscribe(() => {
@@ -43,8 +42,9 @@ export class ContentComponent implements OnInit, OnDestroy {
       })
     );
     this.subscriptions.push(
-      customerUpdateHandler.subscribe(() => {
-        this.getAllCustomers();
+      customerUpdateHandler.subscribe((customers:Array<CustomerOutput>) => {
+        this.customers = customers
+        this.getTotalBalance();
       })
     );
   }

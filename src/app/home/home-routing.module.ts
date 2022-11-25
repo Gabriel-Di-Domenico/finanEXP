@@ -1,4 +1,3 @@
-import { CustomerResolverGuard } from './../shared/guards/customer-resolver.guard';
 import { UserResolverGuard } from '../shared/guards/user-resolver.guard';
 
 import { NgModule } from '@angular/core';
@@ -28,7 +27,6 @@ const routes: Routes = [
       {
         path: 'customers',
         loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule),
-        resolve: { customers: CustomerResolverGuard },
         canActivate: [AuthGuard],
         canLoad: [AuthGuard],
       },

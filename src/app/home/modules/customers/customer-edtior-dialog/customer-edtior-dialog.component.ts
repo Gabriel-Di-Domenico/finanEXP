@@ -26,9 +26,10 @@ export class CustomerEdtiorDialogComponent {
   public selectOptions!: Array<finSelectOption>;
   public customer!: CustomerOutput;
   public label = 'Nova Carteira';
+  public isArchivedComponent = false;
 
   constructor(
-    private customerService: CustomersService,
+    private customersService: CustomersService,
     private formBuilder: FormBuilder,
     private dialogControlService: DialogControlService,
     private snackBarControlService: SnackBarControlService,
@@ -47,20 +48,19 @@ export class CustomerEdtiorDialogComponent {
     this.unMaskinitialBalance();
 
     if (this.data.operation === 'create') {
-      this.customerService.create(this.form.value, (message: Message) => {
+      this.customersService.create(this.form.value, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
         if (!message.error) {
           this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
-          customerUpdateHandler.emit();
+          this.getCustomers();
         }
-
       });
     } else {
-      this.customerService.update(this.customer.id, this.form.value, (message: Message) => {
+      this.customersService.update(this.customer.id, this.form.value, (message: Message) => {
         this.snackBarControlService.showMessage(message.message, message.error);
         if (!message.error) {
           this.dialogControlService.closeDialog(this.dialogRef, { updated: true });
-          customerUpdateHandler.emit();
+          this.getCustomers();
         }
       });
     }
@@ -97,7 +97,7 @@ export class CustomerEdtiorDialogComponent {
     }
   }
   private getCustomerById() {
-    this.customerService.getById(this.data.customerId, (data: ResponseDto<CustomerOutput>) => {
+    this.customersService.getById(this.data.customerId, (data: ResponseDto<CustomerOutput>) => {
       if (!data.message.error) {
         this.customer = data.content;
         this.label = 'Editar Carteira';
@@ -109,5 +109,10 @@ export class CustomerEdtiorDialogComponent {
     this.form.get(this.formControls.nameFormControl)?.setValue(this.customer.name);
     this.form.get(this.formControls.initialBalance)?.setValue(this.customer.initialBalance);
     this.form.get(this.formControls.type)?.setValue(this.customer.type);
+  }
+  private getCustomers() {
+    this.customersService.getAll(undefined, (data: ResponseDto<Array<CustomerOutput>>) => {
+      customerUpdateHandler.emit(data.content);
+    });
   }
 }

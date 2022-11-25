@@ -2,20 +2,21 @@ import { CustomerEditorDialogDataInterface } from 'src/app/shared/support/interf
 import { CustomersService } from './customers.service';
 import { CustomerEdtiorDialogComponent } from './customer-edtior-dialog/customer-edtior-dialog.component';
 import { DialogControlService } from './../../../shared/support/services/dialogControl/dialog-control.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { take } from 'rxjs/operators';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Subscription } from 'rxjs';
 import { GetAllFilter } from 'src/app/shared/support/interfaces/getAllFilter';
+import { customerUpdateHandler } from 'src/app/shared/handlers/customerHandler/customerUpdateHandler';
 
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.css'],
 })
-export class CustomersComponent implements OnInit {
+export class CustomersComponent implements OnInit, OnDestroy {
   public customers!: Array<CustomerOutput>;
   public subscriptions: Array<Subscription> = [];
   public isArchivedComponent = false;
@@ -25,12 +26,16 @@ export class CustomersComponent implements OnInit {
     private customersService: CustomersService,
     private router:Router
   ) {}
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription:Subscription) => {
+      subscription.unsubscribe();
+    })
+  }
   ngOnInit(): void {
-    this.route.data.pipe(take(1)).subscribe({
-      next: (data: any) => {
-        this.isArchivedComponent = data['isArchivedComponent'];
-      },
-    });
+    this.subscriptions.push(customerUpdateHandler.subscribe((customers:Array<CustomerOutput>) => {
+      this.customers = customers
+    }))
+    this.getIsArchivedComponent()
     this.getCustomers();
   }
   public openCustomerComponent() {
@@ -57,13 +62,14 @@ export class CustomersComponent implements OnInit {
         },
       });
   }
-
+  private getIsArchivedComponent(){
+    if(this.route.snapshot.url.length && this.route.snapshot.url[0].path === 'archived'){
+      this.isArchivedComponent = true
+    }
+  }
   private getCustomers() {
-    this.route.data.pipe(take(1)).subscribe({
-      next: (data: any) => {
-        this.customers = data['customers'];
-      },
+    this.customersService.getAll(undefined, (data: ResponseDto<Array<CustomerOutput>>) => {
+      customerUpdateHandler.emit(data.content)
     });
-
   }
 }

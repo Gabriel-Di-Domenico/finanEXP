@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { TransactionOutput } from 'src/app/shared/support/interfaces/transactions/transactionOutput';
 import { GetAllFilter } from './../../../../../shared/support/interfaces/getAllFilter';
 import { Subscription } from 'rxjs';
@@ -27,6 +28,7 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
   public customer!: CustomerOutput;
   public customerTypesOptionsPortuguese = customerTypesOptionsPortuguese;
   public actualBalance = 0;
+  public isArchivedComponent = false;
   public expenses: Array<TransactionOutput> = [];
   public revenues: Array<TransactionOutput> = [];
   public transfers: Array<TransactionOutput> = [];
@@ -34,10 +36,10 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
   private subscriptions: Array<Subscription> = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public customerId: string,
-    private customerService: CustomersService,
+    private customersService: CustomersService,
     private dialogControlService: DialogControlService,
     private dialogRef: MatDialogRef<CustomerDetailsDialogComponent>,
-    private snackBarControlService: SnackBarControlService
+    private snackBarControlService: SnackBarControlService,
   ) {
     if (customerId) {
       this.getCustomerById(customerId);
@@ -81,14 +83,14 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
       .subscribe({
         next: (data: { confirm: boolean }) => {
           if (data.confirm) {
-            this.customerService.archive(this.customer, (message: Message) => {
+            this.customersService.archive(this.customer, (message: Message) => {
               this.snackBarControlService.showMessage(message.message, message.error);
               this.dialogControlService.closeDialog(this.dialogRef, {
                 updated: true,
                 isArchivedComponent: this.customer.isArchived,
               });
               if (!message.error) {
-                customerUpdateHandler.emit();
+                this.getCustomers()
               }
             });
           }
@@ -109,22 +111,27 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
       .subscribe({
         next: (data: { confirm: boolean }) => {
           if (data.confirm) {
-            this.customerService.delete(this.customer.id, (message: Message) => {
+            this.customersService.delete(this.customer.id, (message: Message) => {
               this.snackBarControlService.showMessage(message.message, message.error);
               this.dialogControlService.closeDialog(this.dialogRef, {
                 updated: true,
                 isArchivedComponent: this.customer.isArchived,
               });
               if (!message.error) {
-                customerUpdateHandler.emit();
+                this.getCustomers()
               }
             });
           }
         },
       });
   }
+  private getCustomers() {
+    this.customersService.getAll(undefined, (data: ResponseDto<Array<CustomerOutput>>) => {
+      customerUpdateHandler.emit(data.content)
+    });
+  }
   private getCustomerById(customerId: string) {
-    this.customerService.getById(customerId, (data: ResponseDto<CustomerOutput>) => {
+    this.customersService.getById(customerId, (data: ResponseDto<CustomerOutput>) => {
       if (data.message.error) {
         this.snackBarControlService.showMessage(data.message.message, data.message.error);
       } else {
@@ -140,7 +147,7 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
     const filter = {
       customerId: this.customerId,
     } as GetAllFilter;
-    this.customerService.getAllTransactions(filter, (data: ResponseDto<Array<TransactionOutput>>) => {
+    this.customersService.getAllTransactions(filter, (data: ResponseDto<Array<TransactionOutput>>) => {
       if (data.message.error) {
         this.snackBarControlService.showMessage(data.message.message, data.message.error);
       } else {
