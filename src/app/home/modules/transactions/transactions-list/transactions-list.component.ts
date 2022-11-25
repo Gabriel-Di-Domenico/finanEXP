@@ -142,7 +142,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
     });
   }
   private getCustomers(): void {
-    this.transactionsService.getAllCustomers((data: ResponseDto<Array<CustomerOutput>>) => {
+    this.transactionsService.getAllCustomers(undefined, (data: ResponseDto<Array<CustomerOutput>>) => {
       if (data.message.error) {
         this.snackBarControlService.showMessage(data.message.message, data.message.error);
       }

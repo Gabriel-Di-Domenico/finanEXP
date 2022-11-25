@@ -24,7 +24,7 @@ import { Message } from 'src/app/shared/support/interfaces/message.interface';
 })
 export class TransactionsEditorDialogComponent {
   public label = 'Nova transação';
-  public transactionTypeEnum = TransactionType
+  public transactionTypeEnum = TransactionType;
   public transactionTypesPortuguese = TransactionTypePortuguese;
   public form!: FormGroup;
   public formControls = TransactionEditorFormControls;
@@ -47,16 +47,16 @@ export class TransactionsEditorDialogComponent {
     this.transactionType = this.data.transactionType;
     this.createForm();
     this.getCustomerSelectOptions();
-    if(this.transactionType !== TransactionType.transfer){
+    if (this.transactionType !== TransactionType.transfer) {
       this.getCategorySelectOptions();
     }
   }
 
   private createForm() {
     this.form = this.formBuilder.group({});
-    if(this.transactionType === TransactionType.transfer){
+    if (this.transactionType === TransactionType.transfer) {
       this.form.addControl(this.formControls.senderCustomerId, this.formBuilder.control(null, [Validators.required]));
-    }else{
+    } else {
       this.form.addControl(this.formControls.categoryId, this.formBuilder.control(null, [Validators.required]));
     }
     this.form.addControl(this.formControls.value, this.formBuilder.control(null, [Validators.required]));
@@ -92,11 +92,11 @@ export class TransactionsEditorDialogComponent {
   public canSave(): boolean {
     return this.form.valid && this.form.touched;
   }
-  public getCustomerLabel():string{
-    if(this.transactionType !== TransactionType.transfer){
+  public getCustomerLabel(): string {
+    if (this.transactionType !== TransactionType.transfer) {
       return 'Carteira';
-    }else{
-      return 'Carteira destinatária'
+    } else {
+      return 'Carteira destinatária';
     }
   }
   private getTransactionById() {
@@ -118,7 +118,10 @@ export class TransactionsEditorDialogComponent {
     this.form.get(this.formControls.date)?.setValue(this.transaction.date);
   }
   private getCustomerSelectOptions() {
-    this.transactionsService.getAllCustomers((data: ResponseDto<Array<CustomerOutput>>) => {
+    const filter = {
+      isArchived: false,
+    } as GetAllFilter;
+    this.transactionsService.getAllCustomers(filter, (data: ResponseDto<Array<CustomerOutput>>) => {
       if (!data.message.error) {
         data.content.forEach((customer: CustomerOutput) => {
           this.customerSelectOptions.push(new finSelectOption({ key: customer.name, value: customer.id }));

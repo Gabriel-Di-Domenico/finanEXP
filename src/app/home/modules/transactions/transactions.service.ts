@@ -101,16 +101,16 @@ export class TransactionsService {
             callback(data.message);
           }
         },
-        error:(err:HttpErrorResponse) => {
-          if(callback){
-            callback(err.error.message)
+        error: (err: HttpErrorResponse) => {
+          if (callback) {
+            callback(err.error.message);
           }
-        }
+        },
       });
   }
-  public getAllCustomers(callback?: (data: ResponseDto<Array<CustomerOutput>>) => void): void {
+  public getAllCustomers(filter?: GetAllFilter, callback?: (data: ResponseDto<Array<CustomerOutput>>) => void): void {
     this.customersProxyService
-      .getAll()
+      .getAll(filter)
       .pipe(take(1))
       .subscribe({
         next: (data: ResponseDto<Array<CustomerOutput>>) => {
