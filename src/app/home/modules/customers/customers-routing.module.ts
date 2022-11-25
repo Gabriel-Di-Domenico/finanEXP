@@ -7,7 +7,6 @@ const routes: Routes = [
   {
     path: 'archived',
     component: CustomersComponent,
-    data: { isArchivedComponent: true },
   },
 ];
 
