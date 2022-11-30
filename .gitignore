@@ -178,3 +178,8 @@ $RECYCLE.BIN/
 
 _NCrunch*
 backend/.Settings.cs
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
