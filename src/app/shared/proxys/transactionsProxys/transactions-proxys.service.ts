@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { GetAllFilter } from './../../support/interfaces/getAllFilter';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -12,7 +13,7 @@ import { TransactionType } from '../../support/enums/transactionTypes/transactio
   providedIn: 'root',
 })
 export class TransactionsProxysService {
-  private basePath = 'http://localhost:51235/transactions';
+  private basePath = `${environment.baseUrl}/transactions`;
   constructor(private httpClient: HttpClient, private commonService: CommonService) {}
 
   public delete(id: string): Observable<ResponseDto> {

@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { CommonService } from '../../support/services/common.service';
@@ -13,15 +14,15 @@ import { UserOutput } from '../../support/interfaces/user/userOutput.interface';
   providedIn: 'root',
 })
 export class UserProxysService implements UserProxysInterface {
-  private basePath = 'http://localhost:51235/users/';
+  private basePath = `${environment.baseUrl}/users`;
 
   constructor(private httpClient: HttpClient, private commonService: CommonService, private router: Router) {}
   public createNewUserRequest(user: UserInput): Observable<ResponseDto> {
-    return <Observable<ResponseDto>>this.httpClient.post(`${this.basePath}add`, user);
+    return <Observable<ResponseDto>>this.httpClient.post(`${this.basePath}/add`, user);
   }
   public getUserByIdRequest(id: string): Observable<ResponseDto<UserOutput>> {
     const headers = this.commonService.getHeaders();
-    return <Observable<any>>this.httpClient.get(`${this.basePath}${id}`, { headers }).pipe(
+    return <Observable<any>>this.httpClient.get(`${this.basePath}/${id}`, { headers }).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
           if (err.status === 401) {
@@ -34,7 +35,7 @@ export class UserProxysService implements UserProxysInterface {
   public updateUserRequest(userId: string, user: UserInput): Observable<ResponseDto> {
     const headers = this.commonService.getHeaders();
 
-    return <Observable<any>>this.httpClient.put(`${this.basePath}${userId}`, user, { headers }).pipe(
+    return <Observable<any>>this.httpClient.put(`${this.basePath}/${userId}`, user, { headers }).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
           if (err.status === 401) {

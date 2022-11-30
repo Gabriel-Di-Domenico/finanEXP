@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { CommonService } from './../../support/services/common.service';
 import { Observable } from 'rxjs';
 import { PerfilPhotoInput } from '../../support/interfaces/perfilPhoto/perfilPhotoInput.interface';
@@ -10,7 +11,7 @@ import { PerfilPhotoOutput } from '../../support/interfaces/perfilPhoto/perfilPh
   providedIn: 'root',
 })
 export class PerfilPhotoProxysService {
-  private basePath = 'http://localhost:51235/perfilPhotos';
+  private basePath = `${environment.baseUrl}/perfilPhotos`;
   constructor(private httpClient: HttpClient, private commonService: CommonService) {}
 
   public createPerfilPhotoRequest(perfilPhoto: PerfilPhotoInput): Observable<ResponseDto> {
