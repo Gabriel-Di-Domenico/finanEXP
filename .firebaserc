@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "finanexp-b1e3d": {
+      "hosting": {
+        "finanEXP": [
+          "finanexp-b1e3d"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "finanexp-b1e3d"
+  }
+}

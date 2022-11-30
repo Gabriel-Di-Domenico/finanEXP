@@ -57,7 +57,7 @@ builder.Services.AddCors(options =>
 
 });
 
-builder.Services.AddDbContext<FinEXPDatabaseContext>(options => options.UseNpgsql($"Host=localhost;Port=5432;Pooling=true;Database={Settings.DataBaseName};User Id=postgres;Password={Settings.DatabasePassword};"));
+builder.Services.AddDbContext<FinEXPDatabaseContext>(options => options.UseNpgsql($"Server={Settings.DatabaseHost};Port={Settings.DatabasePort};Pooling=true;Database={Settings.DatabaseName};User Id={Settings.DatabaseUser};Password={Settings.DatabasePassword};"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
