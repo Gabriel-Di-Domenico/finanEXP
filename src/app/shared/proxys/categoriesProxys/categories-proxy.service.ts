@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { UpdateFilter } from './../../support/interfaces/updateFilter';
 import { GetAllFilter } from './../../support/interfaces/getAllFilter';
 import { CommonService } from './../../support/services/common.service';
@@ -12,7 +13,7 @@ import { CategoryInput } from '../../support/interfaces/categories/categoryInput
   providedIn: 'root',
 })
 export class CategoriesProxyService {
-  private basePath = 'http://localhost:51235/categories';
+  private basePath = `${environment.baseUrl}/categories`;
   constructor(private httpClient: HttpClient, private commonService: CommonService) {}
 
   public getById(categoryId: string): Observable<ResponseDto<CategoryOutput>> {

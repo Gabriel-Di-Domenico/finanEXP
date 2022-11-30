@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { GetAllFilter } from './../../support/interfaces/getAllFilter';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { Observable, tap } from 'rxjs';
@@ -13,7 +14,7 @@ import { UpdateFilter } from '../../support/interfaces/updateFilter';
   providedIn: 'root',
 })
 export class CustomersProxyService implements CustomerProxyInterface {
-  private basePath = 'http://localhost:51235/customers';
+  private basePath = `${environment.baseUrl}/customers`;
 
   constructor(private httpClient: HttpClient, private commonService: CommonService) {}
   public create(customer: CustomerInput): Observable<ResponseDto> {
