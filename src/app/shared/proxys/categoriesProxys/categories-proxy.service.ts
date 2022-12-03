@@ -34,6 +34,7 @@ export class CategoriesProxyService {
     if (getAllFilter && getAllFilter.isArchived != null) {
       params = params.append('isArchived', getAllFilter.isArchived);
     }
+
     return <Observable<ResponseDto<Array<CategoryOutput>>>>(
       this.httpClient.get(`${this.basePath}`, { headers, params: params })
     );
