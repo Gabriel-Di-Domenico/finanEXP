@@ -22,6 +22,7 @@
       label="Carteira de origem"
       [required]="true"
       [options]="customerSelectOptions"
+      (selectionChange)="disableSelectedOptions()"
     ></fin-select>
 
     <fin-select
@@ -29,6 +30,8 @@
       [label]="getCustomerLabel()"
       [required]="true"
       [options]="customerSelectOptions"
+      (selectionChange)="disableSelectedOptions()"
+
     ></fin-select>
     
     <fin-select

@@ -51,19 +51,16 @@ export class TransactionsEditorDialogComponent {
       this.getCategorySelectOptions();
     }
   }
-
-  private createForm() {
-    this.form = this.formBuilder.group({});
-    if (this.transactionType === TransactionType.transfer) {
-      this.form.addControl(this.formControls.senderCustomerId, this.formBuilder.control(null, [Validators.required]));
-    } else {
-      this.form.addControl(this.formControls.categoryId, this.formBuilder.control(null, [Validators.required]));
-    }
-    this.form.addControl(this.formControls.value, this.formBuilder.control(null, [Validators.required]));
-    this.form.addControl(this.formControls.description, this.formBuilder.control(null));
-    this.form.addControl(this.formControls.transactionType, this.formBuilder.control(this.data.transactionType));
-    this.form.addControl(this.formControls.date, this.formBuilder.control(null, [Validators.required]));
-    this.form.addControl(this.formControls.receiverCustomerId, this.formBuilder.control(null, [Validators.required]));
+  public disableSelectedOptions() {
+    const receiverCustomerValue = this.form.get(this.formControls.receiverCustomerId)?.value;
+    const senderCustomerValue = this.form.get(this.formControls.senderCustomerId)?.value;
+    this.customerSelectOptions.forEach((option: finSelectOption) => {
+      if (option.value === receiverCustomerValue || option.value === senderCustomerValue) {
+        option.selected = true;
+      } else {
+        option.selected = false;
+      }
+    });
   }
   public closeEditorDialog() {
     this.dialogControlService.closeDialog(this.dialogRef);
@@ -107,6 +104,19 @@ export class TransactionsEditorDialogComponent {
         this.populateForm();
       }
     });
+  }
+  private createForm() {
+    this.form = this.formBuilder.group({});
+    if (this.transactionType === TransactionType.transfer) {
+      this.form.addControl(this.formControls.senderCustomerId, this.formBuilder.control(null, [Validators.required]));
+    } else {
+      this.form.addControl(this.formControls.categoryId, this.formBuilder.control(null, [Validators.required]));
+    }
+    this.form.addControl(this.formControls.value, this.formBuilder.control(null, [Validators.required]));
+    this.form.addControl(this.formControls.description, this.formBuilder.control(null));
+    this.form.addControl(this.formControls.transactionType, this.formBuilder.control(this.data.transactionType));
+    this.form.addControl(this.formControls.date, this.formBuilder.control(null, [Validators.required]));
+    this.form.addControl(this.formControls.receiverCustomerId, this.formBuilder.control(null, [Validators.required]));
   }
   private populateForm() {
     this.form.get(this.formControls.value)?.setValue(this.transaction.value);

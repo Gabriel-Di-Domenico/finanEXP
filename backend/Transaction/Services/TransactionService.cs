@@ -18,6 +18,10 @@ namespace backend.Transactions.Services
 
     public ResponseStatus CreateTransaction(Transaction transaction)
     {
+      if(transaction.SenderCustomerId == transaction.ReceiverCustomerId)
+      {
+        throw new Exception("SenderCustomer can't be equal ReceiverCustomer");
+      }
       _context.Transactions.Add(transaction);
       SaveChanges();
       return ResponseStatus.Ok;
@@ -76,6 +80,10 @@ namespace backend.Transactions.Services
 
     public ResponseStatus<Transaction> UpdateTransaction(Guid id, TransactionCreateDto newTransaction)
     {
+      if (newTransaction.SenderCustomerId == newTransaction.ReceiverCustomerId)
+      {
+        throw new Exception("SenderCustomer can't be equal ReceiverCustomer");
+      }
       var getTransactionByIdResult = GetTransactionById(id);
 
       if (getTransactionByIdResult.Status == ResponseStatus.Ok)
