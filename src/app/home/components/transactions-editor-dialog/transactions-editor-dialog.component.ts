@@ -144,6 +144,7 @@ export class TransactionsEditorDialogComponent {
   private getCategorySelectOptions() {
     const filter = {
       transactionType: this.transactionType,
+      isArchived:false
     } as GetAllFilter;
     this.transactionsService.getAllCategories(filter, (data: ResponseDto<Array<CategoryOutput>>) => {
       if (!data.message.error) {
