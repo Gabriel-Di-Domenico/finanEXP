@@ -1,7 +1,7 @@
 <mat-form-field class="mat-form-field" appearance="fill">
   <mat-label>{{label}}</mat-label>
-  <mat-select [(ngModel)]="value" name="type" [required]="required" (selectionChange)="selectType()">
-    <mat-option *ngFor="let option of options" [value]="option.value">
+  <mat-select [(ngModel)]="value" name="type" [required]="required" (selectionChange)="selectType($event)">
+    <mat-option *ngFor="let option of options" [value]="option.value" [disabled]="option.selected">
       {{option.key}}
     </mat-option>
   </mat-select>
