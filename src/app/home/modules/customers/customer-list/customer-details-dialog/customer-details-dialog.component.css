@@ -20,9 +20,7 @@ main>section#actualBalanceSection{
   justify-content: center;
   align-items: center;
 }
-main>section#actualBalanceSection>span{
-  color: green;
-}
+
 main>div{
   width: 100%;
   display: flex;
@@ -35,4 +33,13 @@ div#actionsDiv{
 }
 div#actionsDiv>fin-icon-button{
   margin-left: 5px;
+}
+.green{
+  color: #4CAF50;
+}
+.red{
+  color:#f44336;
+}
+.blue{
+  color: rgb(38, 110, 245);
 }

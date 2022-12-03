@@ -8,7 +8,7 @@
     <fin-subtitle [label]="customer.name"></fin-subtitle>
     <section id="actualBalanceSection">
       <fin-h3 label="Saldo Atual"></fin-h3>
-      <span>{{actualBalance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'}}</span>
+      <span [ngClass]="{green:actualBalance >= 0, red:actualBalance < 0}">{{actualBalance | currency:'BRL':'symbol':'1.2-2': 'pt-BR'}}</span>
     </section>
     <div>
       <p>Tipo</p> 
@@ -16,19 +16,19 @@
     </div>
     <div>
       <p>Saldo inicial</p>
-      <span>{{customer.initialBalance | currency : 'BRL' : 'symbol' : '1.2' : 'pt-br'}}</span>
+      <span [ngClass]="{green:customer.initialBalance  >= 0, red:customer.initialBalance  < 0}">{{customer.initialBalance | currency : 'BRL' : 'symbol' : '1.2' : 'pt-br'}}</span>
     </div>
     <div>
       <p>Quantidade de despesas</p>
-      <p>{{expenses.length}}</p>
+      <p class="red">{{expenses.length}}</p>
     </div>
     <div>
       <p>Quantidade de receitas</p>
-      <p>{{revenues.length}}</p>
+      <p class="green">{{revenues.length}}</p>
     </div>
     <div>
       <p>Quantidade de transferências</p>
-      <p>{{transfers.length}}</p>
+      <p class="blue">{{transfers.length}}</p>
     </div>
     <div id="actionsDiv">
       <ng-container *ngIf="!customer.isArchived">
