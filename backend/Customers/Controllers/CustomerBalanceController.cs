@@ -3,6 +3,7 @@ using backend.Customers.Services;
 using backend.Messages;
 using backend.Shared.Dtos;
 using backend.Shared.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Customers.Controllers
@@ -18,6 +19,7 @@ namespace backend.Customers.Controllers
       _customerBalanceService = customerBalanceService;
     }
     [HttpPut("{customerId}")]
+    [Authorize]
     public ActionResult<ReturnDto> CalculateCustomerBalance([FromRoute]Guid customerId)
     {
       var Bearertoken = Request.Headers["Authorization"];

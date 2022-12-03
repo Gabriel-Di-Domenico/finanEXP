@@ -5,6 +5,7 @@ using backend.Shared.Dtos;
 using backend.Shared.Enums;
 using backend.Users.PerfilPhotos.Dtos;
 using backend.Users.PerfilPhotos.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Users.PerfilPhotos.Controllers
@@ -24,6 +25,7 @@ namespace backend.Users.PerfilPhotos.Controllers
     public IMapper Mapper { get; }
 
     [HttpPost]
+    [Authorize]
     public ActionResult<ReturnDto> CreatePerfilPhoto(PerfilPhotoCreateDto newPerfilPhoto)
     {
       var Bearertoken = Request.Headers["Authorization"];
@@ -43,7 +45,8 @@ namespace backend.Users.PerfilPhotos.Controllers
       throw new Exception("Error Create Perfil Photo");
     }
 
-    [HttpPut()]
+    [HttpPut]
+    [Authorize]
     public async Task<ActionResult<ReturnDto>> UpdatePerfilPhoto(
       [FromBody] PerfilPhotoCreateDto newPerfilPhoto)
     {
@@ -64,7 +67,8 @@ namespace backend.Users.PerfilPhotos.Controllers
       throw new Exception("Update Perfil Photo Error");
     }
 
-    [HttpGet()]
+    [HttpGet]
+    [Authorize]
     public async Task<ActionResult<ReturnDto<PerfilPhotoReadDto>>> GetPerfilPhoto()
     {
       var Bearertoken = Request.Headers["Authorization"];
@@ -90,7 +94,8 @@ namespace backend.Users.PerfilPhotos.Controllers
     }
 
 
-    [HttpDelete()]
+    [HttpDelete]
+    [Authorize]
     public async Task<ActionResult<ReturnDto>> DeletePerfilPhoto()
     {
       var Bearertoken = Request.Headers["Authorization"];
