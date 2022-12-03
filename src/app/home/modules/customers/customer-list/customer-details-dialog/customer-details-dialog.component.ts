@@ -72,6 +72,31 @@ export class CustomerDetailsDialogComponent implements OnDestroy {
         },
       });
   }
+  public openConfirmationUnarchiveCustomerDialog(){
+    this.dialogControlService
+      .openDialog(FinConfirmationDialogComponent, {
+        width: '400px',
+        height: '200px',
+        data: { message: '' } as FinConfirmationDialogData,
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { confirm: boolean }) => {
+          if (data.confirm) {
+            this.customersService.unArchive(this.customer, (message: Message) => {
+              this.snackBarControlService.showMessage(message.message, message.error);
+              this.dialogControlService.closeDialog(this.dialogRef, {
+                updated: true,
+                isArchivedComponent: this.customer.isArchived,
+              });
+              if (!message.error) {
+                this.getCustomers()
+              }
+            });
+          }
+        },
+      });
+  }
   public openConfirmationArchiveCustomerDialog() {
     this.dialogControlService
       .openDialog(FinConfirmationDialogComponent, {
