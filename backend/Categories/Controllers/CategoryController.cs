@@ -62,7 +62,7 @@ namespace backend.Categories.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter filter)
+    public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter? filter)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));

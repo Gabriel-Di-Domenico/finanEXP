@@ -1,6 +1,7 @@
 using backend.Categories.Dtos;
 using backend.Categories.Models;
 using backend.Contexts;
+using backend.Customers.Models;
 using backend.Shared.Classes;
 using backend.Shared.Enums;
 
@@ -37,10 +38,21 @@ namespace backend.Categories.Services
 
     public ResponseStatus<List<Category>> GetAllCategories(Guid userId, GetAllFilter? filter)
     {
-      var categories = _context.Categories.Where(category => category.UserId == userId
-        && category.TransactionType == (filter.TransactionType != null ? filter.TransactionType : category.TransactionType)
-        && category.IsArchived == (filter.IsArchived != null ? filter.IsArchived : false)).ToList();
-
+      var categories = new List<Category>();
+      if(filter.IsArchived == null)
+      {
+        categories = _context.Categories.Where(category => category.UserId == userId).ToList();
+      }
+      else if(filter.IsArchived != null)
+      {
+        categories = _context.Categories.Where(category => category.UserId == userId)
+          .Where(category => filter.TransactionType != null ? category.TransactionType == filter.TransactionType : true)
+          .Where(category => category.IsArchived == (filter.IsArchived != null ? filter.IsArchived : false)).ToList();
+      }else
+      {
+        categories = _context.Categories.Where(category => category.UserId == userId).ToList();
+      }
+      
       if (categories != null)
       {
         return new ResponseStatus<List<Category>> { Status = ResponseStatus.Ok, Content = categories };
