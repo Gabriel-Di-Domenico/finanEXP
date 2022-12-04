@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'developmentWarningMessage', pathMatch: 'full' },
   { path: 'auth', loadChildren: () => import('./authenticate/authenticate.module').then(m => m.AuthenticateModule) },
   {
     path: 'home',
@@ -15,7 +15,8 @@ const routes: Routes = [
     resolve: { currentUserId: UserResolverGuard },
   },
   { path: 'dashboard', loadChildren: () => import('./home/modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'developmentWarningMessage', loadChildren: () => import('./development-warning-message/development-warning-message.module').then(m => m.DevelopmentWarningMessageModule) },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
