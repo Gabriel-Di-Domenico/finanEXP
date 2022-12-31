@@ -74,7 +74,7 @@ export class AuthenticateFormComponent implements OnInit {
           this.actualForm.reset();
           this.snackBarControlService.showMessage(message.message, message.error);
         });
-      }else {
+      } else {
         this.snackBarControlService.showMessage('As senhas não correspondem', true);
       }
     }
@@ -83,11 +83,8 @@ export class AuthenticateFormComponent implements OnInit {
   public submitLoginForm() {
     if (this.canSave()) {
       const userValues: UserInput = this.loginForm.value;
-
       this.authenticateService.authUser(userValues, (message: Message) => {
-        if(message.error){
-          this.snackBarControlService.showMessage(message.message, message.error);
-        }
+        this.snackBarControlService.showMessage(message.message, message.error);
 
         this.actualForm.reset();
       });

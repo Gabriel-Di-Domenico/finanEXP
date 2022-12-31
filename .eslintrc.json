@@ -29,7 +29,6 @@
     "arrow-body-style": ["error", "as-needed"],
     "arrow-spacing": "warn",
     "default-case": "error",
-    "eqeqeq": ["error", "always"],
     "max-classes-per-file": ["error", 1],
     "no-alert": "error",
     "no-invalid-this": "error",

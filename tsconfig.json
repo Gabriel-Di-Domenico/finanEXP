@@ -27,7 +27,7 @@
       "teste": [
         "dist/teste"
       ]
-    },
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
