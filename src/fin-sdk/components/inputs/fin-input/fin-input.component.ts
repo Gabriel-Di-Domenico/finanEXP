@@ -27,7 +27,7 @@ export class FinInputComponent extends MustHaveControlName {
   @Input() public required!: boolean;
   @Input() public hint!: string;
   @Input() public mask?: inputMask;
-
+  @Input() public controlName!:string;
   override value = '';
   public showPassword = false;
 
