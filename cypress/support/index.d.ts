@@ -5,6 +5,7 @@ declare namespace Cypress {
     getInput(formControlName: string, screen?: string): Chainable;
     getSubmitButton(from: string): Chainable;
     requestStub(request: CypressRequest<unknown>): Chainable;
+    navigateTo(menuName:string):void;
   }
 
   interface CypressRequest<T> {

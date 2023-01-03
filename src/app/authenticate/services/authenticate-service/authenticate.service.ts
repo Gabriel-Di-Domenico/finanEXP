@@ -44,7 +44,7 @@ export class AuthenticateService implements IAuthenticateService {
         next: (data: ResponseDto<string>) => {
           window.localStorage.setItem('fSSIdtkn', data.content);
 
-          this.router.navigate(['home']);
+          this.router.navigate(['home', 'dashboard']);
 
           if (callback) callback(data.message);
         },

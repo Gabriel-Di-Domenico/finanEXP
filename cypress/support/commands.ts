@@ -39,3 +39,7 @@ Cypress.Commands.add('getSubmitButton', (form: string) => {
 Cypress.Commands.add('requestStub', (request: CypressRequest<unknown>) =>
   cy.intercept(request.method, request.url, request.response)
 );
+Cypress.Commands.add('navigateTo', (menuName:string) => {
+  cy.get('fin-button[id="menuButton"] button').click()
+  cy.get('transaction-menu button').contains(menuName).click()
+})

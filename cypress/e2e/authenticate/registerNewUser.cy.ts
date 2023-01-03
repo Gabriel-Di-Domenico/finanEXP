@@ -30,6 +30,7 @@ describe('Register new user', () => {
     aliases.forEach((alias: string) => {
       cy.wait(`@${alias}`).then((interception: Interception) => {
         if (alias === UserRequests.addUser(true).alias) {
+          expect(interception.response?.statusCode.toString()).contains(UserRequests.addUser(true).response.statusCode);
           expect(interception.request.body).contains(UserRequests.addUser(true).expectedBody);
         }
       });
@@ -58,6 +59,7 @@ describe('Register new user', () => {
     cy.getSubmitButton('form[id=registerForm]').should('not.be.disabled').click();
 
     cy.wait('@addUser').then((interception:Interception) => {
+      expect(interception.response?.statusCode.toString()).contains(UserRequests.addUser(false).response.statusCode);
       expect(interception.request.body).contains(UserRequests.addUser(false).expectedBody);
     })
 

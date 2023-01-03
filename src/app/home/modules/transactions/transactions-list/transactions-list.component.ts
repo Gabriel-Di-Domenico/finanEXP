@@ -199,7 +199,6 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
               transactionType: transaction.transactionType,
             });
           }
-
           this.table.renderRows();
         });
         categoryReady = false;
