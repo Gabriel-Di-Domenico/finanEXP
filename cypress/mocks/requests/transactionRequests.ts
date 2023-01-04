@@ -73,6 +73,73 @@ export class TransactionRequests {
       } as CypressBody<ResponseDto<Array<TransactionOutput>>>,
     } as CypressRequest<ResponseDto<Array<TransactionOutput>>>;
   }
+  public static getTransactionById() {
+    return {
+      alias: 'getTransactionById',
+      url: `${this.baseUrl}/**`,
+      method: 'GET',
+      response: {
+        statusCode: 200,
+        body: {
+          content: {
+            id: TestUtils.mockIds[0],
+            categoryId: TestUtils.mockIds[0],
+            receiverCustomerId: TestUtils.mockIds[0],
+            description: TestUtils.mockStrings[0],
+            transactionType: TransactionType.expense,
+            value: TestUtils.mockNumbers[0],
+            date: new Date(2023, 0, 3),
+          } as TransactionOutput,
+          message: {
+            error: false,
+            message: 'Sucesso ao adiquirir transação',
+          },
+        } as ResponseDto<TransactionOutput>,
+      } as CypressBody<ResponseDto<TransactionOutput>>,
+    } as CypressRequest<ResponseDto<TransactionOutput>>;
+  }
+  public static putTransaction() {
+    return {
+      alias: 'putTransaction',
+      url: `${this.baseUrl}/**`,
+      method: 'PUT',
+      response: {
+        statusCode: 200,
+        body: {
+          content: null,
+          message: {
+            error: false,
+            message: 'Despesa alterada com sucesso',
+          },
+        } as ResponseDto,
+      } as CypressBody<ResponseDto>,
+      expectedBody: {
+        categoryId: TestUtils.mockIds[1],
+        receiverCustomerId: TestUtils.mockIds[1],
+        description: TestUtils.mockStrings[1],
+        transactionType: TransactionType.expense,
+        value: 15,
+        date: '2022-05-05T03:00:00.000Z',
+      },
+    } as CypressRequest<ResponseDto>;
+  }
+  public static deleteTransaction() {
+    return {
+      alias: 'deleteTransaction',
+      url: `${this.baseUrl}/**`,
+      method: 'DELETE',
+      response: {
+        statusCode: 200,
+        body: {
+          content: null,
+          message: {
+            error: false,
+            message: 'Despesa deletada com sucesso',
+          },
+        } as ResponseDto,
+      } as CypressBody<ResponseDto>,
+    } as CypressRequest<ResponseDto>;
+  }
   // TODO remover getRevenues, getTransfers e getExpenses depois que tiver sorting
   public static getRevenues() {
     return {
@@ -98,7 +165,7 @@ export class TransactionRequests {
               description: TestUtils.mockStrings[1],
               transactionType: TransactionType.revenue,
               value: TestUtils.mockNumbers[1],
-            } as TransactionOutput
+            } as TransactionOutput,
           ],
           message: {
             error: false,
@@ -132,7 +199,7 @@ export class TransactionRequests {
               description: TestUtils.mockStrings[1],
               transactionType: TransactionType.expense,
               value: TestUtils.mockNumbers[1],
-            } as TransactionOutput
+            } as TransactionOutput,
           ],
           message: {
             error: false,
@@ -155,7 +222,7 @@ export class TransactionRequests {
               id: TestUtils.mockIds[0],
               categoryId: TestUtils.mockIds[0],
               receiverCustomerId: TestUtils.mockIds[0],
-              senderCustomerId:TestUtils.mockIds[0],
+              senderCustomerId: TestUtils.mockIds[0],
               description: TestUtils.mockStrings[0],
               transactionType: TransactionType.transfer,
               value: TestUtils.mockNumbers[0],
@@ -164,11 +231,11 @@ export class TransactionRequests {
               id: TestUtils.mockIds[1],
               categoryId: TestUtils.mockIds[1],
               receiverCustomerId: TestUtils.mockIds[1],
-              senderCustomerId:TestUtils.mockIds[1],
+              senderCustomerId: TestUtils.mockIds[1],
               description: TestUtils.mockStrings[1],
               transactionType: TransactionType.transfer,
               value: TestUtils.mockNumbers[1],
-            } as TransactionOutput
+            } as TransactionOutput,
           ],
           message: {
             error: false,
