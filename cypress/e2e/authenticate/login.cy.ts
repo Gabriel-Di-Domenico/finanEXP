@@ -1,7 +1,7 @@
 import { Interception } from 'cypress/types/net-stubbing';
 import { AuthenticateRequests } from 'cypress/mocks/requests/authenticateRequest';
 import { TestUtils } from 'cypress/support/test.utils';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 import { VisitDashBoardMock } from 'cypress/mocks/visitDashboardMock';
 
 describe('Login', () => {

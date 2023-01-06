@@ -1,7 +1,7 @@
 import { TransactionRequests } from 'cypress/mocks/requests/transactionRequests';
-import { VisitTransactionsMock } from 'cypress/mocks/VisitTransactionsMock';
+import { VisitTransactionsMock } from '../../mocks/visitTransactionsMock';
 
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 
 describe('Transactions Values Validation', () => {
   it('Actual balance validation', () => {

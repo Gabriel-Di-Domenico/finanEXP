@@ -1,6 +1,6 @@
 
 import { VisitDashBoardMock } from 'cypress/mocks/visitDashboardMock';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 describe('Navigation Validation', () => {
   const visitDashBoardMock = new VisitDashBoardMock();
   it('Actual balance navigation', () => {

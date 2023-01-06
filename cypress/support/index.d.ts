@@ -5,15 +5,16 @@ declare namespace Cypress {
     getInput(formControlName: string, screen?: string): Chainable;
     getSubmitButton(form: string): Chainable;
     requestStub(request: CypressRequest<unknown>): Chainable;
-    navigateTo(menuName:string):void;
+    navigateTo(menuName: string): void;
+    batchWait(aliases: Array<string>): void;
   }
 
-  interface CypressRequest<T> {
+  interface CypressRequest<responseType, expectedBodyType = unknown> {
     alias: string;
     url: string;
     method: 'GET' | 'POST' | 'DELETE' | 'PUT';
-    response: CypressBody<T>;
-    expectedBody?: unknown;
+    response: CypressBody<responseType>;
+    expectedBody?: expectedBodyType;
   }
   interface CypressBody<T> {
     statusCode: number;

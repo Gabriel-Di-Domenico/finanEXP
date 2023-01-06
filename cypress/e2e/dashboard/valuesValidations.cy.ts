@@ -1,7 +1,7 @@
 import { TransactionRequests } from './../../mocks/requests/transactionRequests';
 import { CustomerRequests } from './../../mocks/requests/customerRequests';
 import { VisitDashBoardMock } from '../../mocks/visitDashboardMock';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
 
 describe('Values Validation', () => {

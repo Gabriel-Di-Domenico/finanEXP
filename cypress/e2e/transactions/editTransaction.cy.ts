@@ -3,8 +3,8 @@ import { CategoriesRequests } from './../../mocks/requests/categoriesRequests';
 import { CustomerRequests } from './../../mocks/requests/customerRequests';
 import { TestUtils } from 'cypress/support/test.utils';
 import { TransactionRequests } from 'cypress/mocks/requests/transactionRequests';
-import { VisitTransactionsMock } from 'cypress/mocks/VisitTransactionsMock';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { VisitTransactionsMock } from '../../mocks/visitTransactionsMock';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 
 describe('Edit transactions', () => {
   it('Edit transaction with successfully', () => {

@@ -43,3 +43,8 @@ Cypress.Commands.add('navigateTo', (menuName:string) => {
   cy.get('fin-button[id="menuButton"] button').click()
   cy.get('transaction-menu button').contains(menuName).click()
 })
+Cypress.Commands.add('batchWait', (aliases:Array<string>) => {
+  aliases.forEach((alias:string) => [
+    cy.wait(`@${alias}`)
+  ])
+})

@@ -1,5 +1,5 @@
 import { TestUtils } from 'cypress/support/test.utils';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 
 describe('Verify login validators', () => {
   it('Verify email', () => {

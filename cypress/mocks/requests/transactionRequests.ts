@@ -1,3 +1,4 @@
+import { TransactionInput } from './../../../src/app/shared/support/interfaces/transactions/transactionInput';
 import { TestUtils } from 'cypress/support/test.utils';
 import { TransactionOutput } from './../../../src/app/shared/support/interfaces/transactions/transactionOutput';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
@@ -139,6 +140,31 @@ export class TransactionRequests {
         } as ResponseDto,
       } as CypressBody<ResponseDto>,
     } as CypressRequest<ResponseDto>;
+  }
+  public static postTransaction() {
+    return {
+      alias: 'postTransaction',
+      url: `${this.baseUrl}`,
+      method: 'POST',
+      response: {
+        statusCode: 200,
+        body: {
+          content: null,
+          message: {
+            error: false,
+            message: 'Transação criada com sucesso',
+          },
+        } as ResponseDto,
+      } as CypressBody<ResponseDto>,
+      expectedBody: {
+        categoryId: TestUtils.mockIds[0],
+        receiverCustomerId: TestUtils.mockIds[0],
+        description: TestUtils.mockStrings[0],
+        transactionType: TransactionType.expense,
+        value: 15,
+        date: '2022-05-05T03:00:00.000Z',
+      } as TransactionInput,
+    } as CypressRequest<ResponseDto, TransactionInput>;
   }
   // TODO remover getRevenues, getTransfers e getExpenses depois que tiver sorting
   public static getRevenues() {

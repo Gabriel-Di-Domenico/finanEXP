@@ -1,6 +1,6 @@
 import { TransactionRequests } from 'cypress/mocks/requests/transactionRequests';
-import { VisitTransactionsMock } from 'cypress/mocks/VisitTransactionsMock';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { VisitTransactionsMock } from '../../mocks/visitTransactionsMock';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 
 describe('Transactions menu navigation', () => {
   it('Revenues navigation', () => {
@@ -45,9 +45,8 @@ describe('Transactions menu navigation', () => {
 
     cy.navigateTo('Transferências');
 
-    aliases.forEach((alias: string) => {
-      cy.wait(`@${alias}`);
-    });
+    cy.batchWait(aliases)
+
     cy.url().should('be.equal', 'http://localhost:4200/home/transactions/transfers');
     cy.get('transactions-list table tbody tr').should('have.length', '2');
   });

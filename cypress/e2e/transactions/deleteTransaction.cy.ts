@@ -1,6 +1,6 @@
 import { TransactionRequests } from 'cypress/mocks/requests/transactionRequests';
-import { VisitTransactionsMock } from 'cypress/mocks/VisitTransactionsMock';
-import { UserActions } from 'cypress/support/user-actions/user-actions';
+import { VisitTransactionsMock } from '../../mocks/visitTransactionsMock';
+import { UserActions } from 'cypress/support/user-actions/userActions';
 
 describe('Delete transaction', () => {
   it('Delete transaction with successfully', () => {
