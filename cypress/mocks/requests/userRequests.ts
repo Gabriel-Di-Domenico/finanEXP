@@ -1,14 +1,15 @@
+import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
 import { CypressBody, CypressRequest } from './cypressRequest';
 import { TestUtils } from 'cypress/support/test.utils';
 
 export class UserRequests {
-  private static baseUrl = 'users'
+  private static baseUrl = '/users';
 
-  public static addUser(isSuccess:boolean) {
+  public static addUser(isSuccess = true) {
     return {
-      alias:'addUser',
+      alias: 'addUser',
       url: `${this.baseUrl}/add`,
       method: 'POST',
       response: {
@@ -27,5 +28,27 @@ export class UserRequests {
         password: TestUtils.mockValidPassword[0],
       } as UserInput,
     } as CypressRequest<ResponseDto>;
+  }
+
+  public static getUserById(isSuccess = true) {
+    return {
+      alias: 'getUserById',
+      url: `${this.baseUrl}/**`,
+      method: 'GET',
+      response: {
+        statusCode: isSuccess ? 200 : 404,
+        body: {
+          content: {
+            id: TestUtils.mockIds[0],
+            email: TestUtils.mockValidEmails[0],
+            name: TestUtils.mockStrings[0],
+          } as UserOutput,
+          message: {
+            error: !isSuccess,
+            message: isSuccess ? 'Sucesso' : 'Falha',
+          },
+        } as ResponseDto<UserOutput>,
+      } as CypressBody<ResponseDto<UserOutput>>,
+    } as CypressRequest<ResponseDto<UserOutput>>;
   }
 }

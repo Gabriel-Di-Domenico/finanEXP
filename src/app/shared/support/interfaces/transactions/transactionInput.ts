@@ -2,7 +2,9 @@ import { TransactionType } from './../../enums/transactionTypes/transaction-type
 export interface TransactionInput {
   description?: string;
   value: number;
-  categoryId: string;
-  customerId: string;
+  categoryId?: string | null;
+  receiverCustomerId: string;
+  senderCustomerId?: string;
   transactionType: TransactionType;
+  date: Date | string;
 }

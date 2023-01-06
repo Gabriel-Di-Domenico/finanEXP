@@ -100,7 +100,7 @@ namespace backend.Transactions.Controllers
         result.Message = new Message
         {
           error = false,
-          message = "Sucesso ao adiquirir lista de despesas"
+          message = "Sucesso ao adiquirir lista de transações"
         };
 
         var transactionsModel = _mapper.Map<List<TransactionReadDto>>(getAllTransactionsResponse.Content);
@@ -125,7 +125,7 @@ namespace backend.Transactions.Controllers
         result.Message = new Message
         {
           error = false,
-          message = "Sucesso ao adquirir Despesa"
+          message = "Sucesso ao adquirir transação"
         };
 
         result.Content = customerModel;

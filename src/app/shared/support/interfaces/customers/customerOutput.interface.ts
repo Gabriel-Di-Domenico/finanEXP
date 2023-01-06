@@ -1,13 +1,15 @@
+import { customerTypesOptions } from '../../enums/customer-types-options';
+
 export interface CustomerOutput {
   id: string;
 
   name: string;
 
-  type: number;
+  type: customerTypesOptions;
 
   initialBalance: number;
 
-  actualBalance:number;
+  actualBalance: number;
 
-  isArchived:boolean;
+  isArchived: boolean;
 }

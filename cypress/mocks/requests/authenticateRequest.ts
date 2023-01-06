@@ -4,8 +4,8 @@ import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.inte
 import { CypressBody, CypressRequest } from './cypressRequest';
 
 export class AuthenticateRequests {
-  private static baseUrl = 'auth';
-  public static authUser(isSuccess: boolean) {
+  private static baseUrl = '/auth';
+  public static authUser(isSuccess = true) {
     return {
       alias: 'authUser',
       url: `${this.baseUrl}/user `,
@@ -26,18 +26,18 @@ export class AuthenticateRequests {
       } as UserInput,
     } as CypressRequest<ResponseDto>;
   }
-  public static verifyToken() {
+  public static verifyToken(isSuccess = true) {
     return {
       alias: 'verifyToken',
       url: `${this.baseUrl}/verifyToken `,
       method: 'GET',
       response: {
-        statusCode: 200,
+        statusCode: isSuccess ? 200 : 401,
         body: {
-          content: null,
+          content: isSuccess ? TestUtils.mockIds[0] : null,
           message: {
-            error: true,
-            message: 'Token inválido',
+            error: !isSuccess,
+            message: isSuccess ? 'Token válido' : 'Token inválido',
           },
         } as ResponseDto,
       } as CypressBody<ResponseDto>,
