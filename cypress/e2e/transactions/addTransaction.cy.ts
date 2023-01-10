@@ -1,8 +1,5 @@
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
-import { CategoriesRequests } from './../../mocks/requests/categoriesRequests';
-import { CustomerRequests } from './../../mocks/requests/customerRequests';
 import { TestUtils } from 'cypress/support/test.utils';
-import { VisitTransactionsMock } from '../../mocks/visitTransactionsMock';
 import { UserActions } from 'cypress/support/user-actions/userActions';
 import { TransactionRequests } from 'cypress/mocks/requests/transactionRequests';
 import { Interception } from 'cypress/types/net-stubbing';
