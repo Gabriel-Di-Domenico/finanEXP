@@ -3,6 +3,7 @@ import { TestUtils } from '../test.utils';
 import { VisitDashBoardMock } from '../../mocks/visitDashboardMock';
 import { CategoriesRequests } from 'cypress/mocks/requests/categoriesRequests';
 import { CustomerRequests } from 'cypress/mocks/requests/customerRequests';
+import { VisitCategoriesMock } from 'cypress/mocks/visitCategoriesMock';
 
 export class UserActions {
   public static visitAuthenticate() {
@@ -14,9 +15,7 @@ export class UserActions {
 
     cy.visit('/home/dashboard');
 
-    aliases.forEach((alias: string) => {
-      cy.wait(`@${alias}`);
-    });
+    cy.batchWait(aliases)
   }
   public static visitTransactions(visitTransactionsMock: VisitTransactionsMock) {
     const requests = TestUtils.getRequestsFromMock(visitTransactionsMock);
@@ -24,12 +23,10 @@ export class UserActions {
 
     cy.visit('/home/transactions');
 
-    aliases.forEach((alias: string) => {
-      cy.wait(`@${alias}`);
-    });
+    cy.batchWait(aliases)
+
     return aliases;
   }
-
   public static visitCreateTransaction(transactionType: 'Receita' | 'Despesa' | 'Transferência') {
     const visitTransactionsMock = new VisitTransactionsMock();
     this.visitTransactions(visitTransactionsMock);
@@ -43,5 +40,13 @@ export class UserActions {
     cy.get('transaction-menu button').contains(transactionType).click();
 
     cy.batchWait(aliases);
+  }
+  public static visitCategories(visitCategoriesMock:VisitCategoriesMock) {
+    const requests = TestUtils.getRequestsFromMock(visitCategoriesMock);
+    const aliases = TestUtils.batchRequestStub(requests);
+
+    cy.visit('/home/categories');
+
+    cy.batchWait(aliases)
   }
 }
