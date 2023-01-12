@@ -8,8 +8,10 @@ describe('Add customer', () => {
   it('Add customer with successfully', () => {
     const visitCustomersMock = new VisitCustomersMock()
     UserActions.visitCustomers(visitCustomersMock);
-    const customers:Array<CustomerOutput> = CustomerRequests.getCustomers().response.body.content
-    cy.get('fin-customer-card').should('have.length', customers.length)
+    const activatedCustomers:Array<CustomerOutput> = CustomerRequests.getCustomers().response.body.content
+      .filter((customer:CustomerOutput) => !customer.isArchived ? customer : null)
+
+    cy.get('fin-customer-card').should('have.length', activatedCustomers.length)
     cy.get('app-customers header fin-icon-button[icon=add] button').click()
 
     cy.get('fin-input-currency').type(`${TestUtils.mockNumbers[0]}`).type('0').type('0');
