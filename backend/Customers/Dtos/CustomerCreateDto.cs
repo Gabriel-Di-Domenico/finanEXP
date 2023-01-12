@@ -1,5 +1,4 @@
 using backend.Customers.Enums;
-using backend.Shared.Enums;
 
 namespace backend.Customers.Dtos
 {
