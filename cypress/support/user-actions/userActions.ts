@@ -5,6 +5,7 @@ import { CategoriesRequests } from 'cypress/mocks/requests/categoriesRequests';
 import { CustomerRequests } from 'cypress/mocks/requests/customerRequests';
 import { VisitCategoriesMock } from 'cypress/mocks/visitCategoriesMock';
 import { VisitCustomersMock } from 'cypress/mocks/visitCustomersMock';
+import { VisitUsersMock } from 'cypress/mocks/visitUsersMock';
 
 export class UserActions {
   public static visitAuthenticate() {
@@ -55,6 +56,14 @@ export class UserActions {
     const aliases = TestUtils.batchRequestStub(requests);
 
     cy.visit('/home/customers');
+
+    cy.batchWait(aliases)
+  }
+  public static visitUsers(visitUsersMock:VisitUsersMock){
+    const requests = TestUtils.getRequestsFromMock(visitUsersMock);
+    const aliases = TestUtils.batchRequestStub(requests);
+
+    cy.visit('/home/user/config/profile');
 
     cy.batchWait(aliases)
   }

@@ -51,4 +51,28 @@ export class UserRequests {
       } as CypressBody<ResponseDto<UserOutput>>,
     } as CypressRequest<ResponseDto<UserOutput>>;
   }
+
+  public static putUser(isSuccess = true) {
+    return {
+      alias: 'putUser',
+      url: `${this.baseUrl}/**`,
+      method: 'PUT',
+      response: {
+        statusCode: isSuccess ? 200 : 404,
+        body: {
+          content: null,
+          message: {
+            error: !isSuccess,
+            message: isSuccess ? 'Sucesso' : 'Falha',
+          },
+        } as ResponseDto,
+      } as CypressBody<ResponseDto>,
+      expectedBody: {
+        email: TestUtils.mockValidEmails[0],
+        name: TestUtils.mockStrings[0],
+        newPassword: TestUtils.mockValidPassword[1],
+        password:TestUtils.mockValidPassword[0],
+      } as UserInput
+    } as CypressRequest<ResponseDto, UserInput>;
+  }
 }

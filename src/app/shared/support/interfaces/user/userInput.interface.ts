@@ -3,5 +3,4 @@ export interface UserInput{
     email: string,
     password?: string,
     newPassword?:string,
-    perfilPhoto?: string
 }
