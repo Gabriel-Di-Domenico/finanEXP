@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend", "backend.csproj", "{6FBA75BF-090E-449F-8385-577A3FA0696C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "finan-exp-backend", "finan-exp-backend\finan-exp-backend.csproj", "{6FBA75BF-090E-449F-8385-577A3FA0696C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "finan-exp-backend-tests", "finan-exp-backend-tests\finan-exp-backend-tests.csproj", "{C041CB75-5298-443E-B8A5-52675D6F51C8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FBA75BF-090E-449F-8385-577A3FA0696C} = {6FBA75BF-090E-449F-8385-577A3FA0696C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{6FBA75BF-090E-449F-8385-577A3FA0696C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FBA75BF-090E-449F-8385-577A3FA0696C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FBA75BF-090E-449F-8385-577A3FA0696C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C041CB75-5298-443E-B8A5-52675D6F51C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C041CB75-5298-443E-B8A5-52675D6F51C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C041CB75-5298-443E-B8A5-52675D6F51C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C041CB75-5298-443E-B8A5-52675D6F51C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
