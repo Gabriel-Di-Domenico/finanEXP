@@ -23,6 +23,7 @@
       [required]="true"
       [options]="customerSelectOptions"
       (selectionChange)="disableSelectedOptions()"
+      [finSelectButton]="finAddCustomerButton"
     ></fin-select>
 
     <fin-select
@@ -31,7 +32,7 @@
       [required]="true"
       [options]="customerSelectOptions"
       (selectionChange)="disableSelectedOptions()"
-
+      [finSelectButton]="finAddCustomerButton"
     ></fin-select>
     
     <fin-select
@@ -39,7 +40,8 @@
       [formControlName]="formControls.categoryId"
       label="Categoria"
       [required]="true"
-      [options]="categorySelectOptions">
+      [options]="categorySelectOptions"
+      [finSelectButton]="finAddCategoryButton">
     </fin-select>
   </div>
   
