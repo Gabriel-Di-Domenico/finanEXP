@@ -1,3 +1,5 @@
+import { CategoriesEditorDialogData } from './../../../shared/support/interfaces/categories/categoriesEditorDialogData';
+import { CategoriesEditorDialogComponent } from '../../modules/categories/categories-editor-dialog/categories-editor-dialog.component';
 import { transactionUpdatedHandler } from '../../../shared/handlers/transactionHandler/transactionUpdatedHandler';
 import { SnackBarControlService } from './../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { GetAllFilter } from './../../../shared/support/interfaces/getAllFilter';
@@ -16,6 +18,10 @@ import { TransactionOutput } from 'src/app/shared/support/interfaces/transaction
 import { finSelectOption } from 'src/app/shared/support/classes/fin-select-option';
 import { CustomerOutput } from 'src/app/shared/support/interfaces/customers/customerOutput.interface';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { CustomerEdtiorDialogComponent } from '../../modules/customers/customer-edtior-dialog/customer-edtior-dialog.component';
+import { finSelectButton } from 'src/app/shared/support/classes/fin-select-button';
+import { CustomerEditorDialogDataInterface } from 'src/app/shared/support/interfaces/customers/customerEditorDialogData.interface';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'fin-transactions-editor-dialog',
@@ -31,7 +37,48 @@ export class TransactionsEditorDialogComponent {
   public transactionType!: TransactionType;
   public categorySelectOptions: Array<finSelectOption> = [];
   public customerSelectOptions: Array<finSelectOption> = [];
+  private categories!: Array<CategoryOutput>;
+  private customers!: Array<CustomerOutput>;
   private transaction!: TransactionOutput;
+
+  public get finAddCustomerButton(): finSelectButton {
+    return new finSelectButton('Adicionar carteira', () => {
+      this.dialogControlService
+        .openDialog(CustomerEdtiorDialogComponent, {
+          width: '650px',
+          height: '500px',
+          data: {
+            operation: 'create',
+          } as CustomerEditorDialogDataInterface,
+        })
+        .afterClosed()
+        .subscribe((result:{ updated:boolean }) => {
+          if(result.updated) {
+            this.dialogRef.close();
+          }
+        });
+    });
+  }
+
+  public get finAddCategoryButton(): finSelectButton {
+    return new finSelectButton('Adicionar categoria', () => {
+      this.dialogControlService
+        .openDialog(CategoriesEditorDialogComponent, {
+          width: '400px',
+          height: '220px',
+          data: {
+            operation: 'create',
+            transactionType: this.transactionType,
+          } as CategoriesEditorDialogData,
+        })
+        .afterClosed()
+        .subscribe((result:{ updated:boolean }) => {
+          if(result.updated) {
+            this.dialogRef.close();
+          }
+        });
+    });
+  }
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: TransactionsEditorDialogData,
     private formBuilder: FormBuilder,
@@ -46,9 +93,11 @@ export class TransactionsEditorDialogComponent {
     }
     this.transactionType = this.data.transactionType;
     this.createForm();
-    this.getCustomerSelectOptions();
+
+    this.getAllCustomers();
+
     if (this.transactionType !== TransactionType.transfer) {
-      this.getCategorySelectOptions();
+      this.getAllCategories();
     }
   }
   public disableSelectedOptions() {
@@ -127,33 +176,14 @@ export class TransactionsEditorDialogComponent {
     this.form.get(this.formControls.transactionType)?.setValue(this.transaction.transactionType);
     this.form.get(this.formControls.date)?.setValue(this.transaction.date);
   }
-  private getCustomerSelectOptions() {
-    const filter = {
-      isArchived: false,
-    } as GetAllFilter;
-    this.transactionsService.getAllCustomers(filter, (data: ResponseDto<Array<CustomerOutput>>) => {
-      if (!data.message.error) {
-        data.content.forEach((customer: CustomerOutput) => {
-          this.customerSelectOptions.push(new finSelectOption({ key: customer.name, value: customer.id }));
-        });
-      } else {
-        this.snackBarControlService.showMessage(data.message.message, data.message.error);
-      }
+  private setCustomerSelectOptions() {
+    this.customers.forEach((customer: CustomerOutput) => {
+      this.customerSelectOptions.push(new finSelectOption({ key: customer.name, value: customer.id }));
     });
   }
-  private getCategorySelectOptions() {
-    const filter = {
-      transactionType: this.transactionType,
-      isArchived:false
-    } as GetAllFilter;
-    this.transactionsService.getAllCategories(filter, (data: ResponseDto<Array<CategoryOutput>>) => {
-      if (!data.message.error) {
-        data.content.forEach((category: CategoryOutput) => {
-          this.categorySelectOptions.push(new finSelectOption({ key: category.name, value: category.id }));
-        });
-      } else {
-        this.snackBarControlService.showMessage(data.message.message, data.message.error);
-      }
+  private setCategorySelectOptions() {
+    this.categories.forEach((category: CategoryOutput) => {
+      this.categorySelectOptions.push(new finSelectOption({ key: category.name, value: category.id }));
     });
   }
   private unMaskValue(): void {
@@ -162,5 +192,34 @@ export class TransactionsEditorDialogComponent {
       valueUnMasked = valueUnMasked.replace('R$', '').replace(/\./g, '').replace(',', '.');
       this.form.get(this.formControls.value)?.setValue(Number(valueUnMasked));
     }
+  }
+  private getAllCustomers() {
+    const filter = {
+      isArchived: false,
+    } as GetAllFilter;
+
+    this.transactionsService.getAllCustomers(filter, (data: ResponseDto<Array<CustomerOutput>>) => {
+      if (!data.message.error) {
+        this.customers = data.content;
+        this.setCustomerSelectOptions();
+      } else {
+        this.snackBarControlService.showMessage(data.message.message, data.message.error);
+      }
+    });
+  }
+  private getAllCategories() {
+    const filter = {
+      transactionType: this.transactionType,
+      isArchived: false,
+    } as GetAllFilter;
+
+    this.transactionsService.getAllCategories(filter, (data: ResponseDto<Array<CategoryOutput>>) => {
+      if (!data.message.error) {
+        this.categories = data.content;
+        this.setCategorySelectOptions();
+      } else {
+        this.snackBarControlService.showMessage(data.message.message, data.message.error);
+      }
+    });
   }
 }
