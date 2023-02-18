@@ -4,8 +4,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, take } from 'rxjs';
 
 import { IUserHandlerService } from './IUser-handler.service.interface';
-import { UserProxysService } from '../proxys/userProxys/user-proxys.service';
-import { UserOutput } from '../support/interfaces/user/userOutput.interface';
+import { UserProxysService } from '../../api/userProxy/user-proxys.service';
+import { UserOutput } from 'src/app/core/dtos/user/userOutput';
 
 @Injectable({
   providedIn: 'root'

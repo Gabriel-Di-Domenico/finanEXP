@@ -24,11 +24,11 @@ namespace Users.Services
 
     public ResponseStatus CreateUser(User user)
     {
-      var verifyExistingUser = GetUserByEmail(user.email);
+      var verifyExistingUser = GetUserByEmail(user.Email);
 
       if (verifyExistingUser == null)
       {
-        user.password = Bcrypt.Encrypt(user.password);
+        user.Password = Bcrypt.Encrypt(user.Password);
 
         _context.Users.Add(user);
         SaveChanges();
@@ -47,7 +47,7 @@ namespace Users.Services
 
     public User GetUserByID(Guid id)
     {
-      return _context.Users.FirstOrDefault(p => p.ID == id);
+      return _context.Users.FirstOrDefault(p => p.Id == id);
     }
 
     public bool SaveChanges()
@@ -57,28 +57,28 @@ namespace Users.Services
 
     public User GetUserByEmail(string email)
     {
-      return _context.Users.FirstOrDefault(p => p.email == email);
+      return _context.Users.FirstOrDefault(p => p.Email == email);
     }
 
     public ResponseStatus UpdateUser(Guid id, UserUpdateDto newUser)
     {
       var verifyExistingUser = GetUserByEmail(newUser.email);
 
-      if (verifyExistingUser == null || verifyExistingUser.ID == id)
+      if (verifyExistingUser == null || verifyExistingUser.Id == id)
       {
         var userFromDataBase = GetUserByID(id);
 
-        userFromDataBase.email = newUser.email;
-        userFromDataBase.name = newUser.name;
+        userFromDataBase.Email = newUser.email;
+        userFromDataBase.Name = newUser.name;
 
         if (newUser.NewPassword != null)
         {
-          var authenticatedPassword = _authUserService.AuthenticatePasswords(newUser.password, userFromDataBase.password);
+          var authenticatedPassword = _authUserService.AuthenticatePasswords(newUser.password, userFromDataBase.Password);
 
           if (authenticatedPassword)
           {
             var newPassword = Bcrypt.Encrypt(newUser.NewPassword);
-            userFromDataBase.password = newPassword;
+            userFromDataBase.Password = newPassword;
           }
           else
           {

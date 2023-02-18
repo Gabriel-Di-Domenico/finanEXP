@@ -102,8 +102,12 @@ namespace Transactions.Controllers
           error = false,
           message = "Sucesso ao adiquirir lista de transações"
         };
-
-        var transactionsModel = _mapper.Map<List<TransactionReadDto>>(getAllTransactionsResponse.Content);
+        var transactionsModel = new List<TransactionReadDto>();
+        getAllTransactionsResponse.Content.ForEach(transaction =>
+        {
+          transactionsModel.Add(_mapper.Map<TransactionReadDto>(transaction));
+        });
+         
         result.Content = transactionsModel;
 
         return Ok(result);

@@ -1,5 +1,6 @@
 using Categories.Models;
 using Customers.Models;
+using Shared.Classes;
 using Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,11 +9,8 @@ using Users.Models;
 namespace Transactions.Models
 {
   [Table("Transactions")]
-  public class Transaction
+  public class Transaction: FullEntity
   {
-    [Required]
-    public Guid Id { get; set; }
-
     [MaxLength(100)]
     public string? Description { get; set; }
 
@@ -41,10 +39,5 @@ namespace Transactions.Models
 
     [Required]
     public TransactionType TransactionType { get; set; }
-
-    [Required]
-    [ForeignKey("Users")]
-    public Guid UserId { get; set; }
-    public virtual User User { get; set; }
   }
 }

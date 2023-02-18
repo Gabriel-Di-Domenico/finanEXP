@@ -4,13 +4,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { take } from 'rxjs';
 
-import { AuthenticateProxyService } from './../../../shared/proxys/authenticateProxys/authenticate.proxy.service';
+import { AuthenticateProxyService } from '../../../api/authenticateProxy/authenticate.proxy.service';
 
 import { IAuthenticateService } from './IAuthenticate.service.interface';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
-import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';
-import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
+import { UserProxysService } from 'src/app/api/userProxy/user-proxys.service';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
+import { UserInput } from 'src/app/core/dtos/user/userInput';
 
 @Injectable({
   providedIn: 'root',

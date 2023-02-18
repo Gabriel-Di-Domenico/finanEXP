@@ -4,8 +4,8 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/r
 
 import { map, Observable } from 'rxjs';
 
-import { VerifyTokenService } from '../support/services/verifyToken/verify-token.service';
-import { UserInput } from '../support/interfaces/user/userInput.interface';
+import { VerifyTokenService } from '../services/verifyToken/verify-token.service';
+import { UserInput } from 'src/app/core/dtos/user/userInput';
 
 @Injectable({
   providedIn: 'root',

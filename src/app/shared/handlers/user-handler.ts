@@ -1,7 +1,8 @@
 import { Subscription } from 'rxjs';
 import { UserHandlerService } from './user-handler.service';
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { UserOutput } from '../support/interfaces/user/userOutput.interface';
+import { UserOutput } from 'src/app/core/dtos/user/userOutput';
+
 @Injectable({
   providedIn: 'root',
 })

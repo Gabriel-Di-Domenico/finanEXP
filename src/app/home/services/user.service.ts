@@ -2,8 +2,8 @@ import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { UserProxysService } from 'src/app/shared/proxys/userProxys/user-proxys.service';
-import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
+import { UserProxysService } from 'src/app/api/userProxy/user-proxys.service';
+import { UserOutput } from 'src/app/core/dtos/user/userOutput';
 
 @Injectable({
   providedIn: 'root',

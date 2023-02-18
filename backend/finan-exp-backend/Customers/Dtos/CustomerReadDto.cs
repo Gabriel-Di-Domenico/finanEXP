@@ -1,3 +1,6 @@
+using Customers.Enums;
+using Customers.Models;
+
 namespace Customers.Dtos
 {
   public class CustomerReadDto
@@ -5,7 +8,7 @@ namespace Customers.Dtos
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public int Type { get; set; }
+    public CustomersTypeOptions Type { get; set; }
 
     public decimal InitialBalance { get; set; }
 

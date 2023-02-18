@@ -1,6 +1,7 @@
+
 using AutoMapper;
-using System.Transactions;
 using Transactions.Dtos;
+using Transactions.Models;
 
 namespace Transactions.Profiles
 {

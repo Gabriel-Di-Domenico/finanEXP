@@ -1,4 +1,5 @@
-import { FinValidatorsService } from './../../../../fin-sdk/validators/fin-validators.service';
+import { SnackBarControlService } from 'finan-exp-services';
+
 import { loginFormControls } from './loginFormControls';
 import { registerFormControls } from './registerFormControls';
 import { Component, OnInit } from '@angular/core';
@@ -8,9 +9,9 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { AuthenticateService } from './../../services/authenticate-service/authenticate.service';
 
-import { SnackBarControlService } from '../../../shared/support/services/snackBarControl/snack-bar-control.service';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
-import { UserInput } from 'src/app/shared/support/interfaces/user/userInput.interface';
+import { FinValidatorsService } from 'src/app/shared/validators/fin-validators.service';
+import { UserInput } from 'src/app/core/dtos/user/userInput';
 @Component({
   selector: 'app-authenticate-form',
   templateUrl: './authenticate-form.component.html',

@@ -79,8 +79,12 @@ namespace Customers.Controllers
           error = false,
           message = "Sucesso ao adiquirir lista de carteiras"
         };
-
-        var customersModel = _mapper.Map<List<CustomerReadDto>>(getAllcustomersResponse.Content);
+        var customersModel = new List<CustomerReadDto>();
+        getAllcustomersResponse.Content.ForEach(customer =>
+        {
+          customersModel.Add(_mapper.Map<CustomerReadDto>(customer));
+        });
+         
         result.Content = customersModel;
 
         return Ok(result);

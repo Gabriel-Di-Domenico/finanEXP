@@ -1,15 +1,16 @@
-import { PerfilPhotoInput } from '../../../../shared/support/interfaces/perfilPhoto/perfilPhotoInput.interface';
+import { SnackBarControlService } from 'finan-exp-services';
 import { PerfilPhotoService } from './perfil-photo.service';
-import { SnackBarControlService } from '../../../../shared/support/services/snackBarControl/snack-bar-control.service';
+
 import { UserHandler } from '../../../../shared/handlers/user-handler';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserHandlerService } from 'src/app/shared/handlers/user-handler.service';
 
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
-import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
-import { PerfilPhotoOutput } from 'src/app/shared/support/interfaces/perfilPhoto/perfilPhotoOutput';
+import { UserOutput } from 'src/app/core/dtos/user/userOutput';
+import { PerfilPhotoInput } from 'src/app/core/dtos/perfilPhoto/perfilPhotoInput';
+import { PerfilPhotoOutput } from 'src/app/core/dtos/perfilPhoto/perfilPhotoOutput';
 
 @Component({
   selector: 'app-user-photo-editor',
@@ -56,11 +57,11 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
             name: file.name,
           } as PerfilPhotoInput;
 
-          if (this.currentUser.perfilPhotoId) {
+          /* if (this.currentUser.perfilPhotoId) {
             this.updatePerfilPhoto(perfilPhoto);
           } else {
             this.createPerfilPhoto(perfilPhoto);
-          }
+          } */
         } else {
           this.snackBarControlService.showMessage('Apenas arquivos jpeg e png são suportados', true);
         }
@@ -81,8 +82,8 @@ export class UserPhotoEditorComponent extends UserHandler implements OnInit {
     this.perfilPhotoService.delete((message: Message) => {
       this.snackBarControlService.showMessage(message.message, message.error);
       if (!message.error) {
-        this.currentUser.perfilPhotoId = undefined;
-        this.emit();
+        /* this.currentUser.perfilPhotoId = undefined;
+        this.emit(); */
       }
     });
   }

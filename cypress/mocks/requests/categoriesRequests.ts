@@ -1,8 +1,8 @@
-import { CategoryInput } from './../../../src/app/shared/support/interfaces/categories/categoryInput';
+import { CategoryInput } from '../../../src/app/core/models/categories/categoryInput';
 import { TestUtils } from 'cypress/support/test.utils';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
-import { CategoryOutput } from './../../../src/app/shared/support/interfaces/categories/categoryOutput';
+import { CategoryOutput } from '../../../src/app/core/dtos/categories/categoryOutput';
 import { CypressBody, CypressRequest } from './cypressRequest';
 export class CategoriesRequests {
   private static baseUrl = '/categories';
