@@ -15,7 +15,7 @@ import { MenuComponent } from './components/menu/menu.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserPhotoEditorComponent } from './components/profile/userPhotoEditor/user-photo-editor.component';
-import { TransactionsEditorDialogComponent } from './components/transactions-editor-dialog/transactions-editor-dialog.component';
+import { TransactionsEditorDialogComponent } from './pages/transactions/transactions-editor-dialog/transactions-editor-dialog.component';
 
 @NgModule({
   declarations: [

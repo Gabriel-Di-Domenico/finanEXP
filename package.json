@@ -27,7 +27,11 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "moment": "^2.29.4",
+    "finan-exp-common": "file:dist/finan-exp-common",
+    "finan-exp-components": "file:dist/finan-exp-components",
+    "finan-exp-pipes": "file:dist/finan-exp-pipes",
+    "finan-exp-services": "file:dist/finan-exp-services",
+    "moment": "2.29.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 import { take } from 'rxjs';
-import { PerfilPhotoProxysService } from '../../../../shared/proxys/perfilPhotoProxys/perfil-photo-proxys.service';
+import { PerfilPhotoProxysService } from '../../../../api/perfilPhotoProxy/perfil-photo-proxys.service';
 import { Injectable } from '@angular/core';
-import { PerfilPhotoInput } from 'src/app/shared/support/interfaces/perfilPhoto/perfilPhotoInput.interface';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
-import { PerfilPhotoOutput } from 'src/app/shared/support/interfaces/perfilPhoto/perfilPhotoOutput';
+import { PerfilPhotoOutput } from 'src/app/core/dtos/perfilPhoto/perfilPhotoOutput';
+import { PerfilPhotoInput } from 'src/app/core/dtos/perfilPhoto/perfilPhotoInput';
 
 @Injectable({
   providedIn: 'root',

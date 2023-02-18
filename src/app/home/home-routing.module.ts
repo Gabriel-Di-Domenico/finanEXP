@@ -13,33 +13,33 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
+        loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
         canActivate: [AuthGuard],
         canLoad: [AuthGuard],
       },
       {
         path: 'transactions',
-        loadChildren: () => import('./modules/transactions/transactions.module').then(m => m.TransactionsModule),
+        loadChildren: () => import('./pages/transactions/transactions.module').then(m => m.TransactionsModule),
         canActivate: [AuthGuard],
         canLoad: [AuthGuard],
       },
 
       {
         path: 'customers',
-        loadChildren: () => import('./modules/customers/customers.module').then(m => m.CustomersModule),
+        loadChildren: () => import('./pages/customers/customers.module').then(m => m.CustomersModule),
         canActivate: [AuthGuard],
         canLoad: [AuthGuard],
       },
       {
         path: 'user/config',
-        loadChildren: () => import('./modules/user-config/user-config.module').then(m => m.UserConfigModule),
+        loadChildren: () => import('./pages/user-config/user-config.module').then(m => m.UserConfigModule),
         resolve: { currentUserId: UserResolverGuard },
         canActivate: [AuthGuard],
         canLoad: [AuthGuard],
       },
       {
         path: 'categories',
-        loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
+        loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesModule),
         canActivate: [AuthGuard],
         canLoad: [AuthGuard],
       },

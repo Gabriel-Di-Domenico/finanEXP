@@ -1,23 +1,15 @@
 using Customers.Enums;
+using Shared.Classes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Users.Models;
 
 namespace Customers.Models
 {
   [Table("Customers")]
-  public class Customer
+  public class Customer: FullEntity
   {
-    [Key]
-    public Guid Id { get; set; }
-
     [Required]
     public string Name { get; set; }
-
-    [Required]
-    [ForeignKey("Users")]
-    public Guid UserId { get; set; }
-    public virtual User User { get; set; }
 
     [Required]
     public CustomersTypeOptions Type { get; set; }
