@@ -7,9 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgModule } from '@angular/core';
 import { TransactionMenuComponent } from './components/transaction-menu/transaction-menu.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { FinanEXPComponentsModule } from 'finan-exp-components';
-import { FinanEXPPipesModule } from 'finan-exp-pipes';
-import { FinanEXPServicesModule } from 'finan-exp-services';
+import { FinanEXPComponentsModule, FinanEXPPipesModule, FinanEXPServicesModule } from 'finan-exp-sdk';
 
 @NgModule({
   declarations: [TransactionMenuComponent, PerfilPhotoComponent, FinCustomerCardComponent],

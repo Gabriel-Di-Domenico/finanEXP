@@ -1,4 +1,4 @@
-import { SnackBarControlService, DialogControlService } from 'finan-exp-services';
+import { SnackBarControlService, DialogControlService } from 'finan-exp-sdk';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 import { CustomersService } from './../customers.service';

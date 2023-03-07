@@ -1,4 +1,4 @@
-import { SnackBarControlService } from 'finan-exp-services';
+import { SnackBarControlService } from 'finan-exp-sdk';
 
 import { loginFormControls } from './loginFormControls';
 import { registerFormControls } from './registerFormControls';

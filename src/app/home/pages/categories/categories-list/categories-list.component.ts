@@ -1,5 +1,5 @@
 import { Category } from 'src/app/core/models/categories/category';
-import { DialogControlService, SnackBarControlService } from 'finan-exp-services';
+import { DialogControlService, SnackBarControlService } from 'finan-exp-sdk';
 import { GetAllFilter } from './../../../../shared/support/interfaces/getAllFilter';
 
 import { CategoriesEditorDialogComponent } from './../categories-editor-dialog/categories-editor-dialog.component';
@@ -13,7 +13,7 @@ import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CategoryOutput } from 'src/app/core/dtos/categories/categoryOutput';
 import { MatTable } from '@angular/material/table';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
-import { FinConfirmationDialogComponent } from 'finan-exp-components';
+import { FinConfirmationDialogComponent } from 'finan-exp-sdk';
 import { CategoriesEditorDialogData } from '../categories-editor-dialog/categoriesEditorDialogData';
 
 @Component({

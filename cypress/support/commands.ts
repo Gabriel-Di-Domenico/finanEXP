@@ -32,7 +32,7 @@ Cypress.Commands.add('getInput', (formControlName: string, screen?: string) => {
 });
 Cypress.Commands.add('getSubmitButton', (form: string) => {
   if (form != null) {
-    return cy.get(`${form} fin-submit-button button`);
+    return cy.get(`${form} fin-button[type='submit'] button`);
   }
   return cy.get('fin-submit-button button');
 });

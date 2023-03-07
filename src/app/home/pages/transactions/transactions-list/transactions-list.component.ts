@@ -1,4 +1,4 @@
-import { DialogControlService, SnackBarControlService } from 'finan-exp-services';
+import { DialogControlService, SnackBarControlService } from 'finan-exp-sdk';
 import ptBr from '@angular/common/locales/pt';
 import { CategoryOutput } from '../../../../core/dtos/categories/categoryOutput';
 import { GetAllFilter } from './../../../../shared/support/interfaces/getAllFilter';
@@ -9,7 +9,7 @@ import { Component, Input, OnInit, ViewChild, EventEmitter, OnDestroy, LOCALE_ID
 import { MatTable } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
-import { FinConfirmationDialogComponent } from 'finan-exp-components';
+import { FinConfirmationDialogComponent } from 'finan-exp-sdk';
 import { registerLocaleData } from '@angular/common';
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { transactionUpdatedHandler } from 'src/app/shared/handlers/transactionHandler/transactionUpdatedHandler';

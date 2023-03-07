@@ -1,4 +1,4 @@
-import { SnackBarControlService } from 'finan-exp-services';
+import { SnackBarControlService } from 'finan-exp-sdk';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 

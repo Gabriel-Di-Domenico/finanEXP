@@ -1,4 +1,4 @@
-import { CommonService } from 'finan-exp-services';
+import { CommonService } from 'finan-exp-sdk';
 
 import { UserService } from './services/user.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';

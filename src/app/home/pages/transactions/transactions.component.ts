@@ -1,4 +1,4 @@
-import { SnackBarControlService } from 'finan-exp-services';
+import { SnackBarControlService } from 'finan-exp-sdk';
 
 import { TransactionsService } from './transactions.service';
 import { Router, ActivatedRoute } from '@angular/router';
