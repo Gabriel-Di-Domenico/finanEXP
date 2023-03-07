@@ -24,9 +24,9 @@
           [required]="true"></fin-input>
       </div>
       <div class="second-div">
-          <fin-submit-button
-          label="Salvar alterações"
-          [disabled]="!canSave()"></fin-submit-button>
+          <fin-button
+          type="submit"
+          [disabled]="!canSave()">Salvar alterações<mat-icon>send</mat-icon></fin-button>
       </div>
     </ng-container>
     
@@ -52,9 +52,9 @@
           [formControlName]="securitySettingsFormConstrols.confirmPassword"
           class="fin-input"
           [required]="true"></fin-input>
-          <fin-submit-button
-          label="Salvar alterações"
-          [disabled]="!canSave()"></fin-submit-button>
+          <fin-button
+          type="submit"
+          [disabled]="!canSave()">Salvar alterações<mat-icon>send</mat-icon></fin-button>
       </div>
     </ng-container>
   </form>

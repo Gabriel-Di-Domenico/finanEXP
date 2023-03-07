@@ -1,4 +1,4 @@
-import { SnackBarControlService } from 'finan-exp-services';
+import { SnackBarControlService } from 'finan-exp-sdk';
 import { PerfilPhotoService } from './perfil-photo.service';
 
 import { UserHandler } from '../../../../shared/handlers/user-handler';

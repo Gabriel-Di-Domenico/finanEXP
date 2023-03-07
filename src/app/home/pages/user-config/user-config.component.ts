@@ -1,4 +1,4 @@
-import { CommonService, DialogControlService } from 'finan-exp-services';
+import { CommonService, DialogControlService } from 'finan-exp-sdk';
 import { PerfilPhotoService } from '../../components/profile/userPhotoEditor/perfil-photo.service';
 
 import { UserService } from '../../services/user.service';

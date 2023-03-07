@@ -1,23 +1,20 @@
-import { DialogControlService, SnackBarControlService } from 'finan-exp-services';
-import { ActivatedRoute } from '@angular/router';
 import { GetAllFilter } from './../../../../../shared/support/interfaces/getAllFilter';
 import { Subscription } from 'rxjs';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
-
 import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { CustomerEdtiorDialogComponent } from '../../customer-edtior-dialog/customer-edtior-dialog.component';
-
 import { CustomersService } from '../../customers.service';
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { customerTypesOptionsPortuguese } from 'src/app/shared/support/enums/customer-types-options-portuguese';
-import { FinConfirmationDialogComponent } from 'finan-exp-components';
 import { TransactionType } from 'src/app/shared/support/enums/transactionTypes/transaction-types';
 import { customerUpdateHandler } from 'src/app/shared/handlers/customerHandler/customerUpdateHandler';
-import { FinConfirmationDialogData } from 'dist/finan-exp-components/lib/dialogs/fin-confirmation-dialog/finConfirmationDialogData';
 import { CustomerOutput } from 'src/app/core/dtos/customers/customerOutput';
 import { TransactionOutput } from 'src/app/core/dtos/transactions/transactionOutput';
 import { CustomerEditorDialogDataInterface } from '../../customer-edtior-dialog/customerEditorDialogData.interface';
+import { DialogControlService, FinConfirmationDialogComponent, SnackBarControlService } from 'finan-exp-sdk';
+import { FinConfirmationDialogData }
+  from 'finan-exp-sdk/lib/components/dialogs/fin-confirmation-dialog/finConfirmationDialogData';
 
 @Component({
   selector: 'app-customer-details-dialog',

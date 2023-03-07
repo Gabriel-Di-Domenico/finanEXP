@@ -1,4 +1,4 @@
-import { CommonService } from 'finan-exp-services';
+import { CommonService } from 'finan-exp-sdk';
 import { environment } from 'src/environments/environment';
 import { GetAllFilter } from '../../shared/support/interfaces/getAllFilter';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';

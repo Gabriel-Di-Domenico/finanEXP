@@ -9,8 +9,7 @@
       class="fin-input"
       label="Saldo inicial"
       [formControlName]="formControls.initialBalance"
-      [required]="true"
-      ></fin-input-currency>
+      [required]="true"></fin-input-currency>
 
     <fin-input
       class="fin-input"
@@ -19,16 +18,12 @@
       [formControlName]="formControls.nameFormControl"
       [required]="true"></fin-input>
 
-    <fin-select
-      [formControlName]="formControls.type"
-      [options]="selectOptions"
-      label="Tipo de carteira"
-      [required]="true">
+    <fin-select [formControlName]="formControls.type" [options]="selectOptions" label="Tipo de carteira" [required]="true">
     </fin-select>
   </div>
   <div class="div-fin-submit-button">
-    <fin-submit-button label="Salvar" class="fin-submit-button" [disabled]="!canSave()">
-
-    </fin-submit-button>
+    <fin-button type='submit' class="fin-submit-button" [disabled]="!canSave()">
+      Salvar<mat-icon>send</mat-icon>
+    </fin-button>
   </div>
 </form>

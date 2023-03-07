@@ -1,5 +1,5 @@
 
-import { CommonService, SnackBarControlService } from 'finan-exp-services';
+import { CommonService, SnackBarControlService } from 'finan-exp-sdk';
 
 import { UserService } from './../../../../services/user.service';
 import { profileSettingFormControls } from './profileSettingsFormControls';

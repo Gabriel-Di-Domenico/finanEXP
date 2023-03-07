@@ -1,4 +1,4 @@
-import { SnackBarControlService, DialogControlService } from 'finan-exp-services';
+import { SnackBarControlService, DialogControlService } from 'finan-exp-sdk';
 import { CategoryOutput } from 'src/app/core/dtos/categories/categoryOutput';
 
 import { CategoriesService } from './../categories.service';

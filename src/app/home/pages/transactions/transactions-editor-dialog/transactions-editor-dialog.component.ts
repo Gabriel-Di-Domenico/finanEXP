@@ -1,4 +1,4 @@
-import { DialogControlService, SnackBarControlService } from 'finan-exp-services';
+import { DialogControlService, SnackBarControlService } from 'finan-exp-sdk';
 
 import { TransactionEditorFormControls } from './transactionsEditorFormControls';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

@@ -1,4 +1,4 @@
-import { DialogControlService } from 'finan-exp-services';
+import { DialogControlService } from 'finan-exp-sdk';
 import { ActivatedRoute } from '@angular/router';
 import { GetAllFilter } from './../../../../shared/support/interfaces/getAllFilter';
 import { CustomersService } from './../customers.service';

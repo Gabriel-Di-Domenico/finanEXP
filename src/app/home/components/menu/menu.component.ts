@@ -1,4 +1,4 @@
-import { CommonService, DialogControlService } from 'finan-exp-services';
+import { CommonService, DialogControlService } from 'finan-exp-sdk';
 
 import { TransactionType } from './../../../shared/support/enums/transactionTypes/transaction-types';
 

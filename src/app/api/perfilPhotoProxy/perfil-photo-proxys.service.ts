@@ -1,4 +1,4 @@
-import { CommonService } from 'finan-exp-services';
+import { CommonService } from 'finan-exp-sdk';
 import { environment } from 'src/environments/environment';
 
 import { Observable } from 'rxjs';

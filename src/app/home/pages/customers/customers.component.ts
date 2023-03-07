@@ -1,4 +1,4 @@
-import { DialogControlService } from 'finan-exp-services';
+import { DialogControlService } from 'finan-exp-sdk';
 import { CustomersService } from './customers.service';
 import { CustomerEdtiorDialogComponent } from './customer-edtior-dialog/customer-edtior-dialog.component';
 

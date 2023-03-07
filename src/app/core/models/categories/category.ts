@@ -1,5 +1,5 @@
 import { TransactionType } from './../../../shared/support/enums/transactionTypes/transaction-types';
-import { FullEntity } from 'dist/finan-exp-common';
+import { FullEntity } from 'finan-exp-sdk';
 
 export abstract class Category extends FullEntity {
   public name!: string;

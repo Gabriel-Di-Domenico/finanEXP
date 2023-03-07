@@ -12,7 +12,7 @@
 
       <fin-input label="Senha" type="password" [formControlName]="loginFormControls.password" [required]="true"></fin-input>
 
-      <fin-submit-button type="submit" label="Logar" [disabled]="!canSave()" id="submitButton"></fin-submit-button>
+      <fin-button type="submit" color="primary" [disabled]="!canSave()" id="submitButton">Logar<mat-icon>send</mat-icon></fin-button>
     </form>
   </mat-tab>
   <mat-tab label="Registrar">
@@ -46,7 +46,7 @@
         type="password"
         [formControlName]="registerFormControls.confirmationPassword"
         [required]="true"></fin-input>
-      <fin-submit-button type="submit" label="Registrar" [disabled]="!canSave()" id="submitButton"></fin-submit-button>
+      <fin-button type="submit" color='primary' [disabled]="!canSave()" id="submitButton">Registrar<mat-icon>send</mat-icon></fin-button>
     </form>
   </mat-tab>
 </mat-tab-group>

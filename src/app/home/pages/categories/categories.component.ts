@@ -1,4 +1,4 @@
-import { DialogControlService } from 'finan-exp-services';
+import { DialogControlService } from 'finan-exp-sdk';
 import { ActivatedRoute, Router } from '@angular/router';
 import { transactionTypeChangeHandler } from '../../../shared/handlers/transactionType/transactionTypeChangeHandler';
 import { TransactionType } from '../../../shared/support/enums/transactionTypes/transaction-types';
