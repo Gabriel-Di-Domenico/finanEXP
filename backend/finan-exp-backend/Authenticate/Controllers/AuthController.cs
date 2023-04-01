@@ -22,9 +22,9 @@ namespace Authenticate.Controllers
       _authUserService = authUserService;
     }
     [HttpPost("user")]
-    public ActionResult<ReturnDto<string>> AuthenticateAsync([FromBody] UserAuthDto user)
+    public async Task<ActionResult<ReturnDto<string>>> AuthenticateAsync([FromBody] UserAuthDto user)
     {
-      var userFromDatabase = _UserDatabase.GetUserByEmail(user.email);
+      var userFromDatabase = await _UserDatabase.GetUserByEmail(user.Email);
 
       var result = new ReturnDto<string>();
 

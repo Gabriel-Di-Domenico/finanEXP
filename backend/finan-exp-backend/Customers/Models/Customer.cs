@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Customers.Models
 {
   [Table("Customers")]
-  public class Customer: FullEntity
+  public class Customer: FullEntity, ICustomerModel
   {
     [Required]
     public string Name { get; set; }
@@ -18,7 +18,7 @@ namespace Customers.Models
     public decimal InitialBalance { get; set; }
 
     [Required]
-    public decimal ActualBalance { get; set; }
+    public  decimal ActualBalance { get; set; }
 
     [Required]
     public decimal TransferValue { get; set; }

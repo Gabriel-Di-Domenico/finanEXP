@@ -1,8 +1,8 @@
 using Customers.Enums;
 
-namespace Customers.Dtos
+namespace Customers.Models
 {
-  public class CustomerUpdateDto
+  public interface ICustomerModel
   {
     public string Name { get; set; }
 
@@ -12,7 +12,8 @@ namespace Customers.Dtos
 
     public decimal ActualBalance { get; set; }
 
-    public bool IsArchived { get; set; }
+    public decimal TransferValue { get; set; }
 
+    public bool IsArchived { get; set; }
   }
 }

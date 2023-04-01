@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Categories.Models
 {
   [Table("Categories")]
-  public class Category : FullEntity
+  public class Category : FullEntity, ICategoryModel
   {
     [Required]
     public string Name { get; set; }

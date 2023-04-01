@@ -7,11 +7,10 @@ namespace Categories.Services
 {
   public interface ICategoriesService
   {
-    ResponseStatus<List<Category>> GetAllCategories(Guid userId, GetAllFilter? filter);
-    ResponseStatus<Category> GetCategoryById(Guid id, Guid userId);
-    ResponseStatus UpdateCategory(Guid id, Guid userId, CategoryCreateDto newCategory);
-    ResponseStatus DeleteCategory(Guid id, Guid userId);
-    ResponseStatus CreateCategory(Category category);
-    bool SaveChanges();
+    Task<ResponseStatus<List<Category>>> GetAllCategories(GetAllFilter? filter);
+    Task<ResponseStatus<Category>> GetCategoryById(Guid id);
+    Task<ResponseStatus> UpdateCategory(Guid id, CategoryInput input);
+    Task<ResponseStatus> DeleteCategory(Guid id);
+    Task<ResponseStatus> CreateCategory(CategoryInput input);
   }
 }

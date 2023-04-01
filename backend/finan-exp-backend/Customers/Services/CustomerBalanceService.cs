@@ -1,5 +1,5 @@
 using AutoMapper;
-using Customers.Models;
+using Customers.Dtos;
 using Shared.Classes;
 using Shared.Enums;
 using Transactions.Models;
@@ -20,7 +20,7 @@ namespace Customers.Services
       _mapper = mapper;
     }
 
-    public ResponseStatus CalculateTransferValue(bool isCreate, Transaction transaction, Guid userId)
+    public async Task<ResponseStatus> CalculateTransferValue(bool isCreate, Transaction transaction)
     {
       if (transaction.SenderCustomerId != null)
       {
@@ -32,18 +32,18 @@ namespace Customers.Services
             (Guid)transaction.SenderCustomerId
           },
         };
-        var customers = _customerService.GetAllCustomers(userId, customersFilter);
+        var customers = await _customerService.GetAllCustomers(customersFilter);
 
         var senderCustomer = customers.Content.Find((customer) => customer.Id == transaction.SenderCustomerId);
         var receiverCustomer = customers.Content.Find((customer) => customer.Id == transaction.ReceiverCustomerId);
 
-        var senderCustomertransactions = _transactionService.GetAllTransactions(userId, new GetAllFilter
+        var senderCustomertransactions = await _transactionService.GetAllTransactions(new GetAllFilter
         {
           CustomerId = senderCustomer.Id,
           TransactionType = TransactionType.Transfer
 
         });
-        var receiverCustomertransactions = _transactionService.GetAllTransactions(userId, new GetAllFilter
+        var receiverCustomertransactions = await _transactionService.GetAllTransactions(new GetAllFilter
         {
           CustomerId = receiverCustomer.Id,
           TransactionType = TransactionType.Transfer
@@ -79,11 +79,10 @@ namespace Customers.Services
         });
         receiverCustomer.TransferValue = transferValue;
 
-        var updateCustomersResult = _customerService.BatchUpdateCustomer(new List<Customer>
+        /*var updateCustomersResult = _customerService.BatchUpdateCustomer(new List<Customer>
         {
           senderCustomer, receiverCustomer
-        });
-
+        });*/
 
         return ResponseStatus.Ok;
       }
@@ -93,12 +92,12 @@ namespace Customers.Services
       }
     }
 
-    public ResponseStatus CalculateCustomerBalance(Guid customerId, Guid userId)
+    public async Task<ResponseStatus> CalculateCustomerBalance(Guid customerId)
     {
-      var customer = _customerService.GetCustomerById(customerId, userId);
+      var customer = await _customerService.GetCustomerById(customerId);
 
       var filter = new GetAllFilter { CustomerId = customerId };
-      var transactions = _transactionService.GetAllTransactions(userId, filter);
+      var transactions = await _transactionService.GetAllTransactions(filter);
 
       decimal totalValue = customer.Content.InitialBalance + customer.Content.TransferValue;
 
@@ -115,8 +114,9 @@ namespace Customers.Services
       });
       customer.Content.ActualBalance = totalValue;
 
-      var updateCustomerResult = _customerService.UpdateCustomer(customer.Content.Id, customer.Content);
-
+      var customerInput = _mapper.Map<CustomerInput>(customer.Content);
+      var updateCustomerResult = await _customerService.UpdateCustomer(customer.Content.Id, customerInput);
+      
       if (updateCustomerResult == ResponseStatus.Ok || updateCustomerResult == ResponseStatus.AlreadyExists)
       {
         return ResponseStatus.Ok;

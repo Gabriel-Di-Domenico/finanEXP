@@ -1,11 +1,11 @@
 using Shared.Enums;
 
-namespace Categories.Dtos
+namespace Categories.Models
 {
-  public class CategoryReadDto
+  public interface ICategoryModel
   {
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public TransactionType TransactionType { get; set; }
+    public bool IsArchived { get; set; }
   }
 }

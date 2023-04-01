@@ -1,27 +1,41 @@
+using AutoMapper;
 using Categories.Dtos;
 using Categories.Models;
 using Contexts;
+using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
 using Shared.Enums;
+using Shared.Extensions;
+using Shared.Interfaces;
 
 namespace Categories.Services
 {
   public class CategoriesService : ICategoriesService
   {
-    private readonly FinEXPDatabaseContext _context;
+    private readonly IRepository<Category> _repository;
+    private readonly IValidationCategoryService _validationCategoryService;
 
-    public CategoriesService(FinEXPDatabaseContext context)
+    public IMapper _mapper { get; }
+
+    public CategoriesService(IRepository<Category> repository,
+      IValidationCategoryService validationCategoryService, IMapper mapper)
     {
-      _context = context;
+      _repository = repository;
+      _validationCategoryService = validationCategoryService;
+      _mapper = mapper;
     }
-    public ResponseStatus CreateCategory(Category category)
+    public async Task<ResponseStatus> CreateCategory(CategoryInput input)
     {
-      var categoryFromDatabase = GetCategoryByName(category);
-      if (categoryFromDatabase == null)
+      var validated = await _validationCategoryService
+        .ByNameAlreadyExists()
+        .Validate(input);
+
+      if (validated)
       {
+        var category = _mapper.Map<Category>(input);
         category.IsArchived = false;
-        _context.Categories.Add(category);
-        SaveChanges();
+        await _repository.AddAsync(category, true);
+
         return ResponseStatus.Ok;
       }
       else
@@ -29,50 +43,25 @@ namespace Categories.Services
         return ResponseStatus.AlreadyExists;
       }
     }
-
-    public bool SaveChanges()
+    public async Task<ResponseStatus<List<Category>>> GetAllCategories(GetAllFilter? filter)
     {
-      return _context.SaveChanges() >= 0;
-    }
+      var categories = await _repository
+        .WhereIf(filter.IsArchived.HasValue, category => category.IsArchived == filter.IsArchived)
+        .WhereIf(filter.TransactionType.HasValue, category => category.TransactionType == filter.TransactionType)
+        .ToListAsync();
 
-    public ResponseStatus<List<Category>> GetAllCategories(Guid userId, GetAllFilter? filter)
-    {
-      var categories = new List<Category>();
-      if (filter.IsArchived == null)
-      {
-        categories = _context.Categories.Where(category => category.UserId == userId).ToList();
-      }
-      else if (filter.IsArchived != null)
-      {
-        categories = _context.Categories.Where(category => category.UserId == userId)
-          .Where(category => filter.TransactionType != null ? category.TransactionType == filter.TransactionType : true)
-          .Where(category => category.IsArchived == (filter.IsArchived != null ? filter.IsArchived : false)).ToList();
-      }
-      else
-      {
-        categories = _context.Categories.Where(category => category.UserId == userId).ToList();
-      }
-
-      if (categories != null)
-      {
-        return new ResponseStatus<List<Category>> { Status = ResponseStatus.Ok, Content = categories };
-      }
-
-      return new ResponseStatus<List<Category>>
-      {
-        Status = ResponseStatus.NotFound,
-      };
+       return new ResponseStatus<List<Category>> { Status = ResponseStatus.Ok, Content = categories };
     }
     public Category? GetCategoryByName(Category newCategory)
     {
-      return _context.Categories.FirstOrDefault(category =>
+      return _repository.FirstOrDefault(category =>
         category.UserId == newCategory.UserId
         && category.Name == newCategory.Name
       );
     }
-    public ResponseStatus<Category> GetCategoryById(Guid id, Guid userId)
+    public async Task<ResponseStatus<Category>> GetCategoryById(Guid id)
     {
-      var category = _context.Categories.FirstOrDefault(category => category.Id == id && category.UserId == userId);
+      var category = await _repository.FirstOrDefaultAsync(category => category.Id == id);
       if (category != null)
       {
 
@@ -86,35 +75,39 @@ namespace Categories.Services
       };
     }
 
-    public ResponseStatus UpdateCategory(Guid id, Guid userId, CategoryCreateDto newCategory)
+    public async Task<ResponseStatus> UpdateCategory(Guid id, CategoryInput input)
     {
-      var getCategoryByIdResult = GetCategoryById(id, userId);
+      var getCategoryByIdResult = await _repository.FirstOrDefaultAsync(category => category.Id == id);
 
-      if (getCategoryByIdResult.Status == ResponseStatus.Ok)
+      var validated = await _validationCategoryService
+        .ByNameAlreadyExists()
+        .Validate(input);
+      if (validated)
       {
-        if (newCategory.IsArchived != null)
+        if (input.IsArchived != null)
         {
-          getCategoryByIdResult.Content.IsArchived = (bool)newCategory.IsArchived;
+          getCategoryByIdResult.IsArchived = (bool)input.IsArchived;
         }
 
-        getCategoryByIdResult.Content.Name = newCategory.Name;
+        getCategoryByIdResult.Name = input.Name;
 
-        _context.Categories.Update(getCategoryByIdResult.Content);
-        SaveChanges();
+        _repository.Update(getCategoryByIdResult, true);
+
         return ResponseStatus.Ok;
       }
-      return ResponseStatus.BadRequest;
-    }
-    public ResponseStatus DeleteCategory(Guid id, Guid userId)
-    {
-      var getCategoryByIdResult = GetCategoryById(id, userId);
-      if (getCategoryByIdResult.Status == ResponseStatus.Ok)
+      else
       {
-        _context.Categories.Remove(getCategoryByIdResult.Content);
-        SaveChanges();
-        return ResponseStatus.Ok;
+        return ResponseStatus.AlreadyExists;
       }
-      return ResponseStatus.BadRequest;
+    }
+    public async Task<ResponseStatus> DeleteCategory(Guid id)
+    {
+      var getCategoryByIdResult = await _repository.FirstOrDefaultAsync(category => category.Id == id);
+      
+        _repository.Remove(getCategoryByIdResult, true);
+
+        return ResponseStatus.Ok;
+
     }
 
   }

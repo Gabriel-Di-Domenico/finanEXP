@@ -1,6 +1,8 @@
 using Authenticate.Services;
+using AutoMapper;
 using Contexts;
 using Shared.Enums;
+using Shared.Interfaces;
 using Shared.Services;
 using Users.Dtos;
 using Users.Models;
@@ -9,29 +11,33 @@ namespace Users.Services
 {
   public class UserDatabaseService : IUserDatabaseService
   {
-    private readonly FinEXPDatabaseContext _context;
     private readonly IAuthUserService _authUserService;
+    private readonly IRepository<User> _repository;
+    private readonly IMapper _mapper;
 
     public UserDatabaseService()
     {
 
     }
-    public UserDatabaseService(FinEXPDatabaseContext context, IAuthUserService authUserService)
+    public UserDatabaseService(IAuthUserService authUserService, IRepository<User> repository,
+      IMapper mapper)
     {
-      _context = context;
       _authUserService = authUserService;
+      _repository = repository;
+      _mapper = mapper;
     }
 
-    public ResponseStatus CreateUser(User user)
+    public async Task<ResponseStatus> CreateUser(UserInput input)
     {
-      var verifyExistingUser = GetUserByEmail(user.Email);
+      var verifyExistingUser = await _repository.FirstOrDefaultAsync(p => p.Email == input.Email);
 
       if (verifyExistingUser == null)
       {
+        var user = _mapper.Map<User>(input);
         user.Password = Bcrypt.Encrypt(user.Password);
 
-        _context.Users.Add(user);
-        SaveChanges();
+        await _repository.AddAsync(user, true);
+
         return ResponseStatus.Ok;
       }
       else
@@ -40,44 +46,38 @@ namespace Users.Services
       }
     }
 
-    public IEnumerable<User> GetAllUsers()
+    public async Task<List<User>> GetAllUsers()
     {
-      return _context.Users.ToList();
+      return await _repository.ToListAsync();
     }
 
-    public User GetUserByID(Guid id)
+    public async Task<User?> GetUserByID(Guid id)
     {
-      return _context.Users.FirstOrDefault(p => p.Id == id);
+      return await _repository.FirstOrDefaultAsync(p => p.Id == id);
+    }
+    public async Task<User?> GetUserByEmail(string email)
+    {
+      return await _repository.FirstOrDefaultAsync(p => p.Email == email);
     }
 
-    public bool SaveChanges()
+    public async Task<ResponseStatus> UpdateUser(Guid id, UserInput input)
     {
-      return _context.SaveChanges() >= 0;
-    }
-
-    public User GetUserByEmail(string email)
-    {
-      return _context.Users.FirstOrDefault(p => p.Email == email);
-    }
-
-    public ResponseStatus UpdateUser(Guid id, UserUpdateDto newUser)
-    {
-      var verifyExistingUser = GetUserByEmail(newUser.email);
+      var verifyExistingUser = await _repository.FirstOrDefaultAsync(p => p.Email == input.Email);
 
       if (verifyExistingUser == null || verifyExistingUser.Id == id)
       {
-        var userFromDataBase = GetUserByID(id);
+        var userFromDataBase = await _repository.FirstOrDefaultAsync(p => p.Id == id);
 
-        userFromDataBase.Email = newUser.email;
-        userFromDataBase.Name = newUser.name;
+        userFromDataBase.Email = input.Email;
+        userFromDataBase.Name = input.Name;
 
-        if (newUser.NewPassword != null)
+        if (input.NewPassword != null)
         {
-          var authenticatedPassword = _authUserService.AuthenticatePasswords(newUser.password, userFromDataBase.Password);
+          var authenticatedPassword = _authUserService.AuthenticatePasswords(input.Password, userFromDataBase.Password);
 
           if (authenticatedPassword)
           {
-            var newPassword = Bcrypt.Encrypt(newUser.NewPassword);
+            var newPassword = Bcrypt.Encrypt(input.NewPassword);
             userFromDataBase.Password = newPassword;
           }
           else
@@ -86,14 +86,19 @@ namespace Users.Services
           }
         }
 
-        _context.Update(userFromDataBase);
-        SaveChanges();
+        _repository.Update(userFromDataBase, true);
+
         return ResponseStatus.Ok;
       }
       else
       {
         return ResponseStatus.AlreadyExists;
       }
+    }
+
+    public User? SyncGetUserByID(Guid id)
+    {
+      return _repository.FirstOrDefault(user => user.Id == id);
     }
   }
 }

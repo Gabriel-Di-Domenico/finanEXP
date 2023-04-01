@@ -24,31 +24,31 @@ namespace finan_exp_backend_tests.Supports
     {
       new User
       {
-        email = MockValidEmails[0],
-        ID = MockIds[0],
-        name = MockStrings[0],
-        password = MockValidPassword[0]
+        Email = MockValidEmails[0],
+        Id = MockIds[0],
+        Name = MockStrings[0],
+        Password = MockValidPassword[0]
       },
       new User
       {
-        email = MockValidEmails[1],
-        ID = MockIds[1],
-        name = MockStrings[1],
-        password = MockValidPassword[1]
+        Email = MockValidEmails[1],
+        Id = MockIds[1],
+        Name = MockStrings[1],
+        Password = MockValidPassword[1]
       },
       new User
       {
-        email = MockValidEmails[2],
-        ID = MockIds[2],
-        name = MockStrings[2],
-        password = MockValidPassword[2]
+        Email = MockValidEmails[2],
+        Id = MockIds[2],
+        Name = MockStrings[2],
+        Password = MockValidPassword[2]
       },
       new User
       {
-        email = MockValidEmails[3],
-        ID = MockIds[3],
-        name = MockStrings[3],
-        password = MockValidPassword[3]
+        Email = MockValidEmails[3],
+        Id = MockIds[3],
+        Name = MockStrings[3],
+        Password = MockValidPassword[3]
       },
     };
   }

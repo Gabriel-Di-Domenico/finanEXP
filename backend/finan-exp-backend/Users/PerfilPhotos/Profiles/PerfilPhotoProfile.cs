@@ -8,7 +8,7 @@ namespace Users.PerfilPhotos.Profiles
   {
     public PerfilPhotoProfile()
     {
-      CreateMap<PerfilPhoto, PerfilPhotoReadDto>();
+      CreateMap<PerfilPhoto, PerfilPhotoOutput>();
     }
   }
 }

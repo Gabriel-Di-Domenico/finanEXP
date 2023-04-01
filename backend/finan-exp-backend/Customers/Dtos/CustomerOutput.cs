@@ -3,7 +3,7 @@ using Customers.Models;
 
 namespace Customers.Dtos
 {
-  public class CustomerReadDto
+  public class CustomerOutput : ICustomerModel
   {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -15,5 +15,6 @@ namespace Customers.Dtos
     public decimal ActualBalance { get; set; }
 
     public bool IsArchived { get; set; }
+    public decimal TransferValue { get; set; }
   }
 }

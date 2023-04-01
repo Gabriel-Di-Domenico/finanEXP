@@ -24,16 +24,16 @@ namespace finan_exp_backend_tests.Authenticate.Controllers
 
       var mockUser = new UserAuthDto
       {
-        email = TestUtils.MockValidEmails[0],
-        name = TestUtils.MockStrings[0],
-        password = TestUtils.MockStrings[0]
+        Email = TestUtils.MockValidEmails[0],
+        Name = TestUtils.MockStrings[0],
+        Password = TestUtils.MockStrings[0]
       };
       //Act
       var result = authController.AuthenticateAsync(mockUser);
 
       //Assert
       var output = result.Result as OkResult;
-
+      
       output.StatusCode.Should().Be(200);
      
     }

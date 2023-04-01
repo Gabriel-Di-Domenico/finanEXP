@@ -3,50 +3,58 @@ using Shared.Enums;
 using Contexts;
 using Transactions.Dtos;
 using Transactions.Models;
+using Shared.Interfaces;
+using AutoMapper;
+using Shared.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Transactions.Services
 {
   public class TransactionService : ITransactionService
   {
-    private readonly FinEXPDatabaseContext _context;
+    private readonly IRepository<Transaction> _repository;
+    private readonly IMapper _mapper;
 
-    public TransactionService(FinEXPDatabaseContext context)
+    public TransactionService(IRepository<Transaction> repository,
+       IMapper mapper)
     {
-      _context = context;
+      _repository = repository;
+      _mapper = mapper;
     }
 
-    public ResponseStatus CreateTransaction(Transaction transaction)
+    public async Task<ResponseStatus> CreateTransaction(TransactionInput input)
     {
-      if (transaction.SenderCustomerId != transaction.ReceiverCustomerId)
+      if (input.SenderCustomerId == input.ReceiverCustomerId)
       {
-        _context.Transactions.Add(transaction);
-        SaveChanges();
-        return ResponseStatus.Ok;
+        throw new Exception("SenderCustomer can't be equal ReceiverCustomer");
       }
-      throw new Exception("SenderCustomer can't be equal ReceiverCustomer");
+
+      var transaction = _mapper.Map<Transaction>(input);
+      await _repository.AddAsync(transaction, true);
+
+      return ResponseStatus.Ok;
+      
     }
 
-    public ResponseStatus<Transaction> DeleteTransaction(Guid id)
+    public async Task<ResponseStatus<Transaction>> DeleteTransaction(Guid id)
     {
-      var getTransactionByIdResult = GetTransactionById(id);
-      if (getTransactionByIdResult.Status == ResponseStatus.Ok)
+      var getTransactionByIdResult = await _repository.FirstOrDefaultAsync(transaction => transaction.Id == id);
+      
+     _repository.Remove(getTransactionByIdResult, true);
+
+      return new ResponseStatus<Transaction>
       {
-        _context.Transactions.Remove(getTransactionByIdResult.Content);
-        SaveChanges();
-        return new ResponseStatus<Transaction>
-        {
-          Status = ResponseStatus.Ok,
-          Content = getTransactionByIdResult.Content
-        };
-      }
-      return new ResponseStatus<Transaction> { Status = ResponseStatus.BadRequest };
+        Content = getTransactionByIdResult,
+        Status = ResponseStatus.Ok
+      };
     }
 
-    public ResponseStatus<List<Transaction>> GetAllTransactions(Guid userId, GetAllFilter? filter)
+    public async Task<ResponseStatus<List<Transaction>>> GetAllTransactions(GetAllFilter? filter)
     {
-      var transactions = _context.Transactions.Where(transaction => transaction.UserId == userId
-      && (transaction.ReceiverCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.ReceiverCustomerId) || transaction.SenderCustomerId == (filter.CustomerId != null ? filter.CustomerId : transaction.SenderCustomerId))
-      && transaction.TransactionType == (filter.TransactionType != null ? filter.TransactionType : transaction.TransactionType)).ToList();
+      var transactions = await _repository
+        .WhereIf(filter.CustomerId != null, (transaction => transaction.ReceiverCustomerId == filter.CustomerId || transaction.SenderCustomerId == filter.CustomerId))
+        .WhereIf(filter.TransactionType != null, (transaction => transaction.TransactionType == filter.TransactionType))
+        .ToListAsync();
 
       if (transactions != null)
       {
@@ -58,9 +66,9 @@ namespace Transactions.Services
         Status = ResponseStatus.NotFound,
       };
     }
-    public ResponseStatus<Transaction> GetTransactionById(Guid id)
+    public async Task<ResponseStatus<Transaction>> GetTransactionById(Guid id)
     {
-      var transaction = _context.Transactions.FirstOrDefault(transaction => transaction.Id == id);
+      var transaction = await _repository.FirstOrDefaultAsync(transaction => transaction.Id == id);
       if (transaction != null)
       {
         return new ResponseStatus<Transaction> { Status = ResponseStatus.Ok, Content = transaction };
@@ -72,40 +80,27 @@ namespace Transactions.Services
       };
     }
 
-    public bool SaveChanges()
-    {
-      return _context.SaveChanges() >= 0;
-    }
-
-    public ResponseStatus<Transaction> UpdateTransaction(Guid id, TransactionCreateDto newTransaction)
+    public async Task<ResponseStatus<Transaction>> UpdateTransaction(Guid id, TransactionInput newTransaction)
     {
       if (newTransaction.SenderCustomerId == newTransaction.ReceiverCustomerId)
       {
         throw new Exception("SenderCustomer can't be equal ReceiverCustomer");
       }
-      var getTransactionByIdResult = GetTransactionById(id);
+      var getTransactionByIdResult = await _repository.FirstOrDefaultAsync(transaction => transaction.Id == id);
 
-      if (getTransactionByIdResult.Status == ResponseStatus.Ok)
-      {
+      getTransactionByIdResult.CategoryId = newTransaction.CategoryId;
+      getTransactionByIdResult.ReceiverCustomerId = newTransaction.ReceiverCustomerId;
+      getTransactionByIdResult.Value = newTransaction.Value;
+      getTransactionByIdResult.TransactionType = newTransaction.TransactionType;
+      getTransactionByIdResult.Description = newTransaction.Description;
+      getTransactionByIdResult.Date = newTransaction.Date;
 
-        getTransactionByIdResult.Content.CategoryId = newTransaction.CategoryId;
-        getTransactionByIdResult.Content.ReceiverCustomerId = newTransaction.ReceiverCustomerId;
-        getTransactionByIdResult.Content.Value = newTransaction.Value;
-        getTransactionByIdResult.Content.TransactionType = newTransaction.TransactionType;
-        getTransactionByIdResult.Content.Description = newTransaction.Description;
-        getTransactionByIdResult.Content.Date = newTransaction.Date;
-
-        _context.Transactions.Update(getTransactionByIdResult.Content);
-        SaveChanges();
-        return new ResponseStatus<Transaction>
-        {
-          Status = ResponseStatus.Ok,
-          Content = getTransactionByIdResult.Content
-        };
-      }
+      _repository.Update(getTransactionByIdResult, true);
+        
       return new ResponseStatus<Transaction>
       {
-        Status = ResponseStatus.BadRequest,
+        Status = ResponseStatus.Ok,
+        Content = getTransactionByIdResult
       };
     }
   }

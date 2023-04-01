@@ -1,16 +1,13 @@
+using Categories.Models;
 using Shared.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace Categories.Dtos
 {
-  public class CategoryCreateDto
+  public class CategoryOutput : ICategoryModel
   {
-    [Required]
+    public Guid Id { get; set; }
     public string Name { get; set; }
-
-    [Required]
     public TransactionType TransactionType { get; set; }
-
-    public bool? IsArchived { get; set; }
+    public bool IsArchived { get ; set ; }
   }
 }

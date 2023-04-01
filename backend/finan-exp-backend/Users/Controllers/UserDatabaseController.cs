@@ -25,11 +25,11 @@ public class UserDatabaseController : ControllerBase
 
   [HttpGet("{id}", Name = "GetUserByID")]
   [Authorize]
-  public ActionResult<ReturnDto<UserReadDto>> GetUserByID([FromRoute] Guid id)
+  public async Task<ActionResult<ReturnDto<UserOutput>>> GetUserByID([FromRoute] Guid id)
   {
-    var user = _UserDatabaseService.GetUserByID(id);
+    var user = await _UserDatabaseService.GetUserByID(id);
 
-    var result = new ReturnDto<UserReadDto>();
+    var result = new ReturnDto<UserOutput>();
 
     if (user != null)
     {
@@ -38,7 +38,7 @@ public class UserDatabaseController : ControllerBase
         error = false,
         message = "Sucesso"
       };
-      result.Content = _Mapper.Map<UserReadDto>(user);
+      result.Content = _Mapper.Map<UserOutput>(user);
 
       return Ok(result);
     }
@@ -53,13 +53,11 @@ public class UserDatabaseController : ControllerBase
 
 
   [HttpPost("add")]
-  public ActionResult<ReturnDto> CreateUser([FromBody] UserCreateDto user)
+  public async Task<ActionResult<ReturnDto>> CreateUser([FromBody] UserInput input)
   {
-    var User = _Mapper.Map<User>(user);
-
     var result = new ReturnDto();
 
-    var createUserResult = _UserDatabaseService.CreateUser(User);
+    var createUserResult = await _UserDatabaseService.CreateUser(input);
 
     if (createUserResult == ResponseStatus.Ok)
     {
@@ -87,9 +85,9 @@ public class UserDatabaseController : ControllerBase
 
   [HttpPut("{id}")]
   [Authorize]
-  public ActionResult<ReturnDto> UpdateUser([FromRoute] Guid id, [FromBody] UserUpdateDto user)
+  public async Task<ActionResult<ReturnDto>> UpdateUser([FromRoute] Guid id, [FromBody] UserInput input)
   {
-    var updateUserResponse = _UserDatabaseService.UpdateUser(id, user);
+    var updateUserResponse = await _UserDatabaseService.UpdateUser(id, input);
 
     var result = new ReturnDto();
 

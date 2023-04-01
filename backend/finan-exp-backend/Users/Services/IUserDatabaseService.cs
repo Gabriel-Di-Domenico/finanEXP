@@ -6,11 +6,11 @@ namespace Users.Services
 {
   public interface IUserDatabaseService
   {
-    IEnumerable<User> GetAllUsers();
-    User GetUserByID(Guid id);
-    User GetUserByEmail(string email);
-    ResponseStatus CreateUser(User user);
-    ResponseStatus UpdateUser(Guid id, UserUpdateDto newUser);
-    bool SaveChanges();
+    Task<List<User>> GetAllUsers();
+    Task<User?> GetUserByID(Guid id);
+    User? SyncGetUserByID(Guid id);
+    Task<User?> GetUserByEmail(string email);
+    Task<ResponseStatus> CreateUser(UserInput input);
+    Task<ResponseStatus> UpdateUser(Guid id, UserInput input);
   }
 }

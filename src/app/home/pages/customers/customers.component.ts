@@ -69,7 +69,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
   }
   private getCustomers() {
-    this.customersService.getAll(undefined, (data: ResponseDto<Array<CustomerOutput>>) => {
+    this.customersService.getAll({ isArchived: this.isArchivedComponent } as GetAllFilter, (data: ResponseDto<Array<CustomerOutput>>) => {
       customerUpdateHandler.emit(data.content)
     });
   }

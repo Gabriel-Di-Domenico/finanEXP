@@ -1,14 +1,13 @@
-using Shared.Classes;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Users.Models;
 
-namespace Users.Models
+namespace Users.Dtos
 {
-  [Table("Users")]
-  public class User: Entity, IUserModel
+  public class UserInput : IUserModel
   {
+
     [Required]
-    [MaxLength(256)]
+    [MaxLength(30)]
     public string Name { get; set; } = "";
 
 
@@ -19,6 +18,8 @@ namespace Users.Models
     [Required]
     [MaxLength(250)]
     public string Password { get; set; } = "";
+
+    public string? NewPassword { get; set; }
 
   }
 }
