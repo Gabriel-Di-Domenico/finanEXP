@@ -9,8 +9,8 @@ namespace Transactions.Profiles
   {
     public TransactionProfile()
     {
-      CreateMap<TransactionCreateDto, Transaction>();
-      CreateMap<Transaction, TransactionReadDto>();
+      CreateMap<TransactionInput, Transaction>();
+      CreateMap<Transaction, TransactionOutput>();
     }
   }
 }

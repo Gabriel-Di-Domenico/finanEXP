@@ -1,6 +1,5 @@
-using Contexts;
-using Microsoft.EntityFrameworkCore;
 using Shared.Enums;
+using Shared.Interfaces;
 using Users.PerfilPhotos.Dtos;
 using Users.PerfilPhotos.Models;
 using Users.Services;
@@ -9,28 +8,23 @@ namespace Users.PerfilPhotos.Services
 {
   public class PerfilPhotoService : IPerfilPhotoService
   {
-    private readonly FinEXPDatabaseContext _context;
-    private readonly IUserDatabaseService _userDatabaseService;
+    public IUserDatabaseService UserDatabaseService { get; }
+    public IRepository<PerfilPhoto> _repository { get; }
 
-    public PerfilPhotoService(FinEXPDatabaseContext context, IUserDatabaseService userDatabaseService)
+    public PerfilPhotoService(IRepository<PerfilPhoto> repository)
     {
-      _context = context;
-      _userDatabaseService = userDatabaseService;
+      _repository = repository;
     }
 
-    public IUserDatabaseService UserDatabaseService { get; }
-
-    public ResponseStatus CreatePerfilPhoto(Guid userId, PerfilPhotoCreateDto newPerfilPhoto)
+    public async Task<ResponseStatus> CreatePerfilPhoto(PerfilPhotoInput newPerfilPhoto)
     {
-
-      if (newPerfilPhoto.name != null && newPerfilPhoto.data != null)
+      if (newPerfilPhoto.Name != null && newPerfilPhoto.Data != null)
       {
-        PerfilPhoto perfilPhoto = new PerfilPhoto { Name = newPerfilPhoto.name, Data = newPerfilPhoto.data, UserId = userId };
+        PerfilPhoto perfilPhoto = new PerfilPhoto { Name = newPerfilPhoto.Name, Data = newPerfilPhoto.Data };
         perfilPhoto.Id = new Guid();
 
-        _context.PerfilPhotos.Add(perfilPhoto);
+        await _repository.AddAsync(perfilPhoto, true);
 
-        _context.SaveChanges();
         return ResponseStatus.Ok;
       }
       else
@@ -38,38 +32,30 @@ namespace Users.PerfilPhotos.Services
         return ResponseStatus.BadRequest;
       }
     }
-    public async Task<ResponseStatus<PerfilPhoto>> GetPerfilPhoto(Guid userId)
+    public async Task<ResponseStatus<PerfilPhoto>> GetPerfilPhoto()
     {
-      PerfilPhoto perfilPhoto = _context.PerfilPhotos.FirstOrDefault(p => p.UserId == userId);
+      var perfilPhoto = await _repository.FirstOrDefaultAsync();
 
       return new ResponseStatus<PerfilPhoto> { Status = ResponseStatus.Ok, Content = perfilPhoto };
     }
 
-    public async Task<ResponseStatus> DeletePerfilPhoto(Guid userId)
+    public async Task<ResponseStatus> DeletePerfilPhoto()
     {
-      PerfilPhoto perfilPhoto = (await GetPerfilPhoto(userId)).Content;
+      var perfilPhoto = await _repository.FirstOrDefaultAsync();
 
-      if (perfilPhoto.UserId == userId)
-      {
-        _context.PerfilPhotos.Remove(perfilPhoto);
-        _context.SaveChanges();
-        return ResponseStatus.Ok;
-      }
-      else
-      {
-        return ResponseStatus.BadRequest;
-      }
+      _repository.Remove(perfilPhoto, true);
+
+      return ResponseStatus.Ok;
     }
 
-    public async Task<ResponseStatus> UpdatePerfilPhoto(Guid userId, PerfilPhotoCreateDto newPerfilPhoto)
+    public async Task<ResponseStatus> UpdatePerfilPhoto(PerfilPhotoInput newPerfilPhoto)
     {
-      var perfilPhoto = await GetPerfilPhoto(userId);
+      var perfilPhoto = await _repository.FirstOrDefaultAsync();
 
-      perfilPhoto.Content.Name = newPerfilPhoto.name;
-      perfilPhoto.Content.Data = newPerfilPhoto.data;
+      perfilPhoto.Name = newPerfilPhoto.Name;
+      perfilPhoto.Data = newPerfilPhoto.Data;
 
-      _context.PerfilPhotos.Update(perfilPhoto.Content);
-      _context.SaveChanges();
+      _repository.Update(perfilPhoto, true);
 
       return ResponseStatus.Ok;
     }

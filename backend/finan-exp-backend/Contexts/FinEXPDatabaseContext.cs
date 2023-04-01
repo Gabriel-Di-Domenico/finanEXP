@@ -4,15 +4,13 @@ using Users.Models;
 using Categories.Models;
 using Users.PerfilPhotos.Models;
 using Transactions.Models;
+using Shared.Classes;
+using Authenticate.Services;
 
 namespace Contexts
 {
   public class FinEXPDatabaseContext : DbContext
   {
-
-    public FinEXPDatabaseContext(DbContextOptions<FinEXPDatabaseContext> opt) : base(opt)
-    {
-    }
     public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
 
@@ -21,6 +19,12 @@ namespace Contexts
     public DbSet<Category> Categories { get; set; }
 
     public DbSet<Transaction> Transactions { get; set; }
+    public CurrentUserProvider _currentUserProvider { get; }
+    public User currentUser { get; set; }
+    public IHttpContextAccessor _accessor { get; }
 
+    public FinEXPDatabaseContext(DbContextOptions<FinEXPDatabaseContext> opt) : base(opt)
+    {
+    }
   }
 }

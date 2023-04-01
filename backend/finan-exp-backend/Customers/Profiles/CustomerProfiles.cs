@@ -8,9 +8,10 @@ namespace Customers.Profiles
   {
     public CustomerProfiles()
     {
-      CreateMap<CustomerCreateDto, Customer>();
-      CreateMap<Customer, CustomerReadDto>();
-      CreateMap<CustomerUpdateDto, Customer>();
+      CreateMap<CustomerInput, Customer>();
+      CreateMap<Customer, CustomerOutput>();
+      CreateMap<CustomerInput, Customer>();
+      CreateMap<Customer, CustomerInput>();
     }
   }
 }

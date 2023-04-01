@@ -1,6 +1,8 @@
+using PerfilPhotos.Models;
+
 namespace Users.PerfilPhotos.Dtos
 {
-  public class PerfilPhotoReadDto
+  public class PerfilPhotoOutput : IPerfilPhotoModel
   {
     public Guid Id { get; set; }
     public string Name { get; set; }

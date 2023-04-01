@@ -36,6 +36,9 @@ export class TransactionsProxysService {
     if (filter?.transactionType != null && filter.transactionType !== TransactionType.transactions) {
       params = params.append('transactionType', filter?.transactionType);
     }
+    if (filter?.customerId != null ) {
+      params = params.append('customerId', filter?.customerId);
+    }
 
     return <Observable<ResponseDto<Array<TransactionOutput>>>>this.httpClient.get(`${this.basePath}`, { headers, params });
   }

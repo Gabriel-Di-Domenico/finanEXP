@@ -20,14 +20,14 @@ namespace Customers.Controllers
     }
     [HttpPut("{customerId}")]
     [Authorize]
-    public ActionResult<ReturnDto> CalculateCustomerBalance([FromRoute] Guid customerId)
+    public async Task<ActionResult<ReturnDto>> CalculateCustomerBalance([FromRoute] Guid customerId)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
       var result = new ReturnDto();
 
-      var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(customerId, userId);
+      var calculateCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance(customerId);
       if (calculateCustomerBalanceResult == ResponseStatus.Ok)
       {
         result.Message = new Message

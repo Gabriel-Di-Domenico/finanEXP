@@ -8,10 +8,9 @@ namespace Users.Profiles
   {
     public UsersProfile()
     {
-      CreateMap<User, UserReadDto>();
-      CreateMap<UserCreateDto, User>();
-      CreateMap<UserUpdateDto, User>();
-      CreateMap<User, UserUpdateDto>();
+      CreateMap<User, UserOutput>();
+      CreateMap<UserInput, User>();
+      CreateMap<User, UserInput>();
     }
   }
 }

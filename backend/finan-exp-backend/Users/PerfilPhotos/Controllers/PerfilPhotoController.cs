@@ -26,12 +26,9 @@ namespace Users.PerfilPhotos.Controllers
 
     [HttpPost]
     [Authorize]
-    public ActionResult<ReturnDto> CreatePerfilPhoto(PerfilPhotoCreateDto newPerfilPhoto)
+    public async Task<ActionResult<ReturnDto>> CreatePerfilPhoto(PerfilPhotoInput newPerfilPhoto)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      var createPerfilPhotoResult = _perfilPhotoService.CreatePerfilPhoto(userId, newPerfilPhoto);
+      var createPerfilPhotoResult = await _perfilPhotoService.CreatePerfilPhoto(newPerfilPhoto);
       var result = new ReturnDto();
       if (createPerfilPhotoResult == ResponseStatus.Ok)
       {
@@ -48,12 +45,9 @@ namespace Users.PerfilPhotos.Controllers
     [HttpPut]
     [Authorize]
     public async Task<ActionResult<ReturnDto>> UpdatePerfilPhoto(
-      [FromBody] PerfilPhotoCreateDto newPerfilPhoto)
+      [FromBody] PerfilPhotoInput newPerfilPhoto)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      var updatePerfilPhotoResponse = await _perfilPhotoService.UpdatePerfilPhoto(userId, newPerfilPhoto);
+      var updatePerfilPhotoResponse = await _perfilPhotoService.UpdatePerfilPhoto(newPerfilPhoto);
       var result = new ReturnDto();
       if (updatePerfilPhotoResponse == ResponseStatus.Ok)
       {
@@ -69,17 +63,15 @@ namespace Users.PerfilPhotos.Controllers
 
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<ReturnDto<PerfilPhotoReadDto>>> GetPerfilPhoto()
+    public async Task<ActionResult<ReturnDto<PerfilPhotoOutput>>> GetPerfilPhoto()
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-      var perfilPhotoResponse = await _perfilPhotoService.GetPerfilPhoto(userId);
+      var perfilPhotoResponse = await _perfilPhotoService.GetPerfilPhoto();
 
-      var result = new ReturnDto<PerfilPhotoReadDto>();
+      var result = new ReturnDto<PerfilPhotoOutput>();
 
       if (perfilPhotoResponse.Status == ResponseStatus.Ok)
       {
-        var perfilPhotoReturn = _mapper.Map<PerfilPhotoReadDto>(perfilPhotoResponse.Content);
+        var perfilPhotoReturn = _mapper.Map<PerfilPhotoOutput>(perfilPhotoResponse.Content);
 
         result.Message = new Message
         {
@@ -98,10 +90,7 @@ namespace Users.PerfilPhotos.Controllers
     [Authorize]
     public async Task<ActionResult<ReturnDto>> DeletePerfilPhoto()
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      var deletePerfilPhotoResponse = await _perfilPhotoService.DeletePerfilPhoto(userId);
+      var deletePerfilPhotoResponse = await _perfilPhotoService.DeletePerfilPhoto();
       var result = new ReturnDto();
       if (deletePerfilPhotoResponse == ResponseStatus.Ok)
       {

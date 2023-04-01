@@ -8,8 +8,8 @@ namespace Categories.Profiles
   {
     public CategoryProfiles()
     {
-      CreateMap<CategoryCreateDto, Category>();
-      CreateMap<Category, CategoryReadDto>();
+      CreateMap<CategoryInput, Category>();
+      CreateMap<Category, CategoryOutput>();
     }
   }
 }

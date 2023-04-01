@@ -16,13 +16,13 @@ namespace finan_exp_backend_tests.Authenticate.Services
       //Arrange
       var user = new UserAuthDto
       {
-        email = TestUtils.MockUsers[0].email,
-        name = TestUtils.MockUsers[0].name,
-        password = TestUtils.MockUsers[0].password
+        Email = TestUtils.MockUsers[0].Email,
+        Name = TestUtils.MockUsers[0].Name,
+        Password = TestUtils.MockUsers[0].Password
       };
 
       var userFromDatabase = TestUtils.MockUsers[1];
-      userFromDatabase.password = Bcrypt.Encrypt(user.password);
+      userFromDatabase.Password = Bcrypt.Encrypt(user.Password);
 
       var authUserService = new AuthUserService();
 
@@ -40,13 +40,13 @@ namespace finan_exp_backend_tests.Authenticate.Services
       //Arrange
       var user = new UserAuthDto
       {
-        email = TestUtils.MockUsers[0].email,
-        name = TestUtils.MockUsers[0].name,
-        password = TestUtils.MockUsers[0].password
+        Email = TestUtils.MockUsers[0].Email,
+        Name = TestUtils.MockUsers[0].Name,
+        Password = TestUtils.MockUsers[0].Password
       };
 
       var userFromDatabase = TestUtils.MockUsers[1];
-      userFromDatabase.password = Bcrypt.Encrypt(TestUtils.MockValidPassword[1]);
+      userFromDatabase.Password = Bcrypt.Encrypt(TestUtils.MockValidPassword[1]);
 
       var authUserService = new AuthUserService();
 

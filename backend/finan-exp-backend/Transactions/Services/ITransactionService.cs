@@ -7,11 +7,10 @@ namespace Transactions.Services
 {
   public interface ITransactionService
   {
-    ResponseStatus<List<Transaction>> GetAllTransactions(Guid userId, GetAllFilter? filter);
-    ResponseStatus<Transaction> GetTransactionById(Guid id);
-    ResponseStatus<Transaction> UpdateTransaction(Guid id, TransactionCreateDto newTransaction);
-    ResponseStatus<Transaction> DeleteTransaction(Guid id);
-    ResponseStatus CreateTransaction(Transaction category);
-    bool SaveChanges();
+    Task<ResponseStatus<List<Transaction>>> GetAllTransactions(GetAllFilter? filter);
+    Task<ResponseStatus<Transaction>> GetTransactionById(Guid id);
+    Task<ResponseStatus<Transaction>> UpdateTransaction(Guid id, TransactionInput newTransaction);
+    Task<ResponseStatus<Transaction>> DeleteTransaction(Guid id);
+    Task<ResponseStatus> CreateTransaction(TransactionInput input);
   }
 }

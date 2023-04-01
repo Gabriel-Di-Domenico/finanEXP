@@ -1,11 +1,15 @@
 using Authenticate.Services;
 using backend;
 using Categories.Services;
+using Classes;
 using Contexts;
 using Customers.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Classes;
+using Shared.Interceptors;
+using Shared.Interfaces;
 using System.Text;
 using Transactions.Services;
 using Users.PerfilPhotos.Services;
@@ -33,7 +37,6 @@ builder.Services.AddAuthentication(x =>
     ValidateIssuer = false,
     ValidateAudience = false,
     ClockSkew = TimeSpan.Zero,
-
   };
 });
 
@@ -46,7 +49,14 @@ builder.Services.AddScoped<IPerfilPhotoService, PerfilPhotoService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICustomerBalanceService, CustomerBalanceService>();
+builder.Services.AddScoped<IValidateCustomerService, ValidateCustomerService>();
+builder.Services.AddScoped<IValidationCategoryService, ValidationCategoryService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<CurrentUserProvider>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSingleton<QueryInterceptor>();
+builder.Services.AddSingleton<AddEntityInterceptor>();
 
 builder.Services.AddCors(options =>
 {
@@ -56,8 +66,12 @@ builder.Services.AddCors(options =>
   });
 
 });
+builder.Services.AddDbContext<FinEXPDatabaseContext>((provider,options) =>
 
-builder.Services.AddDbContext<FinEXPDatabaseContext>(options => options.UseNpgsql($"Server={Settings.DatabaseHost};Port={Settings.DatabasePort};Pooling=true;Database={Settings.DatabaseName};User Id={Settings.DatabaseUser};Password={Settings.DatabasePassword};"));
+options.UseNpgsql($"Server={Settings.DatabaseHost};Port={Settings.DatabasePort};Pooling=true;Database={Settings.DatabaseName};User Id={Settings.DatabaseUser};Password={Settings.DatabasePassword};")
+  .AddInterceptors(provider.GetRequiredService<QueryInterceptor>())
+  .AddInterceptors(provider.GetRequiredService<AddEntityInterceptor>())
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

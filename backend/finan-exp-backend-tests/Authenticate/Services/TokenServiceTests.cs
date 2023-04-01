@@ -31,7 +31,7 @@ namespace finan_exp_backend_tests.Authenticate.Services
       var result = TokenService.DeserializeToken(token);
       //Assert
       result.Should().NotBeNull();
-      result.Should().Be(user.ID.ToString());
+      result.Should().Be(user.Id.ToString());
     }
   }
 }

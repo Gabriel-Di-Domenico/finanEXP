@@ -9,7 +9,7 @@ using Users.Models;
 namespace Transactions.Models
 {
   [Table("Transactions")]
-  public class Transaction: FullEntity
+  public class Transaction: FullEntity, ITransactionModel
   {
     [MaxLength(100)]
     public string? Description { get; set; }

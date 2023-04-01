@@ -1,5 +1,5 @@
 
-import { CommonService, SnackBarControlService } from 'finan-exp-sdk';
+import { CommonService, FinValidatorsService, SnackBarControlService } from 'finan-exp-sdk';
 
 import { UserService } from './../../../../services/user.service';
 import { profileSettingFormControls } from './profileSettingsFormControls';
@@ -14,7 +14,6 @@ import { ProfileService } from './profile.service';
 
 import { BreakpointState } from '@angular/cdk/layout';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
-import { FinValidatorsService } from 'src/app/shared/validators/fin-validators.service';
 import { UserOutput } from 'src/app/core/dtos/user/userOutput';
 
 @Component({

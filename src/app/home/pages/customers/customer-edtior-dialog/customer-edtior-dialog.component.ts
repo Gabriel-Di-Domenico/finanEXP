@@ -1,4 +1,4 @@
-import { SnackBarControlService, DialogControlService } from 'finan-exp-sdk';
+import { SnackBarControlService, DialogControlService, FinValidatorsService } from 'finan-exp-sdk';
 import { ResponseDto } from 'src/app/shared/support/classes/responseDto';
 
 import { CustomersService } from './../customers.service';
@@ -12,7 +12,6 @@ import { Message } from 'src/app/shared/support/interfaces/message.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { customerUpdateHandler } from 'src/app/shared/handlers/customerHandler/customerUpdateHandler';
-import { FinValidatorsService } from 'src/app/shared/validators/fin-validators.service';
 import { CustomerOutput } from 'src/app/core/dtos/customers/customerOutput';
 import { CustomerEditorDialogDataInterface } from './customerEditorDialogData.interface';
 

@@ -1,13 +1,11 @@
-using Shared.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Users.Models;
 
-namespace Shared.Classes
+namespace Shared.Interfaces
 {
-  public class FullEntity : Entity, IFullEntity
+  public interface IFullEntity : IEntity
   {
-    [Required]
-    [ForeignKey("Users")]
     public Guid UserId { get; set; }
   }
 }

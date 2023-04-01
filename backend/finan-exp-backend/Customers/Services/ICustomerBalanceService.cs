@@ -5,7 +5,7 @@ namespace Customers.Services
 {
   public interface ICustomerBalanceService
   {
-    ResponseStatus CalculateCustomerBalance(Guid customerId, Guid userId);
-    ResponseStatus CalculateTransferValue(bool isCreate, Transaction transaction, Guid userId);
+    Task<ResponseStatus> CalculateCustomerBalance(Guid customerId);
+    Task<ResponseStatus> CalculateTransferValue(bool isCreate, Transaction transaction);
   }
 }

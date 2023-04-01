@@ -1,12 +1,12 @@
+using PerfilPhotos.Models;
 using Shared.Classes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Users.Models;
 
 namespace Users.PerfilPhotos.Models
 {
   [Table("PerfilPhotos")]
-  public class PerfilPhoto: FullEntity
+  public class PerfilPhoto: FullEntity, IPerfilPhotoModel
   {
     public string Name { get; set; }
     [Required]

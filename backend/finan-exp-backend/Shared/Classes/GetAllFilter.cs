@@ -9,7 +9,7 @@ namespace Shared.Classes
 
     public Guid? CustomerId { get; set; }
 
-    public List<Guid>? CustomersIds { get; set; }
+    public List<Guid>? CustomersIds { get; set; } = new List<Guid>();
 
   }
 

@@ -10,7 +10,7 @@ namespace Authenticate.Services
     public ResponseStatus<string> AuthUser(UserAuthDto user, User userFromDatabase)
     {
 
-      bool authenticatePassword = AuthenticatePasswords(user.password, userFromDatabase.Password);
+      bool authenticatePassword = AuthenticatePasswords(user.Password, userFromDatabase.Password);
 
       if (authenticatePassword)
       {

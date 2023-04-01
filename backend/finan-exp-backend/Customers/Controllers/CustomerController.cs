@@ -19,28 +19,26 @@ namespace Customers.Controllers
     private readonly ICustomerService _customerService;
     private readonly IMapper _mapper;
     private readonly ICustomerBalanceService _customerBalanceService;
+    private readonly CurrentUserProvider currentUserProvider;
 
-    public CustomerController(ICustomerService customerService, IMapper mapper, ICustomerBalanceService customerBalanceService)
+    public CustomerController(ICustomerService customerService, IMapper mapper, ICustomerBalanceService customerBalanceService,
+      CurrentUserProvider currentUserProvider)
     {
       _customerService = customerService;
       _mapper = mapper;
       _customerBalanceService = customerBalanceService;
+      this.currentUserProvider = currentUserProvider;
     }
 
     [HttpPost]
     [Authorize]
-    public ActionResult<ReturnDto> Create([FromBody] CustomerCreateDto customer)
+    public async Task<ActionResult<ReturnDto>> Create([FromBody] CustomerInput input)
     {
-      var customerModel = _mapper.Map<Customer>(customer);
-
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      customerModel.UserId = userId;
-
+      
       var result = new ReturnDto();
 
-      var createCustomerResult = _customerService.CreateCustomer(customerModel);
+      var createCustomerResult = await _customerService.CreateCustomer(input);
+
       if (createCustomerResult == ResponseStatus.Ok)
       {
         result.Message = new Message
@@ -64,13 +62,10 @@ namespace Customers.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto<List<CustomerReadDto>>> GetAll([FromQuery] GetAllFilter? filter)
+    public async Task<ActionResult<ReturnDto<List<CustomerOutput>>>> GetAll([FromQuery] GetAllFilter? filter)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      var getAllcustomersResponse = _customerService.GetAllCustomers(userId, filter);
-      var result = new ReturnDto<List<CustomerReadDto>>();
+      var getAllcustomersResponse = await _customerService.GetAllCustomers(filter);
+      var result = new ReturnDto<List<CustomerOutput>>();
 
       if (getAllcustomersResponse.Status == ResponseStatus.Ok)
       {
@@ -79,10 +74,10 @@ namespace Customers.Controllers
           error = false,
           message = "Sucesso ao adiquirir lista de carteiras"
         };
-        var customersModel = new List<CustomerReadDto>();
+        var customersModel = new List<CustomerOutput>();
         getAllcustomersResponse.Content.ForEach(customer =>
         {
-          customersModel.Add(_mapper.Map<CustomerReadDto>(customer));
+          customersModel.Add(_mapper.Map<CustomerOutput>(customer));
         });
          
         result.Content = customersModel;
@@ -93,19 +88,15 @@ namespace Customers.Controllers
     }
     [HttpGet("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto<CustomerReadDto>> GetById([FromRoute] Guid Id)
+    public async Task<ActionResult<ReturnDto<CustomerOutput>>> GetById([FromRoute] Guid Id)
     {
+      var getCustomerByIdResult = await _customerService.GetCustomerById(Id);
 
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      var getCustomerByIdResult = _customerService.GetCustomerById(Id, userId);
-
-      var result = new ReturnDto<CustomerReadDto>();
+      var result = new ReturnDto<CustomerOutput>();
 
       if (getCustomerByIdResult.Status == ResponseStatus.Ok)
       {
-        var customerModel = _mapper.Map<CustomerReadDto>(getCustomerByIdResult.Content);
+        var customerModel = _mapper.Map<CustomerOutput>(getCustomerByIdResult.Content);
 
         result.Message = new Message
         {
@@ -122,29 +113,20 @@ namespace Customers.Controllers
 
     [HttpPut("{customerId}")]
     [Authorize]
-    public ActionResult<ReturnDto> Update(
+    public async Task<ActionResult<ReturnDto>> Update(
       [FromRoute] Guid customerId,
-      [FromBody] CustomerUpdateDto newCustomer,
+      [FromBody] CustomerInput newCustomer,
       [FromQuery] UpdateFilter filter
       )
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      if (filter.ToArchive != null)
-      {
-        newCustomer.IsArchived = filter.ToArchive;
-      }
-      var customerModel = _mapper.Map<Customer>(newCustomer);
-
-      customerModel.UserId = userId;
-
-      var updateCustomerResult = _customerService.UpdateCustomer(customerId, customerModel);
+      newCustomer.IsArchived = filter.ToArchive;
+      
+      var updateCustomerResult = await _customerService.UpdateCustomer(customerId, newCustomer);
 
       var result = new ReturnDto();
       if (updateCustomerResult == ResponseStatus.Ok)
       {
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(customerId, userId);
+        var calculateCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance(customerId);
         if (calculateCustomerBalanceResult == ResponseStatus.Ok)
         {
           result.Message = new Message
@@ -171,11 +153,9 @@ namespace Customers.Controllers
     }
     [HttpDelete("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> Delete([FromRoute] Guid id)
+    public async Task<ActionResult<ReturnDto>> Delete([FromRoute] Guid id)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-      var deleteCustomerResult = _customerService.DeleteCustomer(id, userId);
+      var deleteCustomerResult = await _customerService.DeleteCustomer(id);
 
       var result = new ReturnDto();
 

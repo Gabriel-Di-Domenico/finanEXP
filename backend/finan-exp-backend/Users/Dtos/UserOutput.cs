@@ -1,8 +1,6 @@
-using System.Text;
-
 namespace Users.Dtos
 {
-  public class UserReadDto
+  public class UserOutput
   {
     public Guid Id { get; set; }
 

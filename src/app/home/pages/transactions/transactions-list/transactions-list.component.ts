@@ -152,9 +152,6 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
   }
   private getCategories(): void {
     this.transactionsService.getAllCategories(undefined, (data: ResponseDto<Array<CategoryOutput>>) => {
-      if (data.message.error) {
-        this.snackBarControlService.showMessage(data.message.message, data.message.error);
-      }
       this.categories = data.content;
       this.getterControl.emit('category');
     });

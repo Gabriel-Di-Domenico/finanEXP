@@ -49,6 +49,7 @@ export class CustomersProxyService implements CustomerProxyInterface {
   public getAll(filter?:GetAllFilter): Observable<ResponseDto<Array<CustomerOutput>>> {
     const headers = this.commonService.getHeaders();
     let params = new HttpParams();
+    console.log(filter)
     if (filter && filter.isArchived != null) {
       params = params.append('isArchived', filter.isArchived);
     }
