@@ -1,11 +1,12 @@
-import { TransactionsEditorDialogData } from './../../../shared/support/interfaces/transactions/TransactionsEditorDialogData';
-import { TransactionsEditorDialogComponent } from './../transactions-editor-dialog/transactions-editor-dialog.component';
-import { DialogControlService } from './../../../shared/support/services/dialogControl/dialog-control.service';
+import { CommonService, DialogControlService } from 'finan-exp-sdk';
+
 import { TransactionType } from './../../../shared/support/enums/transactionTypes/transaction-types';
-import { CommonService } from './../../../shared/support/services/common.service';
+
 import { Component, Input } from '@angular/core';
-import { UserOutput } from 'src/app/shared/support/interfaces/user/userOutput.interface';
-import { MenuPositionX, MenuPositionY } from '@angular/material/menu';
+import { MenuPositionX } from '@angular/material/menu';
+import { UserOutput } from 'src/app/core/dtos/user/userOutput';
+import { TransactionsEditorDialogComponent } from '../../pages/transactions/transactions-editor-dialog/transactions-editor-dialog.component';
+import { TransactionsEditorDialogData } from '../../pages/transactions/transactions-editor-dialog/TransactionsEditorDialogData';
 
 @Component({
   selector: 'app-menu',

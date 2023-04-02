@@ -1,6 +1,7 @@
+
 using AutoMapper;
-using System.Transactions;
 using Transactions.Dtos;
+using Transactions.Models;
 
 namespace Transactions.Profiles
 {
@@ -8,8 +9,8 @@ namespace Transactions.Profiles
   {
     public TransactionProfile()
     {
-      CreateMap<TransactionCreateDto, Transaction>();
-      CreateMap<Transaction, TransactionReadDto>();
+      CreateMap<TransactionInput, Transaction>();
+      CreateMap<Transaction, TransactionOutput>();
     }
   }
 }

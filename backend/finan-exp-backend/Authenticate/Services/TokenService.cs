@@ -17,7 +17,7 @@ namespace Authenticate.Services
       {
         Subject = new ClaimsIdentity(new Claim[]
         {
-          new Claim(ClaimTypes.NameIdentifier,user.ID.ToString()),
+          new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
 
         }),
         Expires = DateTime.UtcNow.AddDays(7),

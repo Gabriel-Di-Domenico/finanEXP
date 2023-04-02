@@ -31,36 +31,31 @@ namespace Transactions.Controllers
 
     [HttpPost]
     [Authorize]
-    public ActionResult<ReturnDto> Create([FromBody] TransactionCreateDto transaction)
+    public async Task<ActionResult<ReturnDto>> Create([FromBody] TransactionInput input)
     {
-      var transactionModel = _mapper.Map<Transaction>(transaction);
-
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-      transactionModel.UserId = userId;
-
       var result = new ReturnDto();
 
-      var createTransactionResult = _transactionsService.CreateTransaction(transactionModel);
+      var createTransactionResult = await _transactionsService.CreateTransaction(input);
 
       if (createTransactionResult == ResponseStatus.Ok)
       {
         ResponseStatus calculateSenderCustomerBalanceResult = ResponseStatus.BadRequest;
-        if (transaction.TransactionType == TransactionType.Transfer)
+        var transaction = _mapper.Map<Transaction>(input);
+        if (input.TransactionType == TransactionType.Transfer)
         {
-          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
-          calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transaction.SenderCustomerId, userId);
+          await _customerBalanceService.CalculateTransferValue(true, transaction);
+          calculateSenderCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance((Guid)transaction.SenderCustomerId);
         }
         else
         {
           calculateSenderCustomerBalanceResult = ResponseStatus.Ok;
         }
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transaction.ReceiverCustomerId, userId);
+        var calculateCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance(transaction.ReceiverCustomerId);
 
         if (calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {
           string transactionTypeReturnMessage = "";
-          switch (transaction.TransactionType)
+          switch (input.TransactionType)
           {
             case TransactionType.Transfer:
               transactionTypeReturnMessage = "Transferência";
@@ -87,13 +82,13 @@ namespace Transactions.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter filter)
+    public async Task<ActionResult<ReturnDto>> GetAll([FromQuery] GetAllFilter filter)
     {
       var Bearertoken = Request.Headers["Authorization"];
       Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
 
-      var getAllTransactionsResponse = _transactionsService.GetAllTransactions(userId, filter);
-      var result = new ReturnDto<List<TransactionReadDto>>();
+      var getAllTransactionsResponse = await _transactionsService.GetAllTransactions(filter);
+      var result = new ReturnDto<List<TransactionOutput>>();
 
       if (getAllTransactionsResponse.Status == ResponseStatus.Ok)
       {
@@ -102,8 +97,12 @@ namespace Transactions.Controllers
           error = false,
           message = "Sucesso ao adiquirir lista de transações"
         };
-
-        var transactionsModel = _mapper.Map<List<TransactionReadDto>>(getAllTransactionsResponse.Content);
+        var transactionsModel = new List<TransactionOutput>();
+        getAllTransactionsResponse.Content.ForEach(transaction =>
+        {
+          transactionsModel.Add(_mapper.Map<TransactionOutput>(transaction));
+        });
+         
         result.Content = transactionsModel;
 
         return Ok(result);
@@ -112,15 +111,15 @@ namespace Transactions.Controllers
     }
     [HttpGet("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> GetById([FromRoute] Guid Id)
+    public async Task<ActionResult<ReturnDto>> GetById([FromRoute] Guid Id)
     {
-      var getTransactionByIdResult = _transactionsService.GetTransactionById(Id);
+      var getTransactionByIdResult = await _transactionsService.GetTransactionById(Id);
 
-      var result = new ReturnDto<TransactionReadDto>();
+      var result = new ReturnDto<TransactionOutput>();
 
       if (getTransactionByIdResult.Status == ResponseStatus.Ok)
       {
-        var customerModel = _mapper.Map<TransactionReadDto>(getTransactionByIdResult.Content);
+        var customerModel = _mapper.Map<TransactionOutput>(getTransactionByIdResult.Content);
 
         result.Message = new Message
         {
@@ -137,12 +136,11 @@ namespace Transactions.Controllers
 
     [HttpPut("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> Update(
+    public async Task<ActionResult<ReturnDto>> Update(
       [FromRoute] Guid id,
-      [FromBody] TransactionCreateDto newTransaction,
-      [FromQuery] UpdateFilter filter)
+      [FromBody] TransactionInput newTransaction)
     {
-      var updateTransactionResult = _transactionsService.UpdateTransaction(id, newTransaction);
+      var updateTransactionResult = await _transactionsService.UpdateTransaction(id, newTransaction);
 
       var result = new ReturnDto();
 
@@ -156,14 +154,14 @@ namespace Transactions.Controllers
 
         if (transactionModel.TransactionType == TransactionType.Transfer)
         {
-          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
-          calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transactionModel.SenderCustomerId, userId);
+          await _customerBalanceService.CalculateTransferValue(true, transactionModel);
+          calculateSenderCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance((Guid)transactionModel.SenderCustomerId);
         }
         else
         {
           calculateSenderCustomerBalanceResult = ResponseStatus.Ok;
         }
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transactionModel.ReceiverCustomerId, userId);
+        var calculateCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance(transactionModel.ReceiverCustomerId);
 
         if (calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {
@@ -181,9 +179,9 @@ namespace Transactions.Controllers
     }
     [HttpDelete("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> Delete([FromRoute] Guid id)
+    public async Task<ActionResult<ReturnDto>> Delete([FromRoute] Guid id)
     {
-      var deleteTransactionResult = _transactionsService.DeleteTransaction(id);
+      var deleteTransactionResult = await _transactionsService.DeleteTransaction(id);
 
       var result = new ReturnDto();
 
@@ -197,14 +195,14 @@ namespace Transactions.Controllers
 
         if (transactionModel.TransactionType == TransactionType.Transfer)
         {
-          _customerBalanceService.CalculateTransferValue(true, transactionModel, userId);
-          calculateSenderCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance((Guid)transactionModel.SenderCustomerId, userId);
+          await _customerBalanceService.CalculateTransferValue(true, transactionModel);
+          calculateSenderCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance((Guid)transactionModel.SenderCustomerId);
         }
         else
         {
           calculateSenderCustomerBalanceResult = ResponseStatus.Ok;
         }
-        var calculateCustomerBalanceResult = _customerBalanceService.CalculateCustomerBalance(transactionModel.ReceiverCustomerId, userId);
+        var calculateCustomerBalanceResult = await _customerBalanceService.CalculateCustomerBalance(transactionModel.ReceiverCustomerId);
 
         if (calculateCustomerBalanceResult == ResponseStatus.Ok && calculateSenderCustomerBalanceResult == ResponseStatus.Ok)
         {

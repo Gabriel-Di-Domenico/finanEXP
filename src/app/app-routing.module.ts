@@ -14,7 +14,7 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     resolve: { currentUserId: UserResolverGuard },
   },
-  { path: 'dashboard', loadChildren: () => import('./home/modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: 'dashboard', loadChildren: () => import('./home/pages/dashboard/dashboard.module').then(m => m.DashboardModule) },
   { path: 'developmentWarningMessage', loadChildren: () => import('./development-warning-message/development-warning-message.module').then(m => m.DevelopmentWarningMessageModule) },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

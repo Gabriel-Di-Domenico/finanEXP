@@ -27,18 +27,12 @@ namespace Categories.Controllers
 
     [HttpPost]
     [Authorize]
-    public ActionResult<ReturnDto> Create([FromBody] CategoryCreateDto category)
+    public async Task<ActionResult<ReturnDto>> Create([FromBody] CategoryInput input)
     {
-      var categoryModel = _mapper.Map<Category>(category);
-
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      categoryModel.UserId = userId;
-
       var result = new ReturnDto();
 
-      var createCategoryResult = _categoriesService.CreateCategory(categoryModel);
+      var createCategoryResult = await _categoriesService.CreateCategory(input);
+
       if (createCategoryResult == ResponseStatus.Ok)
       {
         result.Message = new Message
@@ -62,13 +56,11 @@ namespace Categories.Controllers
     }
     [HttpGet]
     [Authorize]
-    public ActionResult<ReturnDto> GetAll([FromQuery] GetAllFilter? filter)
+    public async Task<ActionResult<ReturnDto>> GetAll([FromQuery] GetAllFilter? filter)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+      var getAllcategoriesResponse = await _categoriesService.GetAllCategories(filter);
 
-      var getAllcategoriesResponse = _categoriesService.GetAllCategories(userId, filter);
-      var result = new ReturnDto<List<CategoryReadDto>>();
+      var result = new ReturnDto<List<CategoryOutput>>();
 
       if (getAllcategoriesResponse.Status == ResponseStatus.Ok)
       {
@@ -78,27 +70,36 @@ namespace Categories.Controllers
           message = "Sucesso ao adiquirir lista de categorias"
         };
 
-        var categoriesModel = _mapper.Map<List<CategoryReadDto>>(getAllcategoriesResponse.Content);
+        var categoriesModel = _mapper.Map<List<CategoryOutput>>(getAllcategoriesResponse.Content);
         result.Content = categoriesModel;
 
         return Ok(result);
       }
+      else if (getAllcategoriesResponse.Status == ResponseStatus.NotFound)
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Nenhuma categoria foi encontrada"
+        };
+
+        result.Content = null;
+
+        return NotFound(result);
+      }
       throw new Exception("Error GetAll Categories");
-    }
+    } 
     [HttpGet("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> GetById([FromRoute] Guid Id)
+    public async Task<ActionResult<ReturnDto>> GetById([FromRoute] Guid Id)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
+      var getCategoryByIdResult = await _categoriesService.GetCategoryById(Id);
 
-      var getCategoryByIdResult = _categoriesService.GetCategoryById(Id, userId);
-
-      var result = new ReturnDto<CategoryReadDto>();
+      var result = new ReturnDto<CategoryOutput>();
 
       if (getCategoryByIdResult.Status == ResponseStatus.Ok)
       {
-        var categoryModel = _mapper.Map<CategoryReadDto>(getCategoryByIdResult.Content);
+        var categoryModel = _mapper.Map<CategoryOutput>(getCategoryByIdResult.Content);
 
         result.Message = new Message
         {
@@ -116,19 +117,16 @@ namespace Categories.Controllers
 
     [HttpPut("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> Update(
+    public async Task<ActionResult<ReturnDto>> Update(
       [FromRoute] Guid id,
-      [FromBody] CategoryCreateDto newCategory,
+      [FromBody] CategoryInput input,
       [FromQuery] UpdateFilter filter)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
       if (filter.ToArchive != null)
       {
-        newCategory.IsArchived = filter.ToArchive;
+        input.IsArchived = filter.ToArchive;
       }
-      var updateCategoryResult = _categoriesService.UpdateCategory(id, userId, newCategory);
+      var updateCategoryResult = await _categoriesService.UpdateCategory(id, input);
 
       var result = new ReturnDto();
       if (updateCategoryResult == ResponseStatus.Ok)
@@ -140,17 +138,22 @@ namespace Categories.Controllers
         };
 
         return Ok(result);
+      } else if(updateCategoryResult == ResponseStatus.AlreadyExists)
+      {
+        result.Message = new Message
+        {
+          error = true,
+          message = "Nome da categoria já utilizado"
+        };
+        return BadRequest(result);
       }
       throw new Exception("Error Update Category");
     }
     [HttpDelete("{id}")]
     [Authorize]
-    public ActionResult<ReturnDto> Delete([FromRoute] Guid id)
+    public async Task<ActionResult<ReturnDto>> Delete([FromRoute] Guid id)
     {
-      var Bearertoken = Request.Headers["Authorization"];
-      Guid userId = Guid.Parse(TokenService.DeserializeToken(Bearertoken));
-
-      var deleteCategoryResult = _categoriesService.DeleteCategory(id, userId);
+      var deleteCategoryResult = await _categoriesService.DeleteCategory(id);
 
       var result = new ReturnDto();
 

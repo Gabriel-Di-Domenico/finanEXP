@@ -1,0 +1,63 @@
+<app-config-view title="Segurança">
+  <form [formGroup]="form" (ngSubmit)="saveChanges()">
+    <ng-container *ngIf="!smallScreen">
+      <div class="first-div">
+        <fin-input
+          label="Senha atual"
+          type="password"
+          [formControlName]="securitySettingsFormConstrols.actualPassword"
+          class="fin-input"
+          [required]="true"></fin-input>
+        <fin-input
+          label="Nova senha"
+          placeholder="Ex:aB@%3nbx"
+          type="password"
+          [formControlName]="securitySettingsFormConstrols.newPassword"
+          class="fin-input"
+          [required]="true"
+          hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número."></fin-input>
+        <fin-input
+          label="Senha atual"
+          type="password"
+          [formControlName]="securitySettingsFormConstrols.confirmPassword"
+          class="fin-input"
+          [required]="true"></fin-input>
+      </div>
+      <div class="second-div">
+          <fin-button
+          type="submit"
+          color="primary"
+          [disabled]="!canSave()">Salvar alterações<mat-icon>send</mat-icon></fin-button>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="smallScreen">
+      <div class="first-div">
+        <fin-input
+          label="Senha atual"
+          type="password"
+          [formControlName]="securitySettingsFormConstrols.actualPassword"
+          class="fin-input"
+          [required]="true"></fin-input>
+        <fin-input
+          label="Nova senha"
+          placeholder="Ex:aB@%3nbx"
+          type="password"
+          [formControlName]="securitySettingsFormConstrols.newPassword"
+          class="fin-input"
+          [required]="true"
+          hint="Senha deve possuir no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma letra minúscula e um número."></fin-input>
+        <fin-input
+          label="Senha atual"
+          type="password"
+          [formControlName]="securitySettingsFormConstrols.confirmPassword"
+          class="fin-input"
+          [required]="true"></fin-input>
+          <fin-button
+          type="submit"
+          color="primary"
+          [disabled]="!canSave()">Salvar alterações<mat-icon>send</mat-icon></fin-button>
+      </div>
+    </ng-container>
+  </form>
+</app-config-view>

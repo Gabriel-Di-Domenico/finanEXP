@@ -1,4 +1,5 @@
-import { CommonService } from './../shared/support/services/common.service';
+import { CommonService } from 'finan-exp-sdk';
+
 import { UserService } from './services/user.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -10,9 +11,9 @@ import { UserHandlerService } from '../shared/handlers/user-handler.service';
 
 import { MatSidenav } from '@angular/material/sidenav';
 
-import { UserOutput } from '../shared/support/interfaces/user/userOutput.interface';
 import { UserHandler } from '../shared/handlers/user-handler';
 import { ResponseDto } from '../shared/support/classes/responseDto';
+import { UserOutput } from '../core/dtos/user/userOutput';
 
 @Component({
   selector: 'app-home',

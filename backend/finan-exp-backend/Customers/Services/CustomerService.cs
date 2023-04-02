@@ -1,70 +1,51 @@
+using AutoMapper;
 using Contexts;
+using Customers.Dtos;
 using Customers.Models;
+using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
 using Shared.Enums;
+using Shared.Extensions;
+using Shared.Interfaces;
 
 namespace Customers.Services
 {
   public class CustomerService : ICustomerService
   {
-    private readonly FinEXPDatabaseContext _context;
+    private readonly IRepository<Customer> _repository;
+    private readonly IMapper _mapper;
+    private readonly IValidateCustomerService _validateCustomerService;
 
-    public CustomerService(FinEXPDatabaseContext context)
+    public CustomerService(IRepository<Customer> repository, IMapper mapper, IValidateCustomerService validateCustomerService)
     {
-      _context = context;
+      _repository = repository;
+      _mapper = mapper;
+      _validateCustomerService = validateCustomerService;
     }
-    public ResponseStatus CreateCustomer(Customer customer)
+    public async Task<ResponseStatus> CreateCustomer(CustomerInput input)
     {
-      var customerFromDatabase = GetCustomerByName(customer);
+      var customer = _mapper.Map<Customer>(input);
 
-      if (customerFromDatabase == null)
-      {
-        customer.IsArchived = false;
-        customer.TransferValue = 0;
-        customer.ActualBalance = customer.InitialBalance;
-        _context.Customers.Add(customer);
-        SaveChanges();
-        return ResponseStatus.Ok;
-      }
-      else
+      var customerAlreayExists = await _validateCustomerService.AlreadyExistsValidation(customer);
+
+      if (customerAlreayExists == ResponseStatus.AlreadyExists)
       {
         return ResponseStatus.AlreadyExists;
       }
-
-    }
-
-    public bool SaveChanges()
-    {
-      return _context.SaveChanges() >= 0;
-    }
-
-    public Customer? GetCustomerByName(Customer newCustomer)
-    {
-      return _context.Customers.FirstOrDefault(customer =>
-        customer.UserId == newCustomer.UserId
-        && customer.Name == newCustomer.Name
-      );
-    }
-    public ResponseStatus<List<Customer>> GetAllCustomers(Guid userId, GetAllFilter? filter)
-    {
-      var customers = new List<Customer>();
-      if (filter == null)
-      {
-        customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
-      }
-      else if (filter.CustomersIds != null || filter.IsArchived != null)
-      {
-        customers = _context.Customers.Where(customer => filter.CustomersIds != null ? filter.CustomersIds.Contains(customer.Id) : true)
-          .Where(customer => customer.UserId == userId
-         && customer.IsArchived == (filter.IsArchived != null ? filter.IsArchived : false)).ToList();
-
-
-      }
       else
       {
-        customers = _context.Customers.Where(customer => customer.UserId == userId).ToList();
-      }
+        customer.ActualBalance = customer.InitialBalance;
+        await _repository.AddAsync(customer, true);
 
+        return ResponseStatus.Ok;
+      }
+    }
+    public async Task<ResponseStatus<List<Customer>>> GetAllCustomers(GetAllFilter? filter)
+    {
+      var customers = await _repository
+        .WhereIf(filter.CustomersIds.Any(), customer => filter.CustomersIds.Contains(customer.Id))
+        .WhereIf(filter.IsArchived.HasValue, (customer => customer.IsArchived == filter.IsArchived))
+        .ToListAsync();
 
       if (customers != null)
       {
@@ -78,9 +59,9 @@ namespace Customers.Services
 
     }
 
-    public ResponseStatus<Customer> GetCustomerById(Guid id, Guid userId)
+    public async Task<ResponseStatus<Customer>> GetCustomerById(Guid id)
     {
-      var customer = _context.Customers.FirstOrDefault(customer => customer.Id == id && customer.UserId == userId);
+      var customer = await _repository.FirstOrDefaultAsync(customer => customer.Id == id);
       if (customer != null)
       {
 
@@ -94,53 +75,52 @@ namespace Customers.Services
       };
     }
 
-    public ResponseStatus UpdateCustomer(Guid id, Customer newCustomer)
+    public async Task<ResponseStatus> UpdateCustomer(Guid id, CustomerInput? input)
     {
-      var verifyExistingCustomer = GetCustomerByName(newCustomer);
+      var userFromDataBase = await _repository.FirstOrDefaultAsync(customer => customer.Id == id);
 
-      if (verifyExistingCustomer == null || verifyExistingCustomer.Id == id)
+      var customer = _mapper.Map<Customer>(input);
+
+      var validateCustomer = ResponseStatus.Ok;
+      if (input != null && !input.IsArchived)
       {
-        var userFromDataBase = GetCustomerById(id, newCustomer.UserId);
+        await _validateCustomerService.ValidateUpdateCustomer(customer);
+      }
+      
+      if (validateCustomer == ResponseStatus.Ok)
+      {
+        userFromDataBase.IsArchived = input.IsArchived;
 
-        if (newCustomer.IsArchived != null)
-        {
-          userFromDataBase.Content.IsArchived = newCustomer.IsArchived;
-        }
+        userFromDataBase.InitialBalance = input.InitialBalance;
+        userFromDataBase.Name = input.Name;
+        userFromDataBase.Type = input.Type;
 
-        userFromDataBase.Content.InitialBalance = newCustomer.InitialBalance;
-        userFromDataBase.Content.Name = newCustomer.Name;
-        userFromDataBase.Content.Type = newCustomer.Type;
+        _repository.Update(userFromDataBase, true);
 
-        _context.Customers.Update(userFromDataBase.Content);
-        SaveChanges();
         return ResponseStatus.Ok;
       }
-      else
-      {
-        return ResponseStatus.AlreadyExists;
-      }
-      return ResponseStatus.BadRequest;
+      return validateCustomer;
     }
-    public ResponseStatus BatchUpdateCustomer(List<Customer> customers)
+    public ResponseStatus BatchUpdateCustomer(List<CustomerInput> customers)
     {
-      foreach (var customer in customers)
+      foreach (var customerInput in customers)
       {
-        _context.Customers.Update(customer);
+        var customer = _mapper.Map<Customer>(customerInput);
+        _repository.Update(customer);
       }
-      SaveChanges();
+      //TODO Refatorar quando tiver Unit of work
+      _repository.SaveChanges();
 
       return ResponseStatus.Ok;
     }
-    public ResponseStatus DeleteCustomer(Guid id, Guid userId)
+    public async Task<ResponseStatus> DeleteCustomer(Guid id)
     {
-      var getCustomerByIdResult = GetCustomerById(id, userId);
-      if (getCustomerByIdResult.Status == ResponseStatus.Ok)
-      {
-        _context.Customers.Remove(getCustomerByIdResult.Content);
-        SaveChanges();
-        return ResponseStatus.Ok;
-      }
-      return ResponseStatus.BadRequest;
+      var getCustomerByIdResult = await _repository.FirstOrDefaultAsync(customer => customer.Id == id);
+
+      _repository.Remove(getCustomerByIdResult, true);
+
+      return ResponseStatus.Ok;
+
     }
   }
 }

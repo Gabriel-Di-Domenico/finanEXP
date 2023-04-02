@@ -1,0 +1,21 @@
+<header>
+  <fin-title [label]="label"></fin-title>
+  <fin-icon-button (click)="closeEditorDialog()" icon="close" color="warn"></fin-icon-button>
+</header>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div>
+    <fin-input
+      class="fin-input"
+      label="Nome"
+      type="text"
+      [formControlName]="formControls.nameFormControl"
+      [required]="true"></fin-input>
+  </div>
+
+  <div class="div-fin-submit-button">
+    <fin-button type="submit" color='primary'class="fin-submit-button" [disabled]="!canSave()">
+      Salvar<mat-icon>send</mat-icon>
+    </fin-button>
+  </div>
+</form>

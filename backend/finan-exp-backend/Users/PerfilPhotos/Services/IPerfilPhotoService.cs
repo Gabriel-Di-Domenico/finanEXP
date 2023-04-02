@@ -6,9 +6,9 @@ namespace Users.PerfilPhotos.Services
 {
   public interface IPerfilPhotoService
   {
-    ResponseStatus CreatePerfilPhoto(Guid userId, PerfilPhotoCreateDto archives);
-    Task<ResponseStatus<PerfilPhoto>> GetPerfilPhoto(Guid userId);
-    Task<ResponseStatus> DeletePerfilPhoto(Guid userId);
-    Task<ResponseStatus> UpdatePerfilPhoto(Guid userId, PerfilPhotoCreateDto newPerfilPhoto);
+    Task<ResponseStatus> CreatePerfilPhoto(PerfilPhotoInput newPerfilPhoto);
+    Task<ResponseStatus<PerfilPhoto>> GetPerfilPhoto();
+    Task<ResponseStatus> DeletePerfilPhoto();
+    Task<ResponseStatus> UpdatePerfilPhoto(PerfilPhotoInput newPerfilPhoto);
   };
 }
