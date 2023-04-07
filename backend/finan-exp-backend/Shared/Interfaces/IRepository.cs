@@ -11,6 +11,8 @@ namespace Shared.Interfaces
 
     public Task AddAsync(T entity, bool autoSave = false);
 
+    public Task BatchAddAsync(List<T> entities, bool autoSave = false);
+
     public void Update(T entity, bool autoSave = false);
 
     public IQueryable<T> Where(Expression<Func<T, bool>> predicate);

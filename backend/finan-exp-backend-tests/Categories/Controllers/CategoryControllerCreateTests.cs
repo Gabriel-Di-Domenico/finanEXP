@@ -58,7 +58,7 @@ namespace finan_exp_backend_tests.Categories.Controllers
 
       //Assert
 
-      var output = result.Result as CreatedResult;
+      var output = result.Result as BadRequestObjectResult;
       var value = output.Value as ReturnDto;
       output.StatusCode.Should().Be(400);
       value.Message.Should().BeEquivalentTo(new Message

@@ -43,7 +43,7 @@ namespace Categories.Services
         return ResponseStatus.AlreadyExists;
       }
     }
-    public async Task<ResponseStatus<List<CategoryOutput>>> GetAll(GetAllFilter? filter)
+    public async Task<ResponseStatus<List<CategoryOutput>>> GetAll(GetAllFilter filter)
     {
       var categories = await _repository
         .WhereIf(filter.IsArchived.HasValue, category => category.IsArchived == filter.IsArchived)

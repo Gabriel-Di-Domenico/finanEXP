@@ -45,6 +45,20 @@ namespace Classes
       }
     }
 
+    public async Task BatchAddAsync(List<T> entities, bool autoSave = false)
+    {
+      //TODO Refatorar quando ter unitOfWork
+      entities.ForEach(entity =>
+      {
+        _context.Set<T>().AddAsync(entity);
+      });
+
+      if (autoSave)
+      {
+        await _context.SaveChangesAsync();
+      }
+    }
+
     public void Update(T entity, bool autoSave = false)
     {
      
