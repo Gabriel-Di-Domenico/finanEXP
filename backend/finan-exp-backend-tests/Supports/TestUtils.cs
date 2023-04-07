@@ -1,3 +1,4 @@
+using Supports.RepositoryProvider;
 using Users.Models;
 
 namespace finan_exp_backend_tests.Supports
@@ -51,5 +52,10 @@ namespace finan_exp_backend_tests.Supports
         Password = MockValidPassword[3]
       },
     };
+  }
+
+  public class UnitTestBaseWithDBContext
+  {
+    public IRepositoryProvider _repositoryProvider = new RepositoryProvider();
   }
 }

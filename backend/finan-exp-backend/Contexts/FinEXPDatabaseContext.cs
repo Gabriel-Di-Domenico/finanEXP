@@ -5,7 +5,6 @@ using Categories.Models;
 using Users.PerfilPhotos.Models;
 using Transactions.Models;
 using Shared.Classes;
-using Authenticate.Services;
 
 namespace Contexts
 {
@@ -23,7 +22,7 @@ namespace Contexts
     public User currentUser { get; set; }
     public IHttpContextAccessor _accessor { get; }
 
-    public FinEXPDatabaseContext(DbContextOptions<FinEXPDatabaseContext> opt) : base(opt)
+    public FinEXPDatabaseContext(DbContextOptions opt) : base(opt)
     {
     }
   }

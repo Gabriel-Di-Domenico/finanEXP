@@ -17,12 +17,9 @@ namespace Categories.Controllers
   public class CategoryController : ControllerBase
   {
     private readonly ICategoriesService _categoriesService;
-    private readonly IMapper _mapper;
-
-    public CategoryController(ICategoriesService categoriesService, IMapper mapper)
+    public CategoryController(ICategoriesService categoriesService)
     {
       _categoriesService = categoriesService;
-      _mapper = mapper;
     }
 
     [HttpPost]
@@ -56,62 +53,53 @@ namespace Categories.Controllers
     }
     [HttpGet]
     [Authorize]
-    public async Task<ActionResult<ReturnDto>> GetAll([FromQuery] GetAllFilter? filter)
+    public async Task<ActionResult<ReturnDto<List<CategoryOutput>>>> GetAll([FromQuery] GetAllFilter? filter)
     {
-      var getAllcategoriesResponse = await _categoriesService.GetAllCategories(filter);
+      var getAllcategoriesResponse = await _categoriesService.GetAll(filter);
 
       var result = new ReturnDto<List<CategoryOutput>>();
 
-      if (getAllcategoriesResponse.Status == ResponseStatus.Ok)
+      result.Message = new Message
       {
-        result.Message = new Message
-        {
-          error = false,
-          message = "Sucesso ao adiquirir lista de categorias"
-        };
+        error = false,
+        message = "Sucesso ao adquirir lista de categorias"
+      };
 
-        var categoriesModel = _mapper.Map<List<CategoryOutput>>(getAllcategoriesResponse.Content);
-        result.Content = categoriesModel;
+      result.Content = getAllcategoriesResponse.Content;
 
-        return Ok(result);
-      }
-      else if (getAllcategoriesResponse.Status == ResponseStatus.NotFound)
-      {
-        result.Message = new Message
-        {
-          error = true,
-          message = "Nenhuma categoria foi encontrada"
-        };
-
-        result.Content = null;
-
-        return NotFound(result);
-      }
-      throw new Exception("Error GetAll Categories");
+      return Ok(result);
+      
     } 
     [HttpGet("{id}")]
     [Authorize]
     public async Task<ActionResult<ReturnDto>> GetById([FromRoute] Guid Id)
     {
-      var getCategoryByIdResult = await _categoriesService.GetCategoryById(Id);
+      var getCategoryByIdResult = await _categoriesService.GetById(Id);
 
       var result = new ReturnDto<CategoryOutput>();
 
       if (getCategoryByIdResult.Status == ResponseStatus.Ok)
       {
-        var categoryModel = _mapper.Map<CategoryOutput>(getCategoryByIdResult.Content);
-
         result.Message = new Message
         {
           error = false,
           message = "Sucesso ao adquirir categoria"
         };
 
-        result.Content = categoryModel;
+        result.Content = getCategoryByIdResult.Content;
 
         return Ok(result);
       }
-      throw new Exception("Error Get Category By Id");
+      
+      result.Message = new Message
+      {
+        error = true,
+        message = "Categoria não encontrada"
+      };
+
+      result.Content = getCategoryByIdResult.Content;
+
+      return NotFound(result);
 
     }
 

@@ -43,33 +43,28 @@ namespace Categories.Services
         return ResponseStatus.AlreadyExists;
       }
     }
-    public async Task<ResponseStatus<List<Category>>> GetAllCategories(GetAllFilter? filter)
+    public async Task<ResponseStatus<List<CategoryOutput>>> GetAll(GetAllFilter filter)
     {
       var categories = await _repository
         .WhereIf(filter.IsArchived.HasValue, category => category.IsArchived == filter.IsArchived)
         .WhereIf(filter.TransactionType.HasValue, category => category.TransactionType == filter.TransactionType)
         .ToListAsync();
 
-       return new ResponseStatus<List<Category>> { Status = ResponseStatus.Ok, Content = categories };
+      var categoriesOutput = _mapper.Map<List<CategoryOutput>>(categories);
+       return new ResponseStatus<List<CategoryOutput>> { Status = ResponseStatus.Ok, Content = categoriesOutput };
     }
-    public Category? GetCategoryByName(Category newCategory)
-    {
-      return _repository.FirstOrDefault(category =>
-        category.UserId == newCategory.UserId
-        && category.Name == newCategory.Name
-      );
-    }
-    public async Task<ResponseStatus<Category>> GetCategoryById(Guid id)
+    public async Task<ResponseStatus<CategoryOutput>> GetById(Guid id)
     {
       var category = await _repository.FirstOrDefaultAsync(category => category.Id == id);
       if (category != null)
       {
+        var categoryOutput = _mapper.Map<CategoryOutput>(category);
 
-        return new ResponseStatus<Category> { Status = ResponseStatus.Ok, Content = category };
+        return new ResponseStatus<CategoryOutput> { Status = ResponseStatus.Ok, Content = categoryOutput };
 
       }
 
-      return new ResponseStatus<Category>
+      return new ResponseStatus<CategoryOutput>
       {
         Status = ResponseStatus.NotFound,
       };
