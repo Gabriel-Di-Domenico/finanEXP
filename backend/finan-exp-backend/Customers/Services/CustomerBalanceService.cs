@@ -22,74 +22,73 @@ namespace Customers.Services
 
     public async Task<ResponseStatus> CalculateTransferValue(bool isCreate, Transaction transaction)
     {
-      if (transaction.SenderCustomerId != null)
-      {
-        var customersFilter = new GetAllFilter
-        {
-          CustomersIds = new List<Guid>
-          {
-            transaction.ReceiverCustomerId,
-            (Guid)transaction.SenderCustomerId
-          },
-        };
-        var customers = await _customerService.GetAllCustomers(customersFilter);
-
-        var senderCustomer = customers.Content.Find((customer) => customer.Id == transaction.SenderCustomerId);
-        var receiverCustomer = customers.Content.Find((customer) => customer.Id == transaction.ReceiverCustomerId);
-
-        var senderCustomertransactions = await _transactionService.GetAllTransactions(new GetAllFilter
-        {
-          CustomerId = senderCustomer.Id,
-          TransactionType = TransactionType.Transfer
-
-        });
-        var receiverCustomertransactions = await _transactionService.GetAllTransactions(new GetAllFilter
-        {
-          CustomerId = receiverCustomer.Id,
-          TransactionType = TransactionType.Transfer
-
-        });
-        decimal transferValue = 0;
-
-        senderCustomertransactions.Content.ForEach(transaction =>
-        {
-          if (transaction.SenderCustomerId == senderCustomer.Id)
-          {
-            transferValue -= transaction.Value;
-          }
-          else if (transaction.ReceiverCustomerId == senderCustomer.Id)
-          {
-            transferValue += transaction.Value;
-          }
-        });
-        senderCustomer.TransferValue = transferValue;
-
-        transferValue = 0;
-
-        receiverCustomertransactions.Content.ForEach(transaction =>
-        {
-          if (transaction.SenderCustomerId == receiverCustomer.Id)
-          {
-            transferValue -= transaction.Value;
-          }
-          else if (transaction.ReceiverCustomerId == receiverCustomer.Id)
-          {
-            transferValue += transaction.Value;
-          }
-        });
-        receiverCustomer.TransferValue = transferValue;
-
-        /*var updateCustomersResult = _customerService.BatchUpdateCustomer(new List<Customer>
-        {
-          senderCustomer, receiverCustomer
-        });*/
-
-        return ResponseStatus.Ok;
-      }
-      else
+      if(transaction.SenderCustomer == null)
       {
         throw new Exception("SenderCustomerId is Required");
       }
+     
+      var customersFilter = new GetAllFilter
+      {
+        CustomersIds = new List<Guid>
+        {
+          transaction.ReceiverCustomerId,
+          (Guid)transaction.SenderCustomerId
+        },
+      };
+      var customers = await _customerService.GetAllCustomers(customersFilter);
+
+      var senderCustomer = customers.Content.Find((customer) => customer.Id == transaction.SenderCustomerId);
+      var receiverCustomer = customers.Content.Find((customer) => customer.Id == transaction.ReceiverCustomerId);
+
+      var senderCustomertransactions = await _transactionService.GetAllTransactions(new GetAllFilter
+      {
+        CustomerId = senderCustomer.Id,
+        TransactionType = TransactionType.Transfer
+
+      });
+      var receiverCustomertransactions = await _transactionService.GetAllTransactions(new GetAllFilter
+      {
+        CustomerId = receiverCustomer.Id,
+        TransactionType = TransactionType.Transfer
+
+      });
+      decimal transferValue = 0;
+
+      senderCustomertransactions.Content.ForEach(transaction =>
+      {
+        if (transaction.SenderCustomerId == senderCustomer.Id)
+        {
+          transferValue -= transaction.Value;
+        }
+        else if (transaction.ReceiverCustomerId == senderCustomer.Id)
+        {
+          transferValue += transaction.Value;
+        }
+      });
+      senderCustomer.TransferValue = transferValue;
+
+      transferValue = 0;
+
+      receiverCustomertransactions.Content.ForEach(transaction =>
+      {
+        if (transaction.SenderCustomerId == receiverCustomer.Id)
+        {
+          transferValue -= transaction.Value;
+        }
+        else if (transaction.ReceiverCustomerId == receiverCustomer.Id)
+        {
+          transferValue += transaction.Value;
+        }
+      });
+      receiverCustomer.TransferValue = transferValue;
+
+      /*var updateCustomersResult = _customerService.BatchUpdateCustomer(new List<Customer>
+      {
+        senderCustomer, receiverCustomer
+      });*/
+
+      return ResponseStatus.Ok;
+    
     }
 
     public async Task<ResponseStatus> CalculateCustomerBalance(Guid customerId)

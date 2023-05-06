@@ -84,7 +84,7 @@ namespace Customers.Services
       var validateCustomer = ResponseStatus.Ok;
       if (input != null && !input.IsArchived)
       {
-        await _validateCustomerService.ValidateUpdateCustomer(customer);
+        validateCustomer = await _validateCustomerService.ValidateUpdateCustomer(customer);
       }
       
       if (validateCustomer == ResponseStatus.Ok)
