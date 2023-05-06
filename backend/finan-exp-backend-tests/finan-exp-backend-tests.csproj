@@ -28,4 +28,8 @@
     <ProjectReference Include="..\finan-exp-backend\finan-exp-backend.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Customers\Services\CustomerBalances\" />
+  </ItemGroup>
+
 </Project>

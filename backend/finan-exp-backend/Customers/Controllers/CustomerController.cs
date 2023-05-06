@@ -1,5 +1,6 @@
 using Authenticate.Services;
 using AutoMapper;
+using Castle.Core.Resource;
 using Customers.Dtos;
 using Customers.Models;
 using Customers.Services;
@@ -19,15 +20,12 @@ namespace Customers.Controllers
     private readonly ICustomerService _customerService;
     private readonly IMapper _mapper;
     private readonly ICustomerBalanceService _customerBalanceService;
-    private readonly CurrentUserProvider currentUserProvider;
 
-    public CustomerController(ICustomerService customerService, IMapper mapper, ICustomerBalanceService customerBalanceService,
-      CurrentUserProvider currentUserProvider)
+    public CustomerController(ICustomerService customerService, IMapper mapper, ICustomerBalanceService customerBalanceService)
     {
       _customerService = customerService;
       _mapper = mapper;
       _customerBalanceService = customerBalanceService;
-      this.currentUserProvider = currentUserProvider;
     }
 
     [HttpPost]
@@ -74,11 +72,7 @@ namespace Customers.Controllers
           error = false,
           message = "Sucesso ao adiquirir lista de carteiras"
         };
-        var customersModel = new List<CustomerOutput>();
-        getAllcustomersResponse.Content.ForEach(customer =>
-        {
-          customersModel.Add(_mapper.Map<CustomerOutput>(customer));
-        });
+        var customersModel = _mapper.Map<List<CustomerOutput>>(getAllcustomersResponse.Content);
          
         result.Content = customersModel;
 
