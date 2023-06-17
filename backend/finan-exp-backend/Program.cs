@@ -4,6 +4,7 @@ using Categories.Services;
 using Classes;
 using Contexts;
 using Customers.Services;
+using Home.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -52,6 +53,7 @@ builder.Services.AddScoped<ICustomerBalanceService, CustomerBalanceService>();
 builder.Services.AddScoped<IValidateCustomerService, ValidateCustomerService>();
 builder.Services.AddScoped<IValidationCategoryService, ValidationCategoryService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<CurrentUserProvider>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -62,7 +64,7 @@ builder.Services.AddCors(options =>
 {
   options.AddPolicy("corsPolicy", build =>
   {
-    build.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    build.WithOrigins(new string[] { "http://localhost:4200", "http://192.168.3.2:19000", "http://192.168.3.2:19000" }).AllowAnyMethod().AllowAnyHeader();
   });
 
 });
